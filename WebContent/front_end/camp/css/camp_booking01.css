@@ -1,0 +1,464 @@
+    #expand {
+        cursor: pointer;
+    }
+    
+    #coolstuff {
+        display: none;
+    }
+    
+    #container {
+        width: 100%;
+        max-width: 800px;
+        margin: auto;
+        text-align: center;
+    }
+    
+    ul {
+        text-align: left;
+    }
+    
+    table {
+        margin: auto;
+        text-align: center;
+        border-collapse: collapse;
+        table-layout: auto;
+        vertical-align: top;
+        margin-bottom: 15px;
+        margin-top: 50px;
+        border: 1px solid #CCCCCC;
+        width: 100%;
+        /*自動斷行*/
+        table-layout: fixed;
+        border-collapse: collapse;
+        font-family: 微軟正黑體;
+    }
+    
+    tbody {
+        vertical-align: middle;
+        border-color: inherit;
+    }
+    
+    thead {
+        vertical-align: middle;
+        border-color: inherit;
+    }
+    
+    table thead td {
+        margin: 20px 0;
+        color: #FFFFFF;
+        background-color: #896C50;
+        border: 1px solid #CCCCCC;
+        border-collapse: collapse;
+        text-align: center;
+        table-layout: auto;
+        vertical-align: middle;
+        display: table-cell;
+        vertical-align: inherit;
+        font-weight: bold;
+        text-align: -internal-center;
+    }
+    
+    thead tr {
+        margin: 20px 0;
+    }
+    
+    tr {
+        display: table-row;
+        vertical-align: inherit;
+        border-color: inherit;
+    }
+    
+    td {
+        no-border-top: 1px solid white;
+        padding: 5px 2px;
+    }
+    
+    .image {
+        width: 150px;
+    }
+    
+    .image>img {
+        width: 100%;
+        background: white;
+        border-radius: 2px;
+        box-shadow: 0 2px 7px rgba(0, 0, 0, 0.4);
+        a-border: 1px solid black;
+    }
+    
+    .wamount,
+    .hamount,
+    .pamount {
+        width: 50px;
+    }
+    
+    .wamount>input,
+    .hamount>input,
+    .pamount>input {
+        font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+        /* color: black; */
+        font-size: 16px;
+        background: transparent;
+        /* border: none; */
+        width: 100%;
+        text-align: center;
+        outline: none;
+        color: #818486;
+        border-radius: 0;
+        border-color: #e1e3e4;
+        box-shadow: none;
+    }
+    
+    .remove {
+        width: 30px;
+    }
+    
+    .remove>div {
+        border-radius: 10px;
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        padding: 2px;
+        transition: background .3s, border .3s, transform .3s;
+        cursor: pointer;
+        text-align: center;
+        margin: auto;
+        border: 1px solid white;
+    }
+    
+    .remove.hey>div {
+        background: red;
+        border-color: red;
+        transform: scale(1.3);
+    }
+    
+    .remove:hover>div {
+        background: red;
+        border-color: red;
+    }
+    
+    .big {
+        font-size: 2em;
+        font-weight: bold;
+    }
+    
+  .checkout {
+        padding: 10px ;
+        font-size: 16px ;
+        color: white ;
+        display:inline-block;
+        margin: 2px ;
+        border-radius: 3px;
+        text-align: center;
+        transition: background 0.2s ;
+        background: #0a8f6c;
+        cursor: pointer ;
+        position: relative ;
+        left: 40% ;
+    }
+
+ 
+    
+    .checkout>span {
+        width: 0;
+        display: inline-block;
+        overflow: hidden;
+        transition: width .3s;
+        text-align: right;
+    }
+    
+    .checkout:hover>span {
+        width: 20px;
+    }
+    
+    #footer {
+        opacity: 0.6;
+        border-top: 1px solid white;
+        padding-top: 10px;
+        text-align: center;
+        margin-top: 15px;
+    }
+    
+    #footer a {
+        color: white;
+    }
+    /* 流程圖 */
+    
+    .checkout-progress {
+        display: block;
+        clear: both;
+        margin: 20px auto;
+        width: auto;
+        font-family: sans-serif;
+        overflow: auto;
+    }
+    
+    .step {
+        margin: 0;
+        border: 0;
+        letter-spacing: 1px;
+        line-height: 30px;
+        padding: 5px 20px 5px 30px;
+        color: green;
+        text-decoration: none;
+        cursor: default;
+        font-weight: bold;
+        float: left;
+        height: auto;
+    }
+    
+    .incomplete {
+        background: #EEEEEE;
+    }
+    
+    .complete {
+        background: #BBBBBB;
+    }
+    
+    .active {
+        background: #008000;
+        color: #FFF;
+    }
+    
+    .checkout-progress .step em {
+        display: inline-block;
+        border-radius: 50%;
+        background: none;
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+        text-align: center;
+        margin-right: 14px;
+        border: 1px solid #999;
+        font-size: 13px;
+        font-style: normal;
+    }
+    
+    .triangle-completed {
+        float: left;
+        width: 0;
+        border-top: 20px solid transparent;
+        border-left: 15px solid #BBBBBB;
+        border-bottom: 20px solid transparent;
+        margin-left: -1px;
+    }
+    
+    .triangle2-completed {
+        width: 0;
+        float: left;
+        border-top: 20px solid #BBBBBB;
+        border-left: 15px solid #fff;
+        border-bottom: 20px solid #BBBBBB;
+        margin-right: -1px;
+    }
+    
+    .triangle-active {
+        float: left;
+        width: 0;
+        border-top: 20px solid transparent;
+        border-left: 15px solid #008000;
+        border-bottom: 20px solid transparent;
+        margin-left: -1px;
+    }
+    
+    .triangle2-active {
+        width: 0;
+        float: left;
+        border-top: 20px solid #008000;
+        border-left: 15px solid #fff;
+        border-bottom: 20px solid #008000;
+        margin-right: -1px;
+    }
+    
+    .triangle-incomplete {
+        float: left;
+        width: 0;
+        border-top: 20px solid transparent;
+        border-left: 15px solid #EEEEEE;
+        border-bottom: 20px solid transparent;
+        margin-left: -1px;
+    }
+    
+    .triangle2-incomplete {
+        width: 0;
+        float: left;
+        border-top: 20px solid #EEEEEE;
+        border-left: 15px solid #fff;
+        border-bottom: 20px solid #EEEEEE;
+        margin-right: -1px;
+    }
+    
+    div.outer_block {
+        /* border: 1px solid black; */
+        width: 100%;
+        /* 100% */
+        margin: 0 auto;
+        display: flex;
+    }
+    
+    div.left_block {
+        /* border: 1px solid red; */
+        margin-right: 20px;
+        flex-basis: 400px;
+        flex-shrink: 0;
+    }
+    
+    div.right_block {
+        /* border: 1px solid blue; */
+        flex-grow: 1;
+    }
+    
+    .btn {
+        padding: 0.5rem 1.5rem;
+        min-width: 8rem;
+        font-size: 12px;
+        text-transform: uppercase;
+        border: none;
+        outline: none;
+        border-radius: 5rem;
+        color: #fff;
+        opacity: 0.8;
+        font-weight: bold;
+    }
+    
+    .btn:hover {
+        opacity: 1;
+    }
+    
+    .btn-cancel {
+        background-color: #d9534f;
+        margin-right: 20px;
+    }
+    
+    .btn-accept {
+        background-color: #197c19;
+    }
+    
+    .freeinfo {
+        color: #565A5C;
+        border: 5px solid #e5e5e5;
+        text-align: center;
+        padding: 15px;
+        background: #f9f9f9;
+    }
+    /*  彈窗*/
+    
+    .cover {
+        display: none;
+        position: fixed;
+        background-color: #eee;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 9998;
+    }
+    
+    .pop-box {
+        box-sizing: border-box;
+        position: absolute;
+        width: auto;
+        /* height: 300px; */
+        padding: 30px 20px;
+        left: 20%;
+        top: 20%;
+        margin-left: -50px;
+        margin-top: -50px;
+        display: none;
+        z-index: 9999;
+        box-shadow: 0 0 10px #000;
+        background-color: #f4f5f7;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+    
+    .windowtitle {
+        box-sizing: border-box;
+        margin: 10px 20px;
+        display: inline-block;
+        color: whitesmoke;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    
+    .close_container {
+        box-sizing: border-box;
+        height: 50px;
+        margin: 0;
+        padding: 0;
+        background: rgba(92, 196, 175, 0.815);
+        margin: -30px -20px 0 -20px;
+    }
+    
+    .close {
+        box-sizing: border-box;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        background-color: brown;
+        float: right;
+        margin-top: 10px;
+        margin-right: 10px;
+        color: white;
+    }
+    
+    .close:hover {
+        background-color: rgb(233, 106, 117);
+    }
+    
+    ul {
+        /* border: 1px solid red; */
+        padding: 0;
+        box-sizing: border-box;
+        display: flex;
+        word-wrap: wrap;
+        flex-wrap: wrap;
+        text-align: center !important;
+        align-items: center;
+    }
+    
+    ul>li {
+        list-style: none;
+        width: 100px;
+    }
+    
+    .orderbtn {
+        width: 100px;
+        height: 30px;
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        background-color: rgb(50, 94, 7);
+        color: cornsilk;
+        float: right;
+        margin-right: 25px;
+        margin-top: 45px;
+    }
+    
+    .orderbtn:hover {
+        background-color: rgb(41, 167, 9);
+        color: black;
+    }
+    
+    .innerbox {
+        box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        transition: 100ms cubic-bezier(0.5, 0, 0.1, 1);
+        ;
+    }
+    
+    .innerbox:hover {
+        background-color: rgba(108, 122, 137, 0.2);
+        cursor: default;
+        transition: 100ms cubic-bezier(0.5, 0, 0.1, 1);
+    }
+    
+    .innerbox2 {
+        background: rgb(105, 114, 105);
+        color: white;
+    }
+    
+    #outerbox {
+        border-collapse: separate;
+        border-spacing: 0px 3px;
+        text-transform: uppercase;
+    }

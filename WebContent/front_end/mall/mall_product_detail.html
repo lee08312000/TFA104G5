@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+
+  <title>商品詳細</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/vendor_pixie/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- -------------------------------------------------------------------- -->
+
+  <link rel="stylesheet" href="assets/assets_pixie/css/fontawesome.css">
+  <link rel="stylesheet" href="assets/assets_pixie/css/tooplate-main.css">
+  <link rel="stylesheet" href="assets/assets_pixie/css/owl.css">
+  <link rel="stylesheet" href="assets/assets_pixie/css/flex-slider.css">
+
+  <!-- header&footer CSS -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+
+  <!-- 我自己加的CSS -->
+  <link rel="stylesheet" href="css/mall_product_detail.css">
+  <style>
+    button {
+      cursor: pointer;
+    }
+
+    div.overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: hsla(0, 0%, 0%, .5);
+      z-index: 999999999999;
+      display: none;
+    }
+
+    /* 元素 article 置中及基本樣式 */
+    div.overlay>article {
+      background-color: white;
+      width: 90%;
+      max-width: 800px;
+      border-radius: 10px;
+      /* box-shadow: 0 0 10px #ddd; */
+      padding: 10px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      height: auto;
+      max-height: 90vh;
+      overflow: scroll;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="header-outer">
+    <div class="header-inner responsive-wrapper">
+      <div class="header-logo">
+        <a style="display:inline-block; vertical-align: middle;" href="首頁URL">
+          <img src="images/camp_paradise_logo.png" />
+        </a>
+        <span style="display:inline-block; vertical-align: middle;">Camping Paradise</span>
+      </div>
+      <nav class="header-navigation">
+        <a href="#">Home</a>
+        <a href="#">線上商城</a>
+        <a href="#"><img src="images/heart.png"></a>
+        <a href="/TFA104G5/front_end/mall/shoppingCart01.jsp"><i style="color: white; font-size: 23px;"
+            class="fas fa-shopping-cart">
+            <div id="cartNum"
+              style="background-color: red; border-radius: 100%;text-align: center; width: 18px; font-size: 14px; position: absolute; top: -8px; right: -8px; padding: 3px;">
+            </div>
+          </i></a>
+        <a href="#">註冊</a>
+        <a href="#">登入</a>
+        <a href="#"> <i class="fas fa-user"></i></a>
+
+        <!-- fas fa-user-circle
+
+            fas fa-user-circle
+             -->
+        <button>Menu</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Content -->
+  <!-- Single Starts Here -->
+  <div class="single-product">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="section-heading">
+            <div class="line-dec"></div>
+            <h1>商品資訊</h1>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="product-slider">
+            <div id="slider" class="flexslider">
+              <ul id="bigPic" class="slides">
+                <!-- 商品大圖 -->
+                <li>
+                  <img id="bigPic1" style="height: 350px;" src="" />
+                </li>
+                <li>
+                  <img id="bigPic2" style="height: 350px;" src="" />
+                </li>
+                <li>
+                  <img id="bigPic3" style="height: 350px;" src="" />
+                </li>
+              </ul>
+            </div>
+            <div id="carousel" class="flexslider">
+              <ul id="smallPic" class="slides">
+                <!-- 商品小圖 -->
+                <li>
+                  <img id="smallPic1" style="width: 30%;" src="" />
+                </li>
+                <li>
+                  <img id="smallPic2" style="width: 30%;" src="" />
+                </li>
+                <li>
+                  <img id="smallPic3" style="width: 30%;" src="" />
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- 右半邊商品資訊 -->
+        <div class="col-md-6">
+          <div data-productId="" class="right-content" style="position: relative;">
+            <h4 id="productName" style="width: 80%;"><span style="position: absolute; right: 20px; top: 5px;"><img
+                  id="right-redHeart" class="icon -off"
+                  style="position: absolute; right: -3px; top: -4px; height: auto;" src="images/heart.png"><button
+                  type="button" id="reportBtn"
+                  style="position: absolute; right: 40px; width: 40px; padding: 2px 3px; border: 1px solid black;">檢舉</button><i
+                  id="right-grayHeart" class="far fa-heart addRightFavoriteProduct"
+                  style="color: gray; font-size: 25px;"></i></span></h4>
+            <span id="right-price" style="font-size: 18px;">NT </span><span style="margin-left: 50px;">
+              <ul id="right-star" style="color: orange;" class="stars">
+                <!-- <li><i class="fa fa-star" ></i></li>
+              <li><i class="fa fa-star" ></i></li>
+              <li><i class="fa fa-star" ></i></li>
+              <li><i class="fa fa-star" ></i></li>
+              <li><i class="fa fa-star" ></i></li> -->
+              </ul>
+            </span>
+            <p style="margin-top: -10px;" id="right-productInfo">無此商品</p>
+            <span id="right-inventory">庫存量: </span>
+            <form action="" method="get">
+              <label for="quantity">數量: </label>
+              <input name="quantity" type="number" min="1" class="quantity-text" id="quantity"
+                onfocus="if(this.value == '1') { this.value = ''; }" onBlur="if(this.value == '') { this.value = '1';}"
+                value="1">
+              <input id="addShoppingCart" type="button" class="button" value="放入購物車">
+            </form>
+            <div class="down-content">
+              <div class="categories">
+                <h6>商品分類: <span><a id="right-productTypeName" href="#">0</a></span></h6>
+              </div>
+              <div class="share">
+                <h6>商品品牌: <span id="right-productBrand">0</span></h6>
+              </div>
+              <div class="share">
+                <h6>上架時間: <span id="right-launchedTime">0</span></h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 商品購買須知 -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="section-heading"></div>
+        <h1 style="font-size: 22px;font-weight: 700;color: #1e1e1e;margin-top: 15px;">商品購買須知</h1>
+        <p id="shoppingInfo"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 商品評論 -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="section-heading"></div>
+        <h1 style="font-size: 22px;font-weight: 700;color: #1e1e1e;margin-top: 15px;">商品評論</h1>
+        <select id="productCommentOrderBy" class="orderBy" style="border-radius: 20px; border: 2px solid #d7ab75; margin-top: 10px;">
+          <option selected value="1">最新評價</option>
+          <option value="2">最舊評價</option>
+          <option value="3">最高評價</option>
+          <option value="4">最低評價</option>
+        </select>
+        <hr>
+        <div id="productComments">
+        <!-- 一個商品評論start -->
+        <h5>蜥蜴男爵</h5>
+        <span>
+          <ul style="color: orange;" class="stars">
+          <li><i class="fa fa-star" ></i></li>
+          <li><i class="fa fa-star" ></i></li>
+          <li><i class="fa fa-star" ></i></li>
+          <li><i class="fa fa-star" ></i></li>
+          <li><i class="fa fa-star" ></i></li>
+          </ul>
+        </span>
+        <p>這個桌子很酷!!</p>
+        <p>2021-12-09 18:14:00</p>
+        <hr>
+        <!-- 一個商品評論end -->
+        <h5>蜥蜴男爵</h5>
+        <span>
+          <ul style="color: orange;" class="stars">
+          <li><i class="fa fa-star" ></i></li>
+          <li><i class="fa fa-star" ></i></li>
+          <li><i class="fa fa-star" ></i></li>
+          <li><i class="fa fa-star" ></i></li>
+          <li><i class="fa fa-star" ></i></li>
+          </ul>
+        </span>
+        <p>這個桌子很酷!!</p>
+        <p>2021-12-09 18:14:00</p>
+        <hr>
+      </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 商品檢舉燈箱 -->
+  <div class="overlay" style="border: 1px solid red;">
+    <article id="productReport" data-productId="" style="text-align: center; vertical-align: top;">
+      <h3 style="background-color: #d7ab75; color: white;">檢舉商品</h3>
+      <div style="text-align: left;">
+        商品名稱:&nbsp;&nbsp;<span id="reportProductName"></span>
+        <br>
+        檢舉內容: <br>
+        <textarea id="reportReason" rows="6" cols="50" style="resize: none; margin-left: 75px;"></textarea>
+      </div>
+
+      <!-- <p>這是 Modal</p> -->
+      <button type="button" class="submitReport">送出</button>
+      <button type="button" class="btn_modal_close">取消</button>
+    </article>
+  </div>
+
+  <!-- Footer -->
+  <footer class="tm-footer text-center">
+    <pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
+    <pre>Copyright &copy; 2021 Camping Paradise | Design: <a style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a></pre>
+  </footer>
+  <!-- Footer Ends Here -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/vendor_pixie/jquery/jquery.min.js"></script>
+  <script src="vendor/vendor_pixie/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+  <!-- Additional Scripts -->
+  <script src="assets/assets_pixie/js/custom.js"></script>
+  <script src="assets/assets_pixie/js/owl.js"></script>
+  <script src="assets/assets_pixie/js/isotope.js"></script>
+  <script src="assets/assets_pixie/js/flex-slider.js"></script>
+
+  <!-- 我自己的JS -->
+  <script src="js/mall_product_detail.js"></script>
+  <script>
+    $(function () {
+
+      // 開啟 Modal 彈跳視窗
+      $("button#reportBtn").on("click", function () {
+        $("div.overlay").fadeIn();
+      });
+
+      // 送出檢舉
+      $("button.submitReport").on("click", function () {
+        console.log($("textarea#reportReason").val());
+
+        if ($("textarea#reportReason").val().trim() == "" || $("textarea#reportReason").val().trim().length == 0) {
+          alert("檢舉內容請勿輸入空白");
+          $("textarea#reportReason").val("");
+        } else {
+
+          $.ajax({
+            url: "/TFA104G5/ProductReport/ProductReportServlet",
+            type: "POST",
+            data: {
+              "action": "addReport",
+              "productId": $("article#productReport").attr("data-productId"),
+              "reportReason": $("textarea#reportReason").val().trim()
+            },
+            dataType: "json",
+            beforeSend: function () {
+              $("button.submitReport").prop("disabled", true);
+              $("button.btn_modal_close").prop("disabled", true);
+            },
+            success: function (data) {
+              if (data.msg == "success") {
+                alert("檢舉已送出，處理中");
+              } else if (data.msg == "noLogin") {
+                alert("請先登入");
+              } else if (data.msg == "hasReported") {
+                alert("檢舉正在處理中，請勿重複檢舉");
+              }
+
+              $("textarea#reportReason").val("");
+              $("div.overlay").fadeOut();
+            },
+            complete: function (xhr) {
+              $("button.submitReport").prop("disabled", false);
+              $("button.btn_modal_close").prop("disabled", false);
+            }
+          });
+        }
+
+      });
+
+      // 關閉 Modal
+      $("button.btn_modal_close").on("click", function () {
+        $("div.overlay").fadeOut();
+      });
+
+    });
+  </script>
+
+</body>
+
+</html>

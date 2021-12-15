@@ -1,0 +1,389 @@
+/* 輪播的CSS*/
+
+.flexslider {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.flexslider .slides img {
+    width: 100%;
+    height: 450px;
+}
+
+
+/* 營地篩選條件CSS */
+
+section.camp_conditions {
+    width: 100%;
+    margin: 40px 30px;
+}
+
+
+/* search bar */
+
+label {
+    padding: 0;
+    /* margin-right: 3px; */
+    cursor: pointer;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    /* font-size: 0.8em; */
+    text-align: center;
+    color: #2F956D;
+    /* background-color: #EEEBFF; */
+    text-align: center;
+    /* border: #A498BD; */
+    border-style: outset;
+    /* border-radius: 20px; */
+}
+
+
+/* 把前面勾選的框框去掉 */
+
+input[type=checkbox] {
+    display: none;
+}
+
+
+/* 點選後樣式 */
+
+input[type=checkbox]+label {
+    display: inline-block;
+    background-color: transparent;
+    padding: 3px 6px;
+    /* border: 1px solid gray; */
+    color: #2F956D;
+    user-select: none;
+    /* 防止文字被滑鼠選取反白 */
+}
+
+
+/* 滑過選項的樣式 */
+
+input[type=checkbox]+label:hover {
+    display: inline-block;
+    padding: 3px 6px;
+    color: white;
+    user-select: none;
+    /* 防止文字被滑鼠選取反白 */
+    BORDER-RIGHT: 1px #2F956D outset;
+    BORDER-TOP: #2F956D 1px outset;
+    BORDER-LEFT: #2F956D 1px outset;
+    BORDER-BOTTOM: #2F956D 1px outset;
+    background-color: #2F956D;
+}
+
+input[type=checkbox]:checked+label {
+    color: whitesmoke;
+    background-color: #2F956D;
+}
+
+
+/* 進入營地詳細資訊按鈕 */
+
+div.camp_detailcontainer {
+    float: right;
+    margin-top: 20px;
+}
+
+a.camp_detail {
+    display: inline-block;
+    text-align: center;
+    background-color: red;
+    color: white;
+    text-decoration: none;
+    width: 45%;
+    height: 25px;
+    border-radius: 50%;
+}
+
+a.camp_detail:link {
+    /* //設定還沒有瀏覽過的連結 */
+    text-decoration: none;
+    background-color: #ffffff;
+}
+
+a.camp_detail:visited {
+    /* //設定已經瀏覽過的連結 */
+    color: #ffffff;
+    background-color: red;
+}
+
+a.camp_detail:hover {
+    /* //設定滑鼠移經的連結 */
+    text-decoration: underline;
+    background-color: #fafafa;
+    color: gray;
+}
+
+a.camp_detail:active {
+    /* //設定正在點選的連結 */
+    text-decoration: none;
+    background-color: gray;
+    color: #fafafa;
+}
+
+
+/* 了解更多按鈕CSS */
+
+:root {
+    --light-grey: #E8E8E8;
+    --accept-green: #48A725;
+    --cancel-red: #9A031E;
+    --white: #FFFFFF;
+    --popup-border: #000000;
+    --popup-margin: 2rem;
+    --body-padding: 0;
+    --popup-right-offset: -60vw;
+}
+
+.btn {
+    padding: 0;
+    margin: 0;
+    border-radius: 20px;
+    background: white;
+    border-style: solid;
+    border-color: var(--light-grey);
+    padding: 0.5rem 0.4rem;
+    transition: 0.5s;
+    text-decoration: none;
+}
+
+.btn__accept {
+    background: var(--accept-green);
+    color: var(--white);
+}
+
+.btn__accept:hover {
+    background: var(--white);
+    color: var(--accept-green);
+    border-color: var(--accept-green);
+}
+
+.btn__cancel {
+    border-color: var(--cancel-red);
+    color: var(--cancel-red);
+}
+
+.btn__cancel:hover {
+    background: var(--cancel-red);
+    color: var(--white);
+}
+
+
+/* 營地標籤的排列 */
+
+ul.camp_target {
+    padding: 0;
+    width: auto;
+    /* height: px; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.camp_target li {
+    font-size: 8px;
+    list-style: none;
+    width: auto;
+    line-height: 3;
+}
+
+.btn_small {
+    padding: 0.3rem;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+
+/* 加入我的最愛 */
+
+a.addlove {
+    float: right;
+    color: brown;
+    padding-right: 12px;
+    padding-top: 5px;
+}
+
+a.addlove i {
+    transform: scale(1.2, 1.2);
+    transition: all 0.3s ease;
+}
+
+a.addlove i:hover {
+    transform: scale(1.8, 1.8);
+}
+
+.morebtn {
+    border: 1px solid #ccc;
+    background: var(--accept-green);
+    color: var(--white);
+    font-weight: bold;
+    position: relative;
+    left: 700px;
+    transform: translateX(-50%);
+    margin: 20px auto;
+}
+
+
+/* 加入我的最愛燈箱lightbox */
+
+.btn_modal {
+    cursor: pointer;
+}
+
+div.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: hsla(0, 0%, 0%, .5);
+    display: none;
+}
+
+
+/* 元素 article 置中及基本樣式 */
+
+div.overlay>article {
+    background-color: rgb(250, 252, 251)!important;
+    width: 50%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgb(253, 253, 251);
+    padding: 60px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+div.overlay>article>h1 {
+    text-align: center;
+}
+
+
+/* //searchbar */
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+.search {
+    width: 100%;
+    position: relative;
+    display: flex;
+    background: #f2f2f2;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.searchTerm {
+    width: 100%;
+    border: 3px solid #00B4CC;
+    border-right: none;
+    padding: 5px;
+    height: 20px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;
+    background: #f2f2f2;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.searchTerm:focus {
+    color: #00B4CC;
+}
+
+.searchButton {
+    width: 40px;
+    height: 36px;
+    border: 1px solid #00B4CC;
+    background: #00B4CC;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+
+/*Resize the wrap to see the search bar change!*/
+
+.wrap {
+    width: 30%;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-sizing: content-box !important;
+}
+
+
+/* loading畫面 */
+
+.loader {
+    background-color: #7ed6df;
+    text-align: center;
+    width: 100%;
+    height: 100px;
+    /* display: block; */
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.loader h1 {
+    color: white;
+    font-family: 'arial';
+    /* font-weight: 800; */
+    font-size: 4em;
+}
+
+.bullets {
+    animation: dots 2s steps(3, end) infinite;
+}
+
+@keyframes dots {
+    0%,
+    20% {
+        color: rgba(0, 0, 0, 0);
+        text-shadow: .25em 0 0 rgba(0, 0, 0, 0), .5em 0 0 rgba(0, 0, 0, 0);
+    }
+    40% {
+        color: white;
+        text-shadow: .25em 0 0 rgba(0, 0, 0, 0), .5em 0 0 rgba(0, 0, 0, 0);
+    }
+    60% {
+        text-shadow: .25em 0 0 white, .5em 0 0 rgba(0, 0, 0, 0);
+    }
+    80%,
+    100% {
+        text-shadow: .25em 0 0 white, .5em 0 0 white;
+    }
+}
+
+.selemiddle {
+    display: inline-block;
+    width: 80%;
+}
+
+.submitbtn {
+    display: inline-block;
+    width: 80px;
+    height: 30px;
+    font-size: 16px;
+}
+
+.search_order_by {
+    font-size: inherit;
+    padding: 0.5rem 0.4rem;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    background-color: transparent;
+    color: #2F956D;
+    user-select: none;
+}
+
+.img-mall {
+    max-width: 100%;
+    width: 500px;
+    height: 300px;
+}
