@@ -37,7 +37,7 @@
 				   .collect(Collectors.toList());
 	} else if (productReportOrder.intValue() == 1) {
 		list = list.stream()
-				   .sorted(Comparator.comparing(ProductReportVO::getReportTime))
+				   .sorted(Comparator.comparing(ProductReportVO -> ProductReportVO.getReportTime()))
 				   .collect(Collectors.toList());
 	}
 	
