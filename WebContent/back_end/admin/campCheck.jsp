@@ -9,7 +9,7 @@
 <jsp:useBean id="companySvc" class="com.company.model.CompanyService"></jsp:useBean>
 
 <% 
-	Integer campCheckorder = 0;
+	Integer campCheckorder = 5;
 	if (session.getAttribute("campCheckorder") != null) {
 		campCheckorder = (Integer) session.getAttribute("campCheckorder");
 	}
@@ -533,6 +533,7 @@
         transform: translate(-50%, -50%);
         overflow:scroll;
         }
+        
         div.article-group{
             padding-top:10px;
         }
@@ -563,7 +564,7 @@
         <div class="header-inner responsive-wrapper">
             <div class="header-logo">
                 <a style="display:inline-block; vertical-align: middle;" href="首頁URL">
-                    <img src="<%=request.getContextPath()%>/front_end/admin/images/camp_paradise_logo.png" />
+                    <img src="<%=request.getContextPath()%>/back_end/admin/images/camp_paradise_logo.png" />
                 </a>
                 <span style="display:inline-block; vertical-align: middle;">Camping Paradise</span>
             </div>
@@ -572,7 +573,7 @@
             <nav class="header-navigation">
                 <li><a href="#">Home</a></li>
                 <li><a href="#">線上商城</a></li>
-                <li><a href="#"><img src="<%=request.getContextPath()%>/front_end/admin/images/heart.png"></a></li>
+                <li><a href="#"><img src="<%=request.getContextPath()%>/back_end/admin/images/heart.png"></a></li>
                 <li><a href="#">註冊</a></li>
                 <li><a href="#">登入</a></li>
                 <li><a href="#"><i class="fas fa-user"></i></a></li>                
@@ -589,11 +590,7 @@
                             <a href="" class="light">
                                 <strong>管理員管理</strong>
                             </a>
-                    <ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>我的營地</a></li>					
-                                <li><a href="#"><i class="fas fa-cannabis"></i>營地上下架</a></li>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>審核狀況</a></li>
-                            </ul>
+
                         </li>
                         <li>
                             <a href="" class="light">
@@ -601,7 +598,7 @@
                             </a>
                             <ul>
                             	<li><a href="#"><i class="fas fa-cannabis"></i>廠商查詢</a></li>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>營地上架審核</a></li>					
+                                <li><a href="<%=request.getContextPath()%>/back_end/admin/campCheck.jsp"><i class="fas fa-cannabis"></i>營地上架審核</a></li>					
                                 <li><a href="#"><i class="fas fa-cannabis"></i>商品檢舉管理</a></li>
                             </ul>
                         </li>
@@ -609,21 +606,10 @@
                             <a href="" class="light">
                                 <strong>一般會員管理</strong>
                             </a>
-                    <ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>日程表管理</a></li>					
-                                <li><a href="#"><i class="fas fa-cannabis"></i>營地訂單管理</a></li>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
+                    		<ul>
+                                <li><a href="#"><i class="fas fa-cannabis"></i>會員查詢</a></li>					
                             </ul>
-                        </li>
-                        <li>
-                            <a href="" class="light">
-                                <strong>報表查詢</strong>
-                            </a>
-                    <ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>基本資料瀏覽,修改</a></li>					
-                                <li><a href="#"><i class="fas fa-cannabis"></i>更改密碼</a></li>				
-                            </ul>
-                        </li>                  							
+                        </li>                 							
                     </ul>
                 </nav>
             </div>                 
@@ -635,8 +621,8 @@
     	<form action="<%=request.getContextPath()%>/Camp/CampCheckServlet">
     		申請時間：
     		<select name="order">
-    			<option value="0" ${campCheckorder.intValue() == null || campCheckorder.intValue() == 0 ? "selected" : ""}>新到舊</option>
-    			<option value="1" ${campCheckorder.intValue() == 1 ? "selected" : ""}>舊到新</option>
+    			<option value="5" ${campCheckorder.intValue() == null || campCheckorder.intValue() == 5 ? "selected" : ""}>新到舊</option>
+    			<option value="4" ${campCheckorder.intValue() == 4 ? "selected" : ""}>舊到新</option>
     		</select>
     		<input type="hidden" name="action" value="orderBy">
     		<input type="submit" value="送出">
@@ -708,14 +694,7 @@
                 <label class="control-label">營地申請上架時間:<span id="campAppliedLaunchTime" >s</span></label>                                
             </div>
             
-            <div class="article-group">
-                <label class="control-label">認證字號:<span id="certificateNum" >s</span></label>                        
-            </div>
-            
-            <label class="control-label">證書圖片:</label>
-            <div class="img">                             
-                <img id="certificatePic" src="./img/chuba_logo.png" />                       
-            </div>
+
                     
             <div class="article-group">
                 <label class="control-label">營地描述:</label>                
@@ -731,27 +710,34 @@
                 </div>                      
             </div>
             
+            <div class="article-group">
+                <label class="control-label">認證字號:<span id="certificateNum" >s</span></label>                        
+            </div>
             
-
+            <label class="control-label">證書圖片:</label>
+            <div class="img">                             
+                <img style="height: 180px;" id="certificatePic" src="" />                       
+            </div>
+            
             <label class="control-label">營地圖片一:</label>
             <div class="img">                             
-                <img id="campPic1" src="./img/chuba_logo.png" />                       
+                <img id="campPic1" src="" />                       
             </div>
             <label class="control-label">營地圖片二:</label>
             <div class="img">                             
-                <img id="campPic2" src="./img/chuba_logo.png" />                       
+                <img id="campPic2" src="" />                       
             </div>
             <label class="control-label">營地圖片三:</label>
             <div class="img">                             
-                <img id="campPic3" src="./img/chuba_logo.png" />                       
+                <img id="campPic3" src="" />                       
             </div>
             <label class="control-label">營地圖片四:</label>
             <div class="img">                             
-                <img id="campPic4" src="./img/chuba_logo.png" />                       
+                <img id="campPic4" src="" />                       
             </div>
             <label class="control-label">營地圖片五:</label>
             <div class="img">                             
-                <img id="campPic5" src="./img/chuba_logo.png" />                       
+                <img id="campPic5" src="" />                       
             </div>
             
           <button type="button" class="btn_modal_close">關閉</button>
@@ -763,7 +749,8 @@
   
         // 開啟 Modal 彈跳視窗
         $(document).on("click", "button.btn_open", function(){
-            $("span#campId").text($(this).closest("tr").attr("data-campId"));
+        	let campId = $(this).closest("tr").attr("data-campId");
+            $("span#campId").text(campId);
             $("span#campName").text($(this).closest("tr").attr("data-campName"));
             $("span#campStatus").text($(this).closest("tr").attr("data-campStatus") == 2? "審核中": $(this).closest("tr").attr("data-campStatus") == 1? "上架中": $(this).closest("tr").attr("data-campStatus") == 0? "下架中": "異常");
             $("span#companyId").text($(this).closest("tr").attr("data-companyId"));
@@ -773,14 +760,14 @@
             $("span#lattitude").text($(this).closest("tr").attr("data-lattitude"));
             $("span#campAppliedLaunchTime").text($(this).closest("tr").attr("data-campAppliedLaunchTime"));
             $("span#certificateNum").text($(this).closest("tr").attr("data-certificateNum"));
-            $("img#certificatePic").attr("src","xxx");
+            $("img#certificatePic").attr("src",`/TFA104G5/PicWithCampServlet?campid=${"${campId}"}&certificate=t`);
             $("div#campDiscription").text($(this).closest("tr").attr("data-campDiscription"));
             $("div#campRule").text($(this).closest("tr").attr("data-campRule"));
-            $("img#campPic1").attr("src","xxx");
-            $("img#campPic2").attr("src","xxx");
-            $("img#campPic3").attr("src","xxx");
-            $("img#campPic4").attr("src","xxx");
-            $("img#campPic5").attr("src","xxx");
+            $("img#campPic1").attr("src",`/TFA104G5/PicWithCampServlet?campid=${"${campId}"}&pic=1`);
+            $("img#campPic2").attr("src",`/TFA104G5/PicWithCampServlet?campid=${"${campId}"}&pic=2`);
+            $("img#campPic3").attr("src",`/TFA104G5/PicWithCampServlet?campid=${"${campId}"}&pic=3`);
+            $("img#campPic4").attr("src",`/TFA104G5/PicWithCampServlet?campid=${"${campId}"}&pic=4`);
+            $("img#campPic5").attr("src",`/TFA104G5/PicWithCampServlet?campid=${"${campId}"}&pic=5`);
 
             
             $("div.overlay").fadeIn();
