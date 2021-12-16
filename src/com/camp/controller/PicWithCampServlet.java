@@ -1,4 +1,4 @@
-package camp.test;
+package com.camp.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,7 +19,8 @@ import com.camp.model.CampVO;
 import com.campArea.model.CampAreaService;
 import com.campArea.model.CampAreaVO;
 
-// 以下為JSP中的使用方法: productId=商品編號&pic=第幾張圖片
+// 以下為JSP中的使用方法: 查詢營地:campid=營地編號&pic=第幾張圖片
+//                      查詢營位:campid=營地編號&areaindex=第幾個營位圖片(不是areaid從開始)
 // <img src="<%=request.getContextPath()%>/product/PicServlet?productId=1&pic=1">
 
 @WebServlet("/PicWithCampServlet")
