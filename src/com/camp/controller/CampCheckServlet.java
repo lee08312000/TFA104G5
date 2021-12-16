@@ -42,7 +42,7 @@ public class CampCheckServlet extends HttpServlet {
     		Integer campCheckorder = Integer.parseInt(req.getParameter("order"));
     		session.setAttribute("campCheckorder", campCheckorder);
     		/*************************************準備轉交****************************************/
-    		String url = "/front_end/admin/campCheck.jsp";
+    		String url = "/back_end/admin/campCheck.jsp";
     		RequestDispatcher rd = req.getRequestDispatcher(url);
     		rd.forward(req, res);
     		return;
@@ -57,7 +57,7 @@ public class CampCheckServlet extends HttpServlet {
     		// 變更狀態及上架時間
     		campSvc.update(campId, campVO.getCompanyId(), 1, campVO.getCampName(), campVO.getCampRule(), campVO.getCampPic1(), campVO.getCampPic2(), campVO.getCampPic3(), campVO.getCampPic4(), campVO.getCampPic5(), campVO.getCampAddress(), campVO.getCampPhone(), campVO.getCertificateNum(), campVO.getCertificatePic(), new Timestamp(System.currentTimeMillis()), campVO.getCampAppliedLaunchTime(), campVO.getLongitude(), campVO.getLattitude());
     		/*************************************準備轉交****************************************/
-    		String url = "/front_end/admin/campCheck.jsp";
+    		String url = "/back_end/admin/campCheck.jsp";
     		RequestDispatcher rd = req.getRequestDispatcher(url);
     		rd.forward(req, res);
     		return;
@@ -70,7 +70,7 @@ public class CampCheckServlet extends HttpServlet {
     		// 刪除營地
     		campDao.delete(campId);
     		/*************************************準備轉交****************************************/
-    		String url = "/front_end/admin/campCheck.jsp";
+    		String url = "/back_end/admin/campCheck.jsp";
     		RequestDispatcher rd = req.getRequestDispatcher(url);
     		rd.forward(req, res);
     		return;
