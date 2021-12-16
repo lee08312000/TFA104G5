@@ -359,6 +359,11 @@ public class CampDAOImpl implements CampDAO {
 				break;
 			case 3: // 熱門排行
 				order = "rank_no asc";
+				
+			case 4://營地申請上架時間(升序)
+				order="camp_applied_launch_time asc";
+			case 5://營地申請上架時間(降序)
+				order="camp_applied_launch_time desc";
 			default: // 營地流水號
 				order = "camp_id";
 			}
