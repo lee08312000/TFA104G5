@@ -1,28 +1,46 @@
+<%@page import="java.util.stream.Collector"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
-<%@ page import="com.camp.model.CampVO"%>
-<%@ page import="com.camp.model.CampService"%>
+<%@ page import="java.util.stream.*"%>
+<%@ page import="com.productReport.model.ProductReportVO"%>
+<%@ page import="com.productReport.model.ProductReportService"%>
 
-<jsp:useBean id="companySvc" class="com.company.model.CompanyService"></jsp:useBean>
+<jsp:useBean id="productSvc" class="com.product.model.ProductService"></jsp:useBean>
+<jsp:useBean id="memberSvc" class="com.member.model.MemberService"></jsp:useBean>
 
 <% 
-	Integer campCheckorder = 5;
-	if (session.getAttribute("campCheckorder") != null) {
-		campCheckorder = (Integer) session.getAttribute("campCheckorder");
+	Integer productReportOrder = 0;
+	if (session.getAttribute("productReportOrder") != null) {
+		productReportOrder = (Integer) session.getAttribute("productReportOrder");
 	}
 
-	CampService campSvc = new CampService();
-	List<CampVO> campVOList = campSvc.getAllCamp(campCheckorder);
-	List<CampVO> list = new ArrayList<CampVO>();
 	
-	for (CampVO campVO : campVOList) {
-		if (campVO.getCampStatus().intValue() == 2) {
-			list.add(campVO);
+	ProductReportService productReportSvc = new ProductReportService();
+	List<ProductReportVO> productReportVOList = productReportSvc.getAll();
+	List<ProductReportVO> list = new ArrayList<ProductReportVO>();
+	
+
+	
+	for (ProductReportVO productReportVO : productReportVOList) {
+		if (productReportVO.getReportStatus().intValue() == 0) {
+			list.add(productReportVO);
 		}
 	}
+	
+	if (productReportOrder.intValue() == 0) {
+		
+		list = list.stream()
+				   .sorted(Comparator.comparing(ProductReportVO::getReportTime).reversed())
+				   .collect(Collectors.toList());
+	} else if (productReportOrder.intValue() == 1) {
+		list = list.stream()
+				   .sorted(Comparator.comparing(ProductReportVO::getReportTime))
+				   .collect(Collectors.toList());
+	}
+	
 	
 	
 	pageContext.setAttribute("list", list);
@@ -37,7 +55,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>營地上架審核</title>
+    <title>商品檢舉管理</title>
 </head>
 <style>
     *{
@@ -617,12 +635,12 @@
 
     <main class="main">
     
-    	<h2>營地上架審核</h2>
-    	<form action="<%=request.getContextPath()%>/Camp/CampCheckServlet">
+    	<h2>商品檢舉管理</h2>
+    	<form action="<%=request.getContextPath()%>/ProductReport/ProductReportServlet">
     		申請時間：
     		<select name="order">
-    			<option value="5" ${campCheckorder.intValue() == null || campCheckorder.intValue() == 5 ? "selected" : ""}>新到舊</option>
-    			<option value="4" ${campCheckorder.intValue() == 4 ? "selected" : ""}>舊到新</option>
+    			<option value="0" ${productReportOrder.intValue() == null || productReportOrder.intValue() == 0 ? "selected" : ""}>新到舊</option>
+    			<option value="1" ${productReportOrder.intValue() == 1 ? "selected" : ""}>舊到新</option>
     		</select>
     		<input type="hidden" name="action" value="orderBy">
     		<input type="submit" value="送出">
@@ -630,28 +648,28 @@
     	
         <table id="miyazaki">
             <thead>
-            <tr><th>營地編號</th><th>營地名稱</th><th>廠商編號</th><th>廠商名稱</th><th>申請時間</th><th>查看更多</th><th>審核</th>
+            <tr><th>檢舉編號</th><th>商品編號</th><th>商品名稱</th><th>檢舉原因</th><th>檢舉狀態</th><th>檢舉時間</th><th>操作</th>
             <tbody>
             <%@ include file="page1.file" %> 
-				<c:forEach var="campVO" items="${ list }" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+				<c:forEach var="productReportVO" items="${ list }" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 
-						<tr data-campId="${ campVO.campId }" data-companyId="${ campVO.companyId }" data-campStatus="${ campVO.campStatus }" data-campDiscription="${ campVO.campDiscription }" data-campName="${ campVO.campName }" data-campRule="${ campVO.campRule }" data-campAddress="${ campVO.campAddress }" data-campPhone="${ campVO.campPhone }" data-certificateNum="${ campVO.certificateNum }" data-campLaunchedTime="<fmt:formatDate value="${ campVO.campLaunchedTime }" pattern="yyyy-MM-dd HH:mm:ss"/>" data-campAppliedLaunchTime="<fmt:formatDate value="${ campVO.campAppliedLaunchTime }" pattern="yyyy-MM-dd HH:mm:ss"/>" data-longitude="${ campVO.longitude }" data-lattitude="${ campVO.lattitude }">
-							<td>${ campVO.campId }</td>
-							<td>${ campVO.campName }</td>
-							<td>${ campVO.companyId }</td>
-							<td>${ companySvc.getOneCompany(campVO.companyId).companyName  }</td>
-							<td><fmt:formatDate value="${ campVO.campAppliedLaunchTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-							<td><button type="button" class="btn_open">查看更多</button></td>
+						<tr data-reportReason="${ productReportVO.reportReason }" data-memberId="${ productReportVO.memberId }" data-memberName="${ memberSvc.getOneMember(productReportVO.memberId).memberName }">
+							<td>${ productReportVO.productReportId }</td>
+							<td>${ productReportVO.productId }</td>
+							<td><a href="/TFA104G5/front_end/mall/mall_product_detail.html?productId=${ productReportVO.productId }" target="_blank">${ productSvc.getOneProduct(productReportVO.productId).productName}</a></td>
+							<td><button type="button" class="btn_open">詳細查看</button></td>
+							<td>${ productReportVO.reportStatus.intValue() == 0 ? "未處理" : productReportVO.reportStatus.intValue() == 1 ? "已處理" : "異常" }</td>
+							<td><fmt:formatDate value="${ productReportVO.reportTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 							<td>
-								<form method="post" action="<%=request.getContextPath()%>/Camp/CampCheckServlet" style="display:inline-block;">
-									<input type="hidden" name="action" value="pass">
-									<input type="hidden" name="campId" value="${ campVO.campId }">
-									<input type="submit" style="margin-right: 10px;" value="通過">
+								<form method="post" action="<%=request.getContextPath()%>/ProductReport/ProductReportServlet" style="display:inline-block;">
+									<input type="hidden" name="action" value="ignore">
+									<input type="hidden" name="productReportId" value="${ productReportVO.productReportId }">
+									<input type="submit" style="margin-right: 10px;" value="忽略">
 								</form>
-								<form method="post" action="<%=request.getContextPath()%>/Camp/CampCheckServlet" style="display:inline-block;">
-									<input type="hidden" name="action" value="fail">
-									<input type="hidden" name="campId" value="${ campVO.campId }">
-									<input type="submit" value="不通過">
+								<form method="post" action="<%=request.getContextPath()%>/ProductReport/ProductReportServlet" style="display:inline-block;">
+									<input type="hidden" name="action" value="noUsed">
+									<input type="hidden" name="productId" value="${ productReportVO.productId }">
+									<input type="submit" value="下架商品">
 								</form>
 							</td>
 						</tr>
@@ -664,81 +682,19 @@
     <div class="overlay" style="border: 1px solid red;">
         <article>
             <div class="article-group">
-                <label class="control-label">營地流水號:<span id="campId" >s</span></label>                                  
+                <label class="control-label">會員編號:<span id="memberId" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">營地名稱:<span id="campName" >s</span></label>                                    
+                <label class="control-label">會員名稱:<span id="memberName" >s</span></label>                                  
             </div>
+                             
             <div class="article-group">
-                <label class="control-label">營地狀態:<span id="campStatus" >s</span></label>                                 
-            </div>
-            <div class="article-group">
-                <label class="control-label">廠商編號:<span id="companyId" >s</span></label>                                
-            </div>
-            
-            <div class="article-group">
-                <label class="control-label">營地地址:<span id="campAddress" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">營地電話:<span id="campPhone" >s</span></label>                             
-            </div>
-
-            <div class="article-group">
-                <label class="control-label">經度:<span id="longitude" >s</span></label>                                 
-            </div>
-            <div class="article-group">
-                <label class="control-label">緯度:<span id="lattitude" >s</span></label>                           
-            </div>
-            
-            <div class="article-group">
-                <label class="control-label">營地申請上架時間:<span id="campAppliedLaunchTime" >s</span></label>                                
-            </div>
-            
-
-                    
-            <div class="article-group">
-                <label class="control-label">營地描述:</label>                
-                <div id="campDiscription" class="text-frame">
-                   營地描述
+                <label class="control-label">檢舉原因:</label>                
+                <div id="reportReason" class="text-frame">
+                   檢舉原因
                 </div>                      
             </div>
             
-            <div class="article-group">
-                <label class="control-label">營地租借規則:</label>                
-                <div id="campRule" class="text-frame">
-                   營地租借規則
-                </div>                      
-            </div>
-            
-            <div class="article-group">
-                <label class="control-label">認證字號:<span id="certificateNum" >s</span></label>                        
-            </div>
-            
-            <label class="control-label">證書圖片:</label>
-            <div class="img">                             
-                <img style="height: 180px;" id="certificatePic" src="" />                       
-            </div>
-            
-            <label class="control-label">營地圖片一:</label>
-            <div class="img">                             
-                <img id="campPic1" src="" />                       
-            </div>
-            <label class="control-label">營地圖片二:</label>
-            <div class="img">                             
-                <img id="campPic2" src="" />                       
-            </div>
-            <label class="control-label">營地圖片三:</label>
-            <div class="img">                             
-                <img id="campPic3" src="" />                       
-            </div>
-            <label class="control-label">營地圖片四:</label>
-            <div class="img">                             
-                <img id="campPic4" src="" />                       
-            </div>
-            <label class="control-label">營地圖片五:</label>
-            <div class="img">                             
-                <img id="campPic5" src="" />                       
-            </div>
             
           <button type="button" class="btn_modal_close">關閉</button>
         </article>
@@ -749,26 +705,10 @@
   
         // 開啟 Modal 彈跳視窗
         $(document).on("click", "button.btn_open", function(){
-        	let campId = $(this).closest("tr").attr("data-campId");
-            $("span#campId").text(campId);
-            $("span#campName").text($(this).closest("tr").attr("data-campName"));
-            $("span#campStatus").text($(this).closest("tr").attr("data-campStatus") == 2? "審核中": $(this).closest("tr").attr("data-campStatus") == 1? "上架中": $(this).closest("tr").attr("data-campStatus") == 0? "下架中": "異常");
-            $("span#companyId").text($(this).closest("tr").attr("data-companyId"));
-            $("span#campAddress").text($(this).closest("tr").attr("data-campAddress"));
-            $("span#campPhone").text($(this).closest("tr").attr("data-campPhone"));
-            $("span#longitude").text($(this).closest("tr").attr("data-longitude"));
-            $("span#lattitude").text($(this).closest("tr").attr("data-lattitude"));
-            $("span#campAppliedLaunchTime").text($(this).closest("tr").attr("data-campAppliedLaunchTime"));
-            $("span#certificateNum").text($(this).closest("tr").attr("data-certificateNum"));
-            $("img#certificatePic").attr("src",`/TFA104G5/PicWithCampServlet?campid=${"${campId}"}&certificate=t`);
-            $("div#campDiscription").text($(this).closest("tr").attr("data-campDiscription"));
-            $("div#campRule").text($(this).closest("tr").attr("data-campRule"));
-            $("img#campPic1").attr("src",`/TFA104G5/PicWithCampServlet?campid=${"${campId}"}&pic=1`);
-            $("img#campPic2").attr("src",`/TFA104G5/PicWithCampServlet?campid=${"${campId}"}&pic=2`);
-            $("img#campPic3").attr("src",`/TFA104G5/PicWithCampServlet?campid=${"${campId}"}&pic=3`);
-            $("img#campPic4").attr("src",`/TFA104G5/PicWithCampServlet?campid=${"${campId}"}&pic=4`);
-            $("img#campPic5").attr("src",`/TFA104G5/PicWithCampServlet?campid=${"${campId}"}&pic=5`);
-
+        	let memberId = $(this).closest("tr").attr("data-memberId");
+            $("span#memberId").text(memberId);
+            $("span#memberName").text($(this).closest("tr").attr("data-memberName"));
+            $("div#reportReason").text($(this).closest("tr").attr("data-reportReason"));
             
             $("div.overlay").fadeIn();
         });
