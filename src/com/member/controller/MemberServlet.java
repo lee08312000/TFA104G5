@@ -173,13 +173,13 @@ public class MemberServlet extends HttpServlet {
 
 	    		} else {
 	    			/***************************3.新增完成,準備轉交(Send the Success view)***********/
+					session.setAttribute("memberVO", memberVO); // 成功後將資料傳進session
 	    			MemberService memberSvc = new MemberService();
 		    		memberVO = memberSvc.addMember(1, name, account, password, email, address, phone, null);
 	    			System.out.println("新增成功");
 	    			String url = "/front_end/member/login.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 
 					successView.forward(req, res);
-					session.setAttribute("memberVO", memberVO); // 成功後將資料傳進session
 
 	    		}
 	    		
@@ -284,9 +284,9 @@ public class MemberServlet extends HttpServlet {
 
 	    		} else {
 	    			/***************************3.新增完成,準備轉交(Send the Success view)***********/
-	    			session.setAttribute("memberVO", memberVO); // 成功後將資料傳進session
 		    		memberVO = memberSvc.updateMember(id, accountStatus, name, account, password, email, address, phone, pic);
-	    			System.out.println("更改成功");
+		    		session.setAttribute("memberVO", memberVO); // 成功後將資料傳進session
+		    		System.out.println("更改成功");
 	    			String url = "/front_end/member/login.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 
 					successView.forward(req, res);

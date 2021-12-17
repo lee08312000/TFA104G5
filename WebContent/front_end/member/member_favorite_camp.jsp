@@ -15,7 +15,7 @@
 <link
 	href="<%=request.getContextPath()%>/front_end/member/css/member_order.css"
 	rel="stylesheet" type="text/css">
-<title>我的最愛商品</title>
+<title>我的最愛營地</title>
 <!-- frontawesome把icon引入的東東 -->
 <script src="https://kit.fontawesome.com/05a51b0b98.js"
 	crossorigin="anonymous"></script>
@@ -99,16 +99,17 @@
 	</aside>
 	<%-- =================  sidebar   ===================== --%>
 	
-	<%-- =================  我的最愛商品表格   ===================== --%>
+	<%-- =================  我的最愛營地表格   ===================== --%>
 	<div class="table-title">
-		<h3>我的最愛商品</h3>
+		<h3>我的最愛營地</h3>
 	</div>
 	<table class="table-fill">
 		<thead>
 			<tr>
-				<th class="text-left">商品圖片</th>
-				<th class="text-left">價格</th>
-				<th class="text-left">販售廠商</th>
+				<th class="text-left">營地圖片</th>
+				<th class="text-left">營地名稱</th>
+				<th class="text-left">相關標籤</th>
+				<th class="text-left">地址</th>
 				<th class="text-left">評價</th>
 				<th class="text-left"></th>
 			</tr>
@@ -121,6 +122,7 @@
 				<td class="text-left">$ 50,000.00</td>
 				<td class="text-left"></td>
 				<td class="text-left"></td>
+				<td class="text-left"></td>
 				<td class="text-center">
 					<button class="button" type="button">查詢</button>
 					<button class="button" type="button">刪除</button>
@@ -129,7 +131,7 @@
 
 		</tbody>
 	</table>
-	<%-- =================  我的最愛商品表格   ===================== --%>
+	<%-- =================  我的最愛營地表格   ===================== --%>
 	
 	<%-- =================  sidebar javascript   ===================== --%>
 	<script

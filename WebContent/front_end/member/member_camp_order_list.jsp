@@ -1,6 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.camp.model.*"%>
 <%@ page import="com.member.model.*"%>
+<%@ page import="com.campTag.model.*"%>
+<%@ page import="com.campTagDetail.model.*"%>
+
+<%
+	// 營地假資料
+	CampService campSvc = new CampService();
+	CampVO campVO = campSvc.findCampByCampId(1);
+	request.setAttribute("CampVO", campVO);
+
+	MemberService memberSvc = new MemberService();
+	MemberVO memberVO = memberSvc.getOneMember(1);
+	request.setAttribute("memberVO", memberVO);
+	// 營地假資料
+
+	CampTagDetailService campTagDetailSvc = new CampTagDetailService();
+	List<String> list = campTagDetailSvc.findCampTagsByCampIdNames(1);
+	pageContext.setAttribute("list", list);
+%>
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 
@@ -15,7 +36,7 @@
 <link
 	href="<%=request.getContextPath()%>/front_end/member/css/member_order.css"
 	rel="stylesheet" type="text/css">
-<title>我的最愛商品</title>
+<title>營地訂單列表</title>
 <!-- frontawesome把icon引入的東東 -->
 <script src="https://kit.fontawesome.com/05a51b0b98.js"
 	crossorigin="anonymous"></script>
@@ -59,6 +80,7 @@
 	</header>
 	<%-- =================  header區域   ===================== --%>
 	
+	
 	<%-- =================  sidebar   ===================== --%>
 	<aside class="sidebar">
 		<div id="leftside-navigation" class="nano">
@@ -78,6 +100,7 @@
 						class="far fa-list-alt"></i><span>&nbsp;我的訂單</span><i
 						class="arrow fa fa-angle-right pull-right"></i></a>
 					<ul>
+
 						<li><a
 							href="<%=request.getContextPath()%>/front_end/member/member_camp_order_list.jsp">營地訂單</a>
 						</li>
@@ -99,37 +122,46 @@
 	</aside>
 	<%-- =================  sidebar   ===================== --%>
 	
-	<%-- =================  我的最愛商品表格   ===================== --%>
+	
+	<%-- =================  營地訂單列表   ===================== --%>
 	<div class="table-title">
-		<h3>我的最愛商品</h3>
+		<h3>營地訂單列表</h3>
 	</div>
 	<table class="table-fill">
 		<thead>
 			<tr>
-				<th class="text-left">商品圖片</th>
-				<th class="text-left">價格</th>
-				<th class="text-left">販售廠商</th>
-				<th class="text-left">評價</th>
-				<th class="text-left"></th>
+				<th>訂單編號 0000001</th>
+				<th>訂單日期 2021 / 12 / 13</th>
+			</tr>
+			<tr>
+				<th class="text-left">營地圖片</th>
+				<th class="text-left">訂位日期</th>
+				<th class="text-left">天數</th>
+				<th class="text-left">總價</th>
+				<th class="text-left" colspan="2">訂單狀態</th>
 			</tr>
 		</thead>
-
 		<tbody class="table-hover">
 			<tr>
 				<td class="text-center"><img class="product_pic" src=""
-					alt="商品圖像"></td>
-				<td class="text-left">$ 50,000.00</td>
-				<td class="text-left"></td>
-				<td class="text-left"></td>
-				<td class="text-center">
-					<button class="button" type="button">查詢</button>
-					<button class="button" type="button">刪除</button>
-				</td>
+					alt="商品圖片"></td>
+				<td class="text-left">訂位日期</td>
+				<td class="text-left">天數</td>
+				<td class="text-left">總價</td>
+				<td class="text-left" colspan="2">訂單狀態</td>
 			</tr>
 
+			<tr>
+				<td class="text-left" colspan="5"></td>
+				<td class="text-center">
+					<button class="button" type="button"
+						onclick="location.href = '<%=request.getContextPath()%>/front_end/member/member_camp_order_detail.jsp';">訂單明細</button>
+					<button class="button" type="button">取消訂單</button>
+				</td>
+			</tr>
 		</tbody>
 	</table>
-	<%-- =================  我的最愛商品表格   ===================== --%>
+	<%-- =================  營地訂單列表   ===================== --%>
 	
 	<%-- =================  sidebar javascript   ===================== --%>
 	<script
