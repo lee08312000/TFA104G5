@@ -7,7 +7,17 @@ $(function () {
     $("ul.pages li").removeClass("active");
     $(that).addClass("active");
     
-    getProducts($(that).children("a").text());
+    let searchValue = (new URL(location.href)).searchParams.get('search');
+    if (searchValue != null && searchValue.trim() != "") {
+
+      // 利用searchValue 去資料庫搜尋商品名稱
+      useSearchBar(searchValue.trim(), $(that).children("a").text());
+    } else {
+      getProducts($(that).children("a").text());
+    }
+
+    window.scrollTo(0, 440);
+    
   });
 
   // 按空的愛心
@@ -221,8 +231,8 @@ $(function () {
 
       $("div.filters li.active").removeClass("active");
       // 利用searchValue 去資料庫搜尋商品名稱
-      useSearchBar(searchValue.trim());
-
+      useSearchBar(searchValue.trim(), 1);
+      getPagesByProductName(searchValue.trim());
 
     } else if (productTypeIdValue != null && productTypeIdValue != "") {
       
@@ -248,7 +258,7 @@ $(function () {
 
 
   // 此方法為去資料庫搜尋商品名稱
-  function useSearchBar(productName) {
+  function useSearchBar(productName, page) {
     $.ajax({
       url: "/TFA104G5/product/BrowseServlet",
       type: "POST",
@@ -257,7 +267,7 @@ $(function () {
         "productName": productName,
         "companyId": $("select.company").val(),
         "orderType": $("select.orderBy").val(),
-        "page": 0
+        "page": page
       },
       dataType: "json",
       beforeSend: function () {
@@ -433,6 +443,47 @@ $(function () {
 
 
   }
+
+  // 調出分頁by商品名稱
+  function getPagesByProductName(productName) {
+    $.ajax({
+      url: "/TFA104G5/product/BrowseServlet",
+      type: "POST",
+      data: {
+        "action": "getMallProductsByName",
+        "productName": productName,
+        "companyId": $("select.company").val(),
+        "orderType": $("select.orderBy").val(),
+        "page": 0
+      },
+      dataType: "json",
+      beforeSend: function () {
+        $("div.row.grid").html("<div style='text-align: center; width: 100%;'><h2>正在查詢...</h2></div>");
+      },
+      success: function (productList) {
+        let pageNum = productList.length / 6;
+        let pageNumMod = productList.length % 6;
+
+        if (pageNumMod != 0) {
+          pageNum = pageNum + 1;
+        }
+
+        let pagesStr = "";
+        for (var i = 1; i <= pageNum; i++) {
+          pagesStr += 
+          `<li ${i == 1 ? "class='active'" : ""}><a href="#">${i}</a></li>`;
+        }
+
+        $("ul.pages").html("");
+        $("ul.pages").html(pagesStr);
+      },
+      complete: function (xhr) {
+        // console.log(xhr);
+      }
+    });
+
+  }
+
 
   
   refreshCartNum();
