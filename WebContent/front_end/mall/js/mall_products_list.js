@@ -1,5 +1,13 @@
 $(function () {
 
+  // 分頁按鈕
+  $(document).on("click", "ul.pages li", function(e){
+    e.preventDefault();
+    let that = this;
+    $("ul.pages li").removeClass("active");
+    $(that).addClass("active");
+    console.log($(that).children("a").text());
+  });
 
   // 按空的愛心
   $(document).on("click", "i.addFavoriteProduct", function () {
@@ -194,7 +202,7 @@ $(function () {
 
     // 從資料庫撈出商品
     getProducts();
-
+    getPages();
   });
 
 
@@ -226,6 +234,7 @@ $(function () {
 
     } else {
       getProducts();
+      getPages();
     }
   }
 
@@ -383,7 +392,48 @@ $(function () {
     });
   }
 
+  // 調出分頁
+  function getPages() {
+    $.ajax({
+      url: "/TFA104G5/product/BrowseServlet",
+      type: "POST",
+      data: {
+        "action": "getMallProducts",
+        "productTypeId": $("ul#productTypes > li.active").attr("data-productTypeId"),
+        "companyId": $("select.company").val(),
+        "orderType": $("select.orderBy").val(),
+        "page": 0
+      },
+      dataType: "json",
+      beforeSend: function () {
+        $("div.row.grid").html("<div style='text-align: center; width: 100%;'><h2>正在查詢...</h2></div>");
+      },
+      success: function (productList) {
+        let pageNum = productList.length / 6;
+        let pageNumMod = productList.length % 6;
 
+        if (pageNumMod != 0) {
+          pageNum = pageNum + 1;
+        }
+
+        let pagesStr = "";
+        for (var i = 1; i <= pageNum; i++) {
+          pagesStr += 
+          `<li ${i == 1 ? "class='active'" : ""}><a href="#">${i}</a></li>`;
+        }
+
+        $("ul.pages").html("");
+        $("ul.pages").html(pagesStr);
+      },
+      complete: function (xhr) {
+        // console.log(xhr);
+      }
+    });
+
+
+  }
+
+  
   refreshCartNum();
 
 });
