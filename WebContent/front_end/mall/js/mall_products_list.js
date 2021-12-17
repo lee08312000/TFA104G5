@@ -6,7 +6,8 @@ $(function () {
     let that = this;
     $("ul.pages li").removeClass("active");
     $(that).addClass("active");
-    console.log($(that).children("a").text());
+    
+    getProducts($(that).children("a").text());
   });
 
   // 按空的愛心
@@ -201,7 +202,7 @@ $(function () {
     history.replaceState(null, "page2", "mall_products_list.html");
 
     // 從資料庫撈出商品
-    getProducts();
+    getProducts(1);
     getPages();
   });
 
@@ -233,7 +234,7 @@ $(function () {
 
 
     } else {
-      getProducts();
+      getProducts(1);
       getPages();
     }
   }
@@ -308,7 +309,7 @@ $(function () {
 
 
   // 此方法為去資料庫搜尋商品
-  function getProducts() {
+  function getProducts(page) {
     $.ajax({
       url: "/TFA104G5/product/BrowseServlet",
       type: "POST",
@@ -317,7 +318,7 @@ $(function () {
         "productTypeId": $("ul#productTypes > li.active").attr("data-productTypeId"),
         "companyId": $("select.company").val(),
         "orderType": $("select.orderBy").val(),
-        "page": 0
+        "page": page
       },
       dataType: "json",
       beforeSend: function () {
