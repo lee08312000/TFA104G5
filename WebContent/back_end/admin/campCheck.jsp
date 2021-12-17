@@ -484,7 +484,7 @@
         margin: 30px 0;        
         font-family: Agenda-Light, sans-serif;
         font-weight: 50; 
-        background: #ec3f3f; color: #fff;
+        background: gray; color: #fff;
         text-rendering: optimizeLegibility;
         border-radius: 5px; 
         }
@@ -566,19 +566,15 @@
                 <a style="display:inline-block; vertical-align: middle;" href="首頁URL">
                     <img src="<%=request.getContextPath()%>/back_end/admin/images/camp_paradise_logo.png" />
                 </a>
-                <span style="display:inline-block; vertical-align: middle;">Camping Paradise</span>
+                <span style="display:inline-block; vertical-align: middle;">Camping Paradise 平台管理員</span>
             </div>
         </div>
-        <ul>          
-            <nav class="header-navigation">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">線上商城</a></li>
-                <li><a href="#"><img src="<%=request.getContextPath()%>/back_end/admin/images/heart.png"></a></li>
-                <li><a href="#">註冊</a></li>
-                <li><a href="#">登入</a></li>
-                <li><a href="#"><i class="fas fa-user"></i></a></li>                
-            </nav>
-        </ul>    
+        <nav class="header-navigation">
+        	<ul>          
+                <li>XXX你好!</li>
+                <li><a href="#">登出</a></li>              
+        	</ul>    
+        </nav>
                     
     </header>
 
@@ -590,6 +586,9 @@
                             <a href="" class="light">
                                 <strong>管理員管理</strong>
                             </a>
+                            <ul>
+                                <li><a href="#"><i class="fas fa-cannabis"></i>管理員查詢</a></li>					
+                            </ul>
 
                         </li>
                         <li>
@@ -618,7 +617,7 @@
     <main class="main">
     
     	<h2>營地上架審核</h2>
-    	<form action="<%=request.getContextPath()%>/Camp/CampCheckServlet">
+    	<form method="post" action="<%=request.getContextPath()%>/Camp/CampCheckServlet">
     		申請時間：
     		<select name="order">
     			<option value="5" ${campCheckorder.intValue() == null || campCheckorder.intValue() == 5 ? "selected" : ""}>新到舊</option>
