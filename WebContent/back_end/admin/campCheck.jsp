@@ -663,34 +663,34 @@
     <div class="overlay" style="border: 1px solid red;">
         <article>
             <div class="article-group">
-                <label class="control-label">營地流水號:<span id="campId" >s</span></label>                                  
+                <label class="control-label">營地流水號:&nbsp;<span id="campId" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">營地名稱:<span id="campName" >s</span></label>                                    
+                <label class="control-label">營地名稱:&nbsp;<span id="campName" >s</span></label>                                    
             </div>
             <div class="article-group">
-                <label class="control-label">營地狀態:<span id="campStatus" >s</span></label>                                 
+                <label class="control-label">營地狀態:&nbsp;<span id="campStatus" >s</span></label>                                 
             </div>
             <div class="article-group">
-                <label class="control-label">廠商編號:<span id="companyId" >s</span></label>                                
+                <label class="control-label">廠商編號:&nbsp;<span id="companyId" >s</span></label>                                
             </div>
             
             <div class="article-group">
-                <label class="control-label">營地地址:<span id="campAddress" >s</span></label>                                  
+                <label class="control-label">營地地址:&nbsp;<span id="campAddress" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">營地電話:<span id="campPhone" >s</span></label>                             
+                <label class="control-label">營地電話:&nbsp;<span id="campPhone" >s</span></label>                             
             </div>
 
             <div class="article-group">
-                <label class="control-label">經度:<span id="longitude" >s</span></label>                                 
+                <label class="control-label">經度:&nbsp;<span id="longitude" >s</span></label>                                 
             </div>
             <div class="article-group">
-                <label class="control-label">緯度:<span id="lattitude" >s</span></label>                           
+                <label class="control-label">緯度:&nbsp;<span id="lattitude" >s</span></label>                           
             </div>
             
             <div class="article-group">
-                <label class="control-label">營地申請上架時間:<span id="campAppliedLaunchTime" >s</span></label>                                
+                <label class="control-label">營地申請上架時間:&nbsp;<span id="campAppliedLaunchTime" >s</span></label>                                
             </div>
             
 
@@ -710,7 +710,7 @@
             </div>
             
             <div class="article-group">
-                <label class="control-label">認證字號:<span id="certificateNum" >s</span></label>                        
+                <label class="control-label">認證字號:&nbsp;<span id="certificateNum" >s</span></label>                        
             </div>
             
             <label class="control-label">證書圖片:</label>

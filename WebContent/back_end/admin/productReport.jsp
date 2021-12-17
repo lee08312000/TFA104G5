@@ -680,10 +680,10 @@
     <div class="overlay" style="border: 1px solid red;">
         <article>
             <div class="article-group">
-                <label class="control-label">會員編號:<span id="memberId" >s</span></label>                                  
+                <label class="control-label">會員編號:&nbsp;<span id="memberId" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">會員名稱:<span id="memberName" >s</span></label>                                  
+                <label class="control-label">會員名稱:&nbsp;<span id="memberName" >s</span></label>                                  
             </div>
                              
             <div class="article-group">
