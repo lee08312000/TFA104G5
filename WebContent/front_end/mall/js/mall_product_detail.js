@@ -1,4 +1,6 @@
 $(function () {
+
+  let page = 1;
   // 右邊商品加入我的最愛 按空的愛心
   $(document).on("click", "i.addRightFavoriteProduct", function () {
     
@@ -116,7 +118,14 @@ $("img#right-redHeart").on("click", function(){
   
   // 商品評論排序
   $("select#productCommentOrderBy").on("change", function() {
-    getProductComments();
+    page = 1;
+    $("div#productComments").html("");
+    getProductComments(page);
+  });
+
+  // 商品評論查看更多
+  $("button#moreCommentsBtn").on("click", function(){
+    getProductComments(++page);
   });
 
 
@@ -227,7 +236,7 @@ $.ajax({
 });
 
 // 從資料庫調出商品評論
-function getProductComments() {
+function getProductComments(page) {
 
   $.ajax({
     url: "/TFA104G5/MallOrderDetail/MallOrderDetailServlet",
@@ -236,17 +245,19 @@ function getProductComments() {
       "action": "getProductComments",
       "productId": productId,
       "orderType": $("select#productCommentOrderBy").val(),
-      "page": 0
+      "page": page
     },
     dataType: "json",
     beforeSend: function () {
-      $("div#productComments").html("<h3>正在查詢</h3>");
+      $("div#productComments").append("<h3 id='searching'>正在查詢</h3>");
     },
     success: function (productCommentList) {
-      $("div#productComments").html("");
+      // $("div#productComments").html("");
 
       if (productCommentList.length == 0) {
-        $("div#productComments").html("<h3>尚無評論</h3>");
+        if (page == 1) {
+          $("div#productComments").html("<h3>尚無評論</h3>");
+        }
 
       } else {
 
@@ -272,16 +283,21 @@ function getProductComments() {
    
       }
       
+      if (productCommentList.length >= 6) {
+        $("button#moreCommentsBtn").removeClass("-off");
+      } else {
+        $("button#moreCommentsBtn").addClass("-off");
+      }
      
 
     },
     complete: function (xhr) {
-      
+      $("h3#searching").remove();
     }
   });
 }
 
-getProductComments();
+getProductComments(page);
 });
 // var product = {
 //   "productId": 1,

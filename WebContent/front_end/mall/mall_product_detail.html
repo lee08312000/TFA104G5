@@ -209,33 +209,11 @@
         <hr>
         <div id="productComments">
         <!-- 一個商品評論start -->
-        <h5>蜥蜴男爵</h5>
-        <span>
-          <ul style="color: orange;" class="stars">
-          <li><i class="fa fa-star" ></i></li>
-          <li><i class="fa fa-star" ></i></li>
-          <li><i class="fa fa-star" ></i></li>
-          <li><i class="fa fa-star" ></i></li>
-          <li><i class="fa fa-star" ></i></li>
-          </ul>
-        </span>
-        <p>這個桌子很酷!!</p>
-        <p>2021-12-09 18:14:00</p>
-        <hr>
+        
         <!-- 一個商品評論end -->
-        <h5>蜥蜴男爵</h5>
-        <span>
-          <ul style="color: orange;" class="stars">
-          <li><i class="fa fa-star" ></i></li>
-          <li><i class="fa fa-star" ></i></li>
-          <li><i class="fa fa-star" ></i></li>
-          <li><i class="fa fa-star" ></i></li>
-          <li><i class="fa fa-star" ></i></li>
-          </ul>
-        </span>
-        <p>這個桌子很酷!!</p>
-        <p>2021-12-09 18:14:00</p>
-        <hr>
+      </div>
+      <div id="moreCommentsDiv" style="text-align: center;">
+        <button id="moreCommentsBtn" type="button" class="-off" style="border: 1px solid #d7ab75; background-color: #d7ab75; color: white; border-radius: 20px; font-weight: bold;">更多評論</button>
       </div>
       </div>
     </div>
@@ -311,7 +289,7 @@
             },
             success: function (data) {
               if (data.msg == "success") {
-                alert("檢舉已送出，處理中");
+                alert("檢舉已成功送出");
               } else if (data.msg == "noLogin") {
                 alert("請先登入");
               } else if (data.msg == "hasReported") {
