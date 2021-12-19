@@ -242,13 +242,13 @@ pre {
 					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
 						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/register.jsp"
+					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
 					value="">註冊</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/login.jsp"
+					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp"
 					value="">登入</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/member_main.jsp"
+					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"
 					value=""><i class="fas fa-user"></i></a></li>
 			</nav>
 		</ul>
@@ -331,7 +331,7 @@ pre {
 			<input type="hidden" value="reset_info" name="action" /> <input
 				class="button" type="submit" value="確認修改">
 			<button class="button" type="button"
-				onclick="location.href = '<%=request.getContextPath()%>/front_end/member/member_main.jsp';">取消修改</button>
+				onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp';">取消修改</button>
 		</form>
 	</div>
 	<%-- =================  更改會員資料區域   ===================== --%>

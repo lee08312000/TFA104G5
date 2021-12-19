@@ -61,12 +61,22 @@
         </div>
         <ul>
             <nav class="header-navigation">
-                <li><a href="<%=request.getContextPath() %>/front_end/camp/camp_index.html">Home</a></li>
-                <li><a href="<%=request.getContextPath() %>/front_end/mall/mall_index.html">線上商城</a></li>
-                <li><a href="<%=request.getContextPath() %>/front_end/member/member_favorite_camp.jsp"><img src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
-                <li><a href="<%=request.getContextPath() %>/front_end/member/register.jsp" value="">註冊</a></li>
-                <li><a href="<%=request.getContextPath() %>/front_end/member/login.jsp" value="">登入</a></li>
-                <li><a href="<%=request.getContextPath() %>/front_end/member/member_main.jsp" value=""><i class="fas fa-user"></i></a></li>
+				<li><a
+					href="<%=request.getContextPath()%>/front_end/camp/camp_index.html">Home</a></li>
+				<li><a
+					href="<%=request.getContextPath()%>/front_end/mall/mall_index.html">線上商城</a></li>
+				<li><a
+					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
+						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
+				<li><a
+					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
+					value="">註冊</a></li>
+				<li><a
+					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp"
+					value="">登入</a></li>
+				<li><a
+					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"
+					value=""><i class="fas fa-user"></i></a></li>
             </nav>
         </ul>
 
@@ -108,7 +118,8 @@
                     </ul>
                 </li>
                 <li>
-                    <a href=""><i class="fas fa-sign-out-alt"></i><span>&nbsp;登出</span></a>
+                    <a href=""><i class="fas fa-sign-out-alt" ></i><span>&nbsp;登出</span></a>
+                    
                 </li>
         </div>
     </aside>

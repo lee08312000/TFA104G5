@@ -46,13 +46,13 @@
 					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
 						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/register.jsp"
+					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
 					value="">註冊</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/login.jsp"
+					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp"
 					value="">登入</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/member_main.jsp"
+					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"
 					value=""><i class="fas fa-user"></i></a></li>
 			</nav>
 		</ul>
@@ -69,10 +69,10 @@
 						class="arrow fa fa-angle-right pull-right"></i></a>
 					<ul>
 						<li><a
-							href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp">我的最愛營地</a>
+							href="<%=request.getContextPath()%>/front_end/member/jsp/member_favorite_camp.jsp">我的最愛營地</a>
 						</li>
 						<li><a
-							href="<%=request.getContextPath()%>/front_end/member/member_favorite_product.jsp">我的最愛商品</a>
+							href="<%=request.getContextPath()%>/front_end/member/jsp/member_favorite_product.jsp">我的最愛商品</a>
 						</li>
 					</ul></li>
 				<li class="sub-menu"><a href="javascript:void(0);"><i
@@ -80,10 +80,10 @@
 						class="arrow fa fa-angle-right pull-right"></i></a>
 					<ul>
 						<li><a
-							href="<%=request.getContextPath()%>/front_end/member/member_camp_order_list.jsp">營地訂單</a>
+							href="<%=request.getContextPath()%>/front_end/member/jsp/member_camp_order_list.jsp">營地訂單</a>
 						</li>
 						<li><a
-							href="<%=request.getContextPath()%>/front_end/member/member_product_order_list.jsp">商品訂單</a>
+							href="<%=request.getContextPath()%>/front_end/member/jsp/member_product_order_list.jsp">商品訂單</a>
 						</li>
 					</ul></li>
 				<li class="sub-menu"><a href="javascript:void(0);"><i
@@ -91,7 +91,7 @@
 						class="arrow fa fa-angle-right pull-right"></i></a>
 					<ul>
 						<li><a
-							href="<%=request.getContextPath()%>/front_end/member/member_reset_info.jsp">修改會員資訊與密碼</a>
+							href="<%=request.getContextPath()%>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
 						</li>
 					</ul></li>
 				<li><a href=""><i class="fas fa-sign-out-alt"></i><span>&nbsp;登出</span></a>

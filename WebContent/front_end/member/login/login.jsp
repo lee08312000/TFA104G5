@@ -225,13 +225,13 @@ footer {
 					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
 						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/register.jsp"
+					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
 					value="">註冊</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/login.jsp"
+					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp"
 					value="">登入</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/member_main.jsp"
+					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"
 					value=""><i class="fas fa-user"></i></a></li>
 			</nav>
 		</ul>
@@ -277,9 +277,9 @@ footer {
 			<input type="hidden" value="login" name="action" /> <input
 				class="button" type="submit" value="登入" />
 			<button class="button" type="button"
-				onclick="location.href = '<%=request.getContextPath()%>/front_end/member/register.jsp';">註冊</button>
+				onclick="location.href = '<%=request.getContextPath()%>/front_end/member/register/register.jsp';">註冊</button>
 			<button class="button" type="button"
-				onclick="location.href = '<%=request.getContextPath()%>/front_end/member/member_forgot_password.jsp';">忘記密碼</button>
+				onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_forgot_password.jsp';">忘記密碼</button>
 		    <!-- 按鈕 -->
 		</form>
 	</div>

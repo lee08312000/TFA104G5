@@ -30,12 +30,22 @@
         </div>
         <ul>
             <nav class="header-navigation">
-                <li><a href="<%=request.getContextPath() %>/front_end/camp/camp_index.html">Home</a></li>
-                <li><a href="<%=request.getContextPath() %>/front_end/mall/mall_index.html">線上商城</a></li>
-                <li><a href="<%=request.getContextPath() %>/front_end/member/member_favorite_camp.jsp"><img src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
-                <li><a href="<%=request.getContextPath() %>/front_end/member/register.jsp" value="">註冊</a></li>
-                <li><a href="<%=request.getContextPath() %>/front_end/member/login.jsp" value="">登入</a></li>
-                <li><a href="<%=request.getContextPath() %>/front_end/member/member_main.jsp" value=""><i class="fas fa-user"></i></a></li>
+				<li><a
+					href="<%=request.getContextPath()%>/front_end/camp/camp_index.html">Home</a></li>
+				<li><a
+					href="<%=request.getContextPath()%>/front_end/mall/mall_index.html">線上商城</a></li>
+				<li><a
+					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
+						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
+				<li><a
+					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
+					value="">註冊</a></li>
+				<li><a
+					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp"
+					value="">登入</a></li>
+				<li><a
+					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"
+					value=""><i class="fas fa-user"></i></a></li>
             </nav>
         </ul>
 
@@ -50,9 +60,9 @@
                     <a href="javascript:void(0);"><i class="fas fa-heart"></i><span>&nbsp;我的最愛</span><i
                             class="arrow fa fa-angle-right pull-right"></i></a>
                     <ul>
-                        <li><a href="<%= request.getContextPath() %>/front_end/member/member_favorite_camp.jsp">我的最愛營地</a>
+                        <li><a href="<%= request.getContextPath() %>/front_end/member/jsp/member_favorite_camp.jsp">我的最愛營地</a>
                         </li>
-                        <li><a href="<%= request.getContextPath() %>/front_end/member/member_favorite_product.jsp">我的最愛商品</a>
+                        <li><a href="<%= request.getContextPath() %>/front_end/member/jsp/member_favorite_product.jsp">我的最愛商品</a>
                         </li>
                     </ul>
                 </li>
@@ -60,9 +70,9 @@
                     <a href="javascript:void(0);"><i class="far fa-list-alt"></i><span>&nbsp;我的訂單</span><i
                             class="arrow fa fa-angle-right pull-right"></i></a>
                     <ul>
-                        <li><a href="<%= request.getContextPath() %>/front_end/member/member_camp_order_list.jsp">營地訂單</a>
+                        <li><a href="<%= request.getContextPath() %>/front_end/member/jsp/member_camp_order_list.jsp">營地訂單</a>
                         </li>
-                        <li><a href="<%= request.getContextPath() %>/front_end/member/member_product_order_list.jsp">商品訂單</a>
+                        <li><a href="<%= request.getContextPath() %>/front_end/member/jsp/member_product_order_list.jsp">商品訂單</a>
                         </li>
                     </ul>
                 </li>
@@ -71,7 +81,7 @@
                             class="arrow fa fa-angle-right pull-right"></i></a>
                     <ul>
                         <li>
-                        <a href="<%= request.getContextPath() %>/front_end/member/member_reset_info.jsp">修改會員資訊與密碼</a>
+                        <a href="<%= request.getContextPath() %>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
                         </li>
                     </ul>
                 </li>
@@ -123,7 +133,7 @@
                 </td>
                 <td class="text-center">
                     <button class="button" type="button">取消訂單</button>
-                    <button class="button" type="button" onclick="location.href = '<%=request.getContextPath()%>/front_end/member/member_product_order_list.jsp';">返回列表</button>
+                    <button class="button" type="button" onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_product_order_list.jsp';">返回列表</button>
                 </td>
             </tr>
         </tbody>
