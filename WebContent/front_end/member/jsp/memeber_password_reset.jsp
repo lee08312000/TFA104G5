@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -12,7 +13,7 @@
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
-<title>更改會員資料</title>
+<title>會員忘記密碼修改</title>
 </head>
 <style>
 * {
@@ -142,13 +143,13 @@ header ul {
 }
 /* =================  header區域   =====================*/
 
-/* =================  寫入區塊  =====================*/
+/* =================  登入區塊   =====================*/
 .updateform {
 	margin: 0 auto 100px;
 	padding: 45px;
 	margin-top: 50px;
-	max-width: 600px;
-	min-height: calc(120vh - var(- -header-height));
+	max-width: 480px;
+	min-height: calc(65vh - var(- -header-height));
 	padding: 20px;
 	/* position: relative; */
 	/* z-index: 1; */
@@ -177,17 +178,7 @@ header ul {
 	height: 200px;
 	resize: none;
 }
-
-label {
-	display: inline-block;
-	width: 100px;
-	text-align: right;
-}
-
-input {
-	vertical-align: top;
-}
-/* =================  寫入區塊  =====================*/
+/* =================  登入區塊   =====================*/
 
 /* =================  footer  =====================*/
 footer {
@@ -213,7 +204,6 @@ pre {
   margin: 1em 0px !important;
   font-size: 16px;
 }
-
 /* =================  footer  =====================*/
 
 </style>
@@ -242,13 +232,13 @@ pre {
 					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
 						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/register.jsp"
+					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
 					value="">註冊</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/login.jsp"
+					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp"
 					value="">登入</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/member_main.jsp"
+					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"
 					value=""><i class="fas fa-user"></i></a></li>
 			</nav>
 		</ul>
@@ -256,66 +246,25 @@ pre {
 	</header>
 	<%-- =================  header區域   ===================== --%>
 	
-	<%-- =================  更改會員資料區域   ===================== --%>
+	<%-- =================  會員密碼修改   ===================== --%>
 	<div class="updateform">
-		<h2>更改會員資料</h2>
-		<form class="form-horizontal" method="post" method="post"
+		<h2>會員密碼修改</h2>
+		<form class="form-horizontal" method="post"
 			action="<%=request.getContextPath()%>/member/MemberServlet">
 			<div class="form-group">
-				<!-- 姓名 -->
+				<!-- 新密碼 -->
 				<div class="control-label">
-					<label>姓名&nbsp;</label> <input type="text" class="form-control"
-						value="${ memberVO.memberName }" name="name" placeholder="請輸入姓名" />
+					<input type="text" class="form-control" value="" name="password"
+						placeholder="請輸入新密碼(英文大小寫有差別)" />
 				</div>
 			</div>
 			<div class="form-group">
-				<!-- 會員帳號 -->
+				<!-- 確認新密碼 -->
 				<div class="control-label">
-					<label>帳號&nbsp;</label> <input type="text" class="form-control"
-						value="${ memberVO.memberAccount }" name="account"
-						disabled="disabled" placeholder="請輸入帳號" />
+					<input type="text" class="form-control" value="" name="check"
+						placeholder="請再次輸入新密碼(英文大小寫有差別)" />
 				</div>
 			</div>
-			<div class="form-group">
-				<!-- 修改會員密碼 -->
-				<div class="control-label">
-					<label>密碼&nbsp;</label> <input type="text" class="form-control"
-						value="${ memberVO.memberPassword }" name="password"
-						placeholder="請輸入會員密碼(大小寫有差別)" />
-				</div>
-			</div>
-			<div class="form-group">
-				<!-- 確認新會員密碼 -->
-				<div class="control-label">
-					<label>確認密碼&nbsp;</label> <input type="text" class="form-control"
-						value="" name="check" placeholder="請確認會員密碼(大小寫有差別)" />
-				</div>
-			</div>
-			<div class="form-group">
-				<!-- 地址 -->
-				<div class="control-label">
-					<label>地址&nbsp;</label> <input type="text" class="form-control"
-						value="${ memberVO.memberAddress }" name="address"
-						placeholder="請輸入地址" />
-				</div>
-			</div>
-			<div class="form-group">
-				<!-- email -->
-				<div class="control-label">
-					<label>Email</label> <input type="text" class="form-control"
-						value="${ memberVO.memberEmail }" name="email"
-						placeholder="請輸入Email" />
-				</div>
-			</div>
-			<div class="form-group">
-				<!-- 電話號碼 -->
-				<div class="control-label">
-					<label>手機號碼&nbsp;</label> <input type="text" class="form-control"
-						value="${ memberVO.memberPhone }" name="phone"
-						placeholder="請輸入手機號碼" />
-				</div>
-			</div>
-
 			<div>
 				<%-- 錯誤表列 --%>
 				<c:if test="${not empty errorMsgs}">
@@ -327,13 +276,20 @@ pre {
 					</ul>
 				</c:if>
 			</div>
+			<input type="hidden" value="reset_password" name="action" /> <input
+				class="button" type="submit" value="確認送出" />
 
-			<input type="hidden" value="reset_info" name="action" /> <input
-				class="button" type="submit" value="確認修改">
-			<button class="button" type="button"
-				onclick="location.href = '<%=request.getContextPath()%>/front_end/member/member_main.jsp';">取消修改</button>
 		</form>
 	</div>
-	<%-- =================  更改會員資料區域   ===================== --%>
-
+	<%-- =================  會員密碼修改   ===================== --%>
+	
+	<%-- =================  footer   ===================== --%>
+	<footer class="tm-footer text-center">
+		<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
+		<pre>Copyright &copy; 2021 Camping Paradise | Design: <a
+				style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a>
+		</pre>
+	</footer>
+	<%-- =================  footer   ===================== --%>
+	
 </body>

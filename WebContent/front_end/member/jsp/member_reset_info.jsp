@@ -12,7 +12,7 @@
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
-<title>會員註冊</title>
+<title>更改會員資料</title>
 </head>
 <style>
 * {
@@ -26,7 +26,7 @@ body {
 	background-color: rgb(252, 248, 248);
 }
 
-/* =================  按鈕   =====================*/
+/* =================  按鈕  =====================*/
 .button {
 	margin: 15px 5px 0px 5px;
 	border-radius: 20px;
@@ -46,7 +46,7 @@ body {
 .button:hover {
 	background-color: #5f5e33;
 }
-/* =================  按鈕   =====================*/
+/* =================  按鈕  =====================*/
 
 .control-label {
 	margin: 25px 0px 0px 0px;
@@ -142,7 +142,7 @@ header ul {
 }
 /* =================  header區域   =====================*/
 
-/* =================  登入區塊   =====================*/
+/* =================  寫入區塊  =====================*/
 .updateform {
 	margin: 0 auto 100px;
 	padding: 45px;
@@ -177,9 +177,19 @@ header ul {
 	height: 200px;
 	resize: none;
 }
-/* =================  登入區塊   =====================*/
 
-/* =================  footer   =====================*/
+label {
+	display: inline-block;
+	width: 100px;
+	text-align: right;
+}
+
+input {
+	vertical-align: top;
+}
+/* =================  寫入區塊  =====================*/
+
+/* =================  footer  =====================*/
 footer {
   position: absolute;
   text-align: center;
@@ -195,7 +205,17 @@ footer {
   font-weight: bold;
   /* margin-top: 100px !important; */
 }
-/* =================  footer   =====================*/
+
+pre {
+  display: block;
+  font-family: monospace;
+  white-space: pre;
+  margin: 1em 0px !important;
+  font-size: 16px;
+}
+
+/* =================  footer  =====================*/
+
 </style>
 
 <body>
@@ -222,13 +242,13 @@ footer {
 					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
 						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/register.jsp"
+					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
 					value="">註冊</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/login.jsp"
+					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp"
 					value="">登入</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/member_main.jsp"
+					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"
 					value=""><i class="fas fa-user"></i></a></li>
 			</nav>
 		</ul>
@@ -236,60 +256,66 @@ footer {
 	</header>
 	<%-- =================  header區域   ===================== --%>
 	
-	<%-- =================  會員基本資料填寫   ===================== --%>
+	<%-- =================  更改會員資料區域   ===================== --%>
 	<div class="updateform">
-		<h2>會員基本資料填寫</h2>
-		<form class="form-horizontal" method="post"
+		<h2>更改會員資料</h2>
+		<form class="form-horizontal" method="post" method="post"
 			action="<%=request.getContextPath()%>/member/MemberServlet">
 			<div class="form-group">
 				<!-- 姓名 -->
 				<div class="control-label">
-					<input type="text" class="form-control" value="" name="name"
-						placeholder="請輸入姓名" />
+					<label>姓名&nbsp;</label> <input type="text" class="form-control"
+						value="${ memberVO.memberName }" name="name" placeholder="請輸入姓名" />
 				</div>
 			</div>
 			<div class="form-group">
 				<!-- 會員帳號 -->
 				<div class="control-label">
-					<input type="text" class="form-control" value="" name="account"
-						placeholder="請輸入會員帳號" />
+					<label>帳號&nbsp;</label> <input type="text" class="form-control"
+						value="${ memberVO.memberAccount }" name="account"
+						disabled="disabled" placeholder="請輸入帳號" />
 				</div>
 			</div>
 			<div class="form-group">
-				<!-- 輸入會員密碼 -->
+				<!-- 修改會員密碼 -->
 				<div class="control-label">
-					<input type="text" class="form-control" value="" name="password"
+					<label>密碼&nbsp;</label> <input type="text" class="form-control"
+						value="${ memberVO.memberPassword }" name="password"
 						placeholder="請輸入會員密碼(大小寫有差別)" />
 				</div>
 			</div>
 			<div class="form-group">
-				<!-- 確認會員密碼 -->
+				<!-- 確認新會員密碼 -->
 				<div class="control-label">
-					<input type="text" class="form-control" value="" name="check"
-						placeholder="請確認會員密碼(大小寫有差別)" />
+					<label>確認密碼&nbsp;</label> <input type="text" class="form-control"
+						value="" name="check" placeholder="請確認會員密碼(大小寫有差別)" />
 				</div>
 			</div>
 			<div class="form-group">
 				<!-- 地址 -->
 				<div class="control-label">
-					<input type="text" class="form-control" value="" name="address"
+					<label>地址&nbsp;</label> <input type="text" class="form-control"
+						value="${ memberVO.memberAddress }" name="address"
 						placeholder="請輸入地址" />
 				</div>
 			</div>
 			<div class="form-group">
 				<!-- email -->
 				<div class="control-label">
-					<input type="text" class="form-control" value="" name="email"
+					<label>Email</label> <input type="text" class="form-control"
+						value="${ memberVO.memberEmail }" name="email"
 						placeholder="請輸入Email" />
 				</div>
 			</div>
 			<div class="form-group">
 				<!-- 電話號碼 -->
 				<div class="control-label">
-					<input type="text" class="form-control" value="" name="phone"
+					<label>手機號碼&nbsp;</label> <input type="text" class="form-control"
+						value="${ memberVO.memberPhone }" name="phone"
 						placeholder="請輸入手機號碼" />
 				</div>
 			</div>
+
 			<div>
 				<%-- 錯誤表列 --%>
 				<c:if test="${not empty errorMsgs}">
@@ -301,11 +327,13 @@ footer {
 					</ul>
 				</c:if>
 			</div>
-			<input type="hidden" value="register" name="action" />
-			<button class="button" type="reset">重新填寫</button>
-			<input class="button" type="submit" value="確認送出">
+
+			<input type="hidden" value="reset_info" name="action" /> <input
+				class="button" type="submit" value="確認修改">
+			<button class="button" type="button"
+				onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp';">取消修改</button>
 		</form>
 	</div>
-	<%-- =================  會員基本資料填寫   ===================== --%>
+	<%-- =================  更改會員資料區域   ===================== --%>
 
 </body>
