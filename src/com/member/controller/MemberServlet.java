@@ -37,10 +37,7 @@ public class MemberServlet extends HttpServlet {
     	HttpSession session = req.getSession();
     	//中文亂碼解決方法
     	req.setCharacterEncoding("UTF-8");
-    	res.setContentType("text/html; charset=UTF-8");
-    	//防止非法登入    得到session
-        // PrintWriter out = res.getWriter();
-    		
+    	res.setContentType("text/html; charset=UTF-8");  		
     	String action = req.getParameter("action");
     	
     	if("login".equals(action)) {
@@ -65,6 +62,7 @@ public class MemberServlet extends HttpServlet {
     		MemberVO memberVO =  memberSvc.login(account, password);
     		if(memberVO != null) {
     		/***************************3.查詢完成,準備轉交(Send the Success view)*************/
+    			session.setAttribute("memberId", memberVO.getMemberId());   //*工作1: 才在session內做已經登入過的標識
     			session.setAttribute("memberVO", memberVO); // 成功登入的話，
     			System.out.println("登入成功");
     			String url = "/front_end/member/member_main.jsp";
@@ -84,13 +82,11 @@ public class MemberServlet extends HttpServlet {
         if("register".equals(action)) { //來自register.jsp的請求
     		
         	List<String> errorMsgs = new LinkedList<String>();
-    		// 註冊畫面轉jsp才可以
     		// Store this set in the request scope, in case we need to
     		// send the ErrorPage view.
     		req.setAttribute("errorMsgs", errorMsgs);
     		 			
     			/***********************1.接收請求參數 - 輸入格式的錯誤處理*************************/
-	    		
 	    		String name = req.getParameter("name");
 	    		System.out.println(name);
 	    		String nameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$";
@@ -188,7 +184,6 @@ public class MemberServlet extends HttpServlet {
 		if("reset_password_id_check".equals(action)) {
 		    		
 		    		List<String> errorMsgs = new LinkedList<String>();
-		    		// 登入畫面轉jsp才可以
 		    		// Store this set in the request scope, in case we need to
 		    		// send the ErrorPage view.
 		    		req.setAttribute("errorMsgs", errorMsgs);
@@ -225,7 +220,6 @@ public class MemberServlet extends HttpServlet {
 		
 		if("reset_password".equals(action)) {	
 			List<String> errorMsgs = new LinkedList<String>();
-    		// 登入畫面轉jsp才可以
     		// Store this set in the request scope, in case we need to
     		// send the ErrorPage view.
     		req.setAttribute("errorMsgs", errorMsgs);
@@ -275,7 +269,6 @@ public class MemberServlet extends HttpServlet {
 			memberVO.setMemberPic(pic);
 			
 			if(!errorMsgs.isEmpty()) {
-	    		/***************************3.完成,準備轉交(Send the Success view)*************/
 	    			errorMsgs.add("<BODY>註冊資料出現錯誤，請重新輸入<BR></BODY>");
 	    			String url = "/front_end/member/register.jsp";
 					RequestDispatcher failureView = req.getRequestDispatcher(url);  // 失敗轉交 login.jsp
@@ -283,7 +276,7 @@ public class MemberServlet extends HttpServlet {
 					return; // 程式在此中斷
 
 	    		} else {
-	    			/***************************3.新增完成,準備轉交(Send the Success view)***********/
+	    	/***************************3.新增完成,準備轉交(Send the Success view)***********/
 	    			session.setAttribute("memberVO", memberVO); // 成功後將資料傳進session
 		    		memberVO = memberSvc.updateMember(id, accountStatus, name, account, password, email, address, phone, pic);
 	    			System.out.println("更改成功");
@@ -300,7 +293,6 @@ public class MemberServlet extends HttpServlet {
         if("reset_info".equals(action)) { //來自member_reset_info.jsp的請求
     		
 			List<String> errorMsgs = new LinkedList<String>();
-    		// 登入畫面轉jsp才可以
     		// Store this set in the request scope, in case we need to
     		// send the ErrorPage view.
     		req.setAttribute("errorMsgs", errorMsgs);
@@ -388,7 +380,6 @@ public class MemberServlet extends HttpServlet {
 
 				/***************************2.開始新增資料***************************************/		    				
 	    		if(!errorMsgs.isEmpty()) {
-	    		/***************************3.完成,準備轉交(Send the Success view)*************/
 	    			errorMsgs.add("<BODY>註冊資料出現錯誤，請重新輸入<BR></BODY>");
 	    			String url = "/front_end/member/member_reset_info.jsp";
 					RequestDispatcher failureView = req.getRequestDispatcher(url);  // 失敗轉交 login.jsp
