@@ -2,7 +2,9 @@ package com.productReport.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +16,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.member.model.MemberVO;
+import com.product.model.ProductService;
+import com.product.model.ProductVO;
 import com.productReport.model.ProductReportService;
 import com.productReport.model.ProductReportVO;
 
@@ -33,6 +37,18 @@ public class ProductReportServlet extends HttpServlet {
     	HttpSession session = req.getSession();
     	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
     	String action = req.getParameter("action");
+    	ProductReportService productReportSvc = new ProductReportService();
+    	
+    	// 更換排序
+    	if ("orderBy".equals(action)) {
+    		Integer productReportOrder = Integer.parseInt(req.getParameter("order"));
+    		session.setAttribute("productReportOrder", productReportOrder);
+    		/*************************************準備轉交****************************************/
+    		String url = "/back_end/admin/productReport.jsp";
+    		RequestDispatcher rd = req.getRequestDispatcher(url);
+    		rd.forward(req, res);
+    		return;
+    	}
     	
     	// 加入檢舉
     	if ("addReport".equals(action)) {
@@ -40,7 +56,7 @@ public class ProductReportServlet extends HttpServlet {
     		Integer productId = Integer.parseInt(req.getParameter("productId"));
     		String reportReason = req.getParameter("reportReason").trim();
     		/*************************** 2.開始新增資料 *****************************************/
-    		ProductReportService productReportSvc = new ProductReportService();
+    		
     		if (memberVO == null) {
     			try {
     				JSONObject obj = new JSONObject();
@@ -75,6 +91,45 @@ public class ProductReportServlet extends HttpServlet {
 				e.printStackTrace();
 			}
     	}
+    	
+    	// 管理員忽略檢舉
+    	if ("ignore".equals(action)) {
+    		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
+    		Integer productReportId = Integer.parseInt(req.getParameter("productReportId"));
+    		/*************************** 2.開始更改資料 *****************************************/
+    		ProductReportVO productReportVO = productReportSvc.getOneProductReport(productReportId);
+    		productReportSvc.updateProductReport(productReportVO.getProductReportId(), productReportVO.getMemberId(), productReportVO.getProductId(), productReportVO.getReportReason(), 1);
+    		/*************************** 3.準備轉交 *****************************************/
+    		String url = "/back_end/admin/productReport.jsp";
+    		RequestDispatcher rd = req.getRequestDispatcher(url);
+    		rd.forward(req, res);
+    		return;
+    	}
+    	
+    	// 管理員下架商品並更改檢舉狀態
+    	if ("noUsed".equals(action)) {
+    		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
+    		Integer productId = Integer.parseInt(req.getParameter("productId"));
+    		/*************************** 2.開始更改資料 *****************************************/
+    		ProductService productSvc = new ProductService();
+    		ProductVO productVO = productSvc.getOneProduct(productId);
+    		productSvc.updateProduct(productVO.getProductId(), productVO.getCompanyId(), productVO.getProductTypeId(), 0, productVO.getProductName(), productVO.getProductPrice(), productVO.getProductBrand(), productVO.getProductInventory(), productVO.getProductDescription(), productVO.getShoppingInformation(), productVO.getProductPic1(), productVO.getProductPic2(), productVO.getProductPic3(), productVO.getProductLaunchedTime(), productVO.getProductCommentedAllnum(), productVO.getProductCommentAllstar(), productVO.getProductSellAllnum());
+    		
+    		List<ProductReportVO> productReportVOList = productReportSvc.getAll();
+    		
+    		for (ProductReportVO productReportVO : productReportVOList) {
+    			if (productReportVO.getProductId().intValue() == productId.intValue()) {
+    				productReportSvc.updateProductReport(productReportVO.getProductReportId(), productReportVO.getMemberId(), productReportVO.getProductId(), productReportVO.getReportReason(), 1);
+    			}
+    		}
+    		
+    		/*************************** 3.準備轉交 *****************************************/
+    		String url = "/back_end/admin/productReport.jsp";
+    		RequestDispatcher rd = req.getRequestDispatcher(url);
+    		rd.forward(req, res);
+    		return;
+    	}
+    	
     }
     
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
