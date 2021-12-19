@@ -598,7 +598,7 @@
                                 <strong>一般會員管理</strong>
                             </a>
                     		<ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>會員查詢</a></li>					
+                                <li><a href="<%=request.getContextPath()%>/back_end/admin/memberManagement.jsp"><i class="fas fa-cannabis"></i>會員查詢</a></li>					
                             </ul>
                         </li>                 							
                     </ul>
