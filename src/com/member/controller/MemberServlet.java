@@ -65,20 +65,38 @@ public class MemberServlet extends HttpServlet {
     		MemberVO memberVO =  memberSvc.login(account, password);
     		if(memberVO != null) {
     		/***************************3.查詢完成,準備轉交(Send the Success view)*************/
-    			session.setAttribute("memberVO", memberVO); // 成功登入的話，
+    			session.setAttribute("memberVO", memberVO); // 成功登入的話
+    			session.setAttribute("memberId", memberVO.getMemberId());
+    			session.setAttribute("memberId", memberVO.getMemberName());
     			System.out.println("登入成功");
-    			String url = "/front_end/member/member_main.jsp";
+    			String url = "/front_end/member/jsp/member_main.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 
 				successView.forward(req, res);
 
     		} else {
     			errorMsgs.add("<BODY>你的帳號或密碼出現錯誤，請重新輸入<BR></BODY>");
-    			String url = "/front_end/member/login.jsp";
+    			String url = "/front_end/member/login/login.jsp";
 				RequestDispatcher failureView = req.getRequestDispatcher(url); // 失敗轉交 login.jsp
 				failureView.forward(req, res);
 				return; // 程式在此中斷
     		}
     		
+    	} 
+    	
+    	if("logout".equals(action)) {
+    		
+    		if(session != null) {
+ 
+    			session.removeAttribute("memberVO");
+
+    			session.invalidate();
+    			
+    			System.out.println("登出成功");
+    			String url = "/front_end/camp/camp_index.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 
+				successView.forward(req, res);
+
+    		} 
     	} 
     	
         if("register".equals(action)) { //來自register.jsp的請求
@@ -166,7 +184,7 @@ public class MemberServlet extends HttpServlet {
 	    		if(!errorMsgs.isEmpty()) {
 	    		/***************************3.完成,準備轉交(Send the Success view)*************/
 	    			errorMsgs.add("<BODY>註冊資料出現錯誤，請重新輸入<BR></BODY>");
-	    			String url = "/front_end/member/register.jsp";
+	    			String url = "/front_end/member/register/register.jsp";
 					RequestDispatcher failureView = req.getRequestDispatcher(url);  // 失敗轉交 login.jsp
 					failureView.forward(req, res);
 					return; // 程式在此中斷
@@ -177,7 +195,7 @@ public class MemberServlet extends HttpServlet {
 	    			MemberService memberSvc = new MemberService();
 		    		memberVO = memberSvc.addMember(1, name, account, password, email, address, phone, null);
 	    			System.out.println("新增成功");
-	    			String url = "/front_end/member/login.jsp";
+	    			String url = "/front_end/member/login/login.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 
 					successView.forward(req, res);
 
@@ -209,13 +227,13 @@ public class MemberServlet extends HttpServlet {
 		    		/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 		    			session.setAttribute("memberVO", memberVO); // 成功登入的話
 		    			System.out.println("轉頁面成功");
-		    			String url = "/front_end/member/memeber_password_reset.jsp";
+		    			String url = "/front_end/member/jsp/memeber_password_reset.jsp";
 						RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 
 						successView.forward(req, res);
 		
 		    		} else {
 		    			errorMsgs.add("<BODY>你的帳號或email出現錯誤，請重新輸入<BR></BODY>");
-		    			String url = "/front_end/member/member_forgot_password.jsp";
+		    			String url = "/front_end/member/jsp/member_forgot_password.jsp";
 						RequestDispatcher failureView = req.getRequestDispatcher(url); // 失敗轉交 login.jsp
 						failureView.forward(req, res);
 						return; // 程式在此中斷
@@ -277,7 +295,7 @@ public class MemberServlet extends HttpServlet {
 			if(!errorMsgs.isEmpty()) {
 	    		/***************************3.完成,準備轉交(Send the Success view)*************/
 	    			errorMsgs.add("<BODY>註冊資料出現錯誤，請重新輸入<BR></BODY>");
-	    			String url = "/front_end/member/register.jsp";
+	    			String url = "/front_end/member/jsp/memeber_password_reset.jsp";
 					RequestDispatcher failureView = req.getRequestDispatcher(url);  // 失敗轉交 login.jsp
 					failureView.forward(req, res);
 					return; // 程式在此中斷
@@ -287,7 +305,7 @@ public class MemberServlet extends HttpServlet {
 		    		memberVO = memberSvc.updateMember(id, accountStatus, name, account, password, email, address, phone, pic);
 		    		session.setAttribute("memberVO", memberVO); // 成功後將資料傳進session
 		    		System.out.println("更改成功");
-	    			String url = "/front_end/member/login.jsp";
+	    			String url = "/front_end/member/login/login.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 
 					successView.forward(req, res);
 
@@ -390,7 +408,7 @@ public class MemberServlet extends HttpServlet {
 	    		if(!errorMsgs.isEmpty()) {
 	    		/***************************3.完成,準備轉交(Send the Success view)*************/
 	    			errorMsgs.add("<BODY>註冊資料出現錯誤，請重新輸入<BR></BODY>");
-	    			String url = "/front_end/member/member_reset_info.jsp";
+	    			String url = "/front_end/member/jsp/member_reset_info.jsp";
 					RequestDispatcher failureView = req.getRequestDispatcher(url);  // 失敗轉交 login.jsp
 					failureView.forward(req, res);
 					return; // 程式在此中斷
@@ -400,7 +418,7 @@ public class MemberServlet extends HttpServlet {
 	    			session.setAttribute("memberVO", memberVO); 
 		    		memberVO = memberSvc.updateMember(id, accountStatus, name, account, password, email, address, phone, pic);
 	    			System.out.println("更新資料成功");
-	    			String url = "/front_end/member/member_main.jsp";
+	    			String url = "/front_end/member/jsp/member_main.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 l
 					successView.forward(req, res);
 
