@@ -1,6 +1,37 @@
+<%@page import="com.campAreaOrderDetail.model.CampAreaOrderDetailVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="com.member.model.*"%> 
+<%@ page import="com.camp.model.*"%> 
+<%@ page import="com.campArea.model.*"%> 
+<%@ page import="com.campOrder.model.*"%> 
+<%@ page import="com.campAreaOrderDetail.model.*"%> 
+
+<%
+	// 營地假資料
+	MemberService memberSvc = new MemberService();
+	MemberVO memberVO = memberSvc.getOneMember(1);
+	request.setAttribute("memberVO", memberVO);
+	
+	CampService campSvc = new CampService();
+	CampVO campVO = campSvc.findCampByCampId(1);
+	request.setAttribute("CampVO", campVO);
+	
+	CampAreaService campAreaSvc = new CampAreaService();
+	CampAreaVO campAreaVO = campAreaSvc.getOneCampArea(1); // campAreaVO.getCampAreaId()
+	request.setAttribute("campAreaVO", campAreaVO);
+	
+	CampOrderService campOrderSvc = new CampOrderService();
+	CampOrderVO campOrderVO = campOrderSvc.findByCampOrderId(campVO.getCampId()); // campAreaVO.getCampAreaId()
+	request.setAttribute("CampOrderVO", campOrderVO);
+	
+	// campAreaOrderDetail沒有service????
+
+	// 營地假資料
+
+%>
+
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 
@@ -91,58 +122,75 @@
     <table class="table-fill">
         <thead>
             <tr>
-                <th>訂單編號 0000001</th>
-                <th>訂單日期 2021 / 12 / 13</th>
+                <th>訂單編號 ${ campOrderVO.campOrderId }</th>
+                <th>訂單日期 ${ campOrderVO.campOrderCompletedTime }</th>
             </tr>
             <tr>
-            	<th class="text-left">營地圖片</th>
+            	<th class="text-left">營地照片</th>
                 <th class="text-left">營地名稱</th>
                 <th class="text-left">預約日期</th>
                 <th class="text-left" colspan="2">天數</th>
-                <th class="text-left" colspan="2">訂單狀況</th>
+                <th class="text-left" colspan="2">訂單狀態</th>
             </tr>
         </thead>
         
         <tbody class="table-hover">
+        
+        <%-- =================  營地迴圈  ===================== --%>
+        <c:forEach var="" varStatus="" items="">
+        
             <tr>
-                <td class="text-center"><img class="product_pic" src="" alt="商品圖片"></td>
-                <td class="text-left">超酷小摺凳</td>
-                <td class="text-left">1000</td>
-                <td class="text-left" colspan="2">1</td>
-                <td class="text-left" colspan="2">1000</td>
+                <td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/camp/PicWithCampServlet?campId=${ campVO.campId }&pic=1" alt="商品圖片"></td>
+                <td class="text-left">${ campVO.campName }</td>
+                <td class="text-left">${ campOrderVO.campCheckInDate }</td>
+                <td class="text-left" colspan="2">天數</td>
+                <td class="text-left" colspan="2">${ campOrderVO.campOrderStatus }</td>
             </tr>
             
+		</c:forEach>
+        <%-- =================  營地迴圈  ===================== --%>  
+          
             <tr>
                 <th class="text-left">營位名稱</th>
                 <th class="text-left">數量</th>
                 <th class="text-left">金額</th>
             </tr>
            
+        <%-- =================  營位迴圈  ===================== --%>      
+        <c:forEach var="" varStatus="" items="">
+        
             <tr>
-                <td class="text-left">1000</td>
-                <td class="text-left">1</td>
+                <td class="text-left">${ campAreaVO.campAreaName }</td>
+                <td class="text-left">${ CampOrderVO.campAreaName }</td>
                 <td class="text-left">1000</td>
             </tr>
             
-            <tr>
-                <th class="text-left">加購項目名稱</th>
-                <th class="text-left">單價</th>
-                <th class="text-left">數量</th>
+		</c:forEach>
+		<%-- =================  營位迴圈  ===================== --%>  
+           
+           <tr>
+                <th class="text-left">加購人頭數</th>
+                <th class="text-left">加購人頭單價</th>
                 <th class="text-left">金額</th>
             </tr>
-            
+           
+        <%-- =================  加購迴圈  ===================== --%>      
+        <c:forEach var="" varStatus="" items="">
+        
             <tr>
-                <td class="text-left">1000</td>
+                <td class="text-left">2</td>
                 <td class="text-left">1</td>
                 <td class="text-left">1000</td>
-                <<td class="text-left">1000</td>
             </tr>
+            
+		</c:forEach>
+		<%-- =================  加購迴圈  ===================== --%>                                                           
                    
             <tr>
                 <td class="text-left" colspan="6">
-			                    訂單總金額<br>
-			                    訂購人姓名<br>
-			                    訂購人電話<br>
+			                    訂單總金額 ${ CampOrderVO.campOrderTotalAmount }<br>
+			                    訂購人姓名 ${ CampOrderVO.payerName }<br>
+			                    訂購人電話 ${ CampOrderVO.payerPhone }<br>
                 </td>
                 <td class="text-center">
                     <button class="button" type="button">取消訂單</button>
