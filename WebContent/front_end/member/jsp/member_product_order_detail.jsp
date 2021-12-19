@@ -131,7 +131,7 @@
     <%-- =================  商品訂單明細   ===================== --%>
     
 	<%-- =================  sidebar javascript   ===================== --%>
-    <script src="<%=request.getContextPath()%>/front_end/member/vandors/jQuery/jquery-3.6.0.min.js"></script>
+    <script src="<%=request.getContextPath()%>/front_end/member/vendor/jQuery/jquery-3.6.0.min.js"></script>
     <script>
         $("#leftside-navigation .sub-menu > a").click(function (e) {
             $("#leftside-navigation ul ul").slideUp(), $(this).next().is(":visible") || $(this).next().slideDown(),

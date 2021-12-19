@@ -65,7 +65,9 @@ public class MemberServlet extends HttpServlet {
     		MemberVO memberVO =  memberSvc.login(account, password);
     		if(memberVO != null) {
     		/***************************3.查詢完成,準備轉交(Send the Success view)*************/
-    			session.setAttribute("memberVO", memberVO); // 成功登入的話，
+    			session.setAttribute("memberVO", memberVO); // 成功登入的話
+    			session.setAttribute("memberId", memberVO.getMemberId());
+    			session.setAttribute("memberId", memberVO.getMemberName());
     			System.out.println("登入成功");
     			String url = "/front_end/member/member_main.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 

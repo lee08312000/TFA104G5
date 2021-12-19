@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.member.model.*"%>
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 
@@ -13,16 +14,16 @@
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link
-	href="<%=request.getContextPath()%>/front_end/member/css/member_order.css"
+	href="<%=request.getContextPath()%>/front_end/member/css/member_main.css"
 	rel="stylesheet" type="text/css">
-<title>我的最愛營地</title>
+<title>會員首頁</title>
 <!-- frontawesome把icon引入的東東 -->
 <script src="https://kit.fontawesome.com/05a51b0b98.js"
 	crossorigin="anonymous"></script>
 </head>
 
 <body>
-
+	
 	<%-- =================  header區域   ===================== --%>
 	<header class="header">
 		<div class="header-inner responsive-wrapper">
@@ -99,43 +100,50 @@
 	</aside>
 	<%-- =================  sidebar   ===================== --%>
 	
-	<%-- =================  我的最愛營地表格   ===================== --%>
-	<div class="table-title">
-		<h3>我的最愛營地</h3>
+	<%-- =================  會員資訊   ===================== --%>
+	<div class="main_content">
+		<img class="member_pic"
+			src="<%=request.getContextPath()%>/member/PicServlet?memberId=${ memberVO.memberId }">
+		<input class="button" type="submit" value="頭貼上傳" /> <a>歡迎 ${ memberVO.memberName }登入</a>
 	</div>
+
+
+	<div class="table-title"></div>
 	<table class="table-fill">
 		<thead>
 			<tr>
-				<th class="text-left">營地圖片</th>
-				<th class="text-left">營地名稱</th>
-				<th class="text-left">相關標籤</th>
+				<th class="text-left">姓名</th>
+				<th class="text-left">會員帳號</th>
 				<th class="text-left">地址</th>
-				<th class="text-left">評價</th>
-				<th class="text-left"></th>
+				<th class="text-left">Email</th>
+				<th class="text-left">手機號碼</th>
 			</tr>
 		</thead>
-
 		<tbody class="table-hover">
 			<tr>
-				<td class="text-center"><img class="product_pic" src=""
-					alt="商品圖像"></td>
-				<td class="text-left">$ 50,000.00</td>
-				<td class="text-left"></td>
-				<td class="text-left"></td>
-				<td class="text-left"></td>
-				<td class="text-center">
-					<button class="button" type="button">查詢</button>
-					<button class="button" type="button">刪除</button>
-				</td>
+				<td class="text-left">${ memberVO.memberName }</td>
+				<td class="text-left">${ memberVO.memberAccount }</td>
+				<td class="text-left">${ memberVO.memberAddress }</td>
+				<td class="text-left">${ memberVO.memberEmail }</td>
+				<td class="text-left">${ memberVO.memberPhone }</td>
 			</tr>
 
 		</tbody>
 	</table>
-	<%-- =================  我的最愛營地表格   ===================== --%>
+	<%-- =================  會員資訊   ===================== --%>
+
+	<%-- =================  footer  ===================== --%>
+	<footer class="tm-footer text-center">
+		<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
+		<pre>Copyright &copy; 2021 Camping Paradise | Design: <a
+				style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a>
+		</pre>
+	</footer>
+	<%-- =================  footer  ===================== --%>
 	
-	<%-- =================  sidebar javascript   ===================== --%>
+	<%-- =================  sidebar javascript  ===================== --%>
 	<script
-		src="<%=request.getContextPath()%>/front_end/member/vandors/jQuery/jquery-3.6.0.min.js"></script>
+		src="<%=request.getContextPath()%>/front_end/member/vendor/jQuery/jquery-3.6.0.min.js"></script>
 	<script>
 		$("#leftside-navigation .sub-menu > a").click(
 				function(e) {
@@ -144,6 +152,6 @@
 							|| $(this).next().slideDown(), e.stopPropagation()
 				})
 	</script>
-	<%-- =================  sidebar javascript   ===================== --%>
+	<%-- =================  sidebar javascript  ===================== --%>
 	
 </body>
