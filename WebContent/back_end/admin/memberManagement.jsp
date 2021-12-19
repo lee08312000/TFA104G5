@@ -382,6 +382,9 @@
     top: 0px;
     border-left: 4px solid #e67e22;
     /* == */
+    /* by Lee */
+    margin-left: -21px;
+    /* by Lee */
     }
     .mcd-menu li ul:before {
     content: "";
@@ -588,7 +591,7 @@
                                 <strong>廠商管理</strong>
                             </a>
                             <ul>
-                            	<li><a href="#"><i class="fas fa-cannabis"></i>廠商查詢</a></li>
+                            	<li><a href="<%=request.getContextPath()%>/back_end/admin/companyManagement.jsp"><i class="fas fa-cannabis"></i>廠商查詢</a></li>
                                 <li><a href="<%=request.getContextPath()%>/back_end/admin/campCheck.jsp"><i class="fas fa-cannabis"></i>營地上架審核</a></li>					
                                 <li><a href="<%=request.getContextPath()%>/back_end/admin/productReport.jsp"><i class="fas fa-cannabis"></i>商品檢舉管理</a></li>
                             </ul>
