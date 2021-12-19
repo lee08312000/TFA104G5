@@ -9,39 +9,16 @@
 <%@ page import="com.member.model.MemberService"%>
 
 <% 
-// 	Integer productReportOrder = 0;
-// 	if (session.getAttribute("productReportOrder") != null) {
-// 		productReportOrder = (Integer) session.getAttribute("productReportOrder");
-// 	}
-
+	List<MemberVO> list = new ArrayList<MemberVO>();
+	if (request.getAttribute("memberVOList") != null) {
+		list = (List<MemberVO>) request.getAttribute("memberVOList");
+		pageContext.setAttribute("list", list);
+	} else {
+		MemberService memberSvc = new MemberService();
+		list = memberSvc.getAllMember();
+		pageContext.setAttribute("list", list);
+	}
 	
-	MemberService memberSvc = new MemberService();
-	List<MemberVO> list = memberSvc.getAllMember();
-	
-// 	List<MemberVO> list = new ArrayList<MemberVO>();
-	
-
-	
-// 	for (ProductReportVO productReportVO : productReportVOList) {
-// 		if (productReportVO.getReportStatus().intValue() == 0) {
-// 			list.add(productReportVO);
-// 		}
-// 	}
-	
-// 	if (productReportOrder.intValue() == 0) {
-		
-// 		list = list.stream()
-// 				   .sorted(Comparator.comparing(ProductReportVO::getReportTime).reversed())
-// 				   .collect(Collectors.toList());
-// 	} else if (productReportOrder.intValue() == 1) {
-// 		list = list.stream()
-// 				   .sorted(Comparator.comparing(ProductReportVO -> ProductReportVO.getReportTime()))
-// 				   .collect(Collectors.toList());
-// 	}
-	
-	
-	
-	pageContext.setAttribute("list", list);
 
 
 %>
@@ -632,15 +609,22 @@
     <main class="main">
     
     	<h2>會員查詢</h2>
-    	<form method="post" action="<%=request.getContextPath()%>/ProductReport/ProductReportServlet">
-    		申請時間：
-    		<select name="order">
-    			<option value="0" ${productReportOrder.intValue() == null || productReportOrder.intValue() == 0 ? "selected" : ""}>新到舊</option>
-    			<option value="1" ${productReportOrder.intValue() == 1 ? "selected" : ""}>舊到新</option>
-    		</select>
-    		<input type="hidden" name="action" value="orderBy">
-    		<input type="submit" value="送出">
+    	<form method="post" action="<%=request.getContextPath()%>/member/MemberManagementServlet">
+    		會員編號：
+    		<input type="number" name="memberId" value="1" min="1" style="width: 60px;">
+    		<input type="hidden" name="action" value="searchByMemberId">
+    		<input type="submit" value="查詢">
+    		<a style="margin-left: 20px;" href="<%=request.getContextPath()%>/back_end/admin/memberManagement.jsp">所有會員</a>
     	</form>
+    	<%-- 錯誤表列 --%>
+		<c:if test="${not empty errorMsgs}">
+			<font style="color:red">請修正以下錯誤:</font>
+			<ul>
+				<c:forEach var="message" items="${errorMsgs}">
+					<li style="color:red">${message}</li>
+				</c:forEach>
+			</ul>
+		</c:if>
     	
         <table id="miyazaki">
             <thead>
@@ -656,7 +640,7 @@
 							<td>${ memberVO.memberAccountStatus.intValue() == 0 ? "停用中" : memberVO.memberAccountStatus.intValue() == 1 ? "啟用中" : "異常" }</td>
 							<td><button type="button" class="btn_open">詳細資料</button></td>
 							<td>
-								<form method="post" action="<%=request.getContextPath()%>/ProductReport/ProductReportServlet" style="display:inline-block;">
+								<form method="post" action="<%=request.getContextPath()%>/member/MemberManagementServlet" style="display:inline-block;">
 									<input type="hidden" name="action" value='${ memberVO.memberAccountStatus.intValue() == 0 ? "on" : memberVO.memberAccountStatus.intValue() == 1 ? "off" : "異常" }'>
 									<input type="hidden" name="memberId" value="${ memberVO.memberId }">
 									<input type="submit" value='${ memberVO.memberAccountStatus.intValue() == 0 ? "啟用" : memberVO.memberAccountStatus.intValue() == 1 ? "停用" : "異常" }'>
