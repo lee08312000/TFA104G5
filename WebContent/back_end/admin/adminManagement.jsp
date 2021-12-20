@@ -5,17 +5,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="java.util.stream.*"%>
-<%@ page import="com.member.model.MemberVO"%>
-<%@ page import="com.member.model.MemberService"%>
+<%@ page import="com.admin.model.AdminVO"%>
+<%@ page import="com.admin.model.AdminService"%>
 
 <% 
-	List<MemberVO> list = new ArrayList<MemberVO>();
-	if (request.getAttribute("memberVOList") != null) {
-		list = (List<MemberVO>) request.getAttribute("memberVOList");
+	List<AdminVO> list = new ArrayList<AdminVO>();
+	if (request.getAttribute("adminVOList") != null) {
+		list = (List<AdminVO>) request.getAttribute("adminVOList");
 		pageContext.setAttribute("list", list);
 	} else {
-		MemberService memberSvc = new MemberService();
-		list = memberSvc.getAllMember();
+		AdminService adminSvc = new AdminService();
+		list = adminSvc.getAllAdmin();
 		pageContext.setAttribute("list", list);
 	}
 	
@@ -30,7 +30,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>會員查詢</title>
+    <title>管理員查詢</title>
 </head>
 <style>
     *{
@@ -611,13 +611,13 @@
 
     <main class="main">
     
-    	<h2>會員查詢</h2>
-    	<form method="post" action="<%=request.getContextPath()%>/member/MemberManagementServlet">
-    		會員編號：
-    		<input type="number" name="memberId" value="1" min="1" style="width: 60px;">
-    		<input type="hidden" name="action" value="searchByMemberId">
+    	<h2>管理員查詢</h2>
+    	<form method="post" action="<%=request.getContextPath()%>/admin/AdminManagementServlet">
+    		管理員編號：
+    		<input type="number" name="adminId" value="1" min="1" style="width: 60px;">
+    		<input type="hidden" name="action" value="searchByAdminId">
     		<input type="submit" value="查詢">
-    		<a style="margin-left: 20px;" href="<%=request.getContextPath()%>/back_end/admin/memberManagement.jsp">所有會員</a>
+    		<a style="margin-left: 20px;" href="<%=request.getContextPath()%>/back_end/admin/adminManagement.jsp">所有管理員</a>
     	</form>
     	<%-- 錯誤表列 --%>
 		<c:if test="${not empty errorMsgs}">
@@ -631,23 +631,25 @@
     	
         <table id="miyazaki">
             <thead>
-            <tr><th>編號</th><th>名稱</th><th>帳號</th><th>帳號狀態</th><th>詳細資料</th><th>操作</th>
+            <tr><th>編號</th><th>帳號</th><th>帳號狀態</th><th>操作</th>
             <tbody>
             <%@ include file="page1.file" %> 
-				<c:forEach var="memberVO" items="${ list }" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+				<c:forEach var="adminVO" items="${ list }" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 
-						<tr data-memberId="${ memberVO.memberId }" data-memberName="${ memberVO.memberName }" data-memberAccount="${ memberVO.memberAccount }" data-memberAccountStatus='${ memberVO.memberAccountStatus.intValue() == 0 ? "停用中" : memberVO.memberAccountStatus.intValue() == 1 ? "啟用中" : "異常" }' data-memberEmail="${ memberVO.memberEmail }" data-memberAddress="${ memberVO.memberAddress }" data-memberPhone="${ memberVO.memberPhone }">
-							<td>${ memberVO.memberId }</td>
-							<td>${ memberVO.memberName }</td>
-							<td>${ memberVO.memberAccount }</td>
-							<td>${ memberVO.memberAccountStatus.intValue() == 0 ? "停用中" : memberVO.memberAccountStatus.intValue() == 1 ? "啟用中" : "異常" }</td>
-							<td><button type="button" class="btn_open">詳細資料</button></td>
+						<tr>
+							<td>${ adminVO.adminId }</td>
+							
+							<td>${ adminVO.adminAccount }</td>
+							<td>${ adminVO.adminAccountStatus.intValue() == 0 ? "停用中" : adminVO.adminAccountStatus.intValue() == 1 ? "啟用中" : "異常" }</td>
+							
 							<td>
-								<form method="post" action="<%=request.getContextPath()%>/member/MemberManagementServlet" style="display:inline-block;">
-									<input type="hidden" name="action" value='${ memberVO.memberAccountStatus.intValue() == 0 ? "on" : memberVO.memberAccountStatus.intValue() == 1 ? "off" : "異常" }'>
-									<input type="hidden" name="memberId" value="${ memberVO.memberId }">
-									<input type="submit" value='${ memberVO.memberAccountStatus.intValue() == 0 ? "啟用" : memberVO.memberAccountStatus.intValue() == 1 ? "停用" : "異常" }'>
-								</form>
+								<c:if test="${ adminVO.adminId.intValue() != 1 }">
+									<form method="post" action="<%=request.getContextPath()%>/admin/AdminManagementServlet" style="display:inline-block;">
+										<input type="hidden" name="action" value='${ adminVO.adminAccountStatus.intValue() == 0 ? "on" : adminVO.adminAccountStatus.intValue() == 1 ? "off" : "異常" }'>
+										<input type="hidden" name="adminId" value="${ adminVO.adminId }">
+										<input type="submit" value='${ adminVO.adminAccountStatus.intValue() == 0 ? "啟用" : adminVO.adminAccountStatus.intValue() == 1 ? "停用" : "異常" }'>
+									</form>
+								</c:if>
 							</td>
 						</tr>
 
@@ -659,32 +661,36 @@
     <div class="overlay" style="border: 1px solid red;">
         <article>
             <div class="article-group">
-                <label class="control-label">編號:&nbsp;<span id="memberId" >s</span></label>                                  
+                <label class="control-label">廠商編號:&nbsp;<span id="companyId" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">名稱:&nbsp;<span id="memberName" >s</span></label>                                  
+                <label class="control-label">廠商名稱:&nbsp;<span id="companyName" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">帳號:&nbsp;<span id="memberAccount" >s</span></label>                                  
+                <label class="control-label">負責人姓名:&nbsp;<span id="headName" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">帳號狀態:&nbsp;<span id="memberAccountStatus" >s</span></label>                                  
+                <label class="control-label">廠商帳號:&nbsp;<span id="companyAccount" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">email:&nbsp;<span id="memberEmail" >s</span></label>                                  
+                <label class="control-label">廠商帳號狀態:&nbsp;<span id="companyStatus" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">電話:&nbsp;<span id="memberPhone" >s</span></label>                                  
+                <label class="control-label">廠商email:&nbsp;<span id="companyEmail" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">地址:&nbsp;<span id="memberAddress" >s</span></label>                                  
+                <label class="control-label">廠商電話:&nbsp;<span id="companyTel" >s</span></label>                                  
+            </div>
+            <div class="article-group">
+                <label class="control-label">廠商地址:&nbsp;<span id="companyAddress" >s</span></label>                                  
             </div>                 
-            <label class="control-label">頭貼:</label>
-            <div class="img">                             
-                <img height="180px" id="memberPic" src="" />                       
-            </div>
-            
-            
+            <div class="article-group">
+                <label class="control-label">廠商銀行帳號:&nbsp;<span id="companyBankAccount" >s</span></label>                                  
+            </div>                 
+            <div class="article-group">
+                <label class="control-label">廠商註冊時間:&nbsp;<span id="companyRegisterTime" >s</span></label>                                  
+            </div>                 
+            <br>            
           <button type="button" class="btn_modal_close">關閉</button>
         </article>
     </div>
@@ -694,15 +700,16 @@
   
         // 開啟 Modal 彈跳視窗
         $(document).on("click", "button.btn_open", function(){
-        	let memberId = $(this).closest("tr").attr("data-memberId");
-            $("span#memberId").text(memberId);
-            $("span#memberName").text($(this).closest("tr").attr("data-memberName"));
-            $("span#memberAccount").text($(this).closest("tr").attr("data-memberAccount"));
-            $("span#memberAccountStatus").text($(this).closest("tr").attr("data-memberAccountStatus"));
-            $("span#memberEmail").text($(this).closest("tr").attr("data-memberEmail"));
-            $("span#memberPhone").text($(this).closest("tr").attr("data-memberPhone"));
-            $("span#memberAddress").text($(this).closest("tr").attr("data-memberAddress"));
-            $("img#memberPic").attr("src",`/TFA104G5/member/PicServlet?memberId=${"${memberId}"}`);
+            $("span#companyId").text($(this).closest("tr").attr("data-companyId"));
+            $("span#companyName").text($(this).closest("tr").attr("data-companyName"));
+            $("span#headName").text($(this).closest("tr").attr("data-headName"));
+            $("span#companyAccount").text($(this).closest("tr").attr("data-companyAccount"));
+            $("span#companyStatus").text($(this).closest("tr").attr("data-companyStatus"));
+            $("span#companyEmail").text($(this).closest("tr").attr("data-companyEmail"));
+            $("span#companyTel").text($(this).closest("tr").attr("data-companyTel"));
+            $("span#companyAddress").text($(this).closest("tr").attr("data-companyAddress"));
+            $("span#companyBankAccount").text($(this).closest("tr").attr("data-companyBankAccount"));
+            $("span#companyRegisterTime").text($(this).closest("tr").attr("data-companyRegisterTime"));
             
             $("div.overlay").fadeIn();
         });

@@ -583,7 +583,7 @@
                                 <strong>管理員管理</strong>
                             </a>
                             <ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>管理員查詢</a></li>					
+                                <li><a href="<%=request.getContextPath()%>/back_end/admin/adminManagement.jsp"><i class="fas fa-cannabis"></i>管理員查詢</a></li>					
                             </ul>
                         </li>
                         <li>
@@ -613,7 +613,7 @@
     
     	<h2>廠商查詢</h2>
     	<form method="post" action="<%=request.getContextPath()%>/company/CompanyManagementServlet">
-    		會員編號：
+    		廠商編號：
     		<input type="number" name="companyId" value="1" min="1" style="width: 60px;">
     		<input type="hidden" name="action" value="searchByCompanyId">
     		<input type="submit" value="查詢">

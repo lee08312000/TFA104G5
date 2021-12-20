@@ -590,7 +590,7 @@
                                 <strong>管理員管理</strong>
                             </a>
                             <ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>管理員查詢</a></li>					
+                                <li><a href="<%=request.getContextPath()%>/back_end/admin/adminManagement.jsp"><i class="fas fa-cannabis"></i>管理員查詢</a></li>					
                             </ul>
 
                         </li>
