@@ -4,23 +4,29 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
-<%@ page import="com.admin.model.AdminVO"%>
-<%@ page import="com.admin.model.AdminService"%>
+<%@ page import="java.util.stream.*"%>
+<%@ page import="com.camp.model.CampVO"%>
+<%@ page import="com.camp.model.CampService"%>
+<%@ page import="com.productReport.model.ProductReportVO"%>
+<%@ page import="com.productReport.model.ProductReportService"%>
 
-<% 
-	List<AdminVO> list = new ArrayList<AdminVO>();
-	if (request.getAttribute("adminVOList") != null) {
-		list = (List<AdminVO>) request.getAttribute("adminVOList");
-		pageContext.setAttribute("list", list);
-	} else {
-		AdminService adminSvc = new AdminService();
-		list = adminSvc.getAllAdmin();
-		pageContext.setAttribute("list", list);
-	}
+<%
+	CampService campSvc = new CampService();
+	List<CampVO> campVOList = campSvc.getAllCamp(1);
+	campVOList = campVOList.stream()
+						   .filter(c -> c.getCampStatus().intValue() == 2)
+						   .collect(Collectors.toList());
+	pageContext.setAttribute("campVOListSize", campVOList.size());
 	
-
-
+	
+	ProductReportService productReportSvc = new ProductReportService();
+	List<ProductReportVO> productReportVOList = productReportSvc.getAll();
+	productReportVOList = productReportVOList.stream()
+											 .filter(p -> p.getReportStatus().intValue() == 0)
+											 .collect(Collectors.toList());
+	pageContext.setAttribute("productReportVOListSize", productReportVOList.size());
 %>
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -29,7 +35,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>管理員查詢</title>
+    <title>管理員首頁</title>
 </head>
 <style>
     *{
@@ -566,7 +572,7 @@
             </div>
         </div>
         <nav class="header-navigation">
-        	<ul>
+        	<ul>          
                 <li>${ adminVO.adminId }&nbsp;號管理員,你好!</li>
                 <li><a href="<%=request.getContextPath()%>/admin/AdminServlet?action=logout">登出</a></li>              
         	</ul>    
@@ -578,7 +584,7 @@
         <div class="container">
             <nav>
                     <ul class="mcd-menu">
-                    	<li>
+                        <li>
                             <a href="" class="light">
                                 <strong>管理員中心</strong>
                             </a>
@@ -620,54 +626,19 @@
     </aside>
 
     <main class="main">
-    
-    	<h2>管理員查詢</h2>
-    	<form method="post" action="<%=request.getContextPath()%>/admin/AdminManagementServlet">
-    		管理員編號：
-    		<input type="number" name="adminId" value="1" min="1" style="width: 60px;">
-    		<input type="hidden" name="action" value="searchByAdminId">
-    		<input type="submit" value="查詢">
-    		<a style="margin-left: 20px;" href="<%=request.getContextPath()%>/back_end/admin/adminManagement.jsp">所有管理員</a>
-    		<a href="<%=request.getContextPath()%>/back_end/admin/addAdmin.jsp" style="text-decoration: none; margin-left: 20px; color: white; background-color: gray; border-radius: 20px; padding: 3px 10px; border: 0px;">新增</a>
-    	</form>
-    	<%-- 錯誤表列 --%>
-		<c:if test="${not empty errorMsgs}">
-			<font style="color:red">請修正以下錯誤:</font>
-			<ul>
-				<c:forEach var="message" items="${errorMsgs}">
-					<li style="color:red">${message}</li>
-				</c:forEach>
-			</ul>
-		</c:if>
-    	
-        <table id="miyazaki" style="margin: 0 auto">
-            <thead>
-            <tr><th>編號</th><th>帳號</th><th>帳號狀態</th><th>操作</th>
-            <tbody>
-            <%@ include file="page1.file" %> 
-				<c:forEach var="adminVO" items="${ list }" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-
-						<tr>
-							<td>${ adminVO.adminId }</td>
-							
-							<td>${ adminVO.adminAccount }</td>
-							<td>${ adminVO.adminAccountStatus.intValue() == 0 ? "停用中" : adminVO.adminAccountStatus.intValue() == 1 ? "啟用中" : "異常" }</td>
-							
-							<td>
-								<c:if test="${ adminVO.adminId.intValue() != 1 }">
-									<form method="post" action="<%=request.getContextPath()%>/admin/AdminManagementServlet" style="display:inline-block;">
-										<input type="hidden" name="action" value='${ adminVO.adminAccountStatus.intValue() == 0 ? "on" : adminVO.adminAccountStatus.intValue() == 1 ? "off" : "異常" }'>
-										<input type="hidden" name="adminId" value="${ adminVO.adminId }">
-										<input type="submit" value='${ adminVO.adminAccountStatus.intValue() == 0 ? "啟用" : adminVO.adminAccountStatus.intValue() == 1 ? "停用" : "異常" }'>
-									</form>
-								</c:if>
-							</td>
-						</tr>
-
-				</c:forEach>
-                              
-        </table>
-        <%@ include file="page2.file" %>        
+    	<h2>歡迎&nbsp;${ adminVO.adminId }&nbsp;號管理員，您須處理的工作如下:</h2>
+		<div style="text-align: center;">
+    		<div style="display: inline-block; margin: 0 100px;">
+    			<h2>待審核的營地</h2>
+            	數量:&nbsp;${ campVOListSize }<br><br>
+            	<a style="margin-left: 50px" href="<%=request.getContextPath()%>/back_end/admin/campCheck.jsp">前往審核營地</a>
+            </div>
+    		<div style="display: inline-block; margin: 0 100px;">
+    			<h2>待處理的商品檢舉</h2>
+            	數量:&nbsp;${ productReportVOListSize }<br><br>
+            	<a style="margin-left: 50px" href="<%=request.getContextPath()%>/back_end/admin/productReport.jsp">前往處理檢舉</a>
+            </div>
+    	</div>
     </main>
        
 </body>

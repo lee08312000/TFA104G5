@@ -4,7 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
-<%@ page import="java.util.stream.*"%>
 <%@ page import="com.admin.model.AdminVO"%>
 <%@ page import="com.admin.model.AdminService"%>
 
@@ -546,7 +545,7 @@
     <header class="header">       
         <div class="header-inner responsive-wrapper">
             <div class="header-logo">
-                <a style="display:inline-block; vertical-align: middle;" href="首頁URL">
+                <a style="display:inline-block; vertical-align: middle;" href="<%=request.getContextPath()%>/back_end/admin/adminIndex.jsp">
                     <img src="<%=request.getContextPath()%>/back_end/admin/images/camp_paradise_logo.png" />
                 </a>
                 <span style="display:inline-block; vertical-align: middle;">Camping Paradise 平台管理員</span>
@@ -570,6 +569,7 @@
                                 <strong>管理員中心</strong>
                             </a>
                             <ul>
+                            	<li><a href="<%=request.getContextPath()%>/back_end/admin/adminIndex.jsp"><i class="fas fa-cannabis"></i>管理員首頁</a></li>
                                 <li><a href="<%=request.getContextPath()%>/back_end/admin/adminInfo.jsp"><i class="fas fa-cannabis"></i>管理員資訊</a></li>					
                                 <li><a href="<%=request.getContextPath()%>/back_end/admin/updateAdmin.jsp"><i class="fas fa-cannabis"></i>基本資料修改</a></li>					
                             </ul>
