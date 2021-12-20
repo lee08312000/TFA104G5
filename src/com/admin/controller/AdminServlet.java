@@ -69,6 +69,9 @@ public class AdminServlet extends HttpServlet {
 				if (account.equals(adminVO.getAdminAccount()) && password.equals(adminVO.getAdminPassword())) {
 					if (adminVO.getAdminAccountStatus().intValue() == 0) {
 						errorMsgs.add("此帳戶已被停權");
+						
+						req.setAttribute("adminAccount", account);
+						req.setAttribute("adminPassword", password);
 						String url = "/back_end/adminLogin/adminLogin.jsp";
 						RequestDispatcher failureView = req.getRequestDispatcher(url); // 失敗轉交 login.jsp
 						failureView.forward(req, res);
@@ -96,8 +99,10 @@ public class AdminServlet extends HttpServlet {
 			}
 
 			errorMsgs.add("帳號或密碼輸入錯誤");
-
+			
 			if (!errorMsgs.isEmpty()) {
+				req.setAttribute("adminAccount", account);
+				req.setAttribute("adminPassword", password);
 				String url = "/back_end/adminLogin/adminLogin.jsp";
 				RequestDispatcher failureView = req.getRequestDispatcher(url); // 失敗轉交 login.jsp
 				failureView.forward(req, res);

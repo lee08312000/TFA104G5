@@ -207,7 +207,7 @@ header.header{
 			<div class="form-group">
 				<!-- 帳號bar -->
 				<div class="control-label">
-					<input type="text" class="form-control" value="" name="account"
+					<input type="text" class="form-control" value="${ adminAccount }" name="account"
 						placeholder="請輸入帳號" />
 				</div>
 			</div>
@@ -215,7 +215,7 @@ header.header{
 			<div class="form-group">
 				<!-- 密碼bar -->
 				<div class="control-label">
-					<input type="password" class="form-control" value="" name="password"
+					<input type="password" class="form-control" value="${ adminPassword }" name="password"
 						placeholder="請輸入密碼(英文大小寫有差別)" />
 				</div>
 			</div>
