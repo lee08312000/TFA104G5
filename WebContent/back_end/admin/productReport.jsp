@@ -592,8 +592,8 @@
         </div>
         <nav class="header-navigation">
         	<ul>          
-                <li>XXX你好!</li>
-                <li><a href="#">登出</a></li>              
+                <li>${ adminVO.adminId }&nbsp;號管理員,你好!</li>
+                <li><a href="<%=request.getContextPath()%>/admin/AdminServlet?action=logout">登出</a></li>              
         	</ul>    
         </nav>    
                     

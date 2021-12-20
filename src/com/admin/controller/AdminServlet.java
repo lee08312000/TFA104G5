@@ -101,12 +101,12 @@ public class AdminServlet extends HttpServlet {
     		
     		if(session != null) {
  
-    			session.removeAttribute("memberVO");
+    			session.removeAttribute("adminVO");
 
-    			session.invalidate();
+//    			session.invalidate();
     			
     			System.out.println("登出成功");
-    			String url = "/front_end/camp/camp_index.jsp";
+    			String url = "/back_end/adminLogin/adminLogin.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 
 				successView.forward(req, res);
 
