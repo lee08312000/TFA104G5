@@ -605,6 +605,15 @@
                     <ul class="mcd-menu">
                         <li>
                             <a href="" class="light">
+                                <strong>管理員中心</strong>
+                            </a>
+                            <ul>
+                                <li><a href="<%=request.getContextPath()%>/back_end/admin/adminInfo.jsp"><i class="fas fa-cannabis"></i>管理員資訊</a></li>					
+                                <li><a href="<%=request.getContextPath()%>/back_end/admin/updateAdmin.jsp"><i class="fas fa-cannabis"></i>基本資料修改</a></li>					
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="" class="light">
                                 <strong>管理員管理</strong>
                             </a>
                             <ul>
@@ -647,7 +656,7 @@
     		<input type="submit" value="送出">
     	</form>
     	
-        <table id="miyazaki">
+        <table id="miyazaki" style="margin: 0 auto">
             <thead>
             <tr><th>檢舉編號</th><th>商品編號</th><th>商品名稱</th><th>檢舉原因</th><th>檢舉狀態</th><th>檢舉時間</th><th>操作</th>
             <tbody>

@@ -5,23 +5,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="java.util.stream.*"%>
-<%@ page import="com.company.model.CompanyVO"%>
-<%@ page import="com.company.model.CompanyService"%>
+<%@ page import="com.admin.model.AdminVO"%>
+<%@ page import="com.admin.model.AdminService"%>
 
-<% 
-	List<CompanyVO> list = new ArrayList<CompanyVO>();
-	if (request.getAttribute("companyVOList") != null) {
-		list = (List<CompanyVO>) request.getAttribute("companyVOList");
-		pageContext.setAttribute("list", list);
-	} else {
-		CompanyService companySvc = new CompanyService();
-		list = companySvc.getAllCompany();
-		pageContext.setAttribute("list", list);
-	}
-	
-
-
-%>
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -30,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>廠商查詢</title>
+    <title>修改管理員基本資料</title>
 </head>
 <style>
     *{
@@ -520,7 +506,8 @@
         color: rgb(68, 66, 66);
         width: 90%;
         max-width: 800px;
-        height: 500px;
+/*         height: 500px; */
+        height: auto;
         border-radius: 5px;        
         padding: 10px;
         position: absolute;
@@ -620,13 +607,16 @@
 
     <main class="main">
     
-    	<h2>廠商查詢</h2>
-    	<form method="post" action="<%=request.getContextPath()%>/company/CompanyManagementServlet">
-    		廠商編號：
-    		<input type="number" name="companyId" value="1" min="1" style="width: 60px;">
-    		<input type="hidden" name="action" value="searchByCompanyId">
-    		<input type="submit" value="查詢">
-    		<a style="margin-left: 20px;" href="<%=request.getContextPath()%>/back_end/admin/companyManagement.jsp">所有廠商</a>
+    	<h2>修改管理員基本資料</h2>
+    	<form method="post" action="<%=request.getContextPath()%>/admin/AdminServlet">
+    		<div>
+            	帳號:&nbsp;${ adminVO.adminAccount }<br><br>
+            	密碼:<input type="text" name="password" placeholder="請輸入密碼"><br><br>
+            	<input type="hidden" name="adminId" value="${ adminVO.adminId }">
+            	<input type="hidden" name="action" value="update">
+            	<input type="submit" value="更新">
+            	<a style="margin-left: 50px" href="<%=request.getContextPath()%>/back_end/admin/adminInfo.jsp">返回管理員資訊頁</a>
+            </div>
     	</form>
     	<%-- 錯誤表列 --%>
 		<c:if test="${not empty errorMsgs}">
@@ -638,96 +628,8 @@
 			</ul>
 		</c:if>
     	
-        <table id="miyazaki" style="margin: 0 auto">
-            <thead>
-            <tr><th>編號</th><th>名稱</th><th>帳號</th><th>帳號狀態</th><th>詳細資料</th><th>操作</th>
-            <tbody>
-            <%@ include file="page1.file" %> 
-				<c:forEach var="companyVO" items="${ list }" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-
-						<tr data-companyId="${ companyVO.companyId }" data-companyName="${ companyVO.companyName }" data-headName="${ companyVO.headName }" data-companyAccount="${ companyVO.companyAccount }" data-companyStatus='${ companyVO.companyStatus.intValue() == 0 ? "停用中" : companyVO.companyStatus.intValue() == 1 ? "啟用中" : "異常" }' data-companyBankAccount="${ companyVO.companyBankAccount }" data-companyEmail="${ companyVO.companyEmail }" data-companyAddress="${ companyVO.companyAddress }" data-companyTel="${ companyVO.companyTel }" data-companyRegisterTime="<fmt:formatDate value="${ companyVO.companyRegisterTime }" pattern="yyyy-MM-dd HH:mm:ss"/>">
-							<td>${ companyVO.companyId }</td>
-							<td>${ companyVO.companyName }</td>
-							<td>${ companyVO.companyAccount }</td>
-							<td>${ companyVO.companyStatus.intValue() == 0 ? "停用中" : companyVO.companyStatus.intValue() == 1 ? "啟用中" : "異常" }</td>
-							<td><button type="button" class="btn_open">詳細資料</button></td>
-							<td>
-								<form method="post" action="<%=request.getContextPath()%>/company/CompanyManagementServlet" style="display:inline-block;">
-									<input type="hidden" name="action" value='${ companyVO.companyStatus.intValue() == 0 ? "on" : companyVO.companyStatus.intValue() == 1 ? "off" : "異常" }'>
-									<input type="hidden" name="companyId" value="${ companyVO.companyId }">
-									<input type="submit" value='${ companyVO.companyStatus.intValue() == 0 ? "啟用" : companyVO.companyStatus.intValue() == 1 ? "停用" : "異常" }'>
-								</form>
-							</td>
-						</tr>
-
-				</c:forEach>
-                              
-        </table>
-        <%@ include file="page2.file" %>        
     </main>
-    <div class="overlay" style="border: 1px solid red;">
-        <article>
-            <div class="article-group">
-                <label class="control-label">廠商編號:&nbsp;<span id="companyId" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">廠商名稱:&nbsp;<span id="companyName" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">負責人姓名:&nbsp;<span id="headName" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">廠商帳號:&nbsp;<span id="companyAccount" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">廠商帳號狀態:&nbsp;<span id="companyStatus" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">廠商email:&nbsp;<span id="companyEmail" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">廠商電話:&nbsp;<span id="companyTel" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">廠商地址:&nbsp;<span id="companyAddress" >s</span></label>                                  
-            </div>                 
-            <div class="article-group">
-                <label class="control-label">廠商銀行帳號:&nbsp;<span id="companyBankAccount" >s</span></label>                                  
-            </div>                 
-            <div class="article-group">
-                <label class="control-label">廠商註冊時間:&nbsp;<span id="companyRegisterTime" >s</span></label>                                  
-            </div>                 
-            <br>            
-          <button type="button" class="btn_modal_close">關閉</button>
-        </article>
-    </div>
        
-    <script>
-        $(function(){
-  
-        // 開啟 Modal 彈跳視窗
-        $(document).on("click", "button.btn_open", function(){
-            $("span#companyId").text($(this).closest("tr").attr("data-companyId"));
-            $("span#companyName").text($(this).closest("tr").attr("data-companyName"));
-            $("span#headName").text($(this).closest("tr").attr("data-headName"));
-            $("span#companyAccount").text($(this).closest("tr").attr("data-companyAccount"));
-            $("span#companyStatus").text($(this).closest("tr").attr("data-companyStatus"));
-            $("span#companyEmail").text($(this).closest("tr").attr("data-companyEmail"));
-            $("span#companyTel").text($(this).closest("tr").attr("data-companyTel"));
-            $("span#companyAddress").text($(this).closest("tr").attr("data-companyAddress"));
-            $("span#companyBankAccount").text($(this).closest("tr").attr("data-companyBankAccount"));
-            $("span#companyRegisterTime").text($(this).closest("tr").attr("data-companyRegisterTime"));
-            
-            $("div.overlay").fadeIn();
-        });
-        
-        // 關閉 Modal
-        $("button.btn_modal_close").on("click", function(){
-            $("div.overlay").fadeOut();
-        });
-        
-        });
-    </script>
 </body>
 
 </html>

@@ -520,7 +520,8 @@
         color: rgb(68, 66, 66);
         width: 90%;
         max-width: 800px;
-        height: 500px;
+/*         height: 500px; */
+        height: auto;
         border-radius: 5px;        
         padding: 10px;
         position: absolute;
@@ -566,7 +567,7 @@
             </div>
         </div>
         <nav class="header-navigation">
-        	<ul>          
+        	<ul>
                 <li>${ adminVO.adminId }&nbsp;號管理員,你好!</li>
                 <li><a href="<%=request.getContextPath()%>/admin/AdminServlet?action=logout">登出</a></li>              
         	</ul>    
@@ -578,6 +579,15 @@
         <div class="container">
             <nav>
                     <ul class="mcd-menu">
+                    	<li>
+                            <a href="" class="light">
+                                <strong>管理員中心</strong>
+                            </a>
+                            <ul>
+                                <li><a href="<%=request.getContextPath()%>/back_end/admin/adminInfo.jsp"><i class="fas fa-cannabis"></i>管理員資訊</a></li>					
+                                <li><a href="<%=request.getContextPath()%>/back_end/admin/updateAdmin.jsp"><i class="fas fa-cannabis"></i>基本資料修改</a></li>					
+                            </ul>
+                        </li>
                         <li>
                             <a href="" class="light">
                                 <strong>管理員管理</strong>
@@ -618,6 +628,7 @@
     		<input type="hidden" name="action" value="searchByAdminId">
     		<input type="submit" value="查詢">
     		<a style="margin-left: 20px;" href="<%=request.getContextPath()%>/back_end/admin/adminManagement.jsp">所有管理員</a>
+    		<a href="<%=request.getContextPath()%>/back_end/admin/addAdmin.jsp" style="text-decoration: none; margin-left: 20px; color: white; background-color: gray; border-radius: 20px; padding: 3px 10px; border: 0px;">新增</a>
     	</form>
     	<%-- 錯誤表列 --%>
 		<c:if test="${not empty errorMsgs}">
@@ -629,7 +640,7 @@
 			</ul>
 		</c:if>
     	
-        <table id="miyazaki">
+        <table id="miyazaki" style="margin: 0 auto">
             <thead>
             <tr><th>編號</th><th>帳號</th><th>帳號狀態</th><th>操作</th>
             <tbody>
@@ -658,69 +669,7 @@
         </table>
         <%@ include file="page2.file" %>        
     </main>
-    <div class="overlay" style="border: 1px solid red;">
-        <article>
-            <div class="article-group">
-                <label class="control-label">廠商編號:&nbsp;<span id="companyId" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">廠商名稱:&nbsp;<span id="companyName" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">負責人姓名:&nbsp;<span id="headName" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">廠商帳號:&nbsp;<span id="companyAccount" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">廠商帳號狀態:&nbsp;<span id="companyStatus" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">廠商email:&nbsp;<span id="companyEmail" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">廠商電話:&nbsp;<span id="companyTel" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">廠商地址:&nbsp;<span id="companyAddress" >s</span></label>                                  
-            </div>                 
-            <div class="article-group">
-                <label class="control-label">廠商銀行帳號:&nbsp;<span id="companyBankAccount" >s</span></label>                                  
-            </div>                 
-            <div class="article-group">
-                <label class="control-label">廠商註冊時間:&nbsp;<span id="companyRegisterTime" >s</span></label>                                  
-            </div>                 
-            <br>            
-          <button type="button" class="btn_modal_close">關閉</button>
-        </article>
-    </div>
        
-    <script>
-        $(function(){
-  
-        // 開啟 Modal 彈跳視窗
-        $(document).on("click", "button.btn_open", function(){
-            $("span#companyId").text($(this).closest("tr").attr("data-companyId"));
-            $("span#companyName").text($(this).closest("tr").attr("data-companyName"));
-            $("span#headName").text($(this).closest("tr").attr("data-headName"));
-            $("span#companyAccount").text($(this).closest("tr").attr("data-companyAccount"));
-            $("span#companyStatus").text($(this).closest("tr").attr("data-companyStatus"));
-            $("span#companyEmail").text($(this).closest("tr").attr("data-companyEmail"));
-            $("span#companyTel").text($(this).closest("tr").attr("data-companyTel"));
-            $("span#companyAddress").text($(this).closest("tr").attr("data-companyAddress"));
-            $("span#companyBankAccount").text($(this).closest("tr").attr("data-companyBankAccount"));
-            $("span#companyRegisterTime").text($(this).closest("tr").attr("data-companyRegisterTime"));
-            
-            $("div.overlay").fadeIn();
-        });
-        
-        // 關閉 Modal
-        $("button.btn_modal_close").on("click", function(){
-            $("div.overlay").fadeOut();
-        });
-        
-        });
-    </script>
 </body>
 
 </html>
