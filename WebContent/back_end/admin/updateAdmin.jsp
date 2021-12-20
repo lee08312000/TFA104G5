@@ -611,7 +611,7 @@
     	<form method="post" action="<%=request.getContextPath()%>/admin/AdminServlet">
     		<div>
             	帳號:&nbsp;${ adminVO.adminAccount }<br><br>
-            	密碼:<input type="text" name="password" placeholder="請輸入密碼"><br><br>
+            	密碼:<input type="text" name="password" placeholder="請輸入密碼" value="${ adminPassword }"><br><br>
             	<input type="hidden" name="adminId" value="${ adminVO.adminId }">
             	<input type="hidden" name="action" value="update">
             	<input type="submit" value="更新">

@@ -196,30 +196,31 @@ public class AdminServlet extends HttpServlet {
 			AdminService adminSvc = new AdminService();
 			
 			String password = req.getParameter("password").trim();
-			String passwordReg = "^[(a-zA-Z0-9_)]{1,20}$";
+			String passwordReg = "^[(a-zA-Z0-9_)]{2,20}$";
 			System.out.println(password);
 			if (password == null || password.trim().length() == 0) {
 				errorMsgs.add("密碼請勿空白");
 			} else if (!password.trim().matches(passwordReg)) {
-				errorMsgs.add("密碼只能是英文字母、數字和_ , 且長度必需在1到20之間");
+				errorMsgs.add("密碼只能是英文字母、數字和_ , 且長度必需在2到20之間");
 			}
 			
 			Integer adminId = Integer.parseInt(req.getParameter("adminId"));
 			
-			/*************************** 2.開始新增資料 ***************************************/
 			if (!errorMsgs.isEmpty()) {
-				/*************************** 3.完成,準備轉交(Send the Success view) *************/
+				req.setAttribute("adminPassword", password);
 				String url = "/back_end/admin/updateAdmin.jsp";
 				RequestDispatcher failureView = req.getRequestDispatcher(url);
 				failureView.forward(req, res);
 				return;
 
 			} else {
-				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
+				/*************************** 2.開始新增資料 ***************************************/
+				
 				AdminVO adminVO = adminSvc.getOneAdmin(adminId);
 				AdminVO newAdminVO = adminSvc.updateAdmin(adminVO.getAdminId(), adminVO.getAdminAccountStatus(), adminVO.getAdminAccount(), password);
 				session.setAttribute("adminVO", newAdminVO);
 				System.out.println("更新成功");
+				/*************************** 3.更新完成,準備轉交(Send the Success view) ***********/
 				String url = "/back_end/admin/adminInfo.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交
 				successView.forward(req, res);
