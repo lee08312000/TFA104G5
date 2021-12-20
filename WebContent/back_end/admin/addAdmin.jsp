@@ -610,8 +610,8 @@
     	<h2>新增管理員</h2>
     	<form method="post" action="<%=request.getContextPath()%>/admin/AdminServlet">
     		<div>
-            	帳號:<input type="text" name="account" placeholder="請輸入帳號"><br><br>
-            	密碼:<input type="text" name="password" placeholder="請輸入密碼"><br><br>
+            	帳號:<input type="text" name="account" placeholder="請輸入帳號" value="${ adminAccount }"><br><br>
+            	密碼:<input type="text" name="password" placeholder="請輸入密碼" value="${ adminPassword }"><br><br>
             	<input type="hidden" name="action" value="add">
             	<input type="submit" value="新增">
             	<a style="margin-left: 50px" href="<%=request.getContextPath()%>/back_end/admin/adminManagement.jsp">返回管理員列表</a>
