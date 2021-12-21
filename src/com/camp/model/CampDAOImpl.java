@@ -22,7 +22,14 @@ public class CampDAOImpl implements CampDAO {
 	private static final String CLOUM_FOR_ALL = "camp_Id," + CLOUM_FOR_INSERT;
 	private static final String INSERT_STMT = "INSERT INTO camp (" + CLOUM_FOR_INSERT + ") "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?)";
-
+	
+	
+	// 12/17新增
+	private static final String SELECT_STMT=" select cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address,cd.comapny_name "+  
+			"from company cd  JOIN  camp cc "+ 
+			"on cd.company_id = cc.company_id where cc.camp_Id=?"; 
+	
+	
 	// 查詢營地基本資料(動態調整排序條件1.營地上架時間2.熱門排行)兩隻表camp left join camp_order
 	private static final String GET_ALL_STMT = "SELECT \r\n"
 			+ "    camp.*, ifnull(ranktable.rank_num,9999) as rank_no\r\n" + "FROM\r\n" + "    camp\r\n"
@@ -391,7 +398,7 @@ public class CampDAOImpl implements CampDAO {
 
 		} catch (SQLException se) {
 			se.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {f
 			e.printStackTrace();
 		} finally {
 			if (rs != null) {
@@ -652,6 +659,66 @@ public class CampDAOImpl implements CampDAO {
 			}
 		}
 		return camplist;
+	}
+
+	@Override
+	public CampVO getSelectStmt(Integer campId) {
+		CampVO campVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(SELECT_STMT);
+			
+			pstmt.setInt(1, campId);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				//cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address
+				campVO = new CampVO();
+				campVO.setCampId(rs.getInt("cc.camp_id"));
+				campVO.setCompanyId(rs.getInt("cd.company_id"));				
+				campVO.setCertificateNum(rs.getString("cc.certificate_num"));	
+				campVO.setHeadName(rs.getString("cd.head_name"));
+				campVO.setCompanyTel(rs.getString("cd.company_tel"));
+				campVO.setCompanyAddress(rs.getString("cd.company_address"));
+				campVO.setCompanyName(rs.getString("cd.comapny_name"));
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return campVO;
 	}
 
 }

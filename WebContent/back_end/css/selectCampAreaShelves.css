@@ -164,16 +164,31 @@
             table-layout: fixed;
             width: 70%;
         }
-
-        table td,
-        table th {
-            border: 1px solid black;
-            text-align: center;
-            width: 100px;
-              margin-left:200px;
-           
-
+        
+         table td{
+          border:1px solid black;
+          text-align: center; 
+          width: 90PX;
         }
+        
+        table th{
+          background-color:	#E0E0E0;
+          border:1px solid black;
+          text-align: center; 
+          width: 90PX;
+        
+        
+        }
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
         .topnav {
             margin-left: 885px;

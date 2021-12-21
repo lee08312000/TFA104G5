@@ -132,18 +132,31 @@
         h1 {
             color: black;
             text-align: center;
-            margin-left: 150px;
+            margin-right:150px;
         }
-
+        
+          .selector{
+         height: 25px;
+         margin-left:0;
+         
+        }
+        
+        .submit_button{
+        margin-right:210px;
+        float:right;
+        }
+        
+       
         table td,
         table th {
             border: 1px solid black;
             text-align: left;
+            width: 180PX;
 
         }
 
         .topnav {
-            margin-left: 885px;
+            margin-left: 0;
             margin-top: 100px;
         }
 
@@ -153,7 +166,7 @@
 
         div.pagination {
 
-            margin-left: 600px;
+            margin-left:0;
             margin-top: 80px;
             display: inline-block;
 
@@ -185,13 +198,16 @@
             border-spacing:0px 0px;
             width: 750px;
             font-size: 16px;
-            margin-left: 350px;
+            margin-left: 0px;
         }
 
         .sumit_form {
             display: inline;
         }
-
+        
+        
+        
+        
         	 /* =====================aside區域========================*/
 		
 	 

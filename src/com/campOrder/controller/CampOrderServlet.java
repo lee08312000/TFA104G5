@@ -41,7 +41,7 @@ public class CampOrderServlet extends HttpServlet {
 				cov = campOrderService.findByCampOrderId(Integer.valueOf(campOrderIdStr));
 			}
 			req.setAttribute("campOrderVO", cov);
-			String url = "/back-end/camp/updateCampOrder.jsp";
+			String url = "/back_end/camp/updateCampOrder.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
 
@@ -65,11 +65,12 @@ public class CampOrderServlet extends HttpServlet {
 
 			List<CampOrderVO> covList = campOrderService.findByParams(statusnum,begindate,finaldate);
 			req.setAttribute("list", covList);
-			String url = "/back-end/camp/listAllCampOrder.jsp";
+			String url = "/back_end/camp/listAllCampOrder.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
 
 		}
+		
 		// 修改訂單
 		if (action.equals("UPDATE")) {
 			String campOrderId = req.getParameter("campOrderId");
@@ -81,9 +82,15 @@ public class CampOrderServlet extends HttpServlet {
 			
 //			List<CampOrderVO> covList = campOrderService.findByParams(statusnum, startDate, endDate);
 //			req.setAttribute("list", covList);
-//			String url = "/back-end/camp/listAllCampOrder.jsp";
+//			String url = "/back_end/camp/listAllCampOrder.jsp";
 //			RequestDispatcher rd = req.getRequestDispatcher(url);			
 //			req.forward(req, res);
+			
+			/*************************** 營地評價查詢*****************************************/
+			
+			
+			
+			
 
 		}
 

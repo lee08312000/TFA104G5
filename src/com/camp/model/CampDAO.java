@@ -20,8 +20,10 @@ public interface CampDAO {
 
 	public List<CampVO> getall(Integer orderby);
 	
-
+	
 	List<CampVO> getAll();
+
+	CampVO getSelectStmt(Integer campId);//12/17新增
 	
 
 

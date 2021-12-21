@@ -1,6 +1,9 @@
 package camp.test;
 
+import java.util.List;
+
 import com.camp.model.CampDAOImpl;
+import com.camp.model.CampVO;
 
 public class CampDAOtest {
 
@@ -14,6 +17,12 @@ public class CampDAOtest {
 //			System.out.println(av.toString());
 //		}
 
+		List<CampVO> caList = cad.getSelectStmt();
+		for (CampVO av : caList) {
+			System.out.println(av.toString());
+		}
+
+		
 		// 新增
 //		CampVO camp = new CampVO();		
 //		camp.setCompanyId(1);

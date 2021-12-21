@@ -130,26 +130,41 @@
         /* =====================main區域========================*/
         
         h1{
-            color:black;
+            color: black;
             text-align: center;
-            margin-left:200px;
+        
+
         }
+     
 
         table{
           border:1px solid blck;
+    
           border-collapse: collapse;
-          margin-left:230px ;
+          margin-left: 0px;
           margin-top: 0px;
           table-layout: fixed;
           width: 80%;
         }
-        table td,table th{
+        table td{
           border:1px solid black;
           text-align: center; 
-          
+          width: 90PX;
         }
+        
+        table th{
+          background-color:	#E0E0E0;
+          border:1px solid black;
+          text-align: center; 
+          width: 90PX;
+        
+        
+        }
+        
+        
+        
         .topnav{
-            margin-left:885px;
+            margin-left:0;
             margin-top:100px;        
         }
 
@@ -161,7 +176,7 @@
        
         .selector{
          height: 25px;
-         margin-left:240px;
+         margin-left:0;
          
         }
         
@@ -183,7 +198,7 @@
 
         form.searchForm button {
             float: left;
-            margin-left:500px;
+            margin-left:100000000px;
             width: 30PX;
             padding: 5px;
             background:#D0D0D0;
@@ -209,13 +224,13 @@
         
         div.divSearchForm{
             
-            margin-left:250px ;
+            margin-left:10000 px;
             margin-top: 80px;
             display:inline-block;
         }
         div.pagination {
        
-          margin-left:230px ;
+          margin-left:0 ;
           margin-top: 10px;
 		  display: inline-block;
 		  
@@ -241,22 +256,24 @@
 		  background-color: #ddd;
 		  border-radius: 5px;
 		}
+		
+		.camp_table{
+		   margin: 0px auto;
+		}
 	
 	 /* =====================aside區域========================*/
-		
-	 
-    aside.aside{            
+		aside.aside{            
         position: fixed;
-  		left: 0;
-        top: 0;
+        left: 0;
+        top: var(--header-height);
         width: var(--aside-width);
         height: calc(100% - var(--header-height));
         overflow-x: visible;
-        padding: 100px 0 0 0;
-
+        padding: 20px 0;
+        z-index: 2;
         transition: all 1s;
     }
-     .clearfix:before,
+    .clearfix:before,
     .clearfix:after {
         content: " ";
         display: table;
@@ -272,14 +289,13 @@
     .container {
         position: relative;
         margin: 0px auto;
-        padding: 10px;
+        padding: 0px 0;
         clear: both;
     }
-    
 
     .mcd-menu {
     list-style: none;
-    padding-left: 5px;
+    padding-left: 30px;
     margin: 0;
     background: #FFF;
     /*height: 100px;*/
@@ -308,7 +324,6 @@
     height: 55px;
     position: relative;
     border-bottom: 1px solid #EEE;
-    
     /* == */
     }
     .mcd-menu li a i {
@@ -326,6 +341,7 @@
     /* == */
     .mcd-menu li a p {
     float: left;
+    margin: 0 ;
     }
     /* == */
 
@@ -335,8 +351,7 @@
     }
     .mcd-menu li a small {
     display: block;
-    font-size: 15px;
-    text-align: center;
+    font-size: 10px;
     }
 
     .mcd-menu li a i, .mcd-menu li a strong, .mcd-menu li a small {
@@ -386,7 +401,6 @@
     box-shadow: 0 0 5px #DDD;
     -moz-box-shadow: 0 0 5px #DDD;
     -webkit-box-shadow: 0 0 5px #DDD;
-    height:90px;'
     
     /* == */
     border-left: 4px solid #e67e22;
@@ -538,7 +552,7 @@
     float: none;
     }*/
     .mcd-menu li ul li a {
-    padding: 10px;
+    padding: px;
     text-align: left;
     border: 0;
     border-bottom: 1px solid #EEE;
@@ -586,14 +600,16 @@
     margin: 0;
     display: inline-block;
     font-size: 18px;
-    }
+    }   
+	 
+    
 
     /* =====================footer區域========================*/
     
      
     
     
-        footer {
+          footer {
             position: absolute;
             text-align: center;
             bottom: 0;
@@ -602,8 +618,8 @@
             transform: translateX(-50%);
             /* border: 1px black solid; */
             width: 100%;
-            background-color:#d7ab75;
+            background-color: #d7ab75;
             /* color: #FFFFFF; */
-            font-size:16px;
+            font-size: 16px;
             font-weight: bold;
         }

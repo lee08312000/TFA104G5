@@ -1,3 +1,5 @@
+
+
 package com.camp.model;
 
 import java.math.BigDecimal;
@@ -7,15 +9,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.company.model.CompanyDAO;
+import com.company.model.CompanyDAOImpl;
+import com.company.model.CompanyVO;
+
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
 public class CampService {
 	private CampDAO campdao;
+	private CompanyDAO companydao;
+	
 
 	public CampService() {
 		campdao = new CampDAOImpl();
+		companydao = new CompanyDAOImpl();
 
 	}
 
@@ -54,8 +63,28 @@ public class CampService {
 	public List<CampVO> getAll() {
 
 		return campdao.getAll();
-
 	}
+	
+	//7.更新營地審核上架欄位     12/7新增	
+	public void updateCampCertificatenum(CampVO campVO ,CompanyVO companyVO ) throws Exception {
+
+		campdao.update(campVO);
+
+
+
+		
+	}
+	
+	//8.查詢營地上架審核欄位 12/7新增
+	   public CampVO selectCampCheck(Integer campId) {
+		   
+		  return campdao.getSelectStmt(campId);
+		   
+	   }
+	
+	
+	
+	
 
 //查詢營地資料
 	public CampVO findCampByCampId(Integer campId) {
