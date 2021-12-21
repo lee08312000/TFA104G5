@@ -1,3 +1,27 @@
+<%@page import="java.util.stream.Collector"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.*"%>
+<%@ page import="java.util.stream.*"%>
+<%@ page import="com.member.model.MemberVO"%>
+<%@ page import="com.member.model.MemberService"%>
+
+<% 
+	List<MemberVO> list = new ArrayList<MemberVO>();
+	if (request.getAttribute("memberVOList") != null) {
+		list = (List<MemberVO>) request.getAttribute("memberVOList");
+		pageContext.setAttribute("list", list);
+	} else {
+		MemberService memberSvc = new MemberService();
+		list = memberSvc.getAllMember();
+		pageContext.setAttribute("list", list);
+	}
+	
+
+
+%>
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -6,7 +30,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>Document</title>
+    <title>會員查詢</title>
 </head>
 <style>
     *{
@@ -32,7 +56,7 @@
     header.header{        
         width: 100%;
         height: var(--header-height);
-        background-color: #d7ab75;
+        background-color: gray;
         /* position: fixed;
         top: 0;s
         left: 0; */
@@ -60,7 +84,7 @@
             display: block; 
             /* height: calc(var(--header-inner-height) - 30px); */ 
             /* height: 100px; */ 
-            width: 95px; 
+            width: 80px; 
             /* text-align: center; */ 
         } 
          
@@ -453,7 +477,7 @@
         margin: 30px 0;        
         font-family: Agenda-Light, sans-serif;
         font-weight: 50; 
-        background: #ec3f3f; color: #fff;
+        background: gray; color: #fff;
         text-rendering: optimizeLegibility;
         border-radius: 5px; 
         }
@@ -502,6 +526,7 @@
         transform: translate(-50%, -50%);
         overflow:scroll;
         }
+        
         div.article-group{
             padding-top:10px;
         }
@@ -532,21 +557,17 @@
         <div class="header-inner responsive-wrapper">
             <div class="header-logo">
                 <a style="display:inline-block; vertical-align: middle;" href="首頁URL">
-                    <img src="./img/chuba_logo.png" />
+                    <img src="<%=request.getContextPath()%>/back_end/admin/images/camp_paradise_logo.png" />
                 </a>
-                <span style="display:inline-block; vertical-align: middle;">Camping Paradise</span>
+                <span style="display:inline-block; vertical-align: middle;">Camping Paradise 平台管理員</span>
             </div>
         </div>
-        <ul>          
-            <nav class="header-navigation">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">線上商城</a></li>
-                <li><a href="#"><img src="./img/heart.png"></a></li>
-                <li><a href="#">註冊</a></li>
-                <li><a href="#">登入</a></li>
-                <li><a href="#"><i class="fas fa-user"></i></a></li>                
-            </nav>
-        </ul>    
+        <nav class="header-navigation">
+        	<ul>          
+                <li>XXX你好!</li>
+                <li><a href="#">登出</a></li>              
+        	</ul>    
+        </nav>    
                     
     </header>
 
@@ -556,188 +577,111 @@
                     <ul class="mcd-menu">
                         <li>
                             <a href="" class="light">
-                                <i class="fa fa-campground"></i>
-                                <strong>營地管理</strong>
-                                <small>Camp Management</small>
-                            </a>
-                    <ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>我的營地</a></li>					
-                                <li><a href="#"><i class="fas fa-cannabis"></i>營地上下架</a></li>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>審核狀況</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="" class="light">
-                                <i class="fa fa-edit"></i>
-                                <strong>商品管理</strong>
-                                <small>Commodity </small>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="light">
-                                <i class="fa fa-gift"></i>
-                                <strong>訂單管理</strong>
-                                <small>Order </small>
-                            </a>
-                    <ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>日程表管理</a></li>					
-                                <li><a href="#"><i class="fas fa-cannabis"></i>營地訂單管理</a></li>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="" class="light">
-                                <i class="fas fa-calendar-week"></i>
-                                <strong>廠商資料</strong>
-                                <small>Vendor Information</small>
-                            </a>
-                    <ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>基本資料瀏覽,修改</a></li>					
-                                <li><a href="#"><i class="fas fa-cannabis"></i>更改密碼</a></li>				
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="" class="light">
-                                <i class="fa fa-comment-alt"></i>
-                                <strong>我的評論</strong>
-                                <small>Comment</small>
+                                <strong>管理員管理</strong>
                             </a>
                             <ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>營地評價</a></li>					
-                                <li><a href="#"><i class="fas fa-cannabis"></i>商品評價</a></li>				
+                                <li><a href="#"><i class="fas fa-cannabis"></i>管理員查詢</a></li>					
                             </ul>
-                        </li>							
+                        </li>
+                        <li>
+                            <a href="" class="light">
+                                <strong>廠商管理</strong>
+                            </a>
+                            <ul>
+                            	<li><a href="#"><i class="fas fa-cannabis"></i>廠商查詢</a></li>
+                                <li><a href="<%=request.getContextPath()%>/back_end/admin/campCheck.jsp"><i class="fas fa-cannabis"></i>營地上架審核</a></li>					
+                                <li><a href="<%=request.getContextPath()%>/back_end/admin/productReport.jsp"><i class="fas fa-cannabis"></i>商品檢舉管理</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="" class="light">
+                                <strong>一般會員管理</strong>
+                            </a>
+                    		<ul>
+                                <li><a href="#"><i class="fas fa-cannabis"></i>會員查詢</a></li>					
+                            </ul>
+                        </li>                 							
                     </ul>
                 </nav>
             </div>                 
     </aside>
 
     <main class="main">
-        <button type="button">新增商品</button>
+    
+    	<h2>會員查詢</h2>
+    	<form method="post" action="<%=request.getContextPath()%>/member/MemberManagementServlet">
+    		會員編號：
+    		<input type="number" name="memberId" value="1" min="1" style="width: 60px;">
+    		<input type="hidden" name="action" value="searchByMemberId">
+    		<input type="submit" value="查詢">
+    		<a style="margin-left: 20px;" href="<%=request.getContextPath()%>/back_end/admin/memberManagement.jsp">所有會員</a>
+    	</form>
+    	<%-- 錯誤表列 --%>
+		<c:if test="${not empty errorMsgs}">
+			<font style="color:red">請修正以下錯誤:</font>
+			<ul>
+				<c:forEach var="message" items="${errorMsgs}">
+					<li style="color:red">${message}</li>
+				</c:forEach>
+			</ul>
+		</c:if>
+    	
         <table id="miyazaki">
             <thead>
-            <tr><th>商品編號<th>商品分類<th>商品名稱<th>商品品牌<th>商品單價<th>商品庫存數量<th>商品售出總數<th>商品狀態<th>變更狀態<th>操作
+            <tr><th>編號</th><th>名稱</th><th>帳號</th><th>帳號狀態</th><th>詳細資料</th><th>操作</th>
             <tbody>
-            <tr>
-                <td>1
-                <td>充氣床/床墊
-                <td>木紋鋁合金迷你摺疊桌
-                <td>$399
-                <td>大玩家露營用品
-                <td>10
-                <td>0
-                <td>上架中
-                <td><select>
-                        <option>Option 1</option>
-                        <option>Option 2</option>
-                        <option value="3">Option 3</option>
-                    </select>
-                <td><button type="button" class="btn_open">查看</button><button type="button">修改</button>                            
-            <tr>
-                <td>1
-                <td>充氣床/床墊
-                <td>木紋鋁合金迷你摺疊桌
-                <td>$399
-                <td>大玩家露營用品
-                <td>10
-                <td>0
-                <td>上架中
-                <td><select>
-                    <option>Option 1</option>
-                    <option>Option 2</option>
-                    <option value="3">Option 3</option>
-                </select>
-                <td><button type="button">查看</button><button type="button">修改</button>      
-            <tr>
-                <td>1
-                <td>充氣床/床墊
-                <td>木紋鋁合金迷你摺疊桌
-                <td>$399
-                <td>大玩家露營用品
-                <td>10
-                <td>0
-                <td>上架中
-                <td><select>
-                    <option>Option 1</option>
-                    <option>Option 2</option>
-                    <option value="3">Option 3</option>
-                </select>
-                <td><button type="button">查看</button><button type="button">修改</button>  
-            <tr>
-                <td>1
-                <td>充氣床/床墊
-                <td>木紋鋁合金迷你摺疊桌
-                <td>$399
-                <td>大玩家露營用品
-                <td>10
-                <td>0
-                <td>上架中
-                <td><select>
-                    <option>Option 1</option>
-                    <option>Option 2</option>
-                    <option value="3">Option 3</option>
-                </select>
-                <td><button type="button">查看</button><button type="button">修改</button>      
-        </table>        
+            <%@ include file="page1.file" %> 
+				<c:forEach var="memberVO" items="${ list }" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+
+						<tr data-memberId="${ memberVO.memberId }" data-memberName="${ memberVO.memberName }" data-memberAccount="${ memberVO.memberAccount }" data-memberAccountStatus='${ memberVO.memberAccountStatus.intValue() == 0 ? "停用中" : memberVO.memberAccountStatus.intValue() == 1 ? "啟用中" : "異常" }' data-memberEmail="${ memberVO.memberEmail }" data-memberAddress="${ memberVO.memberAddress }" data-memberPhone="${ memberVO.memberPhone }">
+							<td>${ memberVO.memberId }</td>
+							<td>${ memberVO.memberName }</td>
+							<td>${ memberVO.memberAccount }</td>
+							<td>${ memberVO.memberAccountStatus.intValue() == 0 ? "停用中" : memberVO.memberAccountStatus.intValue() == 1 ? "啟用中" : "異常" }</td>
+							<td><button type="button" class="btn_open">詳細資料</button></td>
+							<td>
+								<form method="post" action="<%=request.getContextPath()%>/member/MemberManagementServlet" style="display:inline-block;">
+									<input type="hidden" name="action" value='${ memberVO.memberAccountStatus.intValue() == 0 ? "on" : memberVO.memberAccountStatus.intValue() == 1 ? "off" : "異常" }'>
+									<input type="hidden" name="memberId" value="${ memberVO.memberId }">
+									<input type="submit" value='${ memberVO.memberAccountStatus.intValue() == 0 ? "啟用" : memberVO.memberAccountStatus.intValue() == 1 ? "停用" : "異常" }'>
+								</form>
+							</td>
+						</tr>
+
+				</c:forEach>
+                              
+        </table>
+        <%@ include file="page2.file" %>        
     </main>
     <div class="overlay" style="border: 1px solid red;">
         <article>
             <div class="article-group">
-                <label class="control-label">商品名稱:</label>                
-                這是商名稱資訊                    
+                <label class="control-label">編號:&nbsp;<span id="memberId" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">商品分類:</label>                
-                商品分類                    
+                <label class="control-label">名稱:&nbsp;<span id="memberName" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">商品單價:</label>                
-                這是商品單價                    
+                <label class="control-label">帳號:&nbsp;<span id="memberAccount" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">商品品牌:</label>                
-                這是商品品牌                    
+                <label class="control-label">帳號狀態:&nbsp;<span id="memberAccountStatus" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">商品庫存數量:</label>                
-                這是庫存數量                    
+                <label class="control-label">email:&nbsp;<span id="memberEmail" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">商品售出總數:</label>                
-                這是商品售出總數                    
+                <label class="control-label">電話:&nbsp;<span id="memberPhone" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">商品狀態:</label>                
-                這是商品狀態                    
-            </div>
-            <div class="article-group">
-                <label class="control-label">商品敘述:</label>                
-                <div class="text-frame">
-                    這是商品敘述
-                </div>                                    
-            </div>
-            <div class="article-group">
-                <label class="control-label">商品購買須知:</label>                
-                <div class="text-frame">
-                    這是商品購買須知
-                </div>                      
-            </div>
-            <label class="control-label">商品圖片一:</label>
+                <label class="control-label">地址:&nbsp;<span id="memberAddress" >s</span></label>                                  
+            </div>                 
+            <label class="control-label">頭貼:</label>
             <div class="img">                             
-                <img src="./img/chuba_logo.png" />                       
+                <img height="180px" id="memberPic" src="" />                       
             </div>
-            <label class="control-label">商品圖片二:</label>
-            <div class="img">                             
-                <img src="./img/chuba_logo.png" />                       
-            </div>
-            <label class="control-label">商品圖片三:</label>
-            <div class="img">                             
-                <img src="./img/chuba_logo.png" />                       
-            </div>
-            <div class="time">
-                <label class="control-label">上架時間:</label>                
-                這是商品上架時間                    
-            </div>
+            
+            
           <button type="button" class="btn_modal_close">關閉</button>
         </article>
     </div>
@@ -746,7 +690,17 @@
         $(function(){
   
         // 開啟 Modal 彈跳視窗
-        $("button.btn_open").on("click", function(){
+        $(document).on("click", "button.btn_open", function(){
+        	let memberId = $(this).closest("tr").attr("data-memberId");
+            $("span#memberId").text(memberId);
+            $("span#memberName").text($(this).closest("tr").attr("data-memberName"));
+            $("span#memberAccount").text($(this).closest("tr").attr("data-memberAccount"));
+            $("span#memberAccountStatus").text($(this).closest("tr").attr("data-memberAccountStatus"));
+            $("span#memberEmail").text($(this).closest("tr").attr("data-memberEmail"));
+            $("span#memberPhone").text($(this).closest("tr").attr("data-memberPhone"));
+            $("span#memberAddress").text($(this).closest("tr").attr("data-memberAddress"));
+            $("img#memberPic").attr("src",`/TFA104G5/member/PicServlet?memberId=${"${memberId}"}`);
+            
             $("div.overlay").fadeIn();
         });
         
