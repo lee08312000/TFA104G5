@@ -185,7 +185,7 @@ header.header{
         <div class="header-inner responsive-wrapper">
             <div class="header-logo">
                 <a style="display:inline-block; vertical-align: middle;" href="首頁URL">
-                    <img src="<%=request.getContextPath()%>/back_end/admin/images/camp_paradise_logo.png" />
+                    <img src="<%=request.getContextPath()%>/back_end/adminLogin/images/camp_paradise_logo.png" />
                 </a>
                 <span style="display:inline-block; vertical-align: middle;">Camping Paradise 平台管理員</span>
             </div>

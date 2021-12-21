@@ -667,7 +667,7 @@
 						<tr data-reportReason="${ productReportVO.reportReason }" data-memberId="${ productReportVO.memberId }" data-memberName="${ memberSvc.getOneMember(productReportVO.memberId).memberName }">
 							<td>${ productReportVO.productReportId }</td>
 							<td>${ productReportVO.productId }</td>
-							<td><a href="/TFA104G5/front_end/mall/mall_product_detail.html?productId=${ productReportVO.productId }" target="_blank">${ productSvc.getOneProduct(productReportVO.productId).productName}</a></td>
+							<td><a href="<%=request.getContextPath() %>/front_end/mall/mall_product_detail.html?productId=${ productReportVO.productId }" target="_blank">${ productSvc.getOneProduct(productReportVO.productId).productName}</a></td>
 							<td><button type="button" class="btn_open">詳細查看</button></td>
 							<td>${ productReportVO.reportStatus.intValue() == 0 ? "未處理" : productReportVO.reportStatus.intValue() == 1 ? "已處理" : "異常" }</td>
 							<td><fmt:formatDate value="${ productReportVO.reportTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
