@@ -1,3 +1,4 @@
+/* =================  all   =====================*/
 * {
     box-sizing: border-box;
 }
@@ -10,7 +11,9 @@ body {
     overflow-x: hidden;
     font-size: 16px;
 }
+/* =================  all   =====================*/
 
+/* =================  按鈕   =====================*/
 .button {
     margin: 15px 5px 0px 5px;
     border-radius: 20px;
@@ -31,6 +34,7 @@ body {
 .button:hover {
     background-color: #5f5e33;
 }
+/* =================  按鈕   =====================*/
 
 .control-label {
     margin: 25px 0px 0px 0px;
@@ -126,8 +130,9 @@ header ul {
     bottom: -2px;
     left: 0;
 }
+/* =================  header區域   =====================*/
 
-/* 登入區塊 */
+/* =================  登入區塊   =====================*/
 .updateform {
     margin: 0 auto 100px;
     padding: 45px;
@@ -142,9 +147,11 @@ header ul {
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
-/* .form-horizontal {
+/* 
+.form-horizontal {
     padding-left: 40px;
-} */
+} 
+*/
 
 .updateform label {
     color: #f0652f;
@@ -171,26 +178,24 @@ header ul {
     position: relative;
     margin-right: 0;
 }
+/* =================  登入區塊   =====================*/
 
-/* sidebar */
+/* =================  sidebar   =====================*/
 .sidebar-toggle {
     margin-left: -240px;
 }
 
 .sidebar {
     width: 240px;
-    height: 100%;
     background: #d7ab75;
-
     float: left;
-
-    /* position: absolute; */
+    position: absolute;
     -webkit-transition: all .3s ease-in-out;
     -moz-transition: all .3s ease-in-out;
     -o-transition: all .3s ease-in-out;
     -ms-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out;
-    z-index: 100;
+    z-index: 1;
     margin: 40px;
 }
 
@@ -263,10 +268,10 @@ header ul {
     color: #FFFFFF;
 }
 
-/* 會員資訊內容 */
 td {
     margin: 20px 0px 20px 0px;
 }
+/* =================  sidebar   =====================*/
 
 .main_content {
     background-color: aqua;
@@ -274,14 +279,14 @@ td {
     margin: 40px 200px 0px 400px;
 }
 
-/* 商品照片 */
+/* =================  商品照片   =====================*/
 .product_pic {
     width: 100px;
     height: 75px;
 }
-/* 商品照片  */
+/* =================  商品照片   =====================*/
 
-/* =================  表格style   =====================*/
+/* =================  表格   =====================*/
 div.table-title {
     display: block;
     margin: auto;
@@ -421,4 +426,22 @@ td.text-center {
 td.text-right {
     text-align: right;
 }
-/* =================  訂單表格內容   =====================*/
+/* =================  表格   =====================*/
+
+/* =================  footer   =====================*/
+footer {
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  margin: 0 auto;
+  left: 50%;
+  transform: translateX(-50%);
+  /* border: 1px black solid; */
+  width: 100%;
+  background-color: #dbb07c;
+  /* color: #FFFFFF; */
+  font-size: 16px;
+  font-weight: bold;
+  /* margin-top: 100px !important; */
+}
+/* =================  footer   =====================*/

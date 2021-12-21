@@ -243,28 +243,29 @@ header ul {
 }
 /* =================  sidebar   =====================*/
 
-/* =================  會員圖片   =====================*/
-.member_pic {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-}
-/* =================  會員圖片   =====================*/
-
 td {
     margin: 20px 0px 20px 0px;
 }
 
 .main_content {
+    background-color: aqua;
     float: center;
     margin: 40px 200px 0px 400px;
 }
 
 .main_content2 {
+    background-color: aqua;
     float: center;
     margin: 40px 200px 0px 400px;
     font-size: 20px;
 }
+
+/* =================  商品照片   =====================*/
+.product_pic {
+    width: 100px;
+    height: 75px;
+}
+/* =================  商品照片   =====================*/
 
 /* =================  表格   =====================*/
 div.table-title {
@@ -410,7 +411,7 @@ td.text-right {
 
 /* =================  footer   =====================*/
 footer {
-  position: absolute;
+  position: relative; 
   text-align: center;
   bottom: 0;
   margin: 0 auto;

@@ -1,4 +1,4 @@
-package com.company.controller;
+package com.member.controller;
 
 import java.io.*;
 import javax.servlet.*;
@@ -23,10 +23,10 @@ public class LoginFilter implements Filter{
 		// 【取得 session】
 		HttpSession session = req.getSession();
 		// 【從 session 判斷此user是否登入過】
-		Object vendorid = session.getAttribute("vendorId");
-		if (vendorid == null) {
+		Object memberId = session.getAttribute("memberId");
+		if (memberId == null) {
 			session.setAttribute("location", req.getRequestURI());
-			res.sendRedirect(req.getContextPath() + "/back_end/companyLogin/vendorLogin.jsp");
+			res.sendRedirect(req.getContextPath() + "/front_end/member/login.jsp");
 			return;
 		} else {
 			chain.doFilter(request, response);

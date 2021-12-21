@@ -1,4 +1,4 @@
-package camp.test;
+package com.camp.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,7 +19,9 @@ import com.camp.model.CampVO;
 import com.campArea.model.CampAreaService;
 import com.campArea.model.CampAreaVO;
 
-// 以下為JSP中的使用方法: productId=商品編號&pic=第幾張圖片
+// 以下為JSP中的使用方法: 查詢營地:campid=營地編號&pic=第幾張圖片
+//                      查詢營位:campid=營地編號&areaindex=第幾個營位圖片(不是areaid)
+//                      查詢營地認證圖片:campid=營地編號&certificate=t
 // <img src="<%=request.getContextPath()%>/product/PicServlet?productId=1&pic=1">
 
 @WebServlet("/PicWithCampServlet")
@@ -41,10 +43,11 @@ public class PicWithCampServlet extends HttpServlet {
 		String campid = req.getParameter("campid");
 		String picid = req.getParameter("pic");
 		String areaindex = req.getParameter("areaindex");
+		String certificate=req.getParameter("certificate");
 
 		Integer campId, picId, areaIndex;
 		CampVO campVO = null;
-		byte[] noDataPic = null;
+		byte[] noDataPic = getPictureFromLocal(getServletContext().getRealPath("NoData/none3.jpg"));;
 
 		try {
 			campId = Integer.parseInt(campid);
@@ -52,12 +55,19 @@ public class PicWithCampServlet extends HttpServlet {
 			campareaSvc = new CampAreaService();
 			campVO = campSvc.findCampByCampId(campId);
 			List<CampAreaVO> campareaVOlist = campareaSvc.findCampAreaByCampId(campId);
-			noDataPic = getPictureFromLocal(getServletContext().getRealPath("NoData/none3.jpg"));
 
 			if (campVO == null) {
 				out.write(noDataPic);
 				return;
 			}
+			if(certificate!=null&&certificate.equals("t")){
+				byte[]  certificatePic= campVO.getCertificatePic();
+				out.write((certificatePic!=null)?certificatePic:noDataPic);
+					return;
+				}
+				
+				
+			
 
 			if (picid != null) {
 				picId = Integer.parseInt(picid);

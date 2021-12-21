@@ -9,14 +9,14 @@ $(function () {
       "action": "addFavoriteProduct",
       "productId": $(that).closest("div.product-item").attr("data-productId"),
     };
-    
+
     $.ajax({
       url: "/TFA104G5/product/BrowseServlet",
       type: "POST",
       data: addFavoriteProduct,
       dataType: "json",
       beforeSend: function () {
-      
+
       },
       success: function (data) {
         if (data.msg == "success") {
@@ -32,13 +32,13 @@ $(function () {
         }
       },
       complete: function (xhr) {
-        
+
       }
     });
   });
 
-   // 按紅色愛心
-   $(document).on("click", "img.redHeart", function () {
+  // 按紅色愛心
+  $(document).on("click", "img.redHeart", function () {
     // 檢查是否有登入
     //頁面導向
     let that = this;
@@ -46,14 +46,14 @@ $(function () {
       "action": "deleteFavoriteProduct",
       "productId": $(that).closest("div.product-item").attr("data-productId"),
     };
-    
+
     $.ajax({
       url: "/TFA104G5/product/BrowseServlet",
       type: "POST",
       data: deleteFavoriteProduct,
       dataType: "json",
       beforeSend: function () {
-      
+
       },
       success: function (data) {
         if (data.msg == "success") {
@@ -71,7 +71,7 @@ $(function () {
         }
       },
       complete: function (xhr) {
-        
+
       }
     });
   });
@@ -111,22 +111,51 @@ $(function () {
 
   });
 
-  // 首頁熱門商品3區塊
-  $.ajax({
-    url: "/TFA104G5/product/BrowseServlet",
-    type: "POST",
-    data: {
-      "action": "getMallProducts3",
-      "orderBy": 1
-    },
-    dataType: "json",
-    beforeSend: function () {
+  // 購物車小紅點
+  function refreshCartNum() {
 
-    },
-    success: function (data) {
-      $.each(data, function (index, hotProducts) {
-        let product_item =
-          `<div class="col-md-4">
+    $.ajax({
+      url: "/TFA104G5/Cart/CartServlet",
+      type: "POST",
+      data: {
+        "action": "getCartNum"
+      },
+      dataType: "json",
+      beforeSend: function () {
+
+      },
+      success: function (data) {
+        if (data.cartNum != 0) {
+          $("div#cartNum").removeClass("-off");
+          $("div#cartNum").text(data.cartNum);
+        } else {
+          $("div#cartNum").addClass("-off");
+        }
+      },
+      complete: function (xhr) {
+
+      }
+    });
+  }
+
+  // init() 為一進頁面的動作
+  function init() {
+    // 首頁熱門商品3區塊
+    $.ajax({
+      url: "/TFA104G5/product/BrowseServlet",
+      type: "POST",
+      data: {
+        "action": "getMallProducts3",
+        "orderBy": 1
+      },
+      dataType: "json",
+      beforeSend: function () {
+
+      },
+      success: function (data) {
+        $.each(data, function (index, hotProducts) {
+          let product_item =
+            `<div class="col-md-4">
           <div data-productId="${hotProducts.productId}" data-productTypeId="${hotProducts.productTypeId}" class="product-item">
             <a href="mall_product_detail.html?productId=${hotProducts.productId}&productTypeId=${hotProducts.productTypeId}"><img src="/TFA104G5/product/PicServlet?productId=${hotProducts.productId}&pic=1" alt="${hotProducts.productName}"></a>
             <div class="down-content">
@@ -149,40 +178,30 @@ $(function () {
           </div>
         </div>`;
 
-        $("div.hotProducts").append(product_item);
-      });
-    },
-    complete: function (xhr) {
-      // console.log(xhr);
-    }
-  });
+          $("div.hotProducts").append(product_item);
+        });
+      },
+      complete: function (xhr) {
+        // console.log(xhr);
+      }
+    });
 
-  // // 從資料庫查熱門商品並列出
-  // var hotProducts = {
-  //   "productId": 1,
-  //   "productTypeId": 1,
-  //   "productName": "酷炫帳篷-L",
-  //   "productPrice": 2000,
-  //   "productCommentstarAvg": 4,
-  //   "heart": 1
-  // };
+    // 首頁最新商品3區塊
+    $.ajax({
+      url: "/TFA104G5/product/BrowseServlet",
+      type: "POST",
+      data: {
+        "action": "getMallProducts3",
+        "orderBy": 2
+      },
+      dataType: "json",
+      beforeSend: function () {
 
-  // 首頁最新商品3區塊
-  $.ajax({
-    url: "/TFA104G5/product/BrowseServlet",
-    type: "POST",
-    data: {
-      "action": "getMallProducts3",
-      "orderBy": 2
-    },
-    dataType: "json",
-    beforeSend: function () {
-
-    },
-    success: function (data) {
-      $.each(data, function (index, latestProducts) {
-        let product_item =
-          `<div class="col-md-4">
+      },
+      success: function (data) {
+        $.each(data, function (index, latestProducts) {
+          let product_item =
+            `<div class="col-md-4">
         <div data-productId="${latestProducts.productId}" data-productTypeId="${latestProducts.productTypeId}" class="product-item">
           <a href="mall_product_detail.html?productId=${latestProducts.productId}&productTypeId=${latestProducts.productTypeId}"><img src="/TFA104G5/product/PicServlet?productId=${latestProducts.productId}&pic=1" alt="${latestProducts.productName}"></a>
           <div class="down-content">
@@ -205,51 +224,18 @@ $(function () {
         </div>
       </div>`;
 
-        $("div.latestProducts").append(product_item);
-      });
-    },
-    complete: function (xhr) {
-      // console.log(xhr);
-    }
-  });
-
-
-  // var latestProducts = {
-  //   "productId": 1,
-  //   "productTypeId": 1,
-  //   "productName": "酷炫帳篷-L",
-  //   "productPrice": 2500,
-  //   "productCommentstarAvg": 1,
-  //   "heart": 0
-  // };
-
-  // 購物車小紅點
-  function refreshCartNum() {
-
-    $.ajax({
-      url: "/TFA104G5/Cart/CartServlet",
-      type: "POST",
-      data: {
-        "action": "getCartNum"
-      },
-      dataType: "json",
-      beforeSend: function () {
-        
-      },
-      success: function (data) {
-        if (data.cartNum != 0) {
-          $("div#cartNum").removeClass("-off");
-          $("div#cartNum").text(data.cartNum);
-        } else {
-          $("div#cartNum").addClass("-off");
-        }
+          $("div.latestProducts").append(product_item);
+        });
       },
       complete: function (xhr) {
-        
+        // console.log(xhr);
       }
     });
+
+    refreshCartNum();
   }
 
-  refreshCartNum();
+  init();
+  
 
 });
