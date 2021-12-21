@@ -61,6 +61,8 @@
 	<%-- =================  header區域   ===================== --%>
 	
 	<%-- =================  sidebar   ===================== --%>
+	<form class="form-horizontal" method="post"
+			action="<%=request.getContextPath()%>/member/MemberServlet">
 	<aside class="sidebar">
 		<div id="leftside-navigation" class="nano">
 			<ul class="nano-content">
@@ -94,18 +96,30 @@
 							href="<%=request.getContextPath()%>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
 						</li>
 					</ul></li>
-				<li><a href=""><i class="fas fa-sign-out-alt"></i><span>&nbsp;登出</span></a>
+				<li><a href=""><i class="fas fa-sign-out-alt"></i>
+				<span><input class="fas fa-sign-out-alt logout_button" type="submit" value="登出" /></span>
+				</a>
+				<input type="hidden" value="logout" name="action" />
 				</li>
+				
 		</div>
 	</aside>
+	</form>
 	<%-- =================  sidebar   ===================== --%>
 	
 	<%-- =================  會員資訊   ===================== --%>
+	<FORM METHOD="post" ACTION="/TFA104G5/member/MemberServlet" enctype="multipart/form-data">
 	<div class="main_content">
+		<div id="fileDisplayArea1">
 		<img class="member_pic"
 			src="<%=request.getContextPath()%>/member/PicServlet?memberId=${ memberVO.memberId }">
-		<input class="button" type="submit" value="頭貼上傳" /> <a>歡迎 ${ memberVO.memberName }登入</a>
+		</div>
+		<input class="button" name="member_pic_upload" id="pic_upload" type="file" /> 
+		<input class="button" type="submit" value="送出頭貼"/>
+		<input type="hidden" name="action" value="pic_upload"/>
+		<a class="welcome">歡迎&nbsp; ${ memberVO.memberName }&nbsp;登入</a>
 	</div>
+	</form>
 
 
 	<div class="table-title"></div>
@@ -151,6 +165,33 @@
 							.is(":visible")
 							|| $(this).next().slideDown(), e.stopPropagation()
 				})
+		
+		var fileInput1 = document.getElementById('pic_upload');
+        var fileDisplayArea1 = document.getElementById('fileDisplayArea1');
+        
+        fileInput1.addEventListener('change', function(e) {
+            var file = fileInput1.files[0];
+            var imageType = /image.*/;
+
+            if (file.type.match(imageType)) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    fileDisplayArea1.innerHTML = "";
+
+                    var img = new Image();
+                    img.src = reader.result;
+                    fileDisplayArea1.appendChild(img);
+                    $("#fileDisplayArea1 img").addClass("member_pic");
+                    
+                }
+
+                reader.readAsDataURL(file);	
+            } else {
+                fileDisplayArea1.innerHTML = "File not supported!"
+            }
+        });
+        
 	</script>
 	<%-- =================  sidebar javascript  ===================== --%>
 	

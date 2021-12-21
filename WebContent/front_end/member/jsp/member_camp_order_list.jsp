@@ -82,6 +82,8 @@
 	
 	
 	<%-- =================  sidebar   ===================== --%>
+	<form class="form-horizontal" method="post"
+			action="<%=request.getContextPath()%>/member/MemberServlet">
 	<aside class="sidebar">
 		<div id="leftside-navigation" class="nano">
 			<ul class="nano-content">
@@ -100,7 +102,6 @@
 						class="far fa-list-alt"></i><span>&nbsp;我的訂單</span><i
 						class="arrow fa fa-angle-right pull-right"></i></a>
 					<ul>
-
 						<li><a
 							href="<%=request.getContextPath()%>/front_end/member/jsp/member_camp_order_list.jsp">營地訂單</a>
 						</li>
@@ -116,10 +117,15 @@
 							href="<%=request.getContextPath()%>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
 						</li>
 					</ul></li>
-				<li><a href=""><i class="fas fa-sign-out-alt"></i><span>&nbsp;登出</span></a>
+				<li><a href=""><i class="fas fa-sign-out-alt"></i>
+				<span><input class="fas fa-sign-out-alt logout_button" type="submit" value="&nbsp;登出" /></span>
+				</a>
+				<input type="hidden" value="logout" name="action" />
 				</li>
+				
 		</div>
 	</aside>
+	</form>
 	<%-- =================  sidebar   ===================== --%>
 	
 	
@@ -127,11 +133,14 @@
 	<div class="table-title">
 		<h3>營地訂單列表</h3>
 	</div>
+	<!-- 整個TABLE用FORECACH來用 -->
 	<table class="table-fill">
+		<!-- <form class="form-horizontal" method="post"
+			action="<%=request.getContextPath()%>/member/MemberServlet"> 再做一個servlet(?)-->
 		<thead>
 			<tr>
-				<th>訂單編號 0000001</th>
-				<th>訂單日期 2021 / 12 / 13</th>
+				<th>訂單編號 0000001</th> <!-- ${ campOrderVO.campOrderId } -->
+				<th>訂單日期 2021 / 12 / 13</th> <!-- ${ campOrderVO.campOrderCompletedTime } -->
 			</tr>
 			<tr>
 				<th class="text-left">營地圖片</th>
@@ -143,12 +152,12 @@
 		</thead>
 		<tbody class="table-hover">
 			<tr>
-				<td class="text-center"><img class="product_pic" src=""
-					alt="商品圖片"></td>
-				<td class="text-left">訂位日期</td>
-				<td class="text-left">天數</td>
-				<td class="text-left">總價</td>
-				<td class="text-left" colspan="2">訂單狀態</td>
+				<td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/camp/PicWithCampServlet?campId=${ campVO.campId }&pic=1"
+					alt="營地圖片"></td> 
+				<td class="text-left"></td> <!-- ${ campOrderVO.campCheckInDate } -->
+				<td class="text-left"></td>	<!-- ${ campCheckInDate - campCheckOutDate(?) } -->
+				<td class="text-left"></td> <!-- ${ campOrderVO.campOrderTotalAmount } -->
+				<td class="text-left" colspan="2"></td> <!-- ${ campOrderVO.campOrderStatus } -->
 			</tr>
 
 			<tr>
@@ -156,11 +165,14 @@
 				<td class="text-center">
 					<button class="button" type="button"
 						onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_camp_order_detail.jsp';">訂單明細</button>
-					<button class="button" type="button">取消訂單</button>
+						<input class="button" type="submit" value="取消訂單"/>
+						<input type="hidden" value="delete" name="action" /> 
 				</td>
 			</tr>
 		</tbody>
+		<!-- </form> -->
 	</table>
+	<!-- 整個TABLE用FORECACH來用 -->
 	<%-- =================  營地訂單列表   ===================== --%>
 	
 	<%-- =================  sidebar javascript   ===================== --%>

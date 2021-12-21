@@ -1,6 +1,7 @@
 package com.member.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,11 +11,13 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
@@ -22,6 +25,7 @@ import com.member.model.MemberVO;
 import util.Util;
 
 @WebServlet("/member/MemberServlet")
+@MultipartConfig
 public class MemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -92,7 +96,7 @@ public class MemberServlet extends HttpServlet {
     			session.invalidate();
     			
     			System.out.println("登出成功");
-    			String url = "/front_end/camp/camp_index.jsp";
+    			String url = "/front_end/member/login/login.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 
 				successView.forward(req, res);
 
@@ -185,7 +189,7 @@ public class MemberServlet extends HttpServlet {
 	    		/***************************3.完成,準備轉交(Send the Success view)*************/
 	    			errorMsgs.add("<BODY>註冊資料出現錯誤，請重新輸入<BR></BODY>");
 	    			String url = "/front_end/member/register/register.jsp";
-					RequestDispatcher failureView = req.getRequestDispatcher(url);  // 失敗轉交 login.jsp
+					RequestDispatcher failureView = req.getRequestDispatcher(url);  // 失敗轉交register.jsp
 					failureView.forward(req, res);
 					return; // 程式在此中斷
 
@@ -425,9 +429,40 @@ public class MemberServlet extends HttpServlet {
 	    		}
 	    		
     		}
-    		
+        
+        if("pic_upload".equals(action)) {
+        	MemberVO memberVO = (MemberVO)session.getAttribute("memberVO");
+    		MemberService memberSvc = new MemberService();
+			byte[] memberPic = null;
+			Part parts1 = req.getPart("member_pic_upload");
+			
+			if(parts1.getInputStream().available() != 0) {
+				memberPic = getBytesFromPart(parts1);
+			}
+			
+			memberSvc.updateMember(memberVO.getMemberId(), memberVO.getMemberAccountStatus(), memberVO.getMemberName(), memberVO.getMemberAccount(), memberVO.getMemberPassword(), memberVO.getMemberEmail(), memberVO.getMemberAddress(), memberVO.getMemberPhone(), memberPic);
+			String url = "/front_end/member/jsp/member_main.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 l
+			successView.forward(req, res);
+        }
+    	
+        
     		
         }
 
+	//處理圖片讀取
+	private byte[] getBytesFromPart(Part part) {
+		byte[] buf = null;
+		InputStream in;
+		try {
+			in = part.getInputStream();
+			buf = new byte[in.available()];
+			in.read(buf);
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+		return buf;	
+	}
     	
 }

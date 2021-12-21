@@ -85,44 +85,50 @@
     
     
 	<%-- =================  sidebar   ===================== --%>
-    <aside class="sidebar">
-        <div id="leftside-navigation" class="nano">
-            <ul class="nano-content">
-                <li class="sub-menu">
-                    <a href="javascript:void(0);"><i class="fas fa-heart"></i><span>&nbsp;我的最愛</span><i
-                            class="arrow fa fa-angle-right pull-right"></i></a>
-                    <ul>
-                        <li><a href="<%= request.getContextPath() %>/front_end/member/member_favorite_camp.jsp">我的最愛營地</a>
-                        </li>
-                        <li><a href="<%= request.getContextPath() %>/front_end/member/member_favorite_product.jsp">我的最愛商品</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sub-menu">
-                    <a href="javascript:void(0);"><i class="far fa-list-alt"></i><span>&nbsp;我的訂單</span><i
-                            class="arrow fa fa-angle-right pull-right"></i></a>
-                    <ul>
-                        <li><a href="<%= request.getContextPath() %>/front_end/member/member_camp_order_list.jsp">營地訂單</a>
-                        </li>
-                        <li><a href="<%= request.getContextPath() %>/front_end/member/member_product_order_list.jsp">商品訂單</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sub-menu">
-                    <a href="javascript:void(0);"><i class="fa fa-table"></i><span>&nbsp;修改資料</span><i
-                            class="arrow fa fa-angle-right pull-right"></i></a>
-                    <ul>
-                        <li>
-                        <a href="<%= request.getContextPath() %>/front_end/member/member_reset_info.jsp">修改會員資訊與密碼</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href=""><i class="fas fa-sign-out-alt" ></i><span>&nbsp;登出</span></a>
-                    
-                </li>
-        </div>
-    </aside>
+	<form class="form-horizontal" method="post"
+			action="<%=request.getContextPath()%>/member/MemberServlet">
+	<aside class="sidebar">
+		<div id="leftside-navigation" class="nano">
+			<ul class="nano-content">
+				<li class="sub-menu"><a href="javascript:void(0);"><i
+						class="fas fa-heart"></i><span>&nbsp;我的最愛</span><i
+						class="arrow fa fa-angle-right pull-right"></i></a>
+					<ul>
+						<li><a
+							href="<%=request.getContextPath()%>/front_end/member/jsp/member_favorite_camp.jsp">我的最愛營地</a>
+						</li>
+						<li><a
+							href="<%=request.getContextPath()%>/front_end/member/jsp/member_favorite_product.jsp">我的最愛商品</a>
+						</li>
+					</ul></li>
+				<li class="sub-menu"><a href="javascript:void(0);"><i
+						class="far fa-list-alt"></i><span>&nbsp;我的訂單</span><i
+						class="arrow fa fa-angle-right pull-right"></i></a>
+					<ul>
+						<li><a
+							href="<%=request.getContextPath()%>/front_end/member/jsp/member_camp_order_list.jsp">營地訂單</a>
+						</li>
+						<li><a
+							href="<%=request.getContextPath()%>/front_end/member/jsp/member_product_order_list.jsp">商品訂單</a>
+						</li>
+					</ul></li>
+				<li class="sub-menu"><a href="javascript:void(0);"><i
+						class="fa fa-table"></i><span>&nbsp;修改資料</span><i
+						class="arrow fa fa-angle-right pull-right"></i></a>
+					<ul>
+						<li><a
+							href="<%=request.getContextPath()%>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
+						</li>
+					</ul></li>
+				<li><a href=""><i class="fas fa-sign-out-alt"></i>
+				<span><input class="fas fa-sign-out-alt logout_button" type="submit" value="&nbsp;登出" /></span>
+				</a>
+				<input type="hidden" value="logout" name="action" />
+				</li>
+				
+		</div>
+	</aside>
+	</form>
     <%-- =================  sidebar   ===================== --%>
     
     
@@ -130,11 +136,13 @@
     <div class="table-title">
         <h3>營地訂單明細</h3>
     </div>
-    <table class="table-fill">
+    <table class="table-fill">  
+	<!-- <form class="form-horizontal" method="post"
+			action="<%=request.getContextPath()%>/member/????"> 再做一個servlet(?)-->
         <thead>
             <tr>
-                <th>訂單編號 ${ campOrderVO.campOrderId }</th>
-                <th>訂單日期 ${ campOrderVO.campOrderCompletedTime }</th>
+                <th>訂單編號</th> <%-- ${ campOrderVO.campOrderId } --%>
+                <th>訂單日期 </th> <%-- ${ campOrderVO.campOrderCompletedTime } --%>
             </tr>
             <tr>
             	<th class="text-left">營地照片</th>
@@ -148,35 +156,35 @@
         <tbody class="table-hover">
         
         <%-- =================  營地迴圈  ===================== --%>
-        <c:forEach var="" varStatus="" items="">
+        <%-- <c:forEach var="" varStatus="" items=""> --%>
         
             <tr>
                 <td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/camp/PicWithCampServlet?campId=${ campVO.campId }&pic=1" alt="商品圖片"></td>
-                <td class="text-left">${ campVO.campName }</td>
-                <td class="text-left">${ campOrderVO.campCheckInDate }</td>
-                <td class="text-left" colspan="2">天數</td>
-                <td class="text-left" colspan="2">${ campOrderVO.campOrderStatus }</td>
+                <td class="text-left"></td> <%-- ${ campVO.campName } --%>
+                <td class="text-left"></td> <%-- ${ campOrderVO.campCheckInDate } --%>
+                <td class="text-left" colspan="2"></td> <!-- ${ campCheckInDate - campCheckOutDate(?) } -->
+                <td class="text-left" colspan="2"></td> <%-- ${ campOrderVO.campOrderStatus } --%>
             </tr>
             
-		</c:forEach>
+		<%-- </c:forEach> --%>
         <%-- =================  營地迴圈  ===================== --%>  
           
             <tr>
-                <th class="text-left">營位名稱</th>
+                <th class="text-left">營位名稱</th> 
                 <th class="text-left">數量</th>
                 <th class="text-left">金額</th>
             </tr>
            
         <%-- =================  營位迴圈  ===================== --%>      
-        <c:forEach var="" varStatus="" items="">
+        <%-- <c:forEach var="" varStatus="" items=""> --%> 
         
             <tr>
-                <td class="text-left">${ campAreaVO.campAreaName }</td>
-                <td class="text-left">${ CampOrderVO.campAreaName }</td>
-                <td class="text-left">1000</td>
+                <td class="text-left"></td> <%-- ${ campAreaVO.campAreaName } --%>
+                <td class="text-left"></td> <%-- ${ campAreaVO.booking_quantity } --%>
+                <td class="text-left"></td> <%-- ${ campAreaVO.campAreaName } --%>
             </tr>
             
-		</c:forEach>
+		<%-- </c:forEach> --%>
 		<%-- =================  營位迴圈  ===================== --%>  
            
            <tr>
@@ -186,29 +194,31 @@
             </tr>
            
         <%-- =================  加購迴圈  ===================== --%>      
-        <c:forEach var="" varStatus="" items="">
+        <%-- <c:forEach var="" varStatus="" items=""> --%>
         
             <tr>
-                <td class="text-left">2</td>
-                <td class="text-left">1</td>
-                <td class="text-left">1000</td>
+                <td class="text-left"></td> <!-- ${ campAreaOrderDetail.capitationQuantity } -->
+                <td class="text-left"></td> <!-- ${ campAreaOrderDetail.perCapitationFee } -->
+                <td class="text-left"></td> <!-- ${ capitationQuantity X perCapitationFee } -->
             </tr>
             
-		</c:forEach>
+		<%-- </c:forEach> --%>
 		<%-- =================  加購迴圈  ===================== --%>                                                           
                    
             <tr>
                 <td class="text-left" colspan="6">
-			                    訂單總金額 ${ CampOrderVO.campOrderTotalAmount }<br>
-			                    訂購人姓名 ${ CampOrderVO.payerName }<br>
-			                    訂購人電話 ${ CampOrderVO.payerPhone }<br>
+			                    訂單總金額<br> <%--  ${ CampOrderVO.campOrderTotalAmount } --%>
+			                    訂購人姓名<br> <%--  ${ CampOrderVO.payerName } --%>
+			                    訂購人電話<br> <%--  ${ CampOrderVO.payerPhone } --%>
                 </td>
                 <td class="text-center">
-                    <button class="button" type="button">取消訂單</button>
-                    <button class="button" type="button" onclick="location.href = '<%=request.getContextPath()%>/front_end/member/member_camp_order_list.jsp';">返回訂單列表</button>
+                    <button class="button" type="button" onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_camp_order_list.jsp';">返回列表</button>
+                	<input class="button" type="submit" value="取消訂單"/>
+					<input type="hidden" value="delete" name="action" /> 
                 </td>
             </tr>
         </tbody>
+	<!-- </form>-->    
     </table>
     <%-- =================  營地訂單明細   ===================== --%>
 
