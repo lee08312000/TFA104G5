@@ -1,3 +1,4 @@
+
 package com.favoriteCamp.model;
 
 import java.sql.Blob;
@@ -16,22 +17,13 @@ public class FavoriteCampDAOlmpl implements FavoriteCampDAO {
 	String userid = "David";
 	String passwd = "123456";
 	
-//	private static DataSource ds = null;
-//	static {
-//		try {
-//			Context ctx = new InitialContext();
-//			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB2");
-//		} catch (NamingException e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	private static final String CLOUM_FOR_INSERT = "member_Id,camp_Id";
 	private static final String CLOUM_FOR_ALL = "favorite_camp_id,"
 			+ CLOUM_FOR_INSERT;
 	private static final String INSERT_STMT = "INSERT INTO favorite_camp ("
 			+ CLOUM_FOR_INSERT + ") " + "VALUES (?, ?)";
-	private static final String GET_ALL_STMT = "SELECT "+CLOUM_FOR_INSERT +" FROM favorite_camp where  member_id=?";
+	private static final String GET_ALL_STMT = "SELECT "+CLOUM_FOR_ALL +" FROM favorite_camp where  member_id=?";//12/21新增favorite_camp_id
 	
 	private static final String GET_ONE_STMT = "SELECT " + CLOUM_FOR_INSERT
 			+ " FROM favorite_camp where favorite_camp_id = ?";
@@ -191,7 +183,7 @@ public class FavoriteCampDAOlmpl implements FavoriteCampDAO {
 				favoriteCampVO = new FavoriteCampVO();
 				favoriteCampVO.setCampId(rs.getInt("camp_Id"));
 				favoriteCampVO.setMemberId(rs.getInt("member_Id"));
-				favoriteCampVO.setFavoriteCampId(rs.getInt("favorite_Camp_Id"));
+				favoriteCampVO.setFavoriteCampId(rs.getInt("favorite_camp_Id"));//12/21新增
 			}
 
 		
@@ -256,7 +248,8 @@ public class FavoriteCampDAOlmpl implements FavoriteCampDAO {
 				favoriteCampVO = new FavoriteCampVO();
 				favoriteCampVO.setCampId(rs.getInt("camp_Id"));
 				favoriteCampVO.setMemberId(rs.getInt("member_Id"));
-				list.add(favoriteCampVO); // Store the row in the list
+				favoriteCampVO.setFavoriteCampId(rs.getInt("favorite_camp_id"));
+				list.add(favoriteCampVO); 
 			}
 
 		
