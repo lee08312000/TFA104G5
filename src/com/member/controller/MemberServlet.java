@@ -66,7 +66,7 @@ public class MemberServlet extends HttpServlet {
     			System.out.println("登入成功");
 
  
-    			String url = "/front_end/member/member_main.jsp";
+    			String url = "/front_end/member/jsp/member_main.jsp";
 
 
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 

@@ -68,7 +68,7 @@ String PaymentDate=(String)request.getAttribute("PaymentDate");
                 <p class="lead">訂單編號:${orderId}</p>
                   <p class="lead">訂單成立時間:${PaymentDate}</p>
                 <a class="btn animation" href="camp_index.html">&larr; 回首頁</a>
-                <a class="btn animation" href="#"> 查看訂單&rarr;</a>
+                <a class="btn animation" href="<%=request.getContextPath()%>/member/jsp/member_camp_order_list.jsp"> 查看訂單&rarr;</a>
 
             </div>
 
