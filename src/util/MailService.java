@@ -16,13 +16,18 @@ import javax.mail.internet.MimeMessage;
 import com.company.model.CompanyService;
 import com.mallOrder.model.MallOrderService;
 import com.mallOrder.model.MallOrderVO;
+import com.mallOrderDetail.model.MallOrderDetailService;
+import com.mallOrderDetail.model.MallOrderDetailVO;
+import com.product.model.ProductService;
 
 public class MailService {
 	
 	// 設定傳送郵件:至收信人的Email信箱,Email主旨,Email內容
 	public void sendMailByMallOrder(String to, String subject, List<Integer> mallOrderIdList) {
 		MallOrderService mallOrderSvc = new MallOrderService();
+		MallOrderDetailService mallOrderDetailSvc = new MallOrderDetailService();
 		CompanyService companySvc = new CompanyService();
+		ProductService productSvc = new ProductService();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			   // 設定使用SSL連線至 Gmail smtp Server
@@ -51,10 +56,50 @@ public class MailService {
 			   message.setSubject(subject);
 			   //設定信中的內容 
 			   String mallOrderStr = "";
+			   int count = 1;
 			   for (Integer mallOrderId : mallOrderIdList) {
 				   MallOrderVO mallOrderVO = mallOrderSvc.getOneMallOrder(mallOrderId);
+				   List<MallOrderDetailVO> mallOrderDetailVOList = mallOrderDetailSvc.getBymallOrderId(mallOrderId);
+				   String orderDetailTableStr = "";
+				   for (MallOrderDetailVO mallOrderDetailVO : mallOrderDetailVOList) {
+					   orderDetailTableStr += 
+							   "<tr>"
+							   + "<td>" + productSvc.getOneProduct(mallOrderDetailVO.getProductId()).getProductName() + "</td>"
+							   + "<td>" + mallOrderDetailVO.getProductPurchaseQuantity() + "</td>"
+							   + "<td>" + mallOrderDetailVO.getProductPurchasePrice() + "</td>"
+							   + "<td>" + (mallOrderDetailVO.getProductPurchaseQuantity().intValue() * mallOrderDetailVO.getProductPurchasePrice().intValue()) + "</td>"
+							   + "</tr>";
+				   }
+				   
+				   String orderDetailStr = 
+						   "<table>"
+							+ "<tr>"
+							+ "<th>商品名稱</th>" 
+							+ "<th>數量</th>"
+							+ "<th>單價</th>"
+							+ "<th>項目金額</th>"
+							+ "</tr>"
+							+ orderDetailTableStr
+							+ "</table>";
+				   
+				   
+				   
+				   
 				   mallOrderStr += 
-						   "<tr>"
+						   "<p>第" + (count++) + "筆訂單資訊如下:</p>"
+						   + "<table>"
+						   + "<tr>"
+						   + "<th>訂單編號</th>" 
+						   + "<th>廠商名稱</th>"
+						   + "<th>總金額</th>"
+						   + "<th>收件人姓名</th>"
+						   + "<th>收件人電話</th>"
+						   + "<th>收件人地址</th>"
+						   + "<th>成立時間</th>"
+						   + "<th>訂單狀態</th>"
+						   + "<th>物流狀態</th>"
+						   + "</tr>"
+						   + "<tr>"
 						   + "<td>" + mallOrderVO.getMallOrderId() + "</td>"
 						   + "<td>" + companySvc.getOneCompany(mallOrderVO.getCompanyId()).getCompanyName() + "</td>"
 						   + "<td>" + mallOrderVO.getMailOrderTotalAmount() + "</td>"
@@ -64,26 +109,19 @@ public class MailService {
 						   + "<td>" + sdf.format(mallOrderVO.getMallOrderConfirmedTime()) + "</td>"
 						   + "<td>" + (mallOrderVO.getMallOrderStatus().intValue() == 0 ? "處理中" : mallOrderVO.getMallOrderStatus().intValue() == 1 ? "已確認" : mallOrderVO.getMallOrderStatus().intValue() == 2 ? "已完成" : "異常狀態") + "</td>"
 						   + "<td>" + (mallOrderVO.getMallOrderDeliveryStatus().intValue() == 0 ? "未發貨" : mallOrderVO.getMallOrderDeliveryStatus().intValue() == 1 ? "已發貨" : mallOrderVO.getMallOrderDeliveryStatus().intValue() == 2 ? "已收貨" : "異常狀態") + "</td>"
-						   + "</tr>";
+						   + "</tr>"
+						   + "</table>"
+						   + "<p>商品明細如下:</p>"
+						   + orderDetailStr
+						   + "<hr>";
+				   
+				   
 			   }
 			   String orgerTable = 
 					   "<html><head><style>table,th,tr,td{border: 1px solid black; border-collapse: collapse;}</style></head>"
 					   + "<body>"
 					   +"<h2>訂單已成立，訂單資訊如下:</h2>"
-					   + "<table>"
-					   + "<tr>"
-					   + "<th>訂單編號</th>" 
-					   + "<th>廠商名稱</th>"
-					   + "<th>總金額</th>"
-					   + "<th>收件人姓名</th>"
-					   + "<th>收件人電話</th>"
-					   + "<th>收件人地址</th>"
-					   + "<th>成立時間</th>"
-					   + "<th>訂單狀態</th>"
-					   + "<th>物流狀態</th>"
-					   + "</tr>"
 					   + mallOrderStr
-					   + "</table>"
 					   + "</body>"
 					   + "</html>"; 
 			   
