@@ -8,7 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -360,11 +362,11 @@ public class CampDAOImpl implements CampDAO {
 			case 3: // 熱門排行
 				order = "rank_no asc";
 				break;
-			case 4://營地申請上架時間(升序)
-				order="camp_applied_launch_time asc";
+			case 4:// 營地申請上架時間(升序)
+				order = "camp_applied_launch_time asc";
 				break;
-			case 5://營地申請上架時間(降序)
-				order="camp_applied_launch_time desc";
+			case 5:// 營地申請上架時間(降序)
+				order = "camp_applied_launch_time desc";
 				break;
 			default: // 營地流水號
 				order = "camp_id";
@@ -374,25 +376,26 @@ public class CampDAOImpl implements CampDAO {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				campVO = new CampVO();
-				campVO.setCampId(rs.getInt("camp_Id"));
-				campVO.setCompanyId(rs.getInt("company_Id"));
-				campVO.setCampStatus(rs.getInt("camp_Status"));
+				campVO.setCampId(rs.getInt("camp_id"));
+				campVO.setCompanyId(rs.getInt("company_id"));
+				campVO.setCampStatus(rs.getInt("camp_status"));
 				campVO.setCampDiscription(rs.getString("camp_description"));
 				campVO.setCampName(rs.getString("camp_name"));
-				campVO.setCampPic1(checkBlob(rs.getBlob("camp_Pic_1")));
-				campVO.setCampPic2(checkBlob(rs.getBlob("camp_Pic_2")));
-				campVO.setCampPic3(checkBlob(rs.getBlob("camp_Pic_3")));
-				campVO.setCampPic4(checkBlob(rs.getBlob("camp_Pic_4")));
-				campVO.setCampPic5(checkBlob(rs.getBlob("camp_Pic_5")));
-				campVO.setCampAddress(rs.getString("camp_Address"));
-				campVO.setCampPhone(rs.getString("camp_Phone"));
-				campVO.setCertificateNum(rs.getString("certificate_Num"));
-				campVO.setCertificatePic(checkBlob(rs.getBlob("certificate_Pic")));
-				campVO.setCampLaunchedTime(rs.getTimestamp("camp_Launched_Time"));
-				campVO.setCampAppliedLaunchTime(rs.getTimestamp("camp_Applied_Launch_Time"));
+				campVO.setCampRule(rs.getString("camp_rule"));
+				campVO.setCampPic1(checkBlob(rs.getBlob("camp_pic_1")));
+				campVO.setCampPic2(checkBlob(rs.getBlob("camp_pic_2")));
+				campVO.setCampPic3(checkBlob(rs.getBlob("camp_pic_3")));
+				campVO.setCampPic4(checkBlob(rs.getBlob("camp_pic_4")));
+				campVO.setCampPic5(checkBlob(rs.getBlob("camp_pic_5")));
+				campVO.setCampAddress(rs.getString("camp_address"));
+				campVO.setCampPhone(rs.getString("camp_phone"));
+				campVO.setCertificateNum(rs.getString("certificate_num"));
+				campVO.setCertificatePic(checkBlob(rs.getBlob("certificate_pic")));
+				campVO.setCampLaunchedTime(rs.getTimestamp("camp_launched_time"));
 				campVO.setLongitude(rs.getBigDecimal("longitude"));
 				campVO.setLattitude(rs.getBigDecimal("lattitude"));
 				campVO.setCampAppliedLaunchTime(rs.getTimestamp("camp_applied_launch_time"));
+
 				list.add(campVO);
 			}
 
@@ -494,8 +497,6 @@ public class CampDAOImpl implements CampDAO {
 		}
 		return list;
 	}
-
-
 
 	@Override
 	public List<CampVO> getAll() {
@@ -659,6 +660,117 @@ public class CampDAOImpl implements CampDAO {
 			}
 		}
 		return camplist;
+	}
+
+	@Override
+	public Map getAllByPage(Integer rows, Integer status, Integer reqpage) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
+		ResultSet rs = null;
+		ResultSet rs1 = null;
+		List<CampVO> list = new ArrayList<CampVO>();
+		CampVO campVO = null;
+		Integer allrows = null; // 總筆數
+		Integer offset = null; // 略過筆數
+		Integer allpage = null; // 總頁數
+		Map pagemap = null;
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			// 查詢總筆數
+			pstmt1 = con.prepareStatement("select count(*) from camp where camp_status=" + " " + status);
+			rs1 = pstmt1.executeQuery();
+			if (rs1.next()) {
+				allrows = rs1.getInt(1);
+			}
+			rs1.close();
+			pstmt = con.prepareStatement(ALL_PAGE);
+			//計算總頁數
+			if (allrows % rows >= 0) {
+
+				allpage = (allrows / rows) + 1;
+
+			} else {
+				allpage = allrows / rows;
+			}
+System.out.println("總比數" + allrows);
+
+System.out.println("總頁數" + allpage);
+			offset = rows * (reqpage - 1);
+			pstmt.setInt(1, status);
+			pstmt.setInt(2, offset);
+			pstmt.setInt(3, rows);
+System.out.println("顯示筆數" + rows);
+System.out.println("顯示筆數" + (allrows - offset));
+System.out.println("略過筆數" + offset);
+System.out.println("請求頁數" + reqpage);
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				campVO = new CampVO();
+				campVO.setCampId(rs.getInt("camp_Id"));
+				campVO.setCompanyId(rs.getInt("company_Id"));
+				campVO.setCampStatus(rs.getInt("camp_Status"));
+				campVO.setCampDiscription(rs.getString("camp_description"));
+				campVO.setCampName(rs.getString("camp_name"));
+				campVO.setCampRule(rs.getString("camp_rule"));
+				campVO.setCampPic1(checkBlob(rs.getBlob("camp_Pic_1")));
+				campVO.setCampPic2(checkBlob(rs.getBlob("camp_Pic_2")));
+				campVO.setCampPic3(checkBlob(rs.getBlob("camp_Pic_3")));
+				campVO.setCampPic4(checkBlob(rs.getBlob("camp_Pic_4")));
+				campVO.setCampPic5(checkBlob(rs.getBlob("camp_Pic_5")));
+				campVO.setCampAddress(rs.getString("camp_Address"));
+				campVO.setCampPhone(rs.getString("camp_Phone"));
+				campVO.setCertificateNum(rs.getString("certificate_num"));
+				campVO.setCertificatePic(checkBlob(rs.getBlob("certificate_pic")));
+				campVO.setCampLaunchedTime(rs.getTimestamp("camp_launched_time"));
+				campVO.setLongitude(rs.getBigDecimal("longitude"));
+				campVO.setLattitude(rs.getBigDecimal("lattitude"));
+				campVO.setCampAppliedLaunchTime(rs.getTimestamp("camp_applied_launch_time"));
+				list.add(campVO);
+			}
+			pagemap = new HashMap();
+			pagemap.put("pagedata", list);
+			pagemap.put("allpage", allpage);
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt1 != null) {
+				try {
+					pstmt1.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return pagemap;
 	}
 
 }

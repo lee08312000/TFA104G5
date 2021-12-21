@@ -14,7 +14,7 @@
 /* 營地篩選條件CSS */
 
 section.camp_conditions {
-    width: 100%;
+    max-width:1200px;
     margin: 40px 30px;
 }
 
@@ -281,7 +281,7 @@ div.overlay>article>h1 {
     border: 3px solid #00B4CC;
     border-right: none;
     padding: 5px;
-    height: 20px;
+    
     border-radius: 5px 0 0 5px;
     outline: none;
     color: #9DBFAF;
@@ -309,10 +309,9 @@ div.overlay>article>h1 {
 /*Resize the wrap to see the search bar change!*/
 
 .wrap {
+	max-width:1200px;
     width: 30%;
-    position: relative;
-    top: 50%;
-    left: 50%;
+    float:right;
     transform: translate(-50%, -50%);
     box-sizing: content-box !important;
 }

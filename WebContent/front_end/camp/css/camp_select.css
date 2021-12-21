@@ -1,0 +1,78 @@
+/* 加入我的最愛 */
+
+a.addlove img {
+    transform: scale(1, 1);
+    transition: all 0.6s ease;
+}
+
+a.addlove img:hover {
+    transform: scale(1.5, 1.5);
+}
+
+.morebtn {
+    background-color: rgb(82, 77, 67);
+    color: seashell;
+    position: relative;
+    left: 600px;
+    transform: translateX(-50%);
+    margin: 20px auto;
+}
+
+
+/* 加入我的最愛燈箱lightbox */
+
+.btn_modal {
+    cursor: pointer;
+}
+
+div.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: hsla(0, 0%, 0%, .5);
+    display: none;
+}
+
+tm-gallery-img1 {
+    /* margin-bottom: 20px; */
+    width: 100%;
+    height: 550px;
+    /* height: 400px; */
+}
+
+.figcol {
+    height: 550px;
+}
+
+.page2-gallery article{
+height:450px;	
+	
+	
+}
+
+.selemiddle {
+    display: inline-block;
+    width: 80%;
+}
+
+.submitbtn {
+    display: inline-block;
+    width: 80px;
+    height: 30px;
+    font-size: 16px;
+}
+
+.search_order_by {
+    font-size: inherit;
+    padding: 0.5rem 0.4rem;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    background-color: transparent;
+    color: #2F956D;
+    user-select: none;
+}
+
+.sec_condition {
+    margin: 0 20px;
+}

@@ -1,12 +1,9 @@
 package com.member.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,8 +15,6 @@ import javax.servlet.http.HttpSession;
 
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
-
-import util.Util;
 
 @WebServlet("/member/MemberServlet")
 public class MemberServlet extends HttpServlet {
@@ -67,6 +62,7 @@ public class MemberServlet extends HttpServlet {
     		/***************************3.查詢完成,準備轉交(Send the Success view)*************/
     			session.setAttribute("memberVO", memberVO); // 成功登入的話，
     			System.out.println("登入成功");
+ 
     			String url = "/front_end/member/member_main.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 
 				successView.forward(req, res);

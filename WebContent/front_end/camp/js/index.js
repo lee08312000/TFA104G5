@@ -65,7 +65,7 @@ window.addEventListener("load", function() {
 
 
     $.ajax({
-        url: "http://localhost:8081/TFA104G5/CampServlet", // 資料請求的網址
+        url: "http://localhost:8081/TFA104G5/CampServlet2", // 資料請求的網址
         type: "GET", // GET | POST | PUT | DELETE | PATCH
         data: {
             'action': 'hotcamp'

@@ -30,6 +30,7 @@ button {
 html {
     box-sizing: border-box;
     -ms-overflow-style: scrollbar;
+    overflow-x: hidden;
 }
 
 *,
@@ -219,9 +220,9 @@ body {
     font-family: 'Open Sans', Arial, sans-serif;
     font-size: 17px;
     background-color: #ccc;
-    overflow-x: hidden;
+   
     /* 背景 */
-    background-image: url('/demo6/img/background/leaf.png');
+    background-image: url('../img/background/leaf.png');
     background-attachment: fixed;
     /* 重複並壓縮或拉伸背景圖像以填充空間（無間隙） */
     background-repeat: round;
@@ -365,7 +366,7 @@ address {
     width: 95%;
     margin: 0 auto;
     margin-bottom: 10px;
-    background: white;
+  
     box-shadow: 0 0 3px rgb(27 77 43 / 15%);
     margin-top: 1.1rem;
 }
@@ -378,6 +379,8 @@ address {
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+
+    
 }
 
 .tm-gallery-description {
@@ -436,6 +439,7 @@ address {
     height: 450px;
     width: 550px;
     box-shadow: inset 0 0 15px rgb(57, 199, 199), 0 0 5px black;
+      background-color: white;
 }
 
 .tm-gallery-title {

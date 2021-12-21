@@ -2,6 +2,7 @@ package com.camp.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface CampDAO {
 
@@ -25,8 +26,8 @@ public interface CampDAO {
 	
 
 
-	//查詢全部營地(分頁模式) offset =略過筆數; rows=顯示筆數   
-//	public List<CampVO> getAllByPage(Integer offset,Integer rows,Integer status);
+	//查詢全部營地(分頁模式)  rows=顯示筆數   
+	public Map getAllByPage(Integer rows,Integer status,Integer reqpage);
 	
 	
 
