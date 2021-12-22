@@ -173,7 +173,7 @@ public class CampOrderService {
 //查詢訂單明細by訂單編號(使用者)
 
 	public List<CampOrderVO> OrderByOrderId(Integer orderId, Integer memberId) {
-		List<CampOrderVO> daolist = orderdao.getAll();
+		List<CampOrderVO> daolist = orderdao.getAll(0);
 		List<CampOrderVO> querylist = new ArrayList<CampOrderVO>();
 		for (CampOrderVO obj : daolist) {
 			if (obj.getMemberId() == memberId && obj.getCampOrderId() == memberId) {
