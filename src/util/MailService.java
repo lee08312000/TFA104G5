@@ -85,42 +85,75 @@ public class MailService {
 				   
 				   
 				   
-				   mallOrderStr += 
-						   "<p>第" + (count++) + "筆訂單資訊如下:</p>"
-						   + "<table>"
-						   + "<tr>"
-						   + "<th>訂單編號</th>" 
-						   + "<th>廠商名稱</th>"
-						   + "<th>總金額</th>"
-						   + "<th>收件人姓名</th>"
-						   + "<th>收件人電話</th>"
-						   + "<th>收件人地址</th>"
-						   + "<th>成立時間</th>"
-						   + "<th>訂單狀態</th>"
-						   + "<th>物流狀態</th>"
-						   + "</tr>"
-						   + "<tr>"
-						   + "<td>" + mallOrderVO.getMallOrderId() + "</td>"
-						   + "<td>" + companySvc.getOneCompany(mallOrderVO.getCompanyId()).getCompanyName() + "</td>"
-						   + "<td>" + mallOrderVO.getMailOrderTotalAmount() + "</td>"
-						   + "<td>" + mallOrderVO.getReceiverName() + "</td>"
-						   + "<td>" + mallOrderVO.getReceiverPhone() + "</td>"
-						   + "<td>" + mallOrderVO.getReceiverAddress() + "</td>"
-						   + "<td>" + sdf.format(mallOrderVO.getMallOrderConfirmedTime()) + "</td>"
-						   + "<td>" + (mallOrderVO.getMallOrderStatus().intValue() == 0 ? "處理中" : mallOrderVO.getMallOrderStatus().intValue() == 1 ? "已確認" : mallOrderVO.getMallOrderStatus().intValue() == 2 ? "已完成" : "異常狀態") + "</td>"
-						   + "<td>" + (mallOrderVO.getMallOrderDeliveryStatus().intValue() == 0 ? "未發貨" : mallOrderVO.getMallOrderDeliveryStatus().intValue() == 1 ? "已發貨" : mallOrderVO.getMallOrderDeliveryStatus().intValue() == 2 ? "已收貨" : "異常狀態") + "</td>"
-						   + "</tr>"
-						   + "</table>"
-						   + "<p>商品明細如下:</p>"
-						   + orderDetailStr
-						   + "<hr>";
+				   if (mallOrderIdList.size() > 1) {
+					   mallOrderStr += 
+							   "<p>第" + (count++) + "筆訂單資訊如下:</p>"
+							   + "<table>"
+							   + "<tr>"
+							   + "<th>訂單編號</th>" 
+							   + "<th>廠商名稱</th>"
+							   + "<th>總金額</th>"
+							   + "<th>收件人姓名</th>"
+							   + "<th>收件人電話</th>"
+							   + "<th>收件人地址</th>"
+							   + "<th>成立時間</th>"
+							   + "<th>訂單狀態</th>"
+							   + "<th>物流狀態</th>"
+							   + "</tr>"
+							   + "<tr>"
+							   + "<td>" + mallOrderVO.getMallOrderId() + "</td>"
+							   + "<td>" + companySvc.getOneCompany(mallOrderVO.getCompanyId()).getCompanyName() + "</td>"
+							   + "<td>" + mallOrderVO.getMailOrderTotalAmount() + "</td>"
+							   + "<td>" + mallOrderVO.getReceiverName() + "</td>"
+							   + "<td>" + mallOrderVO.getReceiverPhone() + "</td>"
+							   + "<td>" + mallOrderVO.getReceiverAddress() + "</td>"
+							   + "<td>" + sdf.format(mallOrderVO.getMallOrderConfirmedTime()) + "</td>"
+							   + "<td>" + (mallOrderVO.getMallOrderStatus().intValue() == 0 ? "處理中" : mallOrderVO.getMallOrderStatus().intValue() == 1 ? "已確認" : mallOrderVO.getMallOrderStatus().intValue() == 2 ? "已完成" : "異常狀態") + "</td>"
+							   + "<td>" + (mallOrderVO.getMallOrderDeliveryStatus().intValue() == 0 ? "未發貨" : mallOrderVO.getMallOrderDeliveryStatus().intValue() == 1 ? "已發貨" : mallOrderVO.getMallOrderDeliveryStatus().intValue() == 2 ? "已收貨" : "異常狀態") + "</td>"
+							   + "</tr>"
+							   + "</table>"
+							   + "<p>商品明細如下:</p>"
+							   + orderDetailStr
+							   + "<hr>";
+				   } else {
+					   
+					   mallOrderStr += 
+									   "<table>"
+									   + "<tr>"
+									   + "<th>訂單編號</th>" 
+									   + "<th>廠商名稱</th>"
+									   + "<th>總金額</th>"
+									   + "<th>收件人姓名</th>"
+									   + "<th>收件人電話</th>"
+									   + "<th>收件人地址</th>"
+									   + "<th>成立時間</th>"
+									   + "<th>訂單狀態</th>"
+									   + "<th>物流狀態</th>"
+									   + "</tr>"
+									   + "<tr>"
+									   + "<td>" + mallOrderVO.getMallOrderId() + "</td>"
+									   + "<td>" + companySvc.getOneCompany(mallOrderVO.getCompanyId()).getCompanyName() + "</td>"
+									   + "<td>" + mallOrderVO.getMailOrderTotalAmount() + "</td>"
+									   + "<td>" + mallOrderVO.getReceiverName() + "</td>"
+									   + "<td>" + mallOrderVO.getReceiverPhone() + "</td>"
+									   + "<td>" + mallOrderVO.getReceiverAddress() + "</td>"
+									   + "<td>" + sdf.format(mallOrderVO.getMallOrderConfirmedTime()) + "</td>"
+									   + "<td>" + (mallOrderVO.getMallOrderStatus().intValue() == 0 ? "處理中" : mallOrderVO.getMallOrderStatus().intValue() == 1 ? "已確認" : mallOrderVO.getMallOrderStatus().intValue() == 2 ? "已完成" : "異常狀態") + "</td>"
+									   + "<td>" + (mallOrderVO.getMallOrderDeliveryStatus().intValue() == 0 ? "未發貨" : mallOrderVO.getMallOrderDeliveryStatus().intValue() == 1 ? "已發貨" : mallOrderVO.getMallOrderDeliveryStatus().intValue() == 2 ? "已收貨" : "異常狀態") + "</td>"
+									   + "</tr>"
+									   + "</table>"
+									   + "<p>商品明細如下:</p>"
+									   + orderDetailStr
+									   + "<hr>";
+				   }
+				   
 				   
 				   
 			   }
 			   String orgerTable = 
 					   "<html><head><style>table,th,tr,td{border: 1px solid black; border-collapse: collapse;}</style></head>"
 					   + "<body>"
-					   +"<h2>訂單已成立，訂單資訊如下:</h2>"
+					   +"<h2>訂單已成立，訂單資訊如下:" + "共 " + mallOrderIdList.size() + " 筆" +"</h2>"
 					   + mallOrderStr
 					   + "</body>"
 					   + "</html>"; 
@@ -189,7 +222,7 @@ public class MailService {
 //      mailService.sendMail(to, subject, messageText);
       
       
-      mailService.sendMailByMallOrder(to, "Camping Paradise-商城訂單成立", Arrays.asList(71,72));
+      mailService.sendMailByMallOrder(to, "Camping Paradise-商城訂單成立", Arrays.asList(71));
 
    }
 

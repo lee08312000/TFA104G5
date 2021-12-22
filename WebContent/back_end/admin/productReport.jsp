@@ -679,6 +679,7 @@
 								</form>
 								<form method="post" action="<%=request.getContextPath()%>/ProductReport/ProductReportServlet" style="display:inline-block;">
 									<input type="hidden" name="action" value="noUsed">
+									<input type="hidden" name="reportReason" value="${ productReportVO.reportReason }">
 									<input type="hidden" name="productId" value="${ productReportVO.productId }">
 									<input type="submit" value="下架商品">
 								</form>
