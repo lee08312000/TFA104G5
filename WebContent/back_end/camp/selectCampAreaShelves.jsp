@@ -34,13 +34,13 @@
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/back_end/css/selectCampArea.css?v=004">
+	href="<%=request.getContextPath()%>/back_end/css/selectCamp.css?v=005">
 </head>
 <body>
 	
 	<!-- --------main跋办------- -->
 	
-	<h1 style="margin-right:45px">犁 ${errorMsgs}</h1>
+	<h1 style="margin-right:45px">犁琩高 ${errorMsgs}</h1>
 	<form method="post" ACTION="<%=request.getContextPath()%>/camp/shelves.do">
 		<div class="selectors" style="float:left">		 
 		     <input type="hidden" name="campstatus" value="3">
@@ -86,7 +86,7 @@
 				<th>キら虫基</th>
 				<th>基ら虫基</th>
 				<th>–眀潦<br>繷</th>
-				<th>潦<br>繷基</th>
+				<th>潦<br>繷基</th>
 				<th>眀计</th>
 				<th>畐眀计</th>
 				<th>犁酚</th>

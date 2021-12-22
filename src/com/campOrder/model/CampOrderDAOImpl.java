@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,10 @@ public class CampOrderDAOImpl implements CampOrderDAO {
 
 	private static final String GET_ALL = "SELECT * FROM camp_order";
 
-
+	//12/22營地評價查詢
+	private static final String  SELECT_STMT_CAMP_COMMENT=  "SELECT camp_order_id,member_id,camp_comment,camp_comment_star,camp_order_comment_time"
+			+ " FROM camp_order where 1 = 1 and camp_order_comment_time  between ? and ?";
+		
 	private static final String GET_ALL2 = "SELECT * FROM camp_order order by ";
 
 	private static final String FIND_HOTCAMP = "SELECT camp_id,(sum(camp_comment_star)/count(*)) as 'avg_star',count(*) as 'compl_ordernum' FROM campingParadise.camp_order where camp_order_completed_time is not null group by camp_id order by compl_ordernum desc,avg_star desc";
@@ -632,7 +636,74 @@ public class CampOrderDAOImpl implements CampOrderDAO {
 		return list;
 	}
 
+	@Override    
+	public List<CampOrderVO> selectCampComment(Timestamp startDateTimestamp, Timestamp endDateTimestamp,
+			Integer campOrder) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		CampOrderVO campOrderVO = null;
+		List<CampOrderVO> listcomment = new ArrayList<>();
+		try {
+			con = ds.getConnection();			
+			String sql = SELECT_STMT_CAMP_COMMENT;
+			if(campOrder != -1) {
+				sql = SELECT_STMT_CAMP_COMMENT+ " and camp_order_id like '%' ? '%'";
+			}
+			pstmt = con.prepareStatement(SELECT_STMT_CAMP_COMMENT);
+			pstmt.setTimestamp(1,startDateTimestamp);
+			pstmt.setTimestamp(2,endDateTimestamp);
+			if(campOrder != -1) {
+				pstmt.setInt(3, campOrder);
+			}
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				campOrderVO = new CampOrderVO();
+	
+				campOrderVO.setCampOrderId(rs.getInt(1));
+				campOrderVO.setMemberId(rs.getInt(2));
+				campOrderVO.setCampCommentStar(rs.getInt(3));
+				campOrderVO.setCampComment(rs.getString(4));
+				campOrderVO.setCampOrderCommentTime(rs.getTimestamp(5));
+				listcomment.add(campOrderVO);
+				
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+			// Clean up JDBC resources
+		} finally {
+
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+		return listcomment;
+	}
 }
+		
+		
+	
 
 
 

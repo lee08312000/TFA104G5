@@ -1,4 +1,6 @@
 
+
+
 package com.camp.controller;
 
 import java.io.IOException;
@@ -378,13 +380,16 @@ public class CampServlet extends HttpServlet {
 			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 				
-			
+				String campId = req.getParameter("camp_id");
+				campVO.setCampId(Integer.valueOf(campId));
+				
 				String certificateNum = req.getParameter("certificate_num");
 				if (certificateNum == null || (certificateNum.trim()).length() == 0) {
 					errorMsgs.add("認證字號:請勿空白");
 				} else {
 					campVO.setCertificateNum(certificateNum);
 				}
+				
 				
 				/*************************** 2.開始查詢資料 *****************************************/
 				// 新增營地後,執行查詢
@@ -393,12 +398,12 @@ public class CampServlet extends HttpServlet {
 				campSerive.updateCampCertificatenum(campVO, companyVO);
 				
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-				String url = "/back_end/camp/updateCampCertificatenum.jsp";
+				String url = "/back_end/camp/selectCampCertificatenum.jsp";
 				RequestDispatcher rd = req.getRequestDispatcher(url);
 				rd.forward(req, res);
 			} catch (Exception e) {
 				e.printStackTrace();
-				String url = "/back_end/camp/selectCampCertificatenum.jsp";
+				String url = "/back_end/camp/updateCampCertificatenum.jsp";
 				RequestDispatcher rd = req.getRequestDispatcher(url);
 				rd.forward(req, res);
 			}
@@ -410,43 +415,16 @@ public class CampServlet extends HttpServlet {
 		/******************** * 營地上架審核 ********************************************************/
 		// 查詢營地上架審核
 
-		if (action.equals("SEARCH")) {
+		if (action.equals("SEARCHCAMPANY")) {
 
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			List<CampVO> cavList = new ArrayList<CampVO>();
-			String str = req.getParameter("campstatus");
-			String startime = req.getParameter("startDate");
 
-			if (startime == null || (startime.trim()).length() == 0) {
-				Calendar startimeCalendar = Calendar.getInstance();
-				startimeCalendar.add(Calendar.DATE, -90);
-				startime = sdf.format(startimeCalendar.getTime());
-			}
+			String companyName = req.getParameter("companyName");
 
-			String endtime = req.getParameter("endDate");
-
-			if (endtime == null || (endtime.trim()).length() == 0) {
-				Calendar endtimeCalendar = Calendar.getInstance();
-				endtime = sdf.format(endtimeCalendar.getTime());
-			}
-
-			String campIdsearchs = req.getParameter("campIdsearch");
-			Date stardate = null;
-			Date enddate = null;
-			try {
-				stardate = new SimpleDateFormat("yyyy-MM-dd").parse(startime);
-				enddate = new SimpleDateFormat("yyyy-MM-dd").parse(endtime);
-
-			} catch (ParseException e) {
-
-				e.printStackTrace();
-			}
-
-			int campstatus = Integer.valueOf(str);
 			CampService campSvc = new CampService();
-			cavList = campSvc.camplist(campstatus, stardate, enddate, campIdsearchs);
+			List<CampVO> campVolist = new ArrayList<CampVO>();
+			campVolist = campSvc.selectAllCampCheck(companyName);
 
-			req.setAttribute("list", cavList);
+			req.setAttribute("list", campVolist);
 			String url = "/back_end/camp/selectCampCertificatenum.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);

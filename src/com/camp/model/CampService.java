@@ -1,5 +1,4 @@
 
-
 package com.camp.model;
 
 import java.math.BigDecimal;
@@ -20,7 +19,6 @@ import java.util.List;
 public class CampService {
 	private CampDAO campdao;
 	private CompanyDAO companydao;
-	
 
 	public CampService() {
 		campdao = new CampDAOImpl();
@@ -64,27 +62,27 @@ public class CampService {
 
 		return campdao.getAll();
 	}
-	
-	//7.更新營地審核上架欄位     12/7新增	
-	public void updateCampCertificatenum(CampVO campVO ,CompanyVO companyVO ) throws Exception {
 
-		campdao.update(campVO);
+	// 7.更新營地審核上架欄位 12/7新增
+	public void updateCampCertificatenum(CampVO campVO, CompanyVO companyVO) throws Exception {
 
+		campdao.updateCampCheck(campVO);
 
-
-		
 	}
-	
-	//8.查詢營地上架審核欄位 12/7新增
-	   public CampVO selectCampCheck(Integer campId) {
-		   
-		  return campdao.getSelectStmt(campId);
-		   
-	   }
-	
-	
-	
-	
+
+	// 8.查詢營地上架審核欄位 12/7新增
+	public CampVO selectCampCheck(Integer campId) {
+
+		return campdao.getSelectStmt(campId);
+
+	}
+
+	// 9.查詢營地上架所有審核欄位 12/21新增
+	public List<CampVO> selectAllCampCheck(String companyName) {
+
+		return campdao.selectAllCampCheck(companyName);
+
+	}
 
 //查詢營地資料
 	public CampVO findCampByCampId(Integer campId) {
@@ -122,34 +120,32 @@ public class CampService {
 
 		return campdao.findByKeyWord(words);
 	}
-	
-	
-	
-	//更新營地資料(不能更改的有1.營地上架時間，2.營地申請上架時間)
-	//刪除營地用狀態改變方式:下架
-		public void update(Integer campId, Integer companyId, Integer campStatus, String campName, String campRule,
-				byte[] campPic1, byte[] campPic2, byte[] campPic3, byte[] campPic4, byte[] campPic5, String campAddress,
-				String campPhone, String certificateNum, byte[] certificatePic, Timestamp campLaunchedTime,
-				Timestamp campAppliedLaunchTime, BigDecimal longitude, BigDecimal lattitude) {
 
-			CampVO campvo = campdao.findByPrimaryKey(campId);
-			campvo.setCompanyId(companyId);
-			campvo.setCampStatus(campStatus);
-			campvo.setCampName(campName);
-			campvo.setCampRule(campRule);
-			campvo.setCampPic1(campPic1);
-			campvo.setCampPic2(campPic2);
-			campvo.setCampPic3(campPic3);
-			campvo.setCampPic4(campPic4);
-			campvo.setCampPic5(campPic5);
-			campvo.setCampAddress(campAddress);
-			campvo.setCampPhone(campPhone);
-			campvo.setCertificateNum(certificateNum);
-			campvo.setCertificatePic(certificatePic);
-			campvo.setLongitude(longitude);
-			campvo.setLattitude(lattitude);
-			campdao.update(campvo);
+	// 更新營地資料(不能更改的有1.營地上架時間，2.營地申請上架時間)
+	// 刪除營地用狀態改變方式:下架
+	public void update(Integer campId, Integer companyId, Integer campStatus, String campName, String campRule,
+			byte[] campPic1, byte[] campPic2, byte[] campPic3, byte[] campPic4, byte[] campPic5, String campAddress,
+			String campPhone, String certificateNum, byte[] certificatePic, Timestamp campLaunchedTime,
+			Timestamp campAppliedLaunchTime, BigDecimal longitude, BigDecimal lattitude) {
 
-		}
+		CampVO campvo = campdao.findByPrimaryKey(campId);
+		campvo.setCompanyId(companyId);
+		campvo.setCampStatus(campStatus);
+		campvo.setCampName(campName);
+		campvo.setCampRule(campRule);
+		campvo.setCampPic1(campPic1);
+		campvo.setCampPic2(campPic2);
+		campvo.setCampPic3(campPic3);
+		campvo.setCampPic4(campPic4);
+		campvo.setCampPic5(campPic5);
+		campvo.setCampAddress(campAddress);
+		campvo.setCampPhone(campPhone);
+		campvo.setCertificateNum(certificateNum);
+		campvo.setCertificatePic(certificatePic);
+		campvo.setLongitude(longitude);
+		campvo.setLattitude(lattitude);
+		campdao.update(campvo);
+
+	}
 
 }

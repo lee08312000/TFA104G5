@@ -140,13 +140,14 @@
         }
 
         table td{
+        background-color:#E0E0E0;
            border:1px solid black;
           text-align:left; 
           width: 90PX;
         }
         
         table th{
-           background-color:#E0E0E0;
+           
           border:1px solid black;
           text-align: center; 
           width: 90PX;

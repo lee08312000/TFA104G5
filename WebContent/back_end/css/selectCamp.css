@@ -138,8 +138,7 @@
      
 
         table{
-          border:1px solid blck;
-    
+          border:1px solid blck; 
           border-collapse: collapse;
           margin-left: 0px;
           margin-top: 0px;
@@ -258,7 +257,7 @@
 		}
 		
 		.camp_table{
-		   margin: 0px auto;
+		   margin-right:200px;
 		}
 	
 	 /* =====================aside區域========================*/

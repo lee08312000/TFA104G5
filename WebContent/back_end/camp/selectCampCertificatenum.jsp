@@ -27,20 +27,20 @@
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/back_end/css/updateCampCertificatenum.css?v=008">
+	href="<%=request.getContextPath()%>/back_end/css/selectCampCertificatenum.css?v=009">
 </head>
 <body>
 
 	<!-- --------main區域------- -->
-	<h1>營地上架審核列表 </h1>
+	<h1  style="margin-right:300px">營地上架審核查詢列表 </h1>
     <h2>${errorMsgs}</h2>
 <form method="post" ACTION="<%=request.getContextPath()%>/camp/shelves.do"  >
 	<div class="selector">
-		 <label>日期區間</label> <input type="date" id="startDate"
-			name="startDate"> <input type="date" id="endDate"
-			name="endDate"> <input type="text" placeholder="請輸入關鍵字"
-			name="campOrderId"> <input type="hidden" name="action"
-			value="SEARCH">
+		 <label>日期區間</label>
+          <input type="date" id="startDate" name="startDate" value="<fmt:formatDate value='${startime}' pattern='yyyy-MM-dd'/>"/>
+		  <input type="date" id="endDate"name="endDate" value="<fmt:formatDate value='${endtime}' pattern='yyyy-MM-dd'/>">
+		 <input type="text" placeholder="請輸入廠商名稱" name="companyName" value=""> 
+		 <input type="hidden" name="action"value="SEARCHCAMPANY">
 		<button type="submit">
 			<i class="fa fa-search"></i>
 		</button>
@@ -52,7 +52,8 @@
 	</div>
 	<table class="camp_table">
 		<tbody>
-			<tr>
+			<tr> 
+			
 				<th>廠商流水號</th>
                 <th>廠商名稱</th>
                 <th>負責人姓名</th>
@@ -61,29 +62,28 @@
                 <th>廠商地址</th>
                 <th>認證字號</th>                           
                 <th>證書圖片</th>
-                <th>編輯</th>
+               
 
 			</tr>
 		</thead>
 
 
 		<tbody>
-			<c:forEach var="companyVO" items="${list}" begin="<%=pageIndex%>"
+			<c:forEach var="campVO" items="${list}" begin="<%=pageIndex%>"
 				end="<%=pageIndex+rowsPerPage-1%>">
 
 				<tr>
-					<td><fmt:formatDate value="${campVO.campConfirmedTime}"
-							pattern="yyyy-MM-dd" /></td>
-					<td>${companyVO.companyId}</td>
-					<td>${companyVO.companyName}</td>
-					<td>${companyVO.headName}</td>
+				 
+					<td>${campVO.companyId}</td>
+					<td>${campVO.companyName}</td>
+					<td>${campVO.headName}</td>
+					<td>${campVO.companyTel}</td>
 					<td>${campVO.campName}</td>
-					<td>${companyVO.companyAddress}</td>
+					<td>${campVO.companyAddress}</td>
 					<td>${campVO.certificateNum}</td>
 					<td>${campVO.certificatePic}</td>
-			
-					<td><input type="button" value="修改" name="${companyVO.companyId}"
-						class="update" /></td>
+					
+			        
 				</tr>
 			</c:forEach>
 

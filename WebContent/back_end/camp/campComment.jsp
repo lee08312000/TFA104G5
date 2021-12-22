@@ -1,26 +1,24 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page import="com.camp.model.*"%>
+<%@ page import="com.campOrder.model.*"%>
 <!DOCTYPE html>
 <%@ page import="java.util.*"%>
 
 <%
-	List<CampVO> list = new ArrayList<CampVO>();
+	List<CampOrderVO> list = new ArrayList<CampOrderVO>();
 	if (request.getAttribute("list") != null) {
-		list = (ArrayList<CampVO>) request.getAttribute("list");
+		list = (ArrayList<CampOrderVO>) request.getAttribute("list");
 	}
 	pageContext.setAttribute("list", list);
-	
+
 	Calendar startimeCalendar = Calendar.getInstance();
 	startimeCalendar.add(Calendar.DATE, -90);
 	pageContext.setAttribute("startime", startimeCalendar.getTime());
-	
-	
+
 	Calendar endtimeCalendar = Calendar.getInstance();
-	
+
 	pageContext.setAttribute("endtime", endtimeCalendar.getTime());
-	
 %>
 
 <html>
@@ -35,95 +33,74 @@
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/back_end/css/selectCamp.css">
+	href="<%=request.getContextPath()%>/back_end/css/selectCampComment.css?v=003">
 </head>
-<body >
+<body>
 
 	<!-- --------main區域------- -->
-	
-	 <h1>營地評價查詢</h1>
-    <div class="selectors">
-    
-        <label>日期區間</label>
-        <input type="date" id="startDate" name="startDate"> 
-        <input type="date" id="endDate" name="endDate">
-     
 
-    <input type="text" placeholder="請輸入關鍵字" name="campOrderId"> 
-    <input type="hidden" name="action"	value="SEARCHALL">
-   <button type="submit">
-       <i class="fa fa-search"></i>
-   </button>  
-</div>
-
-    <table class="camp_table" >
-        <tbody>
-            <tr>
-                <th>營地訂單評論時間</th>
-                <th>營地訂單流水號</th>
-                <th>會員帳號</th>
-                <th>營地訂單評論</th>
-                <th>營地訂單評價star</th>
-                         
-            </tr>
-        </tbody>
-                 
-    </table>
-    
-    <tbody>
-				<c:forEach var="campVO" items="${list}" begin="<%=pageIndex%>"
-				end="<%=pageIndex+rowsPerPage1%>">
-				<tr>
-					<td><fmt:formatDate value="${campVO.campLaunchedTime}"
-							pattern="yyyy-MM-dd" /></td>
-					<td>${campVO.campId}</td>
-					<td>${campVO.campName}</td>
-					<td>${campVO.campPhone}</td>
-					<td>${campVO.longitude}</td>
-					<td>${campVO.lattitude}</td>
-					<td>${campVO.campAddress}</td>
-					<td>${campVO.campDiscription}</td>
-					<td>${campVO.campRule}</td>
-					<td>${campVO.campPic1}</td>					
-					<td>${campVO.campStatus==1?"上架":"下架"}</td>
-					
-			         
-					<td>
-					<form method="post" ACTION="<%=request.getContextPath()%>/camp/campareashelves.do">
-					  <input type="hidden" name="action"value="SEARCHALL">
-					  <input type="hidden" name="campId" value="${campVO.campId}">
-					<button type="submit" ><i class="fas fa-file-alt"></i> </button>
-				
-					</form>
-					</td>						
-					
-					
-					<td> 
-					<form method="post" ACTION="<%=request.getContextPath()%>/camp/shelves.do" >				
-					 <input type="hidden" name="action" value="UPDATEFINDBYKEY">
-					 <input type="hidden" name="campId" value="${campVO.campId}">
-					<button type="submit">修改</button>
-						</form>	
-				</td>
-			
-						
-						
-				</tr>
-			</c:forEach>
-
-
-		</tbody>
-
-	</table>
-    
-    	<div class="pagination">
-		<%@ include file="pages/page1.jsp" %>
+	<h1>營地評價查詢</h1>
+	<div class="selectors" style="margin-left: 200px; margin-top: 50px">
+	<form method="post"
+		ACTION="<%=request.getContextPath()%>/camp/campOrder.do">
+		
+			<label>日期區間</label> <input type="date" id="startDate" name="startDate" value="<fmt:formatDate value='${startime}' pattern='yyyy-MM-dd'/>" />
+			<input type="date" id="endDate" name="endDate"
+				value="<fmt:formatDate value='${endtime}' pattern='yyyy-MM-dd'/>">
+			<input type="text" placeholder="請輸入關鍵字" name="campOrderId"> <input
+				type="hidden" name="action" value="SEARCHCOMMENT">
+			<button type="submit">
+				<i class="fa fa-search"></i>
+			</button>
+		
+	</form>
 	</div>
+
+
+
+	<div class="pagination">
+		<%@ include file="pages/page1.jsp"%>
+	</div>
+
+	<table class="camp_table" style="margin-left: 200px; width: 70%">
+		<tbody>
+			<tr>
+				<th>營地訂單評論時間</th>
+				<th>營地訂單流水號</th>
+				<th>會員流水號</th>
+				<th>營地訂單評論</th>
+				<th>營地訂單評價star</th>
+
+			</tr>
 	
-	</body>
+		<c:forEach var="camporderVO" items="${list}" begin="<%=pageIndex%>"
+			end="<%=pageIndex+rowsPerPage-1%>">
+            
+			<tr>
+
+				<td>${camporderVO.campOrderCommentTime}</td>
+				<td>${camporderVO.campOrderId}</td>
+				<td>${camporderVO.memberId}</td>
+				<td>${camporderVO.campComment}</td>
+				<td>${camporderVO.campCommentStar}</td>
+			</tr>
+		</c:forEach>
+
+	</tbody>
+	
+	</table>
+
+	<div class="pagination">
+		<%@ include file="pages/page2.jsp"%>
+
+	</div>
+
+
+
+</body>
 </html>
 
-	
-	
+
+
 
 

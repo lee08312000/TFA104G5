@@ -129,39 +129,27 @@
         }
         /* =====================main區域========================*/
         
-        h1{
+      h1{
             color:black;
             text-align: center;
-            margin-left:0;
+            margin-left:200px;
         }
   
-        .camparea_shelves {
-            border-collapse:separate;
-            border-spacing:0px 0px;
-            width: 750px;
-            font-size: 16px;
-            margin-left: 0px;
-        }
 
-        
-           table td{
-          border:1px solid black;
-          text-align: left; 
-          width: 90PX;
+        table{
+          border:1px solid blck;
+          border-collapse: collapse;
+          margin-left:100px ;
+          margin-top: 0px;  
+          width: 80%;
         }
-        
-        table th{
-          background-color:	#E0E0E0;
+        table td,table th{
           border:1px solid black;
-          text-align: left; 
-          width: 90PX;
-        
-        
+          text-align: center; 
+          
         }
-        
-    
         .topnav{
-            margin-left:0;
+            margin-left:885px;
             margin-top:100px;        
         }
 
@@ -172,8 +160,8 @@
        
        
         .selector{
-         height: 25px;
-         margin-right:200px;
+         height: 27px;
+         margin-right:2000px;
          
         }
         
@@ -224,12 +212,13 @@
         div.divSearchForm{
             
             margin-left:250px ;
-            margin-top: 10px;
+            margin-top: 80px;
             display:inline-block;
         }
         div.pagination {
        
-          margin-top: 10px;
+          margin-left:240px ;
+          margin-top: 80px;
 		  display: inline-block;
 		  
 		}
@@ -254,6 +243,7 @@
 		  background-color: #ddd;
 		  border-radius: 5px;
 		}
+	
 	
 	 /* =====================aside區域========================*/
 		

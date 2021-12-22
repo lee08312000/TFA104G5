@@ -149,7 +149,7 @@ public class CampOrderService {
 		List<CampOrderVO> daolist = orderdao.getAll(4);
 		List<CampOrderVO> querylist = new ArrayList<CampOrderVO>();
 		for (CampOrderVO obj : daolist) {
-			if (obj.getCampId()==campId && obj.getCampOrderCommentTime() != null) {
+			if (obj.getCampId() == campId && obj.getCampOrderCommentTime() != null) {
 				querylist.add(obj);
 			}
 
@@ -192,9 +192,16 @@ public class CampOrderService {
 
 	}
 
-    //查詢訂單by訂單狀態(廠商) 預計入住日期(廠商查詢當日的訂單)
- public List<CampOrderVO> findByParams(int statusnum,java.util.Date begindate,java.util.Date finaldate) {
-  List<CampOrderVO> daolist = orderdao.findByParams(statusnum, begindate, finaldate);
-  return daolist;
- }
+	// 查詢訂單by訂單狀態(廠商) 預計入住日期(廠商查詢當日的訂單)
+	public List<CampOrderVO> findByParams(int statusnum, java.util.Date begindate, java.util.Date finaldate) {
+		List<CampOrderVO> daolist = orderdao.findByParams(statusnum, begindate, finaldate);
+		return daolist;
+	}
+
+	// 營地訂單評論
+	public List<CampOrderVO> selectCampComment(Timestamp startDateTimestamp, Timestamp endDateTimestamp,
+			int campOrder) {
+	
+		return orderdao.selectCampComment(startDateTimestamp, endDateTimestamp, campOrder);
+	}
 }

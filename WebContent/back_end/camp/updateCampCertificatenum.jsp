@@ -30,7 +30,7 @@ pageContext.setAttribute("campVO", cv);
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/back_end/css/updateCampCertificatenum.css?v=002">
+	href="<%=request.getContextPath()%>/back_end/css/updateCampCertificatenum.css?v=004">
 </head>
 <body>
 
@@ -38,16 +38,17 @@ pageContext.setAttribute("campVO", cv);
 	
 	<!-- --------main區域------- -->
 
-	<h1>營地上架審核</h1>
+	<h1 style="margin-right:100px">營地上架審核</h1>
 	<h2>${errorMsgs}</h2>
 	<form method="post"ACTION="<%=request.getContextPath()%>/camp/shelves.do">
 		<table class="camp_table">
-		
-	
-	
-			<tr>
+
+			<tr> 
+			    
 				<td><label  width="30%">廠商名稱:</label></td>				
-				<td><input type="text" id="company_name" name="company_name" value="${campVO.companyName}"></td>
+				<td>
+				<input type="text" id="company_name" name="company_name" value="${campVO.companyName}">
+				</td>
 			</tr>
 
 			<tr>
@@ -89,13 +90,15 @@ pageContext.setAttribute("campVO", cv);
 						<!-- 存放預覽圖片 -->
 					</div></td>
 			</tr>
+			
 
 			<tr>
-
-				<td colspan="2"><input type="hidden" name="action"
-					value="updateCertificate"/> <input type="submit" value="確認更新"
-					style="margin-left: 250px;"> <input type="submit"
-					value="取消"></td>
+				<td colspan="2">
+				<input type="hidden" name="action"value="updateCertificate"/> 
+				<input type="hidden" name="camp_id" value="${campVO.campId}"/> 
+			
+				<input type="submit" value="確認更新"style="margin-left: 250px;">
+				 <input type="submit"value="取消"></td>
 			</tr>
 
 		</table>

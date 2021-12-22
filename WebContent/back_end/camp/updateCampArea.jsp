@@ -26,7 +26,7 @@ pageContext.setAttribute("campAreaVO", cv);
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/back_end/css/selectCampArea.css?v=005">
+	href="<%=request.getContextPath()%>/back_end/css/updateCampArea.css?v=00s">
 </head>
 <body>
 	
@@ -95,7 +95,7 @@ pageContext.setAttribute("campAreaVO", cv);
 			<tr>
 				<td colspan="2"><input type="hidden" name="action" value="UPDATE" /> 
 				<input type="hidden" id="campAreaId" name="campAreaId" value="${campAreaVO.campAreaId}">
-				<input type="submit" value="確認修改" style="margin-left: 150px;">
+				<input type="submit" value="確認修改" style="margin-left: 250px;">
 				 <input type="button" onclick="location.href='<%=request.getContextPath()%>/camp/campareashelves.do?campId=${campAreaVO.campId}&action=SEARCHALL'" value="取消" />
 				 
 				 </td>

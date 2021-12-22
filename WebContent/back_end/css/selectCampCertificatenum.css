@@ -140,29 +140,39 @@
 
         }
         
-           
-        .camp_table{
-          border:1px solid black; 
+            .camp_table {
+            border-collapse:separate;
+            border-spacing:0px 0px;
+            width: 750px;
+            font-size: 16px;
+            margin-left: 0px;
+        }
+        
+     
+        table{
+           border:1px solid blck; 
           border-collapse: collapse;
           margin-left: 100px;
           margin-top: 0px;
-          width: 70%;
+          table-layout: fixed;
+          width: 80%;
         }
         table td{
           border:1px solid black;
-          text-align:left; 
-          width: 90PX;
+          text-align:center; 
+          width: 95PX;
         }
         
         table th{
           background-color:	#E0E0E0;
           border:1px solid black;
-          text-align:left; 
-          width: 90PX;
+          text-align: center; 
+          width: 95PX;
        
        
                
         }
+                
         .topnav{
             margin-left:0;
             margin-top:100px;        
