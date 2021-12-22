@@ -16,11 +16,11 @@ public class CampDAOtest {
 //		for (CampVO av : caList) {
 //			System.out.println(av.toString());
 //		}
-
-		List<CampVO> caList = cad.getSelectStmt();
-		for (CampVO av : caList) {
-			System.out.println(av.toString());
-		}
+//
+//		List<CampVO> caList = cad.getSelectStmt();
+//		for (CampVO av : caList) {
+//			System.out.println(av.toString());
+//		}
 
 		
 		// 新增
