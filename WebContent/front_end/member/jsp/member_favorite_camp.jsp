@@ -174,7 +174,7 @@
 			
 				<%
 				Integer campId = ((FavoriteCampVO)pageContext.getAttribute("favoriteCampVO")).getCampId(); 
-				List<CampOrderVO> campOrderVOList = campOrderDAO.getAll();
+				List<CampOrderVO> campOrderVOList = campOrderDAO.getAll(0);
 				List<CampOrderVO> newCampOrderVOList = new ArrayList<CampOrderVO>();
 				int countStar = 0;
 				for (CampOrderVO campOrderVO : campOrderVOList) {
