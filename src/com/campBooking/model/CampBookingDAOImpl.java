@@ -20,6 +20,8 @@ public class CampBookingDAOImpl implements CampBookingDAO {
 	private static final String UPDATE_STMT = "UPDATE camp_booking  SET camp_id=?,camp_area_id=?,date=?,booking_camp_area_max=?,booked_camp_area_num=?,closed_status=? WHERE camp_booking_id=?";
 	private static final String DELETE_STMT = "DELETE FROM camp_booking WHERE camp_booking_id= ?";
 	private static final String FIND_BY_PK = "SELECT * FROM camp_booking WHERE camp_booking_id=?";
+	private static final String FIND_BY_AREAID = "SELECT * FROM camp_booking WHERE camp_area_id=? and date=?";
+
 	private static final String FIND_BY_ALLAREA = "SELECT * FROM camp_booking WHERE camp_id=? and date=?";
 	private static final String GET_ALL = "SELECT * FROM camp_area_order_detail";
 	private static final String FIND_BY_CampId = "SELECT \r\n" + "    camp_id,\r\n" + "    date,\r\n"
@@ -339,4 +341,68 @@ public class CampBookingDAOImpl implements CampBookingDAO {
 		}
 		return map;
 	}
+
+	@Override
+	public CampBookingVO findByOneArea(Integer campAreaId, String date) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		CampBookingVO campBookingVO = new CampBookingVO();
+		try {
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+			pstmt = con.prepareStatement(FIND_BY_AREAID);
+			pstmt.setInt(1, campAreaId);
+			pstmt.setDate(2, java.sql.Date.valueOf(date));
+
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				campBookingVO.setCampBookingId(rs.getInt(1));
+				campBookingVO.setCampId(rs.getInt(2));
+				campBookingVO.setCampAreaId(rs.getInt(3));
+				campBookingVO.setDate(rs.getDate(4));
+				campBookingVO.setBookingCampAreaMax(rs.getInt(5));
+				campBookingVO.setBookedCampAreaNum(rs.getInt(6));
+				campBookingVO.setClosedStatus(rs.getBoolean(7));
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return campBookingVO;
+	}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
 }

@@ -19,9 +19,12 @@ public interface CampBookingDAO {
 	public CampBookingVO findByPK(Integer campBookingId);
 	
 	
-	//尋找某個營地所有營位的某一天的空位狀況(訂位用到)
+	//尋找某個營地"所有營位"的某一天的空位狀況(訂位用到)
 	public List<CampBookingVO> findByAllArea(Integer campId,String date);
 	
+	
+	//尋找某個"營位"的某一天的空位狀況(訂位用到)
+		public CampBookingVO findByOneArea(Integer campAreaId,String date);
 	
 	//尋找某個營地整個空位狀況(月曆那邊用到)
 	public Map<String,Integer> findByCampId(Integer campId,String date);

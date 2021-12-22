@@ -65,7 +65,7 @@ window.addEventListener("load", function() {
 
 
     $.ajax({
-        url: "http://localhost:8081/TFA104G5/CampServlet", // 資料請求的網址
+        url: "http://localhost:8081/TFA104G5/CampServlet2", // 資料請求的網址
         type: "GET", // GET | POST | PUT | DELETE | PATCH
         data: {
             'action': 'hotcamp'
@@ -275,7 +275,7 @@ cbtn.addEventListener("click", function(e) {
     if (findcamp.section.length != 0 || findcamp.feature.length != 0) {
         sessionStorage.setItem("findcamp", JSON.stringify(findcamp));
 
-        location.href = "./page2.html";
+        location.href = "./camp_select.html";
 
     } else {
         alert("請篩選搜尋條件");

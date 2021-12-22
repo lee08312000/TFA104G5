@@ -3,8 +3,13 @@ package com.campBooking.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -20,14 +25,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import com.camp.model.CampService;
 import com.campArea.model.CampAreaService;
 import com.campArea.model.CampAreaVO;
+import com.campAreaOrderDetail.model.CampAreaOrderDetailVO;
 import com.campBooking.model.CampBookingService;
+import com.campOrder.model.CampOrderService;
+import com.campOrder.model.CampOrderVO;
+import com.member.model.MemberVO;
+
+import ecpay.payment.integration.AllInOne;
+import ecpay.payment.integration.domain.AioCheckOutALL;
+import util.UUIDGenerator;
 
 @WebServlet("/CampBookingServlet")
 public class CampBookingServlet extends HttpServlet {
@@ -41,13 +52,13 @@ public class CampBookingServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		String action = req.getParameter("action");
 		System.out.println(action);
-
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		res.setHeader("Access-Control-Max-Age", "300");
 		res.setHeader("Access-Control-Allow-Headers", "content-type, x-requested-with");
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 		res.setContentType("text/html;charset=UTF-8");
+
 		PrintWriter out = res.getWriter();
 
 ////////////////////////////////////日曆載入空位資訊///////////////////////////////
@@ -61,7 +72,7 @@ public class CampBookingServlet extends HttpServlet {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			java.util.Date date = new java.util.Date();
 			String dateToStr = dateFormat.format(date);
-//			System.out.println(dateToStr);
+			System.out.println(dateToStr);
 
 			List list = campbookingSvc.CalendarUse(Integer.parseInt(campId), dateToStr, 3);
 			JSONArray jsArray = new JSONArray(list);
@@ -145,69 +156,86 @@ public class CampBookingServlet extends HttpServlet {
 
 		if ("confirmseat".equals(action)) {
 			/////////////////////// 驗證有無登入///////////////////////////////
+
 			HttpSession session = req.getSession();
-			Object account = session.getAttribute("account");
-			if (account == null) {
-				session.setAttribute("location", req.getRequestURI());
-//				res.sendRedirect(req.getContextPath()+"/login.html");
-//				return;
-			}
 
-			List<String> errorMsgs = new LinkedList<String>();
+			Object memberVO = session.getAttribute("memberVO");
 
-			req.setAttribute("errorMsgs", errorMsgs);
-			//////////////////////////// 開始抓前端輸入的參數//////////////////////////////////////
-			Map<String, String[]> map = req.getParameterMap();
-			if (map == null) {
-				errorMsgs.add("查無資料");
-				return;
-			}
-
-			if (!errorMsgs.isEmpty()) {
-				RequestDispatcher failureView = req.getRequestDispatcher(req.getRequestURI());
-				failureView.forward(req, res);
-				return;// 程式中斷
-			}
-
-			String campId = req.getParameter("campId");
-			String chooseDate = req.getParameter("chooseDate");
-			String chooseDay = req.getParameter("chooseDay");
-			DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			String begin = sdf.format(java.sql.Date.valueOf("2" + chooseDate).getTime());
-			String end = sdf.format(java.sql.Date.valueOf("2" + chooseDate).getTime()
-					+ 24 * 60 * 60 * 1000 * (Integer.parseInt(chooseDay) + 1));
-			req.setAttribute("beginDate", begin);
-			req.setAttribute("endDate", end);
-
-			CampService campSvc = new CampService();
-			req.setAttribute("campVO", campSvc.findCampByCampId(Integer.parseInt(campId)));
+//			if (memberVO == null) {
+//			session.setAttribute("location", req.getServletPath());
+			session.setAttribute("action", "confirmseat");
+			session.setAttribute("campId", req.getParameter("campId"));
+			session.setAttribute("chooseDate", req.getParameter("chooseDate"));
+			session.setAttribute("chooseDay", req.getParameter("chooseDay"));
+			session.setAttribute("campAreaId", req.getParameterValues("campAreaId"));
+			Map<String, String[]> paymap = req.getParameterMap();
 			int size = req.getParameterValues("campAreaId").length;
-//			System.out.println("size="+size);
-			Set keyset = map.keySet();
+
+			Set keyset = paymap.keySet();
+			System.out.println("map裡面的長度" + keyset.size());
 			Iterator it;
 			Map<String, String> ordermap;
 			List<Map> orderlist = new ArrayList();
-			for (int i = 0; i <size; i++) {
+			for (int i = 0; i < size; i++) {
 				ordermap = new HashMap<String, String>();
 				it = keyset.iterator();
 				while (it.hasNext()) {
 					String name = (String) it.next();
+
 					if (name.equals("action") || name.equals("campId") || name.equals("chooseDate")
 							|| name.equals("chooseDay")) {
 						continue;
 					}
 
-					String[] values =(String[])map.get(name);
+					String[] values = (String[]) paymap.get(name);
 
-					String val=values[i];
+					String val = values[i];
+
 					ordermap.put(name, val);
 				}
-				
+
 				orderlist.add(ordermap);
 
 			}
-//System.out.println(Arrays.toString(orderlist.toArray()));
+
 			session.setAttribute("seatlist", orderlist);
+			
+
+//				String url = "/front_end/member/login.jsp";
+//				res.sendRedirect(req.getContextPath() + "/front_end/member/login.jsp");
+//				return;
+//			}
+			//////////////////////////// 參數驗證//////////////////////////////////////
+
+			String campId = null, chooseDate = null, chooseDay = null;
+			Map<String, String[]> map = null;
+
+			campId = req.getParameter("campId");
+			chooseDate = req.getParameter("chooseDate");
+			chooseDay = req.getParameter("chooseDay");
+
+			if (campId == null) {
+				campId = (String) session.getAttribute("campId");
+			}
+			if (chooseDate == null) {
+				chooseDate = (String) session.getAttribute("chooseDate");
+			}
+			if (chooseDay == null) {
+				chooseDay = (String) session.getAttribute("chooseDay");
+			}
+
+			DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+			String begin = sdf.format(java.sql.Date.valueOf("2" + chooseDate).getTime());
+			String end = sdf.format(java.sql.Date.valueOf("2" + chooseDate).getTime()
+					+ 24 * 60 * 60 * 1000 * (Integer.parseInt(chooseDay)));
+
+			session.setAttribute("beginDate", begin);
+			session.setAttribute("endDate", end);
+			//////////////////////////// >>營地資料捕獲<</////////////////////////////////////
+			CampService campSvc = new CampService();
+			session.setAttribute("campVO", campSvc.findCampByCampId(Integer.parseInt(campId)));
+
 
 			String url = "/front_end/camp/campBooking02.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
@@ -215,48 +243,198 @@ public class CampBookingServlet extends HttpServlet {
 			return;
 
 		}
-		    
-		if("memberInfo".equals(action)) {
+
+		if ("oneorder".equals(action)) {
+
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-			//取得帳號名稱
-			String account=req.getParameter("account");
-			System.out.println(account);
-			
-			if(account==null) {
-				errorMsgs.add("請登入會員，謝謝");
+
+			Integer campId = Integer.parseInt(req.getParameter("campId"));
+			String sex = req.getParameter("sex");
+			String payertel = req.getParameter("payertel");
+			String email = req.getParameter("email");
+			String payername = req.getParameter("payername");
+			String creditnumber = req.getParameter("creditnumber").replaceAll("\\s+", "");
+			String campCheckInDate = req.getParameter("campCheckInDate");
+			String campCheckOutDate = req.getParameter("campCheckOutDate");
+
+			if (sex == null) {
+				errorMsgs.add("請輸入性別");
+				System.out.println(1);
 			}
-			
+			if (payertel == null || !payertel.matches("[0-9]{10}")) {
+				errorMsgs.add("請輸入正確手機號碼");
+				System.out.println(2);
+			}
+			if (email == null || !email.matches("^[_a-z0-9-]+([.][_a-z0-9-]+)*@[a-z0-9-]+([.][a-z0-9-]+)*$")) {
+				errorMsgs.add("請輸入正確email");
+				System.out.println(3);
+			}
+			if (payername == null || payername.trim().length() == 0) {
+				errorMsgs.add("請輸入付款人姓名");
+				System.out.println(4);
+			}
+			if (creditnumber == null || !creditnumber.matches("[0-9]{9,16}")) {
+				errorMsgs.add("請輸入信用卡號");
+				System.out.println(5);
+
+			}
+
 			if (!errorMsgs.isEmpty()) {
 				RequestDispatcher failureView = req.getRequestDispatcher(req.getRequestURI());
 				failureView.forward(req, res);
 				return;// 程式中斷
 			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
+			HttpSession session = req.getSession();
+			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+
+			ArrayList<Map> orderInfo = (ArrayList<Map>) session.getAttribute("seatlist");
+			System.out.println("=============>>綠界訂單明細商品名稱<<==============");
+			Integer capitationNumforepay = 0;
+			List<String> listforepay = new ArrayList<String>();
+			for (Map item : orderInfo) {
+				String campAreaName = (String) item.get("campAreaName");
+				String weekdayNum = (String) item.get("weekdayNum");
+				String holidayNum = (String) item.get("holidayNum");
+				Integer areaNumforepay = (Integer.parseInt(weekdayNum) + Integer.parseInt(holidayNum));
+
+				capitationNumforepay += (Integer.parseInt((String) item.get("perCapitationNum")));
+				String combine = campAreaName + areaNumforepay + "帳";
+				listforepay.add(combine);
+			}
+
+			listforepay.add("加購人頭" + capitationNumforepay + "人");
+
+			System.out.println(Arrays.toString(listforepay.toArray()));
+
+			System.out.println("=============>>列印訂單明細<<==============");
+
+			Integer campOrderTotalAmount = 0; // 訂單總金額
+			Integer bookingQuantity = 0;// 訂帳數量
+			Integer bookingWeekdays = 0;// 訂位平日天數
+			Integer bookingHolidays = 0;// 訂位假日天數
+
+			List<CampAreaOrderDetailVO> orderdetailList = new ArrayList<CampAreaOrderDetailVO>();
+			CampAreaOrderDetailVO campareaorderdetailVO = null;
+			for (Map map : orderInfo) {
+				campareaorderdetailVO = new CampAreaOrderDetailVO();
+				Set<String> keyset = map.keySet();
+
+				for (String name : keyset) {
+					if ("subtotal".equals(name)) {// 計算總金額
+						String subtotal = (String) map.get(name);
+						campOrderTotalAmount += Integer.parseInt(subtotal.substring(1));
+					}
+					// 訂帳數量
+					if ("weekdayNum".equals(name) || "holidayNum".equals(name)) {
+						String seattotal = (String) map.get(name);
+						bookingQuantity += Integer.parseInt(seattotal);
+						campareaorderdetailVO.setBookingQuantity(bookingQuantity);
+
+					}
+					// 平日單價
+					if ("weekdayPrice".equals(name)) {
+						String weekdayprice = (String) map.get(name);
+						campareaorderdetailVO.setCampAreaWeekdayPrice(Integer.parseInt(weekdayprice));
+					}
+
+					// 假日單價
+					if ("holidayPrice".equals(name)) {
+						String holidayprice = (String) map.get(name);
+						campareaorderdetailVO.setCampAreaHolidayPrice(Integer.parseInt(holidayprice));
+					}
+					// 加購人頭數量
+					if ("perCapitationNum".equals(name)) {
+						String percapitationnum = (String) map.get(name);
+						campareaorderdetailVO.setCapitationQuantity(Integer.parseInt(percapitationnum));
+					}
+					// 加購人頭單價
+					if ("perCapitationFee".equals(name)) {
+						String percapitationfee = (String) map.get(name);
+						campareaorderdetailVO.setPerCapitationFee(Integer.parseInt(percapitationfee));
+					}
+					// 訂位平日天數
+					if ("bookingWeekdays".equals(name)) {
+						String percapitationfee = (String) map.get(name);
+						campareaorderdetailVO.setPerCapitationFee(Integer.parseInt(percapitationfee));
+					}
+					// 營位流水號
+					if ("campAreaId".equals(name)) {
+						String campareaid = (String) map.get(name);
+						campareaorderdetailVO.setCampAreaId(Integer.parseInt(campareaid));
+					}
+					// 假日天數&平日天數
+					DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					java.util.Date checkinDate = null;
+					java.util.Date checkoutDate = null;
+					try {
+						checkinDate = sdf.parse(campCheckInDate);
+						checkoutDate = sdf.parse(campCheckOutDate);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+
+					List<java.util.Date> daysList = util.DiffDays.getDates(checkinDate, checkoutDate);
+					Calendar cal = Calendar.getInstance();
+					for (int i = 0; i < daysList.size() - 1; i++) {
+						cal.setTime(daysList.get(i));
+						// [ "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" ];
+						int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
+						if (w <= 0 || w == 5 || w == 6) {
+							bookingHolidays++;
+						} else {
+							bookingWeekdays++;
+						}
+					}
+					campareaorderdetailVO.setBookingHolidays(bookingHolidays);
+					campareaorderdetailVO.setBookingWeekdays(bookingWeekdays);
+
+					String value = (String) map.get(name);
+
+				}
+				orderdetailList.add(campareaorderdetailVO);
+			}
+
+/////////////////////////////////包裝CampOrderVO//////////////////////////////
+			CampOrderService camporderSvc = new CampOrderService();
+			CampOrderVO camporderVO = new CampOrderVO();
+
+			camporderVO.setCampId(campId);
+			camporderVO.setMemberId(memberVO.getMemberId());
+			camporderVO.setCampOrderTotalAmount(campOrderTotalAmount);
+			camporderVO.setCampCheckOutDate(java.sql.Date.valueOf(campCheckOutDate));
+			camporderVO.setCampCheckInDate(java.sql.Date.valueOf(campCheckInDate));
+			camporderVO.setCreditCardNum(creditnumber);
+			camporderVO.setPayerName(payername);
+			camporderVO.setPayerPhone(payertel);
+/////////////////////////////1.產生訂單成功2.轉交綠界支付/////////////////////////////////////
+			AllInOne all;
+			SimpleDateFormat sd = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			int b = camporderSvc.addOneOrder(camporderVO, orderdetailList);
+			if (b != 0) {
+				all = new AllInOne("");
+				AioCheckOutALL obj = new AioCheckOutALL();
+				obj.setMerchantTradeNo(String.valueOf(b) + "cp" + UUIDGenerator.getUUID()); // 訂單id+cp+亂碼16位
+				obj.setMerchantTradeDate(sd.format(new Date())); // 交易時間
+				obj.setTotalAmount(String.valueOf(campOrderTotalAmount)); // 訂單總金額
+				obj.setTradeDesc("test Description"); // 訂單描述
+				obj.setItemName(String.join("#", listforepay)); // 商品項目
+				obj.setReturnURL("https://ea62-220-138-21-49.ngrok.io/TFA104G5/EcpayReturn");
+				obj.setClientBackURL("http://localhost:8081/TFA104G5/front_end/camp/redirect.jsp?orderid="+String.valueOf(b)+"&tradetime="+sd.format(new Date())); // 回傳URL
+				obj.setNeedExtraPaidInfo("N");
+
+				System.out.println(obj);
+				String form = all.aioCheckOut(obj, null);
+				out.print(form);
+
+			} else {
+				out.print("訂位已額滿，請重新下訂");
+			}
+
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 
 	}
-
 }

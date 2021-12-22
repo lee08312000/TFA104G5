@@ -28,15 +28,15 @@ public class CampOrderService {
 		campdao = new CampDAOImpl();
 	}
 
-// 新增一筆訂單包含新增訂單明細&日程表訂位數量
-	public void addOneOrder(CampOrderVO campOrderVO, CampAreaOrderDetailVO... DetailVOs) {
+// 新增一筆訂單包含新增訂單明細&日程表訂位數量 回傳訂單編號，當回傳等於=0訂單未成立
+	public int addOneOrder(CampOrderVO campOrderVO, List<CampAreaOrderDetailVO> list) {
 
-		if (!(campOrderVO == null || DetailVOs.length == 0)) {
+		if (!(campOrderVO == null || list.size() == 0)) {
 
-			orderdao.add(campOrderVO, DetailVOs);
+			return orderdao.add(campOrderVO, list);
 
 		}
-
+		return 0;
 	}
 
 	/********************************************
@@ -64,7 +64,6 @@ public class CampOrderService {
 		orderdao.update(order);
 
 	}
-
 //更新訂單明細(我們專題沒有這個功能)
 	public void updateOrderDetail(Integer campAreaOrderDetailId, Integer campAreaId, Integer campOrderId,
 			Integer bookingQuantity, Integer campAreaWeekdayPrice, Integer campAreaHolidayPrice,
@@ -145,11 +144,11 @@ public class CampOrderService {
 	}
 
 //查詢已完成評論的訂單(給使用者觀看訂單評價)評論時間排序(新到舊)
-	public List OrderByCommented(Integer campId) {
+	public List<CampOrderVO> OrderByCommented(Integer campId) {
 		List<CampOrderVO> daolist = orderdao.getAll(4);
 		List<CampOrderVO> querylist = new ArrayList<CampOrderVO>();
 		for (CampOrderVO obj : daolist) {
-			if (obj.getCampId()==campId && obj.getCampOrderCommentTime() != null) {
+			if (obj.getCampId() == campId && obj.getCampOrderCommentTime() != null) {
 				querylist.add(obj);
 			}
 
@@ -192,9 +191,9 @@ public class CampOrderService {
 
 	}
 
-    //查詢訂單by訂單狀態(廠商) 預計入住日期(廠商查詢當日的訂單)
- public List<CampOrderVO> findByParams(int statusnum,java.util.Date begindate,java.util.Date finaldate) {
-  List<CampOrderVO> daolist = orderdao.findByParams(statusnum, begindate, finaldate);
-  return daolist;
- }
+	// 查詢訂單by訂單狀態(廠商) 預計入住日期(廠商查詢當日的訂單)
+	public List<CampOrderVO> findByParams(int statusnum, java.util.Date begindate, java.util.Date finaldate) {
+		List<CampOrderVO> daolist = orderdao.findByParams(statusnum, begindate, finaldate);
+		return daolist;
+	}
 }

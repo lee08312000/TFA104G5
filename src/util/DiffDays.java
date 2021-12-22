@@ -25,10 +25,5 @@ public class DiffDays {
 	
 	
 	
-	public static void main(String[] args) {
-		
-		
-		List list=DiffDays.getDates(java.sql.Date.valueOf("2021-11-23"), java.sql.Date.valueOf("2021-11-25"));
-		System.out.println(list.toString());
-	}
+
 }
