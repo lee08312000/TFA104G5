@@ -161,49 +161,50 @@ public class CampBookingServlet extends HttpServlet {
 
 			Object memberVO = session.getAttribute("memberVO");
 
-			if (memberVO == null) {
-				session.setAttribute("location", req.getRequestURI());
-				session.setAttribute("action", req.getParameter("action"));
-				session.setAttribute("campId", req.getParameter("campId"));
-				session.setAttribute("chooseDate", req.getParameter("chooseDate"));
-				session.setAttribute("chooseDay", req.getParameter("chooseDay"));
-				session.setAttribute("campAreaId", req.getParameterValues("campAreaId"));
-				Map<String, String[]> map = req.getParameterMap();
-				int size = req.getParameterValues("campAreaId").length;
+//			if (memberVO == null) {
+//			session.setAttribute("location", req.getServletPath());
+			session.setAttribute("action", "confirmseat");
+			session.setAttribute("campId", req.getParameter("campId"));
+			session.setAttribute("chooseDate", req.getParameter("chooseDate"));
+			session.setAttribute("chooseDay", req.getParameter("chooseDay"));
+			session.setAttribute("campAreaId", req.getParameterValues("campAreaId"));
+			Map<String, String[]> paymap = req.getParameterMap();
+			int size = req.getParameterValues("campAreaId").length;
 
-				Set keyset = map.keySet();
-				System.out.println("map裡面的長度" + keyset.size());
-				Iterator it;
-				Map<String, String> ordermap;
-				List<Map> orderlist = new ArrayList();
-				for (int i = 0; i < size; i++) {
-					ordermap = new HashMap<String, String>();
-					it = keyset.iterator();
-					while (it.hasNext()) {
-						String name = (String) it.next();
+			Set keyset = paymap.keySet();
+			System.out.println("map裡面的長度" + keyset.size());
+			Iterator it;
+			Map<String, String> ordermap;
+			List<Map> orderlist = new ArrayList();
+			for (int i = 0; i < size; i++) {
+				ordermap = new HashMap<String, String>();
+				it = keyset.iterator();
+				while (it.hasNext()) {
+					String name = (String) it.next();
 
-						if (name.equals("action") || name.equals("campId") || name.equals("chooseDate")
-								|| name.equals("chooseDay")) {
-							continue;
-						}
-
-						String[] values = (String[]) map.get(name);
-
-						String val = values[i];
-
-						ordermap.put(name, val);
+					if (name.equals("action") || name.equals("campId") || name.equals("chooseDate")
+							|| name.equals("chooseDay")) {
+						continue;
 					}
 
-					orderlist.add(ordermap);
+					String[] values = (String[]) paymap.get(name);
 
+					String val = values[i];
+
+					ordermap.put(name, val);
 				}
 
-				session.setAttribute("seatlist", orderlist);
+				orderlist.add(ordermap);
 
-				String url = "/front_end/member/login.jsp";
-				res.sendRedirect(req.getContextPath() + "/front_end/member/login.jsp");
-				return;
 			}
+
+			session.setAttribute("seatlist", orderlist);
+			
+
+//				String url = "/front_end/member/login.jsp";
+//				res.sendRedirect(req.getContextPath() + "/front_end/member/login.jsp");
+//				return;
+//			}
 			//////////////////////////// 參數驗證//////////////////////////////////////
 
 			String campId = null, chooseDate = null, chooseDay = null;
@@ -228,14 +229,13 @@ public class CampBookingServlet extends HttpServlet {
 			String begin = sdf.format(java.sql.Date.valueOf("2" + chooseDate).getTime());
 			String end = sdf.format(java.sql.Date.valueOf("2" + chooseDate).getTime()
 					+ 24 * 60 * 60 * 1000 * (Integer.parseInt(chooseDay)));
-			req.setAttribute("beginDate", begin);
-			req.setAttribute("endDate", end);
 
+			session.setAttribute("beginDate", begin);
+			session.setAttribute("endDate", end);
 			//////////////////////////// >>營地資料捕獲<</////////////////////////////////////
 			CampService campSvc = new CampService();
-			req.setAttribute("campVO", campSvc.findCampByCampId(Integer.parseInt(campId)));
+			session.setAttribute("campVO", campSvc.findCampByCampId(Integer.parseInt(campId)));
 
-			session.removeAttribute("action");
 
 			String url = "/front_end/camp/campBooking02.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
@@ -244,19 +244,13 @@ public class CampBookingServlet extends HttpServlet {
 
 		}
 
-		
-		
-		
-		
-		
-		
 		if ("oneorder".equals(action)) {
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-			
+
 			Integer campId = Integer.parseInt(req.getParameter("campId"));
 			String sex = req.getParameter("sex");
 			String payertel = req.getParameter("payertel");
@@ -265,9 +259,7 @@ public class CampBookingServlet extends HttpServlet {
 			String creditnumber = req.getParameter("creditnumber").replaceAll("\\s+", "");
 			String campCheckInDate = req.getParameter("campCheckInDate");
 			String campCheckOutDate = req.getParameter("campCheckOutDate");
-	
 
-		
 			if (sex == null) {
 				errorMsgs.add("請輸入性別");
 				System.out.println(1);
@@ -300,36 +292,31 @@ public class CampBookingServlet extends HttpServlet {
 			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 
 			ArrayList<Map> orderInfo = (ArrayList<Map>) session.getAttribute("seatlist");
-System.out.println("=============>>綠界訂單明細商品名稱<<==============");
-Integer capitationNumforepay=0;
-List<String> listforepay=new ArrayList<String>();
-			for(Map item :orderInfo) {
-				String campAreaName=(String)item.get("campAreaName");
-			String weekdayNum=(String)item.get("weekdayNum");
-			String holidayNum=(String)item.get("holidayNum");
-			Integer areaNumforepay=(Integer.parseInt(weekdayNum)+Integer.parseInt(holidayNum));
-	
-				capitationNumforepay+=(Integer.parseInt((String)item.get("perCapitationNum")));
-				String combine=campAreaName+areaNumforepay+"帳";
-				listforepay.add(combine);			
+			System.out.println("=============>>綠界訂單明細商品名稱<<==============");
+			Integer capitationNumforepay = 0;
+			List<String> listforepay = new ArrayList<String>();
+			for (Map item : orderInfo) {
+				String campAreaName = (String) item.get("campAreaName");
+				String weekdayNum = (String) item.get("weekdayNum");
+				String holidayNum = (String) item.get("holidayNum");
+				Integer areaNumforepay = (Integer.parseInt(weekdayNum) + Integer.parseInt(holidayNum));
+
+				capitationNumforepay += (Integer.parseInt((String) item.get("perCapitationNum")));
+				String combine = campAreaName + areaNumforepay + "帳";
+				listforepay.add(combine);
 			}
-			
-			listforepay.add("加購人頭"+capitationNumforepay+"人");
-			
+
+			listforepay.add("加購人頭" + capitationNumforepay + "人");
+
 			System.out.println(Arrays.toString(listforepay.toArray()));
-			
-			
-			
-			
-			
-			
+
 			System.out.println("=============>>列印訂單明細<<==============");
 
 			Integer campOrderTotalAmount = 0; // 訂單總金額
 			Integer bookingQuantity = 0;// 訂帳數量
 			Integer bookingWeekdays = 0;// 訂位平日天數
 			Integer bookingHolidays = 0;// 訂位假日天數
-		
+
 			List<CampAreaOrderDetailVO> orderdetailList = new ArrayList<CampAreaOrderDetailVO>();
 			CampAreaOrderDetailVO campareaorderdetailVO = null;
 			for (Map map : orderInfo) {
@@ -425,27 +412,24 @@ List<String> listforepay=new ArrayList<String>();
 			camporderVO.setPayerPhone(payertel);
 /////////////////////////////1.產生訂單成功2.轉交綠界支付/////////////////////////////////////
 			AllInOne all;
-			SimpleDateFormat sd=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			SimpleDateFormat sd = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			int b = camporderSvc.addOneOrder(camporderVO, orderdetailList);
-			if (b!=0) {
+			if (b != 0) {
 				all = new AllInOne("");
 				AioCheckOutALL obj = new AioCheckOutALL();
-				obj.setMerchantTradeNo(String.valueOf(b)+"cp"+UUIDGenerator.getUUID()); //訂單id+cp+亂碼16位
-				obj.setMerchantTradeDate(sd.format(new Date())); //交易時間
-				obj.setTotalAmount(String.valueOf(campOrderTotalAmount));    //訂單總金額
-				obj.setTradeDesc("test Description");   //訂單描述
-				obj.setItemName(String.join("#",listforepay));  //商品項目
-				obj.setReturnURL("https://ea62-220-138-21-49.ngrok.io/TFA104G5/EcpayReturn");			
-				obj.setClientBackURL("http://localhost:8081/TFA104G5/front_end/camp/camp_index.html?action=hotcamp");  //回傳URL
+				obj.setMerchantTradeNo(String.valueOf(b) + "cp" + UUIDGenerator.getUUID()); // 訂單id+cp+亂碼16位
+				obj.setMerchantTradeDate(sd.format(new Date())); // 交易時間
+				obj.setTotalAmount(String.valueOf(campOrderTotalAmount)); // 訂單總金額
+				obj.setTradeDesc("test Description"); // 訂單描述
+				obj.setItemName(String.join("#", listforepay)); // 商品項目
+				obj.setReturnURL("https://ea62-220-138-21-49.ngrok.io/TFA104G5/EcpayReturn");
+				obj.setClientBackURL("http://localhost:8081/TFA104G5/front_end/camp/redirect.jsp?orderid="+String.valueOf(b)+"&tradetime="+sd.format(new Date())); // 回傳URL
 				obj.setNeedExtraPaidInfo("N");
-				
+
 				System.out.println(obj);
 				String form = all.aioCheckOut(obj, null);
 				out.print(form);
-				
-				
-				
-				
+
 			} else {
 				out.print("訂位已額滿，請重新下訂");
 			}

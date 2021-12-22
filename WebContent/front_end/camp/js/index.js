@@ -275,7 +275,7 @@ cbtn.addEventListener("click", function(e) {
     if (findcamp.section.length != 0 || findcamp.feature.length != 0) {
         sessionStorage.setItem("findcamp", JSON.stringify(findcamp));
 
-        location.href = "./page2.html";
+        location.href = "./camp_select.html";
 
     } else {
         alert("請篩選搜尋條件");
