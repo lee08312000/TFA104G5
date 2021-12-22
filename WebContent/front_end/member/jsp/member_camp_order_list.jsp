@@ -7,19 +7,24 @@
 <%@ page import="com.campTagDetail.model.*"%>
 
 <%
-	// 營地假資料
-	CampService campSvc = new CampService();
-	CampVO campVO = campSvc.findCampByCampId(1);
-	request.setAttribute("CampVO", campVO);
 
-	MemberService memberSvc = new MemberService();
-	MemberVO memberVO = memberSvc.getOneMember(1);
-	request.setAttribute("memberVO", memberVO);
-	// 營地假資料
+MemberVO memberVO =  (MemberVO)session.getAttribute("memberVO");
 
-	CampTagDetailService campTagDetailSvc = new CampTagDetailService();
-	List<String> list = campTagDetailSvc.findCampTagsByCampIdNames(1);
-	pageContext.setAttribute("list", list);
+
+// 	// 營地假資料
+// 	CampService campSvc = new CampService();
+// 	CampVO campVO = campSvc.findCampByCampId(1);
+// 	request.setAttribute("CampVO", campVO);
+
+// 	MemberService memberSvc = new MemberService();
+// 	MemberVO memberVO = memberSvc.getOneMember(1);
+// 	request.setAttribute("memberVO", memberVO);
+// 	// 營地假資料
+
+// 	CampTagDetailService campTagDetailSvc = new CampTagDetailService();
+// 	List<String> list = campTagDetailSvc.findCampTagsByCampIdNames(1);
+// 	pageContext.setAttribute("list", list);
+	
 %>
 
 <!DOCTYPE html>
@@ -135,8 +140,6 @@
 	</div>
 	<!-- 整個TABLE用FORECACH來用 -->
 	<table class="table-fill">
-		<!-- <form class="form-horizontal" method="post"
-			action="<%=request.getContextPath()%>/member/MemberServlet"> 再做一個servlet(?)-->
 		<thead>
 			<tr>
 				<th>訂單編號 0000001</th> <!-- ${ campOrderVO.campOrderId } -->
@@ -151,8 +154,10 @@
 			</tr>
 		</thead>
 		<tbody class="table-hover">
+			<div class="table-fill"><%@ include file="page1.file" %></div>
+			<c:forEach var="campOrderVO" items="${ list }" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 			<tr>
-				<td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/camp/PicWithCampServlet?campId=${ campVO.campId }&pic=1"
+				<td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${  }&pic=1"
 					alt="營地圖片"></td> 
 				<td class="text-left"></td> <!-- ${ campOrderVO.campCheckInDate } -->
 				<td class="text-left"></td>	<!-- ${ campCheckInDate - campCheckOutDate(?) } -->
@@ -163,12 +168,15 @@
 			<tr>
 				<td class="text-left" colspan="5"></td>
 				<td class="text-center">
+					<form method="post" action="<%=request.getContextPath()%>/favoriteCamp/FavoriteCampServlet">
 					<button class="button" type="button"
 						onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_camp_order_detail.jsp';">訂單明細</button>
 						<input class="button" type="submit" value="取消訂單"/>
 						<input type="hidden" value="delete" name="action" /> 
+					</form> 
 				</td>
 			</tr>
+			</c:forEach>	
 		</tbody>
 		<!-- </form> -->
 	</table>
