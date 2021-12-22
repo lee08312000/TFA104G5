@@ -1,12 +1,12 @@
 $(function () {
 
   // 分頁按鈕
-  $(document).on("click", "ul.pages li", function(e){
+  $(document).on("click", "ul.pages li", function (e) {
     e.preventDefault();
     let that = this;
     $("ul.pages li").removeClass("active");
     $(that).addClass("active");
-    
+
     let searchValue = (new URL(location.href)).searchParams.get('search');
     if (searchValue != null && searchValue.trim() != "") {
 
@@ -17,7 +17,7 @@ $(function () {
     }
 
     window.scrollTo(0, 440);
-    
+
   });
 
   // 按空的愛心
@@ -139,71 +139,6 @@ $(function () {
     initSearch();
   });
 
-
-
-  // 之前的------------------$(function)之外---------------------------------
-
-  // 從資料庫調出商品分類
-  $.ajax({
-    url: "/TFA104G5/product/BrowseServlet",
-    type: "POST",
-    data: {
-      "action": "getProductType"
-    },
-    dataType: "json",
-    beforeSend: function () {
-
-    },
-    success: function (productTypeList) {
-      $.each(productTypeList, function (index, item) {
-
-        let product_type = `<li data-productTypeId="${item.productTypeId}" style="background-color: #d7ab75; color: white; border-radius: 20px; padding: 0 5px;">${item.productTypeName}</li>`;
-
-        $("div.filters > ul").append(product_type);
-      });
-      
-      initSearch();
-    },
-    complete: function (xhr) {
-
-    }
-  });
-
-  // var productTypeList = [
-  //   {
-  //     "productTypeId": 1,
-  //     "productTypeName": "帳篷"
-  //   },
-  //   {
-  //     "productTypeId": 2,
-  //     "productTypeName": "衣服"
-  //   }
-  // ];
-
-  // 從資料庫撈出廠商
-  $.ajax({
-    url: "/TFA104G5/product/BrowseServlet",
-    type: "POST",
-    data: {
-      "action": "getCompany"
-    },
-    dataType: "json",
-    beforeSend: function () {
-
-    },
-    success: function (companyList) {
-      $.each(companyList, function (index, item) {
-
-        let company = `<option value="${item.companyId}">${item.companyName}</option>`;
-
-        $("select.company").append(company);
-      });
-    },
-    complete: function (xhr) {
-
-    }
-  });
-
   // 點擊商品分類變色，從資料庫撈出此分類的資料
   $(document).on("click", "div.filters > ul > li", function () {
     let that = this;
@@ -215,18 +150,14 @@ $(function () {
     getProducts(1);
     getPages();
   });
-
-
-  ////////////////////////////////////// 一進來頁面的動作 //////////////////////////////////////////
-  // 從網址抓參數
-  
-
+ 
+ // 從網址抓參數
   function initSearch() {
 
     let searchValue = (new URL(location.href)).searchParams.get('search');
 
     let productTypeIdValue = (new URL(location.href)).searchParams.get('productTypeId');
-    
+
     if (searchValue != null && searchValue.trim() != "") {
 
       $("div.filters li.active").removeClass("active");
@@ -235,7 +166,7 @@ $(function () {
       getPagesByProductName(searchValue.trim());
 
     } else if (productTypeIdValue != null && productTypeIdValue != "") {
-      
+
       $("div.filters > ul li").each(function (index, item) {
         if ($(item).attr("data-productTypeId") == productTypeIdValue) {
           $(item).click();
@@ -248,14 +179,6 @@ $(function () {
       getPages();
     }
   }
-
-
-
-
-
-
-
-
 
   // 此方法為去資料庫搜尋商品名稱
   function useSearchBar(productName, page) {
@@ -314,11 +237,7 @@ $(function () {
     });
   }
 
-
-
-
-
-  // 此方法為去資料庫搜尋商品
+  // 此方法為用商品類別去資料庫搜尋商品
   function getProducts(page) {
     $.ajax({
       url: "/TFA104G5/product/BrowseServlet",
@@ -375,7 +294,6 @@ $(function () {
     });
   }
 
-
   // 購物車小紅點
   function refreshCartNum() {
 
@@ -387,7 +305,7 @@ $(function () {
       },
       dataType: "json",
       beforeSend: function () {
-        
+
       },
       success: function (data) {
         if (data.cartNum != 0) {
@@ -398,7 +316,7 @@ $(function () {
         }
       },
       complete: function (xhr) {
-        
+
       }
     });
   }
@@ -429,8 +347,8 @@ $(function () {
 
         let pagesStr = "";
         for (var i = 1; i <= pageNum; i++) {
-          pagesStr += 
-          `<li ${i == 1 ? "class='active'" : ""}><a href="#">${i}</a></li>`;
+          pagesStr +=
+            `<li ${i == 1 ? "class='active'" : ""}><a href="#">${i}</a></li>`;
         }
 
         $("ul.pages").html("");
@@ -470,8 +388,8 @@ $(function () {
 
         let pagesStr = "";
         for (var i = 1; i <= pageNum; i++) {
-          pagesStr += 
-          `<li ${i == 1 ? "class='active'" : ""}><a href="#">${i}</a></li>`;
+          pagesStr +=
+            `<li ${i == 1 ? "class='active'" : ""}><a href="#">${i}</a></li>`;
         }
 
         $("ul.pages").html("");
@@ -484,8 +402,60 @@ $(function () {
 
   }
 
+  // init() 為一進頁面的動作
+  function init() {
+    // 從資料庫調出商品分類
+    $.ajax({
+      url: "/TFA104G5/product/BrowseServlet",
+      type: "POST",
+      data: {
+        "action": "getProductType"
+      },
+      dataType: "json",
+      beforeSend: function () {
 
-  
-  refreshCartNum();
+      },
+      success: function (productTypeList) {
+        $.each(productTypeList, function (index, item) {
 
+          let product_type = `<li data-productTypeId="${item.productTypeId}" style="background-color: #d7ab75; color: white; border-radius: 20px; padding: 0 5px;">${item.productTypeName}</li>`;
+
+          $("div.filters > ul").append(product_type);
+        });
+
+        initSearch();
+      },
+      complete: function (xhr) {
+
+      }
+    });
+
+    // 從資料庫撈出廠商
+    $.ajax({
+      url: "/TFA104G5/product/BrowseServlet",
+      type: "POST",
+      data: {
+        "action": "getCompany"
+      },
+      dataType: "json",
+      beforeSend: function () {
+
+      },
+      success: function (companyList) {
+        $.each(companyList, function (index, item) {
+
+          let company = `<option value="${item.companyId}">${item.companyName}</option>`;
+
+          $("select.company").append(company);
+        });
+      },
+      complete: function (xhr) {
+
+      }
+    });
+
+    refreshCartNum();
+  }
+
+  init();
 });

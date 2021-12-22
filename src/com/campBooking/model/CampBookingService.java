@@ -61,6 +61,20 @@ public class CampBookingService {
 		}
 		return null;
 	}
+	
+	
+	
+	//查詢否個某一個營位的某一天空位狀態
+		public CampBookingVO findByPK(Integer campAreaId, String date) {
+
+			if(campAreaId!=null&&date!=null) {
+				return bookdao.findByOneArea(campAreaId, date);
+			}else {
+				
+				return null;
+			}
+
+		}
 
 //拿取全部空位的資訊
 	public List<CampBookingVO> getAll() {

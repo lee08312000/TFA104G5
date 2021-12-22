@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import java.sql.Timestamp;
@@ -93,34 +94,44 @@ public class CampService {
 
 		return campdao.findByKeyWord(words);
 	}
-	
-	
-	
-	//更新營地資料(不能更改的有1.營地上架時間，2.營地申請上架時間)
-	//刪除營地用狀態改變方式:下架
-		public void update(Integer campId, Integer companyId, Integer campStatus, String campName, String campRule,
-				byte[] campPic1, byte[] campPic2, byte[] campPic3, byte[] campPic4, byte[] campPic5, String campAddress,
-				String campPhone, String certificateNum, byte[] certificatePic, Timestamp campLaunchedTime,
-				Timestamp campAppliedLaunchTime, BigDecimal longitude, BigDecimal lattitude) {
 
-			CampVO campvo = campdao.findByPrimaryKey(campId);
-			campvo.setCompanyId(companyId);
-			campvo.setCampStatus(campStatus);
-			campvo.setCampName(campName);
-			campvo.setCampRule(campRule);
-			campvo.setCampPic1(campPic1);
-			campvo.setCampPic2(campPic2);
-			campvo.setCampPic3(campPic3);
-			campvo.setCampPic4(campPic4);
-			campvo.setCampPic5(campPic5);
-			campvo.setCampAddress(campAddress);
-			campvo.setCampPhone(campPhone);
-			campvo.setCertificateNum(certificateNum);
-			campvo.setCertificatePic(certificatePic);
-			campvo.setLongitude(longitude);
-			campvo.setLattitude(lattitude);
-			campdao.update(campvo);
+	// 更新營地資料(不能更改的有1.營地上架時間，2.營地申請上架時間)
+	// 刪除營地用狀態改變方式:下架
+	public void update(Integer campId, Integer companyId, Integer campStatus, String campName, String campRule,
+			byte[] campPic1, byte[] campPic2, byte[] campPic3, byte[] campPic4, byte[] campPic5, String campAddress,
+			String campPhone, String certificateNum, byte[] certificatePic, Timestamp campLaunchedTime,
+			Timestamp campAppliedLaunchTime, BigDecimal longitude, BigDecimal lattitude) {
 
+		CampVO campvo = campdao.findByPrimaryKey(campId);
+		campvo.setCompanyId(companyId);
+		campvo.setCampStatus(campStatus);
+		campvo.setCampName(campName);
+		campvo.setCampRule(campRule);
+		campvo.setCampPic1(campPic1);
+		campvo.setCampPic2(campPic2);
+		campvo.setCampPic3(campPic3);
+		campvo.setCampPic4(campPic4);
+		campvo.setCampPic5(campPic5);
+		campvo.setCampAddress(campAddress);
+		campvo.setCampPhone(campPhone);
+		campvo.setCertificateNum(certificateNum);
+		campvo.setCertificatePic(certificatePic);
+		campvo.setLongitude(longitude);
+		campvo.setLattitude(lattitude);
+		campdao.update(campvo);
+
+	}
+
+//請求分頁	每頁欲顯示比數rows   請求頁數reqpage    營地狀態status
+	public Map showPage(Integer rows, Integer status, Integer reqpage) {
+		Map pagemap = null;
+		pagemap = campdao.getAllByPage(rows, status, reqpage);
+		if (pagemap != null||pagemap.isEmpty()) {
+			return pagemap;
+		} else {
+			return null;
 		}
+
+	}
 
 }

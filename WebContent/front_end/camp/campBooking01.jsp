@@ -5,6 +5,7 @@
 <%@ page import="com.campArea.model.*"%>
 <%@ page import="com.camp.model.*"%>
 <%
+
 	List<CampAreaVO> list = (List<CampAreaVO>) request.getAttribute("list");
 	String date = (String) request.getAttribute("date");
 	String days = (String) request.getAttribute("days");
@@ -30,7 +31,7 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/front_end/camp/css/camp_booking01.css">
 
-
+<link href="img/icon/chuba_logo.png" rel="shortcut icon">
 </head>
 
 <body>
@@ -39,13 +40,15 @@
 		<div class="header-inner responsive-wrapper">
 			<div class="header-logo">
 				<a style="display: inline-block; vertical-align: middle;"
-					href="首頁URL"> <img src="#" />
+					href="camp_index.html"> <img src="img/icon/chuba_logo.png" />
 				</a> <span style="display: inline-block; vertical-align: middle;">Camping
 					Paradise</span>
 			</div>
 			<nav class="header-navigation">
-				<a href="#">Home</a> <a href="#">線上商城</a> <a href="#"><img
-					src="#"></a> <a href="#">註冊</a> <a href="#">登入</a> <a href="#"><i
+				<a href="camp_index.html">Home</a> <a href="../mall/mall_index.html">線上商城</a>
+				<a href="#"><img
+					src="<%=request.getContextPath()%>/front_end/camp/img/icon/heart.png"></a>
+				<a href="../member/login.jsp">登入|註冊</a> <a href="#"><i
 					class="fas fa-user-circle"></i></a>
 				<button>Menu</button>
 			</nav>
@@ -141,8 +144,8 @@
 
 					<c:forEach var="areaVO" varStatus="v" items="${list}">
 						<tr class="p">
-						
-							<td class="campAreaId" style="display:none;">${areaVO.campAreaId}</td>
+
+							<td class="campAreaId" style="display: none;">${areaVO.campAreaId}</td>
 							<td class="image enlarge"><img
 								src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${areaVO.campId}&areaindex=${v.index+1}">
 							</td>
@@ -163,7 +166,7 @@
 						</tr>
 
 					</c:forEach>
-					
+
 
 				</tbody>
 				<tfoot>
@@ -183,30 +186,37 @@
 
 				</tfoot>
 			</table>
-			  <button type="button" class="checkout" onclick="location.href = '<%=request.getContextPath()%>/front_end/camp/camp_calendar';"><span> &larr;</span>上一頁</button>
-            <div id="confirm" class="checkout">立即結帳<span> &rarr;</span></div>
+			<button type="button" class="checkout"
+				onclick="history.go(-1);">
+				<span> &larr;</span>上一頁
+			</button>
+			<div id="confirm" class="checkout">
+				立即結帳<span> &rarr;</span>
+			</div>
 
 		</div>
 	</main>
 
 
 	<footer class="tm-footer text-center">
-		<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
-		<pre>Copyright &copy; 2020 Simple House | Design: <a
-				style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a>
+		<div class="footer-inner">
+			<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
+			<pre>Copyright &copy; 2020 Simple House | Design: <a
+					style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a>
 		</pre>
+		</div>
 	</footer>
 
 
 
 
-	<form method="post" action="<%=request.getContextPath()%>/CampBookingServlet">
+	<form method="post"
+		action="<%=request.getContextPath()%>/CampBookingServlet">
 		<div class="cover"></div>
-		<input type="hidden" name="action" value="confirmseat">
-		<input type="hidden" name="campId" value="${campVO.campId}">
-		
-		<input type="hidden" id="chooseDate" name="chooseDate" value="">
-		<input type="hidden" id="chooseDay"  name="chooseDay" value="">
+		<input type="hidden" name="action" value="confirmseat"> <input
+			type="hidden" name="campId" value="${campVO.campId}"> <input
+			type="hidden" id="chooseDate" name="chooseDate" value=""> <input
+			type="hidden" id="chooseDay" name="chooseDay" value="">
 		<div class="pop-box">
 			<div class="close_container" id="close_container">
 				<span class="windowtitle">確認訂位信息</span> <span class="x-btn close">X</span>
