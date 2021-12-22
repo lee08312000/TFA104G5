@@ -152,6 +152,7 @@ System.out.println("1mainkey="+mainkey);
 		} catch (Exception se) {
 			try {
 				con.rollback();
+				mainkey=0;
 			} catch (SQLException e) {
 			
 				e.printStackTrace();

@@ -5,6 +5,7 @@
 <%@ page import="com.campArea.model.*"%>
 <%@ page import="com.camp.model.*"%>
 <%
+
 	List<CampAreaVO> list = (List<CampAreaVO>) request.getAttribute("list");
 	String date = (String) request.getAttribute("date");
 	String days = (String) request.getAttribute("days");
@@ -186,7 +187,7 @@
 				</tfoot>
 			</table>
 			<button type="button" class="checkout"
-				onclick="location.href = '<%=request.getContextPath()%>/front_end/camp/camp_calendar';">
+				onclick="history.go(-1);">
 				<span> &larr;</span>¤W¤@­¶
 			</button>
 			<div id="confirm" class="checkout">

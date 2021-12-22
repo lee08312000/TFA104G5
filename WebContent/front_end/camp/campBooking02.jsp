@@ -9,11 +9,10 @@
 <%
 	MemberVO member = (MemberVO) session.getAttribute("memberVO");
 
-	CampVO campVO = (CampVO) request.getAttribute("campVO");
-	String beginDate = (String) request.getAttribute("beginDate");
-	String endDate = (String) request.getAttribute("endDate");
-	ArrayList<Map> seatlist =(ArrayList<Map>)session.getAttribute("seatlist");
-
+	CampVO campVO = (CampVO) session.getAttribute("campVO");
+	String beginDate = (String) session.getAttribute("beginDate");
+	String endDate = (String) session.getAttribute("endDate");
+	ArrayList<Map> seatlist = (ArrayList<Map>) session.getAttribute("seatlist");
 %>
 
 
@@ -59,15 +58,15 @@
 		<div class="header-inner responsive-wrapper">
 			<div class="header-logo">
 				<a style="display: inline-block; vertical-align: middle;"
-					href="camp_index.html"> <img
-					src="img/icon/chuba_logo.png" />
+					href="camp_index.html"> <img src="img/icon/chuba_logo.png" />
 				</a> <span style="display: inline-block; vertical-align: middle;">Camping
 					Paradise</span>
 			</div>
 			<nav class="header-navigation">
-				<a href="camp_index.html">Home</a> <a href="../mall/mall_index.html">線上商城</a> <a href="#"><img
-					src="img/icon/heart.png"></a> <a href="../member/login.jsp">登入|註冊</a>
-				<a href="#"><i class="fas fa-user-circle"></i></a>
+				<a href="camp_index.html">Home</a> <a href="../mall/mall_index.html">線上商城</a>
+				<a href="#"><img src="img/icon/heart.png"></a> <a
+					href="../member/login.jsp">登入|註冊</a> <a href="#"><i
+					class="fas fa-user-circle"></i></a>
 				<button>Menu</button>
 			</nav>
 		</div>
@@ -77,27 +76,35 @@
 
 
 	<main>
-	
-	       <section class="checkout-progress">
 
-                <div class="triangle2-incomplete"></div>
-                <div class="step incomplete"><em>1</em>選擇日期&天數</div>
-                <div class="triangle-incomplete"></div>
+		<section class="checkout-progress">
 
-                <div class="triangle2-incomplete"></div>
-                <div class="step incomplete"><em>2</em>選擇營位數量</div>
-                <div class="triangle-incomplete"></div>
+			<div class="triangle2-incomplete"></div>
+			<div class="step incomplete">
+				<em>1</em>選擇日期&天數
+			</div>
+			<div class="triangle-incomplete"></div>
 
-                <div class="triangle2-active"></div>
-                <div class="step active"><em>3</em>資料確認</div>
-                <div class="triangle-active"></div>
+			<div class="triangle2-incomplete"></div>
+			<div class="step incomplete">
+				<em>2</em>選擇營位數量
+			</div>
+			<div class="triangle-incomplete"></div>
+
+			<div class="triangle2-active"></div>
+			<div class="step active">
+				<em>3</em>資料確認
+			</div>
+			<div class="triangle-active"></div>
 
 
 
-                <div class="triangle2-incomplete"></div>
-                <div class="step incomplete"><em>4</em>結帳</div>
-                <div class="triangle-incomplete"></div>
-            </section>
+			<div class="triangle2-incomplete"></div>
+			<div class="step incomplete">
+				<em>4</em>結帳
+			</div>
+			<div class="triangle-incomplete"></div>
+		</section>
 		<%-- 錯誤表列 --%>
 		<c:if test="${not empty errorMsgs}">
 			<font style="color: red">請修正以下錯誤:</font>
@@ -108,8 +115,7 @@
 			</ul>
 		</c:if>
 
-		<form method="post"
-			action="CampBookingServlet">
+		<form method="post" action="CampBookingServlet">
 
 			<div class="wrapper">
 
@@ -125,7 +131,7 @@
 
 					<div class="input">
 						<label for="Name">營地名稱:</label> <input type="text" id="campname"
-							 value="${campVO.getCampName()}" disabled />
+							value="${campVO.getCampName()}" disabled />
 					</div>
 
 					<div class="input">
@@ -174,8 +180,8 @@
 						for="memberdata">同會員資料</label>
 
 					<div class="input">
-						<label for="DepartingDate" class="notna">付款人姓名:</label> <input
-							type="text" class="datepicker" id="payername" placeholder="真實姓名"
+						<label for="payername1" class="notna">付款人姓名:</label> <input
+							type="text" class="datepicker" id="payername1" placeholder="真實姓名"
 							required />
 						<div class="input radio">
 							<input type="radio" class="" id="men" name="sex" value="1" /> <label
@@ -187,7 +193,7 @@
 					<div class="input">
 						<label for="payertel" class="notna">聯絡電話:</label> <input
 							type="tel" class="timepicker" id="payertel" name="payertel"
-							value="" placeholder="(09)xx-xxx-xxx" size="10" required
+							placeholder="(09)xx-xxx-xxx" size="10" required
 							pattern="[0-9]{10}">
 					</div>
 
@@ -202,6 +208,15 @@
 
 
 				</section>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -378,8 +393,9 @@
 						<div class="field-container">
 							<label for="expirationdate" class="notna">Expiration
 								(mm/yy)</label> <input id="expirationdate" type="text"
-								name="expirationdate" value="" pattern="(0[1-9]|1[0-2])/[0-9]{2}"
-								inputmode="numeric" size="4" required />
+								name="expirationdate" value=""
+								pattern="(0[1-9]|1[0-2])/[0-9]{2}" inputmode="numeric" size="4"
+								required />
 						</div>
 						<div class="field-container">
 							<label for="securitycode" class="notna">Security Code</label> <input
@@ -388,13 +404,13 @@
 						</div>
 					</div>
 				</section>
-				
-				
+
+
 				<input type="hidden" name="campId" value="${campVO.campId}">
 				<input type="hidden" name="campCheckInDate" value="${beginDate}">
 				<input type="hidden" name="campCheckOutDate" value="${endDate}">
-				<input type="hidden" name="campAreaNameNum" value="">		
-				<input type="hidden" name="action" value="oneorder">
+				<input type="hidden" name="campAreaNameNum" value=""> <input
+					type="hidden" name="action" value="oneorder">
 				<div class="btn-wrap">
 					<button type="submit" class="btn" id="submit">確認付款</button>
 				</div>
@@ -405,10 +421,10 @@
 	</main>
 
 	<footer class="tm-footer text-center footer1">
-	<div class="footer-inner">
-		<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
-		<pre>Copyright &copy; 2020 Simple House | Design: <a
-				style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a>
+		<div class="footer-inner">
+			<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
+			<pre>Copyright &copy; 2020 Simple House | Design: <a
+					style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a>
 		</pre>
 		</div>
 	</footer>
@@ -416,8 +432,28 @@
 
 	<script src="https://unpkg.com/imask"></script>
 
-		<script src="${pageContext.request.contextPath }/front_end/camp/js/camp_booking02.js"></script>
-	
+	<script
+		src="${pageContext.request.contextPath }/front_end/camp/js/camp_booking02.js"></script>
+	<script>
+
+let checkbox = document.getElementById('memberdata');
+
+checkbox.addEventListener("change", function(e) {
+console.log(1);
+	if (e.target.checked) {
+		let payername = document
+				.getElementById("payername1");
+		let payertel = document.getElementById("payertel");
+		let email = document.getElementById("email");
+
+		payername.value = '<%=member.getMemberName()%>';
+		payertel.value = '<%=member.getMemberPhone()%>';
+		email.value = '<%=member.getMemberEmail()%>';
+
+			}
+
+		});
+	</script>
 </body>
 
 </html>

@@ -90,6 +90,16 @@
 		<dispatcher>INCLUDE</dispatcher>
 		<dispatcher>ERROR</dispatcher>
 		<dispatcher>ASYNC</dispatcher>
-
+	</filter-mapping>
+	
+	
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>/front_end/camp/campBooking02.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
 	</filter-mapping>
 </web-app>
