@@ -3,7 +3,7 @@ package com.member.controller;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
-public class LoginFilter implements Filter{
+public class MemberLoginFilter implements Filter{
 
 	private FilterConfig config;
 
