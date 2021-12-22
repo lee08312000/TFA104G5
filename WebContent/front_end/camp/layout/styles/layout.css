@@ -24,8 +24,8 @@ body {
     margin: 0;
     padding: 0;
     font-size: 13px;
-    font-family: Georgia, "Times New Roman", Times, serif;
-    color: #979797;
+    /* font-family: Georgia, "Times New Roman", Times, serif; */
+    color: black !important;
     background-color: #333333;
 }
 
@@ -80,6 +80,8 @@ a {
 .fl_left,
 .imgl {
     float: left;
+    text-overflow: ellipsis;
+    width: 120px;
 }
 
 .fl_right,
@@ -133,7 +135,7 @@ div.wrapper h5,
 div.wrapper h6 {
     margin: 0 0 15px 0;
     padding: 0;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: normal;
     font-style: italic;
     line-height: normal;
@@ -143,12 +145,12 @@ div.wrapper h6 {
 
 .row1,
 .row2 {
-    color: #979797;
+    /* color: #979797; */
     background-color: #E1D6CB;
 }
 
 .row3 {
-    color: #979797;
+    /* color: #979797; */
     background-color: #FFFFFF;
     border-top: 1px solid #510000;
     border-bottom: 5px solid #E1D6CB;

@@ -17,6 +17,52 @@ document.addEventListener("DOMContentLoaded", function() {
     // console.log(params.get("campid"));
 
 
+    /////////////////////////////////////////推薦營地/////////////////////////////////////////////////////
+
+
+    $.ajax({
+        url: "/TFA104G5/CampServlet2", // 資料請求的網址
+        type: "GET", // GET | POST | PUT | DELETE | PATCH
+        data: {
+            'action': 'recommend'
+
+        }, // 傳送資料到指定的 url
+        dataType: "json", // 預期會接收到回傳資料的格式： json | xml | html
+        success: function(data) { // request 成功取得回應後執行
+            console.log(data);
+            var recom = document.querySelectorAll("img[id=recom]");
+            var recomname = document.querySelectorAll("p[id=recomname]");
+            var recomtext = document.querySelectorAll("p[id=recomtext]");
+            var recoma = document.querySelectorAll("a[id=recoma]");
+
+            console.log(recom);
+            for (let i = 0; i < data.length; i++) {
+
+                var recommendcamp = data[i];
+
+                recom[i].setAttribute("campid", recommendcamp.campId);
+                recom[i].setAttribute("src", "/TFA104G5/PicWithCampServlet?campid=" + recommendcamp.campId + "&pic=1");
+
+                recomname[i].innerText = recommendcamp.campName;
+                recomtext[i].innerText = recommendcamp.campDiscription;
+
+                recoma[i].setAttribute("href", "camp_detail.html?campid=" + recommendcamp.campId)
+            }
+
+
+
+
+
+
+
+
+
+        }
+    });
+
+
+
+
     ///////////////////////////////////////////線上按鈕綁訂導入到月曆空位畫面//////////////////////////////////////////
 
     var bookbtn = document.getElementById("booking");
@@ -212,7 +258,7 @@ document.addEventListener("DOMContentLoaded", function() {
             for (let i = 0; i < areadata.length; i++) {
 
                 let rowdata = `<tr>
-                 <td>123</td>
+                 <td><img src="/TFA104G5/PicWithCampServlet?campid=${params.get("campid")}&areaindex=${i+1}" class="tdimg"></td>
                  <td>${areadata[i].campAreaName}</td>
                 <td>${areadata[i].campAreaMax}</td>
                 <td>${areadata[i].weekdayPrice}</td>
@@ -415,8 +461,8 @@ function initMap(lat, lng) {
 
 
     var myLatLng = {
-        lat: parseFloat(lat),
-        lng: parseFloat(lng)
+        lat: +parseFloat(lat),
+        lng: +parseFloat(lng)
     }
 
     var map = new google.maps.Map(document.getElementById('map'), {

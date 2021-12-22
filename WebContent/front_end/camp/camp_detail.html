@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link href="css/header_footer.css" rel="stylesheet" />
     <link href="css/camp_detail.css" rel="stylesheet" />
-    <link href="img/header/chuba_logo.png" rel="shortcut icon">
+    <link href="img/icon/chuba_logo.png" rel="shortcut icon">
     <script type="text/javascript" src="js/camp_detail.js"></script>
     <!------------------------------------------------------ 以下是套版的資源 ----------------------------------------------------->
     <link rel="stylesheet" href="layout/styles/layout.css" type="text/css" />
@@ -20,8 +20,6 @@
     <script type="text/javascript" src="layout/scripts/galleryviewthemes/jquery.timers.1.2.js"></script>
     <script type="text/javascript" src="layout/scripts/galleryviewthemes/jquery.galleryview.2.1.1.min.js"></script>
     <script type="text/javascript" src="layout/scripts/galleryviewthemes/jquery.galleryview.setup.js"></script>
-        <link href="img/icon/chuba_logo.png" rel="shortcut icon">
-    
 </head>
 
 <body>
@@ -38,13 +36,11 @@
                 <a href="camp_index.html">Home</a>
                 <a href="../mall/mall_index.html">線上商城</a>
                 <a href="../member/jsp/member_favorite_camp.jsp"><img src="img/icon/heart.png"></a>
-               	<a href="../member/login/login.jsp" class="tm-nav-link">登入|註冊</a>
+                <a href="../member/login/login.jsp">登入|註冊</a>        
                 <a href="../member/jsp/member_main.jsp"><i class="fas fa-user-circle"></i></a>
                 <button>Menu</button>
             </nav>
         </div>
-           
-        
     </header>
 
     <div class="wrapper row2">
@@ -90,8 +86,8 @@
                 <div class="welcome clear"><img class="imgl" src="#" />
                     <div class="fl_right">
                         <h2>營地名稱 : </h2>
-                        <p><i class="fas fa-phone-alt text-success me-2"></i></i>電話:1111111111</p>
-                        <p><i class="fas fa-map-marker-alt text-danger me-2"></i>地址:11111111111111111111111111111111111111111111111111
+                        <p><i class="fas fa-phone-alt text-success me-2"></i></i>電話:</p>
+                        <p><i class="fas fa-map-marker-alt text-danger me-2"></i>地址:
                         </p>
                         <button type="button" id="booking" class="outline">線上訂位</button>
                     </div>
@@ -203,25 +199,25 @@
                     <div class="holder last">
                         <h2>推薦營地</h2>
                         <ul class="staffmembers" id="commend">
-                            <li class="clear"><img class="imgl" src="#" alt="推薦營地1" />
+                            <li class="clear"><img class="imgl" src="#" alt="推薦營地1" id="recom" campid='' />
                                 <div class="fl_left">
-                                    <p><strong>Principals Name Here</strong></p>
-                                    <p>Principal / Headmaster</p>
-                                    <p><a href="#">讓我看看 &raquo;</a></p>
+                                    <p id="recomname" class="recomname"><strong style:>Principals Name Here</strong></p>
+                                    <p id="recomtext">Principal / Headmaster</p>
+                                    <p><a href="#" id="recoma">讓我看看 &raquo;</a></p>
                                 </div>
                             </li>
-                            <li class="clear"><img class="imgl" src="#" alt="推薦營地2" />
+                            <li class="clear"><img class="imgl" src="#" alt="推薦營地2" id="recom" campid='' />
                                 <div class="fl_left">
-                                    <p><strong>Another Name Goes Here</strong></p>
-                                    <p>Head of Student Access</p>
-                                    <p><a href="#">讓我看看 &raquo;</a></p>
+                                    <p id="recomname" class="recomname"><strong>Another Name Goes Here</strong></p>
+                                    <p id="recomtext">Head of Student Access</p>
+                                    <p><a href="#" id="recoma">讓我看看 &raquo;</a></p>
                                 </div>
                             </li>
-                            <li class="clear"><img class="imgl" src="#" alt="推薦營地3" />
+                            <li class="clear"><img class="imgl" src="#" alt="推薦營地3" id="recom" campid='' />
                                 <div class="fl_left">
-                                    <p><strong>Yet Another Name Here</strong></p>
-                                    <p>Student Union Representative</p>
-                                    <p><a href="#">讓我看看 &raquo;</a></p>
+                                    <p id="recomname" class="recomname"><strong>Yet Another Name Here</strong></p>
+                                    <p id="recomtext">Student Union Representative</p>
+                                    <p><a href="#" id="recoma">讓我看看 &raquo;</a></p>
                                 </div>
                             </li>
                         </ul>
