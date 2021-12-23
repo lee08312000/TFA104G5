@@ -57,8 +57,10 @@ public class MailService {
 			   //設定信中的內容 
 			   String mallOrderStr = "";
 			   int count = 1;
+			   int tradeTotalAmount = 0;
 			   for (Integer mallOrderId : mallOrderIdList) {
 				   MallOrderVO mallOrderVO = mallOrderSvc.getOneMallOrder(mallOrderId);
+				   tradeTotalAmount += mallOrderVO.getMailOrderTotalAmount();
 				   List<MallOrderDetailVO> mallOrderDetailVOList = mallOrderDetailSvc.getBymallOrderId(mallOrderId);
 				   String orderDetailTableStr = "";
 				   for (MallOrderDetailVO mallOrderDetailVO : mallOrderDetailVOList) {
@@ -87,7 +89,7 @@ public class MailService {
 				   
 				   if (mallOrderIdList.size() > 1) {
 					   mallOrderStr += 
-							   "<p>第" + (count++) + "筆訂單資訊如下:</p>"
+							   "<p>第 " + (count++) + " 筆訂單資訊如下:</p>"
 							   + "<table>"
 							   + "<tr>"
 							   + "<th>訂單編號</th>" 
@@ -155,6 +157,9 @@ public class MailService {
 					   + "<body>"
 					   +"<h2>訂單已成立，訂單資訊如下:" + "共 " + mallOrderIdList.size() + " 筆" +"</h2>"
 					   + mallOrderStr
+					   + "<p>交易總金額: "
+					   + tradeTotalAmount
+					   + "</p>"
 					   + "</body>"
 					   + "</html>"; 
 			   
