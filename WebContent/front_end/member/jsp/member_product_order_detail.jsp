@@ -53,43 +53,50 @@
 	<%-- =================  header區域   ===================== --%>
 	
 	<%-- =================  sidebar   ===================== --%>
-    <aside class="sidebar">
-        <div id="leftside-navigation" class="nano">
-            <ul class="nano-content">
-                <li class="sub-menu">
-                    <a href="javascript:void(0);"><i class="fas fa-heart"></i><span>&nbsp;我的最愛</span><i
-                            class="arrow fa fa-angle-right pull-right"></i></a>
-                    <ul>
-                        <li><a href="<%= request.getContextPath() %>/front_end/member/jsp/member_favorite_camp.jsp">我的最愛營地</a>
-                        </li>
-                        <li><a href="<%= request.getContextPath() %>/front_end/member/jsp/member_favorite_product.jsp">我的最愛商品</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sub-menu">
-                    <a href="javascript:void(0);"><i class="far fa-list-alt"></i><span>&nbsp;我的訂單</span><i
-                            class="arrow fa fa-angle-right pull-right"></i></a>
-                    <ul>
-                        <li><a href="<%= request.getContextPath() %>/front_end/member/jsp/member_camp_order_list.jsp">營地訂單</a>
-                        </li>
-                        <li><a href="<%= request.getContextPath() %>/front_end/member/jsp/member_product_order_list.jsp">商品訂單</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sub-menu">
-                    <a href="javascript:void(0);"><i class="fa fa-table"></i><span>&nbsp;修改資料</span><i
-                            class="arrow fa fa-angle-right pull-right"></i></a>
-                    <ul>
-                        <li>
-                        <a href="<%= request.getContextPath() %>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href=""><i class="fas fa-sign-out-alt"></i><span>&nbsp;登出</span></a>
-                </li>
-        </div>
-    </aside>
+	<form class="form-horizontal" method="post"
+			action="<%=request.getContextPath()%>/member/MemberServlet">
+	<aside class="sidebar">
+		<div id="leftside-navigation" class="nano">
+			<ul class="nano-content">
+				<li class="sub-menu"><a href="javascript:void(0);"><i
+						class="fas fa-heart"></i><span>&nbsp;我的最愛</span><i
+						class="arrow fa fa-angle-right pull-right"></i></a>
+					<ul>
+						<li><a
+							href="<%=request.getContextPath()%>/front_end/member/jsp/member_favorite_camp.jsp">我的最愛營地</a>
+						</li>
+						<li><a
+							href="<%=request.getContextPath()%>/front_end/member/jsp/member_favorite_product.jsp">我的最愛商品</a>
+						</li>
+					</ul></li>
+				<li class="sub-menu"><a href="javascript:void(0);"><i
+						class="far fa-list-alt"></i><span>&nbsp;我的訂單</span><i
+						class="arrow fa fa-angle-right pull-right"></i></a>
+					<ul>
+						<li><a
+							href="<%=request.getContextPath()%>/front_end/member/jsp/member_camp_order_list.jsp">營地訂單</a>
+						</li>
+						<li><a
+							href="<%=request.getContextPath()%>/front_end/member/jsp/member_product_order_list.jsp">商品訂單</a>
+						</li>
+					</ul></li>
+				<li class="sub-menu"><a href="javascript:void(0);"><i
+						class="fa fa-table"></i><span>&nbsp;修改資料</span><i
+						class="arrow fa fa-angle-right pull-right"></i></a>
+					<ul>
+						<li><a
+							href="<%=request.getContextPath()%>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
+						</li>
+					</ul></li>
+				<li><a href=""><i class="fas fa-sign-out-alt"></i>
+				<span><input class="fas fa-sign-out-alt logout_button" type="submit" value="&nbsp;登出" /></span>
+				</a>
+				<input type="hidden" value="logout" name="action" />
+				</li>
+				
+		</div>
+	</aside>
+	</form>
     <%-- =================  sidebar   ===================== --%>
     
 	<%-- =================  商品訂單明細   ===================== --%>
@@ -97,10 +104,12 @@
         <h3>商品訂單明細</h3>
     </div>
     <table class="table-fill">
+    	<!-- <form class="form-horizontal" method="post"
+			action="<%=request.getContextPath()%>/member/????"> 再做一個servlet(?)-->
         <thead>
             <tr>
-                <th>訂單編號 0000001</th>
-                <th>訂單日期 2021 / 12 / 13</th>
+                <th>訂單編號</th> <%-- ${ mallOrderVO.mallOrderId } --%>
+                <th>訂單日期</th> <%-- ${ mallOrderVO.mallOrderCompletedTime } --%>
             </tr>
             <tr>
                 <th class="text-left">商品圖片</th>
@@ -108,35 +117,40 @@
                 <th class="text-left">價格</th>
                 <th class="text-left">數量</th>
                 <th class="text-left">總價</th>
-                <th class="text-left">商品狀態</th>
+                <th class="text-left">商品訂單狀態</th>
                 <th class="text-left">物流狀態</th>
             </tr>
         </thead>
         <tbody class="table-hover">
+        
+        <%-- <c:forEach var="" varStatus="" items=""> --%>
             <tr>
-                <td class="text-center"><img class="product_pic" src="" alt="商品圖片"></td>
-                <td class="text-left">超酷小摺凳</td>
-                <td class="text-left">1000</td>
-                <td class="text-left">1</td>
-                <td class="text-left">1000</td>
-                <td class="text-left">已確認</td>
-                <td class="text-left">已出貨</td>
+                <td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/product/PicServlet?productId=${ productVO.productId }&pic=1" alt="商品圖片"></td>
+                <td class="text-left"></td> <%-- ${ productVO.productName } --%>
+                <td class="text-left"></td> <%-- ${ mallOrderDetailVO.productPurchasePrice } --%>
+                <td class="text-left"></td> <%-- ${ mallOrderDetailVO.productPurchaseQuantity } --%>
+                <td class="text-left"></td> <%-- ${ productPurchasePrice X productPurchaseQuantity } --%>
+                <td class="text-left"></td> <%-- ${ mallOrderVO.mallOrderStatus } --%>
+                <td class="text-left"></td> <%-- ${ mallOrderVO.mall_order_status } --%>
             </tr>
-
+         <%-- </c:forEach> --%>
+         
             <tr>
                 <td class="text-left" colspan="6">
-			                    訂單總金額<br>
-			                    訂購人姓名<br>
-			                    訂購人電話<br>
-			                    送貨地址<br>
-			                    送貨廠商<br>
+			                    訂單總金額<br> <%-- ${ mallOrderVO.mailOrderTotalAmount } --%>
+			                    收件人姓名<br> <%-- ${ mallOrderVO.receiverName } --%>
+			                    收件人電話<br> <%-- ${ mallOrderVO.receiverPhone } --%>
+			                    送貨地址<br> <%-- ${ mallOrderVO.receiverAddress } --%>
+			                    送貨廠商<br> <%-- ${ companyVO.companyName } --%>
                 </td>
                 <td class="text-center">
-                    <button class="button" type="button">取消訂單</button>
                     <button class="button" type="button" onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_product_order_list.jsp';">返回列表</button>
+                	<input class="button" type="submit" value="取消訂單"/>
+					<input type="hidden" value="delete" name="action" /> 
                 </td>
             </tr>
         </tbody>
+	<!-- </form>-->  
     </table>
     <%-- =================  商品訂單明細   ===================== --%>
     
