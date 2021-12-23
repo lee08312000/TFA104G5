@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,13 @@ import javax.sql.rowset.serial.SerialBlob;
 import util.Util;
 
 public class CompanyDAOImpl implements CompanyDAO {
+
+	
 	private static final String INSERT_STMT = "INSERT INTO company(company_status, head_name, company_name, company_account, company_password, company_email, company_tel, company_bank_account, company_address, company_register_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE_STMT = "UPDATE company SET company_status = ?, head_name = ?, company_name = ?, company_account = ?, company_password = ?, company_email = ?, company_tel = ?, company_bank_account = ?, company_address = ?, company_register_time = ? WHERE company_id = ?";
 	private static final String DELETE_STMT = "DELETE FROM company WHERE company_id = ?";
 	private static final String FIND_BY_PK = "SELECT * FROM company WHERE company_id = ?";
+	
 	private static final String GET_ALL = "SELECT * FROM company";
 	private static final String FIND_BY_ACCOUNT_PASSWORD = "SELECT * FROM company WHERE company_account = ? AND company_password = ?";
 	private static final String FIND_BY_ACCOUNT = "SELECT * FROM company WHERE company_account = ?";
@@ -33,7 +37,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 	public void add(CompanyVO companyVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-
+		Integer companyId = -1 ;
 		try {
 
 			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
@@ -50,7 +54,6 @@ public class CompanyDAOImpl implements CompanyDAO {
 			pstmt.setTimestamp(10, companyVO.getCompanyRegisterTime());
 
 			pstmt.executeUpdate();
-
 			// Handle any SQL errors
 		} catch (SQLException se) {
 			se.printStackTrace();

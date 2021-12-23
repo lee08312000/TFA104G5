@@ -134,21 +134,29 @@
 
       
         h1 {
-            font-size: 24px;
-            color: black;
+            color:black;
             text-align: center;
-            margin-left: 150px;
+            margin-right:200px;
         }
 
-        table td,
-        table th {
-            border: 1px solid black;
-            text-align: left;
-
+        table td{
+        background-color:#E0E0E0;
+           border:1px solid black;
+          text-align:left; 
+          width: 90PX;
         }
-
+        
+        table th{
+           
+          border:1px solid black;
+          text-align: center; 
+          width: 90PX;
+        
+        
+        
+        }
         .topnav {
-            margin-left: 885px;
+            margin-left: 0;
             margin-top: 100px;
         }
 
@@ -161,7 +169,7 @@
 
         div.pagination {
 
-            margin-left: 600px;
+            margin-left:0;
             margin-top: 80px;
             display: inline-block;
 
@@ -193,7 +201,7 @@
             border-spacing:0px 0px;
             width: 620px;
             font-size: 16px;
-            margin-left: 350px;
+            margin-left:0;
         }
 
         .sumit_form {

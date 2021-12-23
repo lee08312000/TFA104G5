@@ -1,3 +1,6 @@
+
+
+
 package com.camp.controller;
 
 import java.io.IOException;
@@ -23,6 +26,7 @@ import com.camp.model.CampService;
 import com.camp.model.CampVO;
 import com.campTagDetail.model.CampTagDetailService;
 import com.campTagDetail.model.CampTagDetailVO;
+import com.company.model.*;
 
 public class CampServlet extends HttpServlet {
 	private CampService campService;
@@ -80,7 +84,7 @@ public class CampServlet extends HttpServlet {
 				}
 
 				String longitude = req.getParameter("longitude");
-				BigDecimal bigDecimalLongitude =new BigDecimal(longitude);
+				BigDecimal bigDecimalLongitude = new BigDecimal(longitude);
 				if (longitude == null || (longitude.trim()).length() == 0) {
 					errorMsgs.add("緯度:請勿空白");
 				} else {
@@ -88,7 +92,7 @@ public class CampServlet extends HttpServlet {
 				}
 
 				String lattitude = req.getParameter("lattitude");
-				BigDecimal bigDecimalLattitude =new BigDecimal(lattitude);
+				BigDecimal bigDecimalLattitude = new BigDecimal(lattitude);
 				if (lattitude == null || (lattitude.trim()).length() == 0) {
 					errorMsgs.add("經度:請勿空白");
 				} else {
@@ -117,7 +121,7 @@ public class CampServlet extends HttpServlet {
 				}
 
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/camp/insertCampShelves.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/back_end/camp/insertCampShelves.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -126,20 +130,36 @@ public class CampServlet extends HttpServlet {
 				// 新增營地後,執行查詢
 				CampService campSvc = new CampService();
 				campSvc.insertCamp(campVO);
-
+				req.setAttribute("list", campSvc.selectCampCheck(campVO.getCampId()));
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-				String url = "/back-end/camp/selectCamp.jsp";
+				String url = "/back_end/camp/selectCamp.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交campShelves.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/camp/insertCampShelves.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/camp/insertCampShelves.jsp");
 				failureView.forward(req, res);
 			}
 		}
+		
+		
+		
+		/*************************** 新增營地跳轉畫面 *************************************/
+		if (action.equals("INSERTCAMP")) {
+		
+			List<CampTagDetailVO> campTagDetailList = campTagDetailService.getAll();
+			req.setAttribute("campTagDetailList", campTagDetailList);
+			
+			String url = "/back_end/camp/insertCampShelves.jsp";
+			RequestDispatcher rd = req.getRequestDispatcher(url);
+			rd.forward(req, res);
+			
+			
+			}
 
+		
 		/*************************** 更新營地 *************************************/
 		if ("UPDATE".equals(action)) {
 
@@ -185,7 +205,7 @@ public class CampServlet extends HttpServlet {
 				}
 
 				String longitude = req.getParameter("longitude");
-				BigDecimal bigDecimalLongitude =new BigDecimal(longitude);
+				BigDecimal bigDecimalLongitude = new BigDecimal(longitude);
 				if (longitude == null || (longitude.trim()).length() == 0) {
 					errorMsgs.add("緯度:請勿空白");
 				} else {
@@ -193,7 +213,7 @@ public class CampServlet extends HttpServlet {
 				}
 
 				String lattitude = req.getParameter("lattitude");
-				BigDecimal bigDecimalLattitude =new BigDecimal(lattitude);
+				BigDecimal bigDecimalLattitude = new BigDecimal(lattitude);
 				if (lattitude == null || (lattitude.trim()).length() == 0) {
 					errorMsgs.add("經度:請勿空白");
 				} else {
@@ -222,7 +242,7 @@ public class CampServlet extends HttpServlet {
 				}
 
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/camp/insertCampShelves.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/back_end/camp/insertCampShelves.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -233,19 +253,19 @@ public class CampServlet extends HttpServlet {
 				campSvc.updateCamp(campVO);
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-				String url = "/back-end/camp/selectCamp.jsp";
+				String url = "/back_end/camp/selectCamp.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交campShelves.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/camp/insertCampShelves.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/camp/insertCampShelves.jsp");
 				failureView.forward(req, res);
 			}
 		}
 
-		/*************************** 查詢營地 *************************************/
+		       /********************************查詢營地********************************************/
 		// 依據營位狀態,時間區間,輸入關鍵字查詢營地
 
 		if (action.equals("SEARCHALL")) {
@@ -265,8 +285,10 @@ public class CampServlet extends HttpServlet {
 
 			if (endtime == null || (endtime.trim()).length() == 0) {
 				Calendar endtimeCalendar = Calendar.getInstance();
+				//假如今天選12/19 00:00:00 自動加一天減一秒 變成12/20
+				endtimeCalendar.add(Calendar.DATE, +1);
 				endtime = sdf.format(endtimeCalendar.getTime());
-			}
+			} 
 
 			String campIdsearchs = req.getParameter("campIdsearch");
 			Date stardate = null;
@@ -274,7 +296,11 @@ public class CampServlet extends HttpServlet {
 			try {
 				stardate = new SimpleDateFormat("yyyy-MM-dd").parse(startime);
 				enddate = new SimpleDateFormat("yyyy-MM-dd").parse(endtime);
-
+				//假如今天選12/19 00:00:00 自動加一天減一秒 變成12/20
+				Calendar endtimeCalendar = Calendar.getInstance();
+				endtimeCalendar.setTime(enddate);
+				endtimeCalendar.add(Calendar.DATE, +1);
+				enddate =endtimeCalendar.getTime();
 			} catch (ParseException e) {
 
 				e.printStackTrace();
@@ -285,14 +311,12 @@ public class CampServlet extends HttpServlet {
 			cavList = campSvc.camplist(campstatus, stardate, enddate, campIdsearchs);
 
 			req.setAttribute("list", cavList);
-			String url = "/back-end/camp/selectCamp.jsp";
+			String url = "/back_end/camp/selectCamp.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
 		}
 
-		/***************************
-		 * 跳轉到更新營地頁面(帶了舊的資料)
-		 *************************************/
+		/***************************跳轉到更新營地頁面(帶了舊的資料)****************************/
 
 		if (action.equals("UPDATEFINDBYKEY")) {
 			String campStr = req.getParameter("campId");
@@ -314,12 +338,97 @@ public class CampServlet extends HttpServlet {
 			req.setAttribute("checkedIntList", checkedIntList);
 
 			req.setAttribute("campVO", cv);
-			String url = "/back-end/camp/updateCamp.jsp";
+			String url = "/back_end/camp/updateCamp.jsp";
+			RequestDispatcher rd = req.getRequestDispatcher(url);
+			rd.forward(req, res);
+
+		}
+		
+		
+		/*************************** 營地上架審核跳轉畫面 *************************************/
+		if (action.equals("certificatepage")) {	
+			String campStr = req.getParameter("campId");
+			Integer campId = Integer.valueOf(campStr);
+			CampService campSvce = new CampService();
+			CampVO cv=new CampVO();
+			cv=campSvce.selectCampCheck(campId);
+			req.setAttribute("campVO",cv);
+			
+			
+		
+			String url = "/back_end/camp/updateCampCertificatenum.jsp";
+			RequestDispatcher rd = req.getRequestDispatcher(url);
+			rd.forward(req, res);		
+		}
+		
+		
+		
+				
+		/******************** * 營地上架審核 ************************************************/
+		//更新營地上架審核
+
+		if ("updateCertificate".equals(action)) {
+			
+			CampVO campVO = new CampVO();
+
+			CompanyVO companyVO = new CompanyVO();
+
+			List<String> errorMsgs = new ArrayList<String>();
+
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
+				
+				String campId = req.getParameter("camp_id");
+				campVO.setCampId(Integer.valueOf(campId));
+				
+				String certificateNum = req.getParameter("certificate_num");
+				if (certificateNum == null || (certificateNum.trim()).length() == 0) {
+					errorMsgs.add("認證字號:請勿空白");
+				} else {
+					campVO.setCertificateNum(certificateNum);
+				}
+				
+				
+				/*************************** 2.開始查詢資料 *****************************************/
+				// 新增營地後,執行查詢
+
+				CampService campSerive=new CampService(); 
+				campSerive.updateCampCertificatenum(campVO, companyVO);
+				
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
+				String url = "/back_end/camp/selectCampCertificatenum.jsp";
+				RequestDispatcher rd = req.getRequestDispatcher(url);
+				rd.forward(req, res);
+			} catch (Exception e) {
+				e.printStackTrace();
+				String url = "/back_end/camp/updateCampCertificatenum.jsp";
+				RequestDispatcher rd = req.getRequestDispatcher(url);
+				rd.forward(req, res);
+			}
+		}
+		
+		
+		
+		
+		/******************** * 營地上架審核 ********************************************************/
+		// 查詢營地上架審核
+
+		if (action.equals("SEARCHCAMPANY")) {
+
+
+			String companyName = req.getParameter("companyName");
+
+			CampService campSvc = new CampService();
+			List<CampVO> campVolist = new ArrayList<CampVO>();
+			campVolist = campSvc.selectAllCampCheck(companyName);
+
+			req.setAttribute("list", campVolist);
+			String url = "/back_end/camp/selectCampCertificatenum.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
 		}
 
-	
 	}
-
 }

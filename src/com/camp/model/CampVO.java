@@ -30,11 +30,58 @@ public class CampVO implements Serializable {
 	private BigDecimal longitude;// 經度
 	private BigDecimal lattitude;// 緯度
 	
+	//營地審核上架時候使用到campany欄位
+	private String   headName;
+	private String companyTel;
+	private String  companyAddress;
+	private String  companyName;
+	
+	
+	public String getCompanyName() {
+		return companyName;
+	}
+
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+
 	public CampVO() {
 		
 	}
 	
 	
+	public String getHeadName() {
+		return headName;
+	}
+
+
+	public void setHeadName(String headName) {
+		this.headName = headName;
+	}
+
+
+	public String getCompanyTel() {
+		return companyTel;
+	}
+
+
+	public void setCompanyTel(String companyTel) {
+		this.companyTel = companyTel;
+	}
+
+
+	public String getCompanyAddress() {
+		return companyAddress;
+	}
+
+
+	public void setCompanyAddress(String companyAddress) {
+		this.companyAddress = companyAddress;
+	}
+
+
 	public CampVO(Integer campId, Integer companyId, Integer campStatus, String campDiscription, String campName,
 			String campRule, byte[] campPic1, byte[] campPic2, byte[] campPic3, byte[] campPic4, byte[] campPic5,
 			String campAddress, String campPhone, String certificateNum, byte[] certificatePic,
@@ -261,8 +308,11 @@ public class CampVO implements Serializable {
 				+ Arrays.toString(campPic5) + ", campAddress=" + campAddress + ", campPhone=" + campPhone
 				+ ", certificateNum=" + certificateNum + ", certificatePic=" + Arrays.toString(certificatePic)
 				+ ", campLaunchedTime=" + campLaunchedTime + ", campAppliedLaunchTime=" + campAppliedLaunchTime
-				+ ", longitude=" + longitude + ", lattitude=" + lattitude + "]";
+				+ ", longitude=" + longitude + ", lattitude=" + lattitude + ", headName=" + headName + ", companyTel="
+				+ companyTel + ", companyAddress=" + companyAddress + "]";
 	}
+
+
 	
 	
 	

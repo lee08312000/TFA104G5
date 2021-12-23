@@ -297,8 +297,8 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 
 			while (rs.next()) {
 				campTagDetailVO = new CampTagDetailVO();
-				campTagDetailVO.setCampId(rs.getInt("camp_Id"));
-				campTagDetailVO.setCampTagId(rs.getInt("camp_Tag_Id"));
+				campTagDetailVO.setCampTagName(rs.getString("ct.camp_tag_name"));
+				campTagDetailVO.setCampTagId(rs.getInt("ct.camp_tag_id"));
 				list.add(campTagDetailVO);
 			}
 
