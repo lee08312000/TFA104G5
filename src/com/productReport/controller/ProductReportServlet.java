@@ -15,11 +15,14 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.company.model.CompanyService;
 import com.member.model.MemberVO;
 import com.product.model.ProductService;
 import com.product.model.ProductVO;
 import com.productReport.model.ProductReportService;
 import com.productReport.model.ProductReportVO;
+
+import util.MailService;
 
 @WebServlet("/ProductReport/ProductReportServlet")
 public class ProductReportServlet extends HttpServlet {
@@ -110,6 +113,7 @@ public class ProductReportServlet extends HttpServlet {
     	if ("noUsed".equals(action)) {
     		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
     		Integer productId = Integer.parseInt(req.getParameter("productId"));
+    		String reportReason = req.getParameter("reportReason").trim();
     		/*************************** 2.開始更改資料 *****************************************/
     		ProductService productSvc = new ProductService();
     		ProductVO productVO = productSvc.getOneProduct(productId);
@@ -122,6 +126,11 @@ public class ProductReportServlet extends HttpServlet {
     				productReportSvc.updateProductReport(productReportVO.getProductReportId(), productReportVO.getMemberId(), productReportVO.getProductId(), productReportVO.getReportReason(), 1);
     			}
     		}
+    		
+    		MailService mailSvc = new MailService();
+    		CompanyService companySvc = new CompanyService();
+    		companySvc.getOneCompany(productVO.getCompanyId()).getCompanyEmail();
+    		mailSvc.sendMail(companySvc.getOneCompany(productVO.getCompanyId()).getCompanyEmail(), "Camping Paradise-商品被下架", "您的商品:\n編號: " + productVO.getProductId() + "\n名稱: " + productVO.getProductName() + "\n因檢舉而被下架\n檢舉內容為:\n" + reportReason);
     		
     		/*************************** 3.準備轉交 *****************************************/
     		String url = "/back_end/admin/productReport.jsp";

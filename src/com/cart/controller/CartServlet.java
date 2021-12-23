@@ -30,6 +30,8 @@ import com.member.model.MemberVO;
 import com.product.model.ProductService;
 import com.product.model.ProductVO;
 
+import util.MailService;
+
 @WebServlet("/Cart/CartServlet")
 public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -437,6 +439,7 @@ public class CartServlet extends HttpServlet {
 
 		// 購物車結帳
 		if ("checkout".equals(action)) {
+			MailService mailSvc = new MailService();
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
@@ -524,6 +527,9 @@ public class CartServlet extends HttpServlet {
 			} else {
 				session.removeAttribute("buyList");
 				req.setAttribute("mallOrderIdList", mallOrderIdList);
+				// 寄送email給會員
+				mailSvc.sendMailByMallOrder(memberVO.getMemberEmail(), "Camping Paradise-商城訂單成立", mallOrderIdList);
+				
 				String url = "/front_end/mall/shoppingCart04.jsp";
 				RequestDispatcher rd = req.getRequestDispatcher(url);
 				rd.forward(req, res);

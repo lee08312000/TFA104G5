@@ -4,49 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
-<%@ page import="java.util.stream.*"%>
-<%@ page import="com.productReport.model.ProductReportVO"%>
-<%@ page import="com.productReport.model.ProductReportService"%>
+<%@ page import="com.admin.model.AdminVO"%>
+<%@ page import="com.admin.model.AdminService"%>
 
-<jsp:useBean id="productSvc" class="com.product.model.ProductService"></jsp:useBean>
-<jsp:useBean id="memberSvc" class="com.member.model.MemberService"></jsp:useBean>
-
-<% 
-	Integer productReportOrder = 0;
-	if (session.getAttribute("productReportOrder") != null) {
-		productReportOrder = (Integer) session.getAttribute("productReportOrder");
-	}
-
-	
-	ProductReportService productReportSvc = new ProductReportService();
-	List<ProductReportVO> productReportVOList = productReportSvc.getAll();
-	List<ProductReportVO> list = new ArrayList<ProductReportVO>();
-	
-
-	
-	for (ProductReportVO productReportVO : productReportVOList) {
-		if (productReportVO.getReportStatus().intValue() == 0) {
-			list.add(productReportVO);
-		}
-	}
-	
-	if (productReportOrder.intValue() == 0) {
-		
-		list = list.stream()
-				   .sorted(Comparator.comparing(ProductReportVO::getReportTime).reversed())
-				   .collect(Collectors.toList());
-	} else if (productReportOrder.intValue() == 1) {
-		list = list.stream()
-				   .sorted(Comparator.comparing(ProductReportVO -> ProductReportVO.getReportTime()))
-				   .collect(Collectors.toList());
-	}
-	
-	
-	
-	pageContext.setAttribute("list", list);
-
-
-%>
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -55,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>商品檢舉管理</title>
+    <title>管理員資訊</title>
 </head>
 <style>
     *{
@@ -545,7 +505,8 @@
         color: rgb(68, 66, 66);
         width: 90%;
         max-width: 800px;
-        height: 500px;
+/*         height: 500px; */
+        height: auto;
         border-radius: 5px;        
         padding: 10px;
         position: absolute;
@@ -608,7 +569,7 @@
                                 <strong>管理員中心</strong>
                             </a>
                             <ul>
-                            	<li><a href="<%=request.getContextPath()%>/back_end/admin/adminIndex.jsp"><i class="fas fa-cannabis"></i>管理員首頁</a></li>
+                           	 	<li><a href="<%=request.getContextPath()%>/back_end/admin/adminIndex.jsp"><i class="fas fa-cannabis"></i>管理員首頁</a></li>
                                 <li><a href="<%=request.getContextPath()%>/back_end/admin/adminInfo.jsp"><i class="fas fa-cannabis"></i>管理員資訊</a></li>					
                                 <li><a href="<%=request.getContextPath()%>/back_end/admin/updateAdmin.jsp"><i class="fas fa-cannabis"></i>基本資料修改</a></li>					
                             </ul>
@@ -646,92 +607,17 @@
 
     <main class="main">
     
-    	<h2>商品檢舉管理</h2>
-    	<form method="post" action="<%=request.getContextPath()%>/ProductReport/ProductReportServlet">
-    		申請時間：
-    		<select name="order">
-    			<option value="0" ${productReportOrder.intValue() == null || productReportOrder.intValue() == 0 ? "selected" : ""}>新到舊</option>
-    			<option value="1" ${productReportOrder.intValue() == 1 ? "selected" : ""}>舊到新</option>
-    		</select>
-    		<input type="hidden" name="action" value="orderBy">
-    		<input type="submit" value="送出">
-    	</form>
+    	<h2>管理員資訊</h2>
+    		<div>
+            	編號:&nbsp;${ adminVO.adminId }<br>
+            	帳號:&nbsp;${ adminVO.adminAccount }<br>
+            	密碼:&nbsp;${ adminVO.adminPassword }<br>
+            	狀態:&nbsp;${ adminVO.adminAccountStatus.intValue() == 0 ? "停用中" : adminVO.adminAccountStatus.intValue() == 1 ? "啟用中" : "異常" }<br><br>
+            	<a style="margin-left: 50px" href="<%=request.getContextPath()%>/back_end/admin/updateAdmin.jsp">前往修改資料</a>
+            </div>
     	
-        <table id="miyazaki" style="margin: 0 auto">
-            <thead>
-            <tr><th>檢舉編號</th><th>商品編號</th><th>商品名稱</th><th>檢舉原因</th><th>檢舉狀態</th><th>檢舉時間</th><th>操作</th>
-            <tbody>
-            <%@ include file="page1.file" %> 
-				<c:forEach var="productReportVO" items="${ list }" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-
-						<tr data-reportReason="${ productReportVO.reportReason }" data-memberId="${ productReportVO.memberId }" data-memberName="${ memberSvc.getOneMember(productReportVO.memberId).memberName }">
-							<td>${ productReportVO.productReportId }</td>
-							<td>${ productReportVO.productId }</td>
-							<td><a href="<%=request.getContextPath() %>/front_end/mall/mall_product_detail.html?productId=${ productReportVO.productId }" target="_blank">${ productSvc.getOneProduct(productReportVO.productId).productName}</a></td>
-							<td><button type="button" class="btn_open">詳細查看</button></td>
-							<td>${ productReportVO.reportStatus.intValue() == 0 ? "未處理" : productReportVO.reportStatus.intValue() == 1 ? "已處理" : "異常" }</td>
-							<td><fmt:formatDate value="${ productReportVO.reportTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-							<td>
-								<form method="post" action="<%=request.getContextPath()%>/ProductReport/ProductReportServlet" style="display:inline-block;">
-									<input type="hidden" name="action" value="ignore">
-									<input type="hidden" name="productReportId" value="${ productReportVO.productReportId }">
-									<input type="submit" style="margin-right: 10px;" value="忽略">
-								</form>
-								<form method="post" action="<%=request.getContextPath()%>/ProductReport/ProductReportServlet" style="display:inline-block;">
-									<input type="hidden" name="action" value="noUsed">
-									<input type="hidden" name="reportReason" value="${ productReportVO.reportReason }">
-									<input type="hidden" name="productId" value="${ productReportVO.productId }">
-									<input type="submit" value="下架商品">
-								</form>
-							</td>
-						</tr>
-
-				</c:forEach>
-                              
-        </table>
-        <%@ include file="page2.file" %>        
     </main>
-    <div class="overlay" style="border: 1px solid red;">
-        <article>
-            <div class="article-group">
-                <label class="control-label">會員編號:&nbsp;<span id="memberId" >s</span></label>                                  
-            </div>
-            <div class="article-group">
-                <label class="control-label">會員名稱:&nbsp;<span id="memberName" >s</span></label>                                  
-            </div>
-                             
-            <div class="article-group">
-                <label class="control-label">檢舉原因:</label>                
-                <div id="reportReason" class="text-frame">
-                   檢舉原因
-                </div>                      
-            </div>
-            
-            
-          <button type="button" class="btn_modal_close">關閉</button>
-        </article>
-    </div>
        
-    <script>
-        $(function(){
-  
-        // 開啟 Modal 彈跳視窗
-        $(document).on("click", "button.btn_open", function(){
-        	let memberId = $(this).closest("tr").attr("data-memberId");
-            $("span#memberId").text(memberId);
-            $("span#memberName").text($(this).closest("tr").attr("data-memberName"));
-            $("div#reportReason").text($(this).closest("tr").attr("data-reportReason"));
-            
-            $("div.overlay").fadeIn();
-        });
-        
-        // 關閉 Modal
-        $("button.btn_modal_close").on("click", function(){
-            $("div.overlay").fadeOut();
-        });
-        
-        });
-    </script>
 </body>
 
 </html>

@@ -389,6 +389,9 @@
     top: 0px;
     border-left: 4px solid #e67e22;
     /* == */
+    /* by Lee */
+    margin-left: -21px;
+    /* by Lee */
     }
     .mcd-menu li ul:before {
     content: "";
@@ -563,7 +566,7 @@
     <header class="header">       
         <div class="header-inner responsive-wrapper">
             <div class="header-logo">
-                <a style="display:inline-block; vertical-align: middle;" href="首頁URL">
+                <a style="display:inline-block; vertical-align: middle;" href="<%=request.getContextPath()%>/back_end/admin/adminIndex.jsp">
                     <img src="<%=request.getContextPath()%>/back_end/admin/images/camp_paradise_logo.png" />
                 </a>
                 <span style="display:inline-block; vertical-align: middle;">Camping Paradise 平台管理員</span>
@@ -571,8 +574,8 @@
         </div>
         <nav class="header-navigation">
         	<ul>          
-                <li>XXX你好!</li>
-                <li><a href="#">登出</a></li>              
+                <li>${ adminVO.adminId }&nbsp;號管理員,你好!</li>
+                <li><a href="<%=request.getContextPath()%>/admin/AdminServlet?action=logout">登出</a></li>              
         	</ul>    
         </nav>
                     
@@ -584,10 +587,20 @@
                     <ul class="mcd-menu">
                         <li>
                             <a href="" class="light">
+                                <strong>管理員中心</strong>
+                            </a>
+                            <ul>
+                            	<li><a href="<%=request.getContextPath()%>/back_end/admin/adminIndex.jsp"><i class="fas fa-cannabis"></i>管理員首頁</a></li>
+                                <li><a href="<%=request.getContextPath()%>/back_end/admin/adminInfo.jsp"><i class="fas fa-cannabis"></i>管理員資訊</a></li>					
+                                <li><a href="<%=request.getContextPath()%>/back_end/admin/updateAdmin.jsp"><i class="fas fa-cannabis"></i>基本資料修改</a></li>					
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="" class="light">
                                 <strong>管理員管理</strong>
                             </a>
                             <ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>管理員查詢</a></li>					
+                                <li><a href="<%=request.getContextPath()%>/back_end/admin/adminManagement.jsp"><i class="fas fa-cannabis"></i>管理員查詢</a></li>					
                             </ul>
 
                         </li>
@@ -596,7 +609,7 @@
                                 <strong>廠商管理</strong>
                             </a>
                             <ul>
-                            	<li><a href="#"><i class="fas fa-cannabis"></i>廠商查詢</a></li>
+                            	<li><a href="<%=request.getContextPath()%>/back_end/admin/companyManagement.jsp"><i class="fas fa-cannabis"></i>廠商查詢</a></li>
                                 <li><a href="<%=request.getContextPath()%>/back_end/admin/campCheck.jsp"><i class="fas fa-cannabis"></i>營地上架審核</a></li>					
                                 <li><a href="<%=request.getContextPath()%>/back_end/admin/productReport.jsp"><i class="fas fa-cannabis"></i>商品檢舉管理</a></li>
                             </ul>
@@ -606,7 +619,7 @@
                                 <strong>一般會員管理</strong>
                             </a>
                     		<ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>會員查詢</a></li>					
+                                <li><a href="<%=request.getContextPath()%>/back_end/admin/memberManagement.jsp"><i class="fas fa-cannabis"></i>會員查詢</a></li>					
                             </ul>
                         </li>                 							
                     </ul>
@@ -627,7 +640,7 @@
     		<input type="submit" value="送出">
     	</form>
     	
-        <table id="miyazaki">
+        <table id="miyazaki" style="margin: 0 auto">
             <thead>
             <tr><th>營地編號</th><th>營地名稱</th><th>廠商編號</th><th>廠商名稱</th><th>申請時間</th><th>查看更多</th><th>審核</th>
             <tbody>

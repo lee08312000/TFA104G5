@@ -4,46 +4,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
-<%@ page import="java.util.stream.*"%>
-<%@ page import="com.productReport.model.ProductReportVO"%>
-<%@ page import="com.productReport.model.ProductReportService"%>
-
-<jsp:useBean id="productSvc" class="com.product.model.ProductService"></jsp:useBean>
-<jsp:useBean id="memberSvc" class="com.member.model.MemberService"></jsp:useBean>
+<%@ page import="com.company.model.CompanyVO"%>
+<%@ page import="com.company.model.CompanyService"%>
 
 <% 
-	Integer productReportOrder = 0;
-	if (session.getAttribute("productReportOrder") != null) {
-		productReportOrder = (Integer) session.getAttribute("productReportOrder");
-	}
-
-	
-	ProductReportService productReportSvc = new ProductReportService();
-	List<ProductReportVO> productReportVOList = productReportSvc.getAll();
-	List<ProductReportVO> list = new ArrayList<ProductReportVO>();
-	
-
-	
-	for (ProductReportVO productReportVO : productReportVOList) {
-		if (productReportVO.getReportStatus().intValue() == 0) {
-			list.add(productReportVO);
-		}
+	List<CompanyVO> list = new ArrayList<CompanyVO>();
+	if (request.getAttribute("companyVOList") != null) {
+		list = (List<CompanyVO>) request.getAttribute("companyVOList");
+		pageContext.setAttribute("list", list);
+	} else {
+		CompanyService companySvc = new CompanyService();
+		list = companySvc.getAllCompany();
+		pageContext.setAttribute("list", list);
 	}
 	
-	if (productReportOrder.intValue() == 0) {
-		
-		list = list.stream()
-				   .sorted(Comparator.comparing(ProductReportVO::getReportTime).reversed())
-				   .collect(Collectors.toList());
-	} else if (productReportOrder.intValue() == 1) {
-		list = list.stream()
-				   .sorted(Comparator.comparing(ProductReportVO -> ProductReportVO.getReportTime()))
-				   .collect(Collectors.toList());
-	}
-	
-	
-	
-	pageContext.setAttribute("list", list);
 
 
 %>
@@ -55,7 +29,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>商品檢舉管理</title>
+    <title>廠商查詢</title>
 </head>
 <style>
     *{
@@ -646,42 +620,42 @@
 
     <main class="main">
     
-    	<h2>商品檢舉管理</h2>
-    	<form method="post" action="<%=request.getContextPath()%>/ProductReport/ProductReportServlet">
-    		申請時間：
-    		<select name="order">
-    			<option value="0" ${productReportOrder.intValue() == null || productReportOrder.intValue() == 0 ? "selected" : ""}>新到舊</option>
-    			<option value="1" ${productReportOrder.intValue() == 1 ? "selected" : ""}>舊到新</option>
-    		</select>
-    		<input type="hidden" name="action" value="orderBy">
-    		<input type="submit" value="送出">
+    	<h2>廠商查詢</h2>
+    	<form method="post" action="<%=request.getContextPath()%>/company/CompanyManagementServlet">
+    		廠商編號：
+    		<input type="number" name="companyId" value="1" min="1" style="width: 60px;">
+    		<input type="hidden" name="action" value="searchByCompanyId">
+    		<input type="submit" value="查詢">
+    		<a style="margin-left: 20px;" href="<%=request.getContextPath()%>/back_end/admin/companyManagement.jsp">所有廠商</a>
     	</form>
+    	<%-- 錯誤表列 --%>
+		<c:if test="${not empty errorMsgs}">
+			<font style="color:red">請修正以下錯誤:</font>
+			<ul>
+				<c:forEach var="message" items="${errorMsgs}">
+					<li style="color:red">${message}</li>
+				</c:forEach>
+			</ul>
+		</c:if>
     	
         <table id="miyazaki" style="margin: 0 auto">
             <thead>
-            <tr><th>檢舉編號</th><th>商品編號</th><th>商品名稱</th><th>檢舉原因</th><th>檢舉狀態</th><th>檢舉時間</th><th>操作</th>
+            <tr><th>編號</th><th>名稱</th><th>帳號</th><th>帳號狀態</th><th>詳細資料</th><th>操作</th>
             <tbody>
             <%@ include file="page1.file" %> 
-				<c:forEach var="productReportVO" items="${ list }" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+				<c:forEach var="companyVO" items="${ list }" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 
-						<tr data-reportReason="${ productReportVO.reportReason }" data-memberId="${ productReportVO.memberId }" data-memberName="${ memberSvc.getOneMember(productReportVO.memberId).memberName }">
-							<td>${ productReportVO.productReportId }</td>
-							<td>${ productReportVO.productId }</td>
-							<td><a href="<%=request.getContextPath() %>/front_end/mall/mall_product_detail.html?productId=${ productReportVO.productId }" target="_blank">${ productSvc.getOneProduct(productReportVO.productId).productName}</a></td>
-							<td><button type="button" class="btn_open">詳細查看</button></td>
-							<td>${ productReportVO.reportStatus.intValue() == 0 ? "未處理" : productReportVO.reportStatus.intValue() == 1 ? "已處理" : "異常" }</td>
-							<td><fmt:formatDate value="${ productReportVO.reportTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+						<tr data-companyId="${ companyVO.companyId }" data-companyName="${ companyVO.companyName }" data-headName="${ companyVO.headName }" data-companyAccount="${ companyVO.companyAccount }" data-companyStatus='${ companyVO.companyStatus.intValue() == 0 ? "停用中" : companyVO.companyStatus.intValue() == 1 ? "啟用中" : "異常" }' data-companyBankAccount="${ companyVO.companyBankAccount }" data-companyEmail="${ companyVO.companyEmail }" data-companyAddress="${ companyVO.companyAddress }" data-companyTel="${ companyVO.companyTel }" data-companyRegisterTime="<fmt:formatDate value="${ companyVO.companyRegisterTime }" pattern="yyyy-MM-dd HH:mm:ss"/>">
+							<td>${ companyVO.companyId }</td>
+							<td>${ companyVO.companyName }</td>
+							<td>${ companyVO.companyAccount }</td>
+							<td>${ companyVO.companyStatus.intValue() == 0 ? "停用中" : companyVO.companyStatus.intValue() == 1 ? "啟用中" : "異常" }</td>
+							<td><button type="button" class="btn_open">詳細資料</button></td>
 							<td>
-								<form method="post" action="<%=request.getContextPath()%>/ProductReport/ProductReportServlet" style="display:inline-block;">
-									<input type="hidden" name="action" value="ignore">
-									<input type="hidden" name="productReportId" value="${ productReportVO.productReportId }">
-									<input type="submit" style="margin-right: 10px;" value="忽略">
-								</form>
-								<form method="post" action="<%=request.getContextPath()%>/ProductReport/ProductReportServlet" style="display:inline-block;">
-									<input type="hidden" name="action" value="noUsed">
-									<input type="hidden" name="reportReason" value="${ productReportVO.reportReason }">
-									<input type="hidden" name="productId" value="${ productReportVO.productId }">
-									<input type="submit" value="下架商品">
+								<form method="post" action="<%=request.getContextPath()%>/company/CompanyManagementServlet" style="display:inline-block;">
+									<input type="hidden" name="action" value='${ companyVO.companyStatus.intValue() == 0 ? "on" : companyVO.companyStatus.intValue() == 1 ? "off" : "異常" }'>
+									<input type="hidden" name="companyId" value="${ companyVO.companyId }">
+									<input type="submit" value='${ companyVO.companyStatus.intValue() == 0 ? "啟用" : companyVO.companyStatus.intValue() == 1 ? "停用" : "異常" }'>
 								</form>
 							</td>
 						</tr>
@@ -694,20 +668,36 @@
     <div class="overlay" style="border: 1px solid red;">
         <article>
             <div class="article-group">
-                <label class="control-label">會員編號:&nbsp;<span id="memberId" >s</span></label>                                  
+                <label class="control-label">廠商編號:&nbsp;<span id="companyId" >s</span></label>                                  
             </div>
             <div class="article-group">
-                <label class="control-label">會員名稱:&nbsp;<span id="memberName" >s</span></label>                                  
+                <label class="control-label">廠商名稱:&nbsp;<span id="companyName" >s</span></label>                                  
             </div>
-                             
             <div class="article-group">
-                <label class="control-label">檢舉原因:</label>                
-                <div id="reportReason" class="text-frame">
-                   檢舉原因
-                </div>                      
+                <label class="control-label">負責人姓名:&nbsp;<span id="headName" >s</span></label>                                  
             </div>
-            
-            
+            <div class="article-group">
+                <label class="control-label">廠商帳號:&nbsp;<span id="companyAccount" >s</span></label>                                  
+            </div>
+            <div class="article-group">
+                <label class="control-label">廠商帳號狀態:&nbsp;<span id="companyStatus" >s</span></label>                                  
+            </div>
+            <div class="article-group">
+                <label class="control-label">廠商email:&nbsp;<span id="companyEmail" >s</span></label>                                  
+            </div>
+            <div class="article-group">
+                <label class="control-label">廠商電話:&nbsp;<span id="companyTel" >s</span></label>                                  
+            </div>
+            <div class="article-group">
+                <label class="control-label">廠商地址:&nbsp;<span id="companyAddress" >s</span></label>                                  
+            </div>                 
+            <div class="article-group">
+                <label class="control-label">廠商銀行帳號:&nbsp;<span id="companyBankAccount" >s</span></label>                                  
+            </div>                 
+            <div class="article-group">
+                <label class="control-label">廠商註冊時間:&nbsp;<span id="companyRegisterTime" >s</span></label>                                  
+            </div>                 
+            <br>            
           <button type="button" class="btn_modal_close">關閉</button>
         </article>
     </div>
@@ -717,10 +707,16 @@
   
         // 開啟 Modal 彈跳視窗
         $(document).on("click", "button.btn_open", function(){
-        	let memberId = $(this).closest("tr").attr("data-memberId");
-            $("span#memberId").text(memberId);
-            $("span#memberName").text($(this).closest("tr").attr("data-memberName"));
-            $("div#reportReason").text($(this).closest("tr").attr("data-reportReason"));
+            $("span#companyId").text($(this).closest("tr").attr("data-companyId"));
+            $("span#companyName").text($(this).closest("tr").attr("data-companyName"));
+            $("span#headName").text($(this).closest("tr").attr("data-headName"));
+            $("span#companyAccount").text($(this).closest("tr").attr("data-companyAccount"));
+            $("span#companyStatus").text($(this).closest("tr").attr("data-companyStatus"));
+            $("span#companyEmail").text($(this).closest("tr").attr("data-companyEmail"));
+            $("span#companyTel").text($(this).closest("tr").attr("data-companyTel"));
+            $("span#companyAddress").text($(this).closest("tr").attr("data-companyAddress"));
+            $("span#companyBankAccount").text($(this).closest("tr").attr("data-companyBankAccount"));
+            $("span#companyRegisterTime").text($(this).closest("tr").attr("data-companyRegisterTime"));
             
             $("div.overlay").fadeIn();
         });
