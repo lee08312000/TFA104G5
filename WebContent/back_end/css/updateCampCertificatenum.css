@@ -1,3 +1,4 @@
+
   *,
         *:after,
         *:before {
@@ -132,74 +133,132 @@
         }
 
         /* =====================main區域========================*/
-
-      
-        h1 {
-            color: black;
+		h1{
+            color:black;
             text-align: center;
-            margin-left: 250px;
-        }
-
-        table td,
-        table th {
-            border: 1px solid black;
-            text-align: left;
+            margin-left:0;   
 
         }
-
-        .topnav {
-            margin-left: 885px;
-            margin-top: 100px;
+        
+           
+        .camp_table{
+          border:1px solid black; 
+          border-collapse: collapse;
+          margin-left: 100px;
+          margin-top: 0px;
+          width: 70%;
+        }
+        table td{
+          border:1px solid black;
+          text-align:left; 
+          width: 90PX;
+        }
+        
+        table th{
+          background-color:	#E0E0E0;
+          border:1px solid black;
+          text-align:left; 
+          width: 90PX;
+       
+       
+               
+        }
+        .topnav{
+            margin-left:0;
+            margin-top:100px;        
         }
 
         body {
             font-family: Arial;
         }
 
-
-
-
-        div.pagination {
-
-            margin-left: 620px;
-            margin-top: 80px;
-            display: inline-block;
-
+       
+       
+        .selector{
+         height: 25px;
+         margin-left:0;
+         
         }
+        
+        .submit_button{
+        margin-right:210px;
+        float:right;
+        }
+        form.searchForm input[type=text] {
+        
+            padding: 5px;
+            font-size: 10px;
+            border: 1px solid grey;
+            float: right;
+            width: 150PX;
+            background: #f1f1f1;
+            max-width: 100%;
+           
+         }
 
-        .pagination a {
-            color: black;
+        form.searchForm button {
             float: left;
-            padding: 8px 16px;
-            text-decoration: none;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-
-        .pagination a.active {
-            background-color: #4CAF50;
+            margin-left:100000000px;
+            width: 30PX;
+            padding: 5px;
+            background:#D0D0D0;
             color: white;
-            border-radius: 5px;
+            font-size: 10px;
+            border: 1px solid grey;
+            border-left: none;
+            cursor: pointer;
+            max-width: 100%;
+           
         }
 
-        .pagination a:hover:not(.active) {
-            background-color: #ddd;
-            border-radius: 5px;
+        form.searchForm button:hover {
+            background: #0b7dda;
+         
         }
-
-        /* 填寫營地上架審核表單 */
-        .camp_table {
-            border-collapse:separate;
-            border-spacing:0px 0px;
-            width: 720px;
-            font-size: 16px;
-            margin-left: 380px;
+        
+         form.searchForm::after {
+            content: "";
+            clear: both;
+            display: table;
         }
-
-        .sumit_form {
-            display: inline;
+        
+        div.divSearchForm{
+            
+            margin-left:10000 px;
+            margin-top: 80px;
+            display:inline-block;
         }
-
+        div.pagination {
+          margin-right:100px;
+          margin-top: 10px;
+		  display: inline-block;
+		  
+		}
+		
+		.pagination a {
+		  color: black;
+		  float: left;
+		  padding: 8px 16px;
+		  text-decoration: none;
+		  border-radius: 5px;
+		  border: 1px solid #ddd;
+		 
+		}
+		
+		.pagination a.active {
+		  background-color: #4CAF50;
+		  color: white;
+		  border-radius: 5px;
+		}
+		
+		.pagination a:hover:not(.active) {
+		  background-color: #ddd;
+		  border-radius: 5px;
+		}
+		
+		.camp_table{
+		   margin-right:100px;
+		}
 
 
 

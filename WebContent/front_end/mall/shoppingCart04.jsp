@@ -156,8 +156,8 @@ div.overlay > article{
 					<td><fmt:formatDate
 							value="${ mallOrderVO.mallOrderConfirmedTime }"
 							pattern="yyyy-MM-dd HH:mm:ss" /></td>
-					<td>${ mallOrderVO.mallOrderStatus == 0 ? "處理中" : mallOrderVO.mallOrderStatus == 1 ? "已確認" : mallOrderVO.mallOrderStatus == 2 ? "已完成" : "異常狀態"}</td>
-					<td>${ mallOrderVO.mallOrderDeliveryStatus == 0 ? "未發貨" : mallOrderVO.mallOrderDeliveryStatus == 1 ? "已發貨" : mallOrderVO.mallOrderDeliveryStatus == 2 ? "已收貨" : "異常狀態"}</td>
+					<td>${ mallOrderVO.mallOrderStatus.intValue() == 0 ? "處理中" : mallOrderVO.mallOrderStatus.intValue() == 1 ? "已確認" : mallOrderVO.mallOrderStatus.intValue() == 2 ? "已完成" : "異常狀態"}</td>
+					<td>${ mallOrderVO.mallOrderDeliveryStatus.intValue() == 0 ? "未發貨" : mallOrderVO.mallOrderDeliveryStatus.intValue() == 1 ? "已發貨" : mallOrderVO.mallOrderDeliveryStatus.intValue() == 2 ? "已收貨" : "異常狀態"}</td>
 					<td><button class="checkOrderDetail" type="button">查看明細</button></td>
 				</tr>
 			</c:forEach>

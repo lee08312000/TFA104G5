@@ -1,4 +1,4 @@
-package com.member.controller;
+package com.admin.controller;
 
 import java.io.*;
 import javax.servlet.*;
@@ -23,10 +23,10 @@ public class LoginFilter implements Filter{
 		// 【取得 session】
 		HttpSession session = req.getSession();
 		// 【從 session 判斷此user是否登入過】
-		Object memberId = session.getAttribute("memberId");
-		if (memberId == null) {
+		Object adminVO = session.getAttribute("adminVO");
+		if (adminVO == null) {
 			session.setAttribute("location", req.getRequestURI());
-			res.sendRedirect(req.getContextPath() + "/front_end/member/login.jsp");
+			res.sendRedirect(req.getContextPath() + "/back_end/adminLogin/adminLogin.jsp");
 			return;
 		} else {
 			chain.doFilter(request, response);
