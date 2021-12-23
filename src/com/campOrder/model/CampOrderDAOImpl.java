@@ -42,13 +42,12 @@ public class CampOrderDAOImpl implements CampOrderDAO {
 
 	private static final String GET_ALL = "SELECT * FROM camp_order";
 
-<<<<<<< HEAD
+
 	//12/22營地評價查詢
 	private static final String  SELECT_STMT_CAMP_COMMENT=  "SELECT camp_order_id,member_id,camp_comment,camp_comment_star,camp_order_comment_time"
 			+ " FROM camp_order where 1 = 1 and camp_order_comment_time  between ? and ?";
 		
-=======
->>>>>>> main
+
 	private static final String GET_ALL2 = "SELECT * FROM camp_order order by ";
 
 	private static final String FIND_HOTCAMP = "SELECT camp_id,(sum(camp_comment_star)/count(*)) as 'avg_star',count(*) as 'compl_ordernum' FROM campingParadise.camp_order where camp_order_completed_time is not null group by camp_id order by compl_ordernum desc,avg_star desc";
@@ -701,12 +700,4 @@ System.out.println(GET_ALL2 + "" + sorted);
 		return listcomment;
 	}
 }
-<<<<<<< HEAD
-		
-		
-	
 
-
-
-=======
->>>>>>> main

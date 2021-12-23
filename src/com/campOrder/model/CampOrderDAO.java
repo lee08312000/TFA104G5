@@ -9,12 +9,10 @@ import com.campAreaOrderDetail.model.CampAreaOrderDetailVO;
 
 public interface CampOrderDAO {
 
-<<<<<<< HEAD
-	public void add(CampOrderVO campOrderVO, CampAreaOrderDetailVO... campAreaOrderDetailVO);
-=======
+
 	public int add(CampOrderVO campOrderVO, List<CampAreaOrderDetailVO> list);
 
->>>>>>> main
+
 
 	public void update(CampOrderVO campOrderVO);
 
@@ -27,7 +25,7 @@ public interface CampOrderDAO {
 
 	// 尋找熱門營地，依據已1.完成訂單數量 2.平均星星數
 	public List<Integer> findhotcamp();
-<<<<<<< HEAD
+
 
 	public List<CampOrderVO> getAll();
 
@@ -36,14 +34,14 @@ public interface CampOrderDAO {
 	// 12/22新增營地評論查詢
 	public List<CampOrderVO> selectCampComment(Timestamp startDateTimestamp, Timestamp endDateTimestamp,
 			Integer campOrder);
-=======
+
 	
 		
-	 public List<CampOrderVO> getAll();
 
-	public  List<CampOrderVO> findByParams(int statusnum, Date startDate, Date endDate);
+
 	
 	
->>>>>>> main
+	
+
 
 }

@@ -148,8 +148,7 @@ public class CampService {
 		campdao.update(campvo);
 
 	}
-<<<<<<< HEAD
-=======
+
 
 //請求分頁	每頁欲顯示比數rows   請求頁數reqpage    營地狀態status
 	public Map showPage(Integer rows, Integer status, Integer reqpage) {
@@ -160,7 +159,7 @@ public class CampService {
 		} else {
 			return null;
 		}
->>>>>>> main
+
 
 	}
 	
