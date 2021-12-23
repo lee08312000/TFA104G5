@@ -39,7 +39,7 @@ System.out.println(memberVO.getMemberId());
 	
 %>
 
-	<jsp:useBean id="campSvc" class="com.camp.model.CampService"></jsp:useBean> 
+<jsp:useBean id="campSvc" class="com.camp.model.CampService"></jsp:useBean> 
 
 
 <!DOCTYPE html>
@@ -159,13 +159,13 @@ System.out.println(memberVO.getMemberId());
 		<thead> 
 			<tr>
 				<th>訂單編號 ${ campOrderVO.getCampOrderId() }</th> 
-				<th format="yyyy-MM-dd">訂單日期 ${ campOrderVO.getCampOrderConfirmedTime() }</th> 
+				<th>訂單日期 <fmt:formatDate value="${campOrderVO.getCampOrderConfirmedTime()}" pattern="yyyy-MM-dd"/></th> 
 			</tr>
 			<tr>
 				<th class="text-left">營地圖片</th>
 				<th class="text-left">營地名稱</th>
-				<th class="text-left">訂位日期</th>
-				<th class="text-left">天數</th>
+				<th class="text-left">入住日期</th>
+				<th class="text-left">退房日期</th>
 				<th class="text-left">總價</th>
 				<th class="text-left">訂單狀態</th>
 			</tr>
@@ -176,7 +176,7 @@ System.out.println(memberVO.getMemberId());
 					alt="營地圖片"></td> 
 				<td class="text-left"><a href="#">${ campSvc.getOneCamp(campOrderVO.campId).campName }</a></td> 
 				<td class="text-left">${ campOrderVO.campCheckInDate }</td> 
-				<td class="text-left"></td>	
+				<td class="text-left">${ campOrderVO.campCheckOutDate }</td>	
 				<td class="text-left">${ campOrderVO.campOrderTotalAmount }</td> 
 				<td class="text-left">
 				${ (campOrderVO.campOrderStatus == 0) ? "處理中" : (campOrderVO.campOrderStatus == 1) ? "已確認" : (campOrderVO.campOrderStatus == 2) ? "已完成" : "" }			
@@ -193,12 +193,11 @@ System.out.println(memberVO.getMemberId());
 						<input type="hidden" value="delete" name="action" /> 
 					</form> 
 				</td>
-			</tr>
-			</c:forEach>	
+			</tr>	
 		</tbody>
 		<!-- </form> -->
+		</c:forEach>
 	</table>
-
 	<div class="table-fill"><%@ include file="page2.file" %></div>
 
 	<!-- 整個TABLE用FORECACH來用 -->

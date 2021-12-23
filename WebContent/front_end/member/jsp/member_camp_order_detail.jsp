@@ -1,36 +1,35 @@
-<%@page import="com.campAreaOrderDetail.model.CampAreaOrderDetailVO"%>
+<%@ page import="com.campAreaOrderDetail.model.CampAreaOrderDetailVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.member.model.*"%> 
-<%@ page import="com.camp.model.*"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> <!-- jstl核心函式庫含for each標籤等 -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%> <!-- 日期格式化標籤使用 -->
+<%@ page import="com.member.model.*"%>
+<%@ page import="com.camp.model.*"%>
+<%@ page import="com.campTag.model.*"%>
+<%@ page import="com.campTagDetail.model.*"%>
+<%@ page import="com.campOrder.model.*"%>
 <%@ page import="com.campArea.model.*"%> 
-<%@ page import="com.campOrder.model.*"%> 
 <%@ page import="com.campAreaOrderDetail.model.*"%> 
+<%@ page import="java.util.*"%> <!-- list用 -->
 
 <%
-	// 營地假資料
-	MemberService memberSvc = new MemberService();
-	MemberVO memberVO = memberSvc.getOneMember(1);
-	request.setAttribute("memberVO", memberVO);
-	
-	CampService campSvc = new CampService();
-	CampVO campVO = campSvc.findCampByCampId(1);
-	request.setAttribute("CampVO", campVO);
-	
-	CampAreaService campAreaSvc = new CampAreaService();
-	CampAreaVO campAreaVO = campAreaSvc.getOneCampArea(1); // campAreaVO.getCampAreaId()
-	request.setAttribute("campAreaVO", campAreaVO);
-	
-	CampOrderService campOrderSvc = new CampOrderService();
-	CampOrderVO campOrderVO = campOrderSvc.findByCampOrderId(campVO.getCampId()); // campAreaVO.getCampAreaId()
-	request.setAttribute("CampOrderVO", campOrderVO);
-	
-	// campAreaOrderDetail沒有service????
 
-	// 營地假資料
+MemberVO memberVO =  (MemberVO)session.getAttribute("memberVO");
+CampOrderVO campOrderVO = new CampOrderVO();
+
+CampOrderService campOrderSvc =  new CampOrderService();
+List<CampOrderVO> list = campOrderSvc.OrderByUserId(memberVO.getMemberId());
+
+pageContext.setAttribute("list", list);
+System.out.println(memberVO.getMemberId());
+
+CampAreaOrderDetailDAO campAreaOrderDetailDAO = new CampAreaOrderDetailDAOImpl();
+CampAreaOrderDetailVO campAreaOrderDetailVO = campAreaOrderDetailDAO.findByPK();
 
 %>
 
+<jsp:useBean id="campSvc" class="com.camp.model.CampService"></jsp:useBean>
+<jsp:useBean id="campAreaSvc" class="com.campArea.model.CampAreaService"></jsp:useBean>
 
 <!DOCTYPE html>
 <html lang="zh-Hant">
@@ -141,14 +140,14 @@
 			action="<%=request.getContextPath()%>/member/????"> 再做一個servlet(?)-->
         <thead>
             <tr>
-                <th>訂單編號</th> <%-- ${ campOrderVO.campOrderId } --%>
-                <th>訂單日期 </th> <%-- ${ campOrderVO.campOrderCompletedTime } --%>
+                <th>訂單編號 ${ campOrderVO.getCampOrderId() }</th> 
+                <th>訂單日期 <fmt:formatDate value="${campOrderVO.getCampOrderConfirmedTime()}" pattern="yyyy-MM-dd"/></th> <%-- ${ campOrderVO.campOrderCompletedTime } --%>
             </tr>
             <tr>
             	<th class="text-left">營地照片</th>
                 <th class="text-left">營地名稱</th>
-                <th class="text-left">預約日期</th>
-                <th class="text-left" colspan="2">天數</th>
+				<th class="text-left">入住日期</th>
+				<th class="text-left" colspan="2">退房日期</th>
                 <th class="text-left" colspan="2">訂單狀態</th>
             </tr>
         </thead>
@@ -159,11 +158,13 @@
         <%-- <c:forEach var="" varStatus="" items=""> --%>
         
             <tr>
-                <td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/camp/PicWithCampServlet?campId=${ campVO.campId }&pic=1" alt="商品圖片"></td>
-                <td class="text-left"></td> <%-- ${ campVO.campName } --%>
-                <td class="text-left"></td> <%-- ${ campOrderVO.campCheckInDate } --%>
-                <td class="text-left" colspan="2"></td> <!-- ${ campCheckInDate - campCheckOutDate(?) } -->
-                <td class="text-left" colspan="2"></td> <%-- ${ campOrderVO.campOrderStatus } --%>
+                <td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/camp/PicWithCampServlet?campId=${ campOrderVO.campId }&pic=1" alt="商品圖片"></td>
+                <td class="text-left">${ campSvc.getOneCamp(campOrderVO.campId).campName }</td>
+                <td class="text-left">${ campOrderVO.campCheckInDate }</td> 
+                <td class="text-left" colspan="2">${ campOrderVO.campCheckOutDate }</td> 
+                <td class="text-left" colspan="2">
+                ${ (campOrderVO.campOrderStatus == 0) ? "處理中" : (campOrderVO.campOrderStatus == 1) ? "已確認" : (campOrderVO.campOrderStatus == 2) ? "已完成" : "" }
+                </td> 
             </tr>
             
 		<%-- </c:forEach> --%>
@@ -207,9 +208,9 @@
                    
             <tr>
                 <td class="text-left" colspan="6">
-			                    訂單總金額<br> <%--  ${ CampOrderVO.campOrderTotalAmount } --%>
-			                    訂購人姓名<br> <%--  ${ CampOrderVO.payerName } --%>
-			                    訂購人電話<br> <%--  ${ CampOrderVO.payerPhone } --%>
+			                    訂單總金額 ${ campOrderVO.campOrderTotalAmount }<br> 
+			                    訂購人姓名 ${ CampOrderVO.payerName }<br> 
+			                    訂購人電話 ${ CampOrderVO.payerPhone }<br>
                 </td>
                 <td class="text-center">
                     <button class="button" type="button" onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_camp_order_list.jsp';">返回列表</button>
