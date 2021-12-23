@@ -47,7 +47,6 @@ body {
 	background-color: #5f5e33;
 }
 /* =================  按鈕   =====================*/
-
 .control-label {
 	margin: 25px 0px 0px 0px;
 }
@@ -164,7 +163,6 @@ header ul {
         padding-left: 40px;
     } 
 */
-
 .updateform label {
 	color: #f0652f;
 }
@@ -184,19 +182,19 @@ header ul {
 
 /* =================  footer   =====================*/
 footer {
-  position: absolute;
-  text-align: center;
-  bottom: 0;
-  margin: 0 auto;
-  left: 50%;
-  transform: translateX(-50%);
-  /* border: 1px black solid; */
-  width: 100%;
-  background-color: #dbb07c;
-  /* color: #FFFFFF; */
-  font-size: 16px;
-  font-weight: bold;
-  /* margin-top: 100px !important; */
+	position: absolute;
+	text-align: center;
+	bottom: 0;
+	margin: 0 auto;
+	left: 50%;
+	transform: translateX(-50%);
+	/* border: 1px black solid; */
+	width: 100%;
+	background-color: #dbb07c;
+	/* color: #FFFFFF; */
+	font-size: 16px;
+	font-weight: bold;
+	/* margin-top: 100px !important; */
 }
 /* =================  footer   =====================*/
 </style>
@@ -222,23 +220,23 @@ footer {
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/mall/mall_index.html">線上商城</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
+					href="<%=request.getContextPath()%>/front_end/member/jsp/member_favorite_camp.jsp"><img
 						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
-					value="">註冊</a></li>
+					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp" style="display:block;">註冊</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp"
-					value="">登入</a></li>
+					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp" style="display:block;">登入</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"
-					value=""><i class="fas fa-user"></i></a></li>
+					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp" style="display:none;">登出</a></li>
+				<li><a
+					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"><i
+						class="fas fa-user"></i></a></li>
 			</nav>
 		</ul>
 
 	</header>
 	<!-- =================  header區域   ===================== -->
-	
+
 	<!-- =================  帳號密碼bar   ===================== -->
 	<div class="updateform">
 		<h2>會員登入</h2>
@@ -251,7 +249,7 @@ footer {
 						placeholder="請輸入帳號" />
 				</div>
 			</div>
-			
+
 			<div class="form-group">
 				<!-- 密碼bar -->
 				<div class="control-label">
@@ -259,7 +257,7 @@ footer {
 						placeholder="請輸入密碼(英文大小寫有差別)" />
 				</div>
 			</div>
-			
+
 			<div>
 				<!-- 錯誤表列 -->
 				<c:if test="${not empty errorMsgs}">
@@ -272,15 +270,15 @@ footer {
 				</c:if>
 				<!-- 錯誤表列 -->
 			</div>
-			
+
 			<!-- 按鈕 -->
-			<input type="hidden" value="login" name="action" /> <input
-				class="button" type="submit" value="登入" />
+			<input type="hidden" value="login" name="action" /> 
+			<input class="button" type="submit" value="登入" />
 			<button class="button" type="button"
 				onclick="location.href = '<%=request.getContextPath()%>/front_end/member/register/register.jsp';">註冊</button>
 			<button class="button" type="button"
 				onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_forgot_password.jsp';">忘記密碼</button>
-		    <!-- 按鈕 -->
+			<!-- 按鈕 -->
 		</form>
 	</div>
 	<!-- =================  帳號密碼bar   ===================== -->
@@ -293,5 +291,5 @@ footer {
 		</pre>
 	</footer>
 	<!-- footer -->
-	
+
 </body>
