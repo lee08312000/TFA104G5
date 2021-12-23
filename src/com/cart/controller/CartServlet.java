@@ -2,7 +2,10 @@ package com.cart.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.tribes.util.UUIDGenerator;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +33,10 @@ import com.mallOrderDetail.model.MallOrderDetailVO;
 import com.member.model.MemberVO;
 import com.product.model.ProductService;
 import com.product.model.ProductVO;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
+import ecpay.payment.integration.AllInOne;
+import ecpay.payment.integration.domain.AioCheckOutALL;
 import util.MailService;
 
 @WebServlet("/Cart/CartServlet")
@@ -509,6 +516,7 @@ public class CartServlet extends HttpServlet {
 			/*************************** 2.開始新增資料 ***************************************/
 
 			MallOrderService mallOrderSvc = new MallOrderService();
+			MallOrderDetailService mallOrderDetailSvc = new MallOrderDetailService();
 			// 存放增加的訂單的ID
 			List<Integer> mallOrderIdList = mallOrderSvc.checkout(memberVO.getMemberId(), creditCardNum, receiverName,
 					receiverPhone, receiverAddress, buyList);
@@ -529,6 +537,31 @@ public class CartServlet extends HttpServlet {
 				req.setAttribute("mallOrderIdList", mallOrderIdList);
 				// 寄送email給會員
 				mailSvc.sendMailByMallOrder(memberVO.getMemberEmail(), "Camping Paradise-商城訂單成立", mallOrderIdList);
+				
+				// 綠界支付
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				Timestamp orderMakeTime = mallOrderSvc.getOneMallOrder(mallOrderIdList.get(0)).getMallOrderConfirmedTime();
+				int totalAmount = 0;
+				List<String> productNamesAndQuantity = new ArrayList<String>();
+				for (Integer mallOrderId : mallOrderIdList) {
+					MallOrderVO mallOrderVO = mallOrderSvc.getOneMallOrder(mallOrderId);
+					totalAmount += mallOrderVO.getMailOrderTotalAmount();
+					for(MallOrderDetailVO mallOrderDetailVO : mallOrderDetailSvc.getBymallOrderId(mallOrderId)) {
+						productNamesAndQuantity.add(productSvc.getOneProduct(mallOrderDetailVO.getProductId()).getProductName() + " x " + mallOrderDetailVO.getProductPurchaseQuantity());
+					}
+						
+				}
+				
+				
+				AllInOne allInOne = new AllInOne("");
+				AioCheckOutALL obj = new AioCheckOutALL();
+				obj.setMerchantTradeNo(mallOrderIdList.get(0) + "x" + util.UUIDGenerator.getUUID());
+				obj.setMerchantTradeDate(sdf.format(orderMakeTime));
+				obj.setPeriodType("aio");
+				obj.setTotalAmount(String.valueOf(totalAmount));
+				obj.setTradeDesc("Camping Paradise 商城購物");
+				obj.setItemName(String.join("#", productNamesAndQuantity));
 				
 				String url = "/front_end/mall/shoppingCart04.jsp";
 				RequestDispatcher rd = req.getRequestDispatcher(url);
