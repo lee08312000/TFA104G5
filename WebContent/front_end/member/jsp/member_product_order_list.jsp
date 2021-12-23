@@ -59,6 +59,8 @@
 	<%-- =================  header區域   ===================== --%>
 	
 	<%-- =================  sidebar   ===================== --%>
+	<form class="form-horizontal" method="post"
+			action="<%=request.getContextPath()%>/member/MemberServlet">
 	<aside class="sidebar">
 		<div id="leftside-navigation" class="nano">
 			<ul class="nano-content">
@@ -92,10 +94,15 @@
 							href="<%=request.getContextPath()%>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
 						</li>
 					</ul></li>
-				<li><a href=""><i class="fas fa-sign-out-alt"></i><span>&nbsp;登出</span></a>
+				<li><a href=""><i class="fas fa-sign-out-alt"></i>
+				<span><input class="fas fa-sign-out-alt logout_button" type="submit" value="&nbsp;登出" /></span>
+				</a>
+				<input type="hidden" value="logout" name="action" />
 				</li>
+				
 		</div>
 	</aside>
+	</form>
 	<%-- =================  sidebar   ===================== --%>
 	
 	<%-- =================  商品訂單列表   ===================== --%>
@@ -103,10 +110,12 @@
 		<h3>商品訂單列表</h3>
 	</div>
 	<table class="table-fill">
+	    	<!-- <form class="form-horizontal" method="post"
+			action="<%=request.getContextPath()%>/member/????"> 再做一個servlet(?)-->
 		<thead>
 			<tr>
-				<th>訂單編號 0000001</th>
-				<th>訂單日期 2021 / 12 / 13</th>
+				<th>訂單編號</th> <%-- ${ mallOrderVO.mallOrderId } --%>
+				<th>訂單日期</th> <%-- ${ mallOrderVO.mallOrderCompletedTime } --%>
 			</tr>
 			<tr>
 				<th class="text-left">商品圖片</th>
@@ -114,30 +123,34 @@
 				<th class="text-left">價格</th>
 				<th class="text-left">數量</th>
 				<th class="text-left">總價</th>
-				<th class="text-left">商品狀態</th>
+				<th class="text-left">商品訂單狀態</th>
 				<th class="text-left">物流狀態</th>
 			</tr>
 		</thead>
+		<%-- <c:forEach var="" varStatus="" items=""> --%>
 		<tbody class="table-hover">
 			<tr>
-				<td class="text-center"><img class="product_pic" src=""
+				<td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/product/PicServlet?productId=${ productVO.productId }&pic=1"
 					alt="商品圖片"></td>
-				<td class="text-left">超酷小摺凳</td>
-				<td class="text-left">1000</td>
-				<td class="text-left">1</td>
-				<td class="text-left">1000</td>
-				<td class="text-left">已確認</td>
-				<td class="text-left">已出貨</td>
+				<td class="text-left"></td> <%-- ${ productVO.productName } --%>
+				<td class="text-left"></td> <%-- ${ mallOrderDetailVO.productPurchasePrice } --%>
+				<td class="text-left"></td> <%-- ${ mallOrderDetailVO.productPurchaseQuantity } --%>
+				<td class="text-left"></td> <%-- ${ productPurchasePrice X productPurchaseQuantity } --%>
+				<td class="text-left"></td> <%-- ${ mallOrderVO.mallOrderStatus } --%>
+				<td class="text-left"></td> <%-- ${ mallOrderVO.mall_order_status } --%>
 			</tr>
 
 			<tr>
-				<td class="text-left" colspan="6">訂單總金額 1000</td>
+				<td class="text-left" colspan="6">訂單總金額</td> <%-- ${ mallOrderVO.mailOrderTotalAmount } --%>
 				<td class="text-center">
 					<button class="button" type="button" onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_product_order_detail.jsp';">訂單明細</button>
-					<button class="button" type="button">取消訂單</button>
+                	<input class="button" type="submit" value="取消訂單"/>
+					<input type="hidden" value="delete" name="action" /> 
 				</td>
 			</tr>
 		</tbody>
+		<%-- </c:forEach> --%>
+		<!-- </form>-->  
 	</table>
 	<%-- =================  商品訂單列表   ===================== --%>
 	

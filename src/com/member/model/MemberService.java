@@ -32,8 +32,7 @@ public class MemberService {
 			String memberAccount, String memberPassword, String memberEmail, String memberAddress, 
 			String memberPhone, byte[] memberPic) {
 		
-		MemberVO memberVO = new MemberVO();
-		
+		MemberVO memberVO = dao.findByPK(memberId);
 		memberVO.setMemberId(memberId);
 		memberVO.setMemberAccountStatus(memberAccountStatus);
 		memberVO.setMemberName(memberName);
@@ -41,9 +40,10 @@ public class MemberService {
 		memberVO.setMemberPassword(memberPassword);
 		memberVO.setMemberEmail(memberEmail);
 		memberVO.setMemberAddress(memberAddress);
-		memberVO.setMemberPhone(memberPhone);
-		memberVO.setMemberPic(memberPic);
-		
+		memberVO.setMemberPhone(memberPhone);	
+		if (memberPic != null) {
+			memberVO.setMemberPic(memberPic);
+		}
 		dao.update(memberVO);
 		return memberVO;
 	}	
