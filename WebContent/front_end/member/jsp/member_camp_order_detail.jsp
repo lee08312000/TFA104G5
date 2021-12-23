@@ -13,18 +13,21 @@
 <%@ page import="java.util.*"%> <!-- list用 -->
 
 <%
-
+// 如何將list的campOrderVo取出???
 MemberVO memberVO =  (MemberVO)session.getAttribute("memberVO");
-CampOrderVO campOrderVO = new CampOrderVO();
 
+CampOrderVO campOrderVO = new CampOrderVO();
 CampOrderService campOrderSvc =  new CampOrderService();
+campOrderVO = (CampOrderVO)campOrderSvc.OrderByUserId(memberVO.getMemberId());
+pageContext.setAttribute("onecamp", campOrderVO);
+
 List<CampOrderVO> list = campOrderSvc.OrderByUserId(memberVO.getMemberId());
 
 pageContext.setAttribute("list", list);
 System.out.println(memberVO.getMemberId());
 
 CampAreaOrderDetailDAO campAreaOrderDetailDAO = new CampAreaOrderDetailDAOImpl();
-CampAreaOrderDetailVO campAreaOrderDetailVO = campAreaOrderDetailDAO.findByPK();
+CampAreaOrderDetailVO campAreaOrderDetailVO = campAreaOrderDetailDAO.findByCampOrderId(campOrderVO.getCampOrderId());
 
 %>
 

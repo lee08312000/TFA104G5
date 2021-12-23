@@ -187,10 +187,10 @@ System.out.println(memberVO.getMemberId());
 				<td class="text-left" colspan="5"></td>
 				<td class="text-center">
 					<form method="post" action="<%=request.getContextPath()%>/favoriteCamp/FavoriteCampServlet">
-					<button class="button" type="button"
-						onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_camp_order_detail.jsp';">訂單明細</button>
-						<input class="button" type="submit" value="取消訂單"/>
-						<input type="hidden" value="delete" name="action" /> 
+						<input class="button" type="submit" value="訂單明細"/>
+						<input type="hidden" value="detail" name="detail" /> 
+						<input type="hidden" value="${ campOrderVO.getCampOrderId() }" name="campOrderId" /> 
+
 					</form> 
 				</td>
 			</tr>	
