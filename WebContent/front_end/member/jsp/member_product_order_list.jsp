@@ -1,6 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>	
+<%@ page import="java.util.*"%>
 <%@ page import="com.member.model.*"%>
+<%@ page import="com.mallOrder.model.*"%>
+<%@ page import="com.company.model.*"%> 
+
+<%
+	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+	
+	MallOrderService mallOrderSvc = new MallOrderService();
+	List<MallOrderVO> list = mallOrderSvc.getMallOrderByMember(1);
+	pageContext.setAttribute("list",list);
+%>
+<jsp:useBean id="companySvc" scope="page" class="com.company.model.CompanyService" />
+
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 
@@ -59,8 +75,6 @@
 	<%-- =================  header區域   ===================== --%>
 	
 	<%-- =================  sidebar   ===================== --%>
-	<form class="form-horizontal" method="post"
-			action="<%=request.getContextPath()%>/member/MemberServlet">
 	<aside class="sidebar">
 		<div id="leftside-navigation" class="nano">
 			<ul class="nano-content">
@@ -94,69 +108,61 @@
 							href="<%=request.getContextPath()%>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
 						</li>
 					</ul></li>
-				<li><a href=""><i class="fas fa-sign-out-alt"></i>
-				<span><input class="fas fa-sign-out-alt logout_button" type="submit" value="&nbsp;登出" /></span>
-				</a>
-				<input type="hidden" value="logout" name="action" />
+				<li><a href=""><i class="fas fa-sign-out-alt"></i><span>&nbsp;登出</span></a>
 				</li>
-				
 		</div>
 	</aside>
-	</form>
 	<%-- =================  sidebar   ===================== --%>
 	
 	<%-- =================  商品訂單列表   ===================== --%>
 	<div class="table-title">
 		<h3>商品訂單列表</h3>
 	</div>
-	<table class="table-fill">
-	    	<!-- <form class="form-horizontal" method="post"
-			action="<%=request.getContextPath()%>/member/????"> 再做一個servlet(?)-->
+	<c:forEach var="mallOrderVO" items="${list}">
+	<table class="table-fill">		
 		<thead>
 			<tr>
-				<th>訂單編號</th> <%-- ${ mallOrderVO.mallOrderId } --%>
-				<th>訂單日期</th> <%-- ${ mallOrderVO.mallOrderCompletedTime } --%>
+				<th>訂單編號: ${mallOrderVO.mallOrderId}</th>
+				<th>訂單日期:<br> <fmt:formatDate value="${list[0].mallOrderConfirmedTime}" pattern="yyyy-MM-dd "/></th>
 			</tr>
 			<tr>
-				<th class="text-left">商品圖片</th>
-				<th class="text-left">商品名稱</th>
-				<th class="text-left">價格</th>
-				<th class="text-left">數量</th>
+				<th class="text-left">廠商名稱</th>
+				<th class="text-left">收件人姓名</th>
+				<th class="text-left">收件人電話</th>
+				<th class="text-left">收件人地址</th>
 				<th class="text-left">總價</th>
-				<th class="text-left">商品訂單狀態</th>
+				<th class="text-left">商品狀態</th>
 				<th class="text-left">物流狀態</th>
 			</tr>
 		</thead>
-		<%-- <c:forEach var="" varStatus="" items=""> --%>
-		<tbody class="table-hover">
+		<tbody class="table-hover">			
 			<tr>
-				<td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/product/PicServlet?productId=${ productVO.productId }&pic=1"
-					alt="商品圖片"></td>
-				<td class="text-left"></td> <%-- ${ productVO.productName } --%>
-				<td class="text-left"></td> <%-- ${ mallOrderDetailVO.productPurchasePrice } --%>
-				<td class="text-left"></td> <%-- ${ mallOrderDetailVO.productPurchaseQuantity } --%>
-				<td class="text-left"></td> <%-- ${ productPurchasePrice X productPurchaseQuantity } --%>
-				<td class="text-left"></td> <%-- ${ mallOrderVO.mallOrderStatus } --%>
-				<td class="text-left"></td> <%-- ${ mallOrderVO.mall_order_status } --%>
+				<td class="text-left">${companySvc.getOneCompany(mallOrderVO.companyId).companyName}</td>
+				<td class="text-left">${mallOrderVO.receiverName}</td>
+				<td class="text-left">${mallOrderVO.receiverPhone}</td>
+				<td class="text-left">${mallOrderVO.receiverAddress}</td>
+				<td class="text-left">${mallOrderVO.mailOrderTotalAmount}</td>
+				<td class="text-left">${mallOrderVO.mallOrderStatus == 0 ? "處理中" : mallOrderVO.mallOrderStatus == 1 ? "已確認" : "已完成"}</td>
+				<td class="text-left">${mallOrderVO.mallOrderDeliveryStatus == 0 ? "未發貨" : mallOrderVO.mallOrderDeliveryStatus == 1 ? "已發貨" : "已收貨"}</td>
 			</tr>
-
 			<tr>
-				<td class="text-left" colspan="6">訂單總金額</td> <%-- ${ mallOrderVO.mailOrderTotalAmount } --%>
+				<td class="text-left" colspan="6">訂單總金額: ${mallOrderVO.mailOrderTotalAmount}</td>
 				<td class="text-center">
-					<button class="button" type="button" onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_product_order_detail.jsp';">訂單明細</button>
-                	<input class="button" type="submit" value="取消訂單"/>
-					<input type="hidden" value="delete" name="action" /> 
+					<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Member/MemberProductServlet" style="margin-bottom: 0px;">
+					<input type="hidden" name="mallOrderId"  value="${mallOrderVO.mallOrderId}">
+					<input type="hidden" name="action"	value="getMallOrderDetail">
+					<input type="submit" value="查看明細">					
+					</FORM>
 				</td>
-			</tr>
+			</tr>			 
 		</tbody>
-		<%-- </c:forEach> --%>
-		<!-- </form>-->  
 	</table>
+	</c:forEach>
 	<%-- =================  商品訂單列表   ===================== --%>
 	
 	<%-- =================  sidebar javascript   ===================== --%>
 	<script
-		src="<%=request.getContextPath()%>/front_end/member/vendor/jQuery/jquery-3.6.0.min.js"></script>
+		src="<%=request.getContextPath()%>/front_end/member/vandors/jQuery/jquery-3.6.0.min.js"></script>
 	<script>
 		$("#leftside-navigation .sub-menu > a").click(
 				function(e) {
