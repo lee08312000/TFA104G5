@@ -353,10 +353,10 @@ public class CampDAOImpl implements CampDAO {
 			case 0: // 營地流水號
 				order = "camp_id";
 				break;
-			case 1: // 營地上架時間新->舊
+			case 1: // 營地上架時間舊->新
 				order = "camp_launched_time desc";
 				break;
-			case 2: // 營地上架時間舊->新
+			case 2: // 營地上架時間新->舊
 				order = "camp_launched_time asc";
 				break;
 			case 3: // 熱門排行
