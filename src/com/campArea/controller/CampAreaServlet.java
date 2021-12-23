@@ -99,7 +99,7 @@ public class CampAreaServlet extends HttpServlet {
 			
 	
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/camp/insertCampArea.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/back_end/camp/insertCampArea.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -115,14 +115,14 @@ public class CampAreaServlet extends HttpServlet {
 				
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-				String url = "/back-end/camp/selectCampAreaShelves.jsp";
+				String url = "/back_end/camp/selectCampAreaShelves.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交campShelves.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/camp/insertCampArea.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("//camp/insertCampArea.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -193,7 +193,7 @@ public class CampAreaServlet extends HttpServlet {
 			
 	
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/back-end/camp/updateCampArea.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/back_end/camp/updateCampArea.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -210,14 +210,14 @@ public class CampAreaServlet extends HttpServlet {
 				
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-				String url = "/back-end/camp/selectCampAreaShelves.jsp";
+				String url = "/back_end/camp/selectCampAreaShelves.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交campShelves.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/back-end/camp/updateCampArea.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/camp/updateCampArea.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -228,7 +228,7 @@ public class CampAreaServlet extends HttpServlet {
 			CampAreaVO cv = campAreaService.getOneCampArea(campAreaId);
 						
 			req.setAttribute("campAreaVO",  cv);
-			String url = "/back-end/camp/updateCampArea.jsp";
+			String url = "/back_end/camp/updateCampArea.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
 		}
@@ -243,7 +243,7 @@ public class CampAreaServlet extends HttpServlet {
 			
 			req.setAttribute("campId", campAreaStr );
 			req.setAttribute("list", cavList );
-			String url = "/back-end/camp/selectCampAreaShelves.jsp";
+			String url = "/back_end/camp/selectCampAreaShelves.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
 		}
@@ -253,7 +253,7 @@ public class CampAreaServlet extends HttpServlet {
 			String campId = req.getParameter("campId");
 			
 			req.setAttribute("campId", campId );
-			String url = "/back-end/camp/insertCampArea.jsp";
+			String url = "/back_end/camp/insertCampArea.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
 		}
@@ -273,7 +273,7 @@ public class CampAreaServlet extends HttpServlet {
 			req.setAttribute("campId",campStr);		
 			req.setAttribute("list", campAreaList);
 	
-			String url = "/back-end/camp/selectCampAreaShelves.jsp";
+			String url = "/back_end/camp/selectCampAreaShelves.jsp";
 		    RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
 

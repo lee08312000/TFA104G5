@@ -9,7 +9,7 @@
             --header-outer-height: 110px;
             --header-inner-height: 70px;
             --header-height-difference: calc(var(--header-outer-height) - var(--header-inner-height));
-            --header-bg: rgb(116, 190, 116);
+            --header-bg:#d7ab75;
         }
         
          body {
@@ -615,7 +615,7 @@
             transform: translateX(-50%);
             /* border: 1px black solid; */
             width: 100%;
-            background-color: rgb(116, 190, 116);
+            background-color: #d7ab75;
             /* color: #FFFFFF; */
             font-size:16px;
             font-weight: bold;

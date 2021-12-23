@@ -129,20 +129,18 @@
         }
         /* =====================main區域========================*/
         
-        h1{
+      h1{
             color:black;
             text-align: center;
             margin-left:200px;
         }
   
-        
 
         table{
           border:1px solid blck;
           border-collapse: collapse;
-          margin-left:150px ;
-          margin-top: 0px;
-          table-layout: fixed;
+          margin-left:100px ;
+          margin-top: 0px;  
           width: 80%;
         }
         table td,table th{
@@ -245,6 +243,7 @@
 		  background-color: #ddd;
 		  border-radius: 5px;
 		}
+	
 	
 	 /* =====================aside區域========================*/
 		
@@ -590,7 +589,7 @@
     margin: 0;
     display: inline-block;
     font-size: 18px;
-    }
+   }
 
     /* =====================footer區域========================*/
     
