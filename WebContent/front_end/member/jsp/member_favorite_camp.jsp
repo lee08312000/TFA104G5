@@ -205,7 +205,11 @@
 					</c:forEach>
 					</td> <!-- ${ campTagDetail.營地標籤中文方法列出  } 或 ${ campTagVO.campTagName } (?) 如何點了進入相同類型營地列表?健泯的網站? 或者直接列就好不要按鈕? -->
 					<td class="text-left">${ campSvc.getOneCamp(favoriteCampVO.campId).campAddress }</td> <!-- ${ campVO.campAddress } -->
+
+					<td class="text-left">${ finalCountStar }</td> <!-- ${ campOrderVO.campCommentStar } -->
+
 					<td class="text-left">${ finalCountStar } / 5</td> <!-- ${ campOrderVO.campCommentStar } -->
+
 					<td class="text-center">
 						<form method="post"
 						action="<%=request.getContextPath()%>/favoriteCamp/FavoriteCampServlet">
