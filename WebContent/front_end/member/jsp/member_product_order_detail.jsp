@@ -1,6 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.member.model.*"%> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>	
+<%@ page import="java.util.*"%>
+<%@ page import="com.member.model.*"%>
+<%@ page import="com.mallOrder.model.*"%>
+<%@ page import="com.mallOrderDetail.model.*"%>
+<%@ page import="com.company.model.*"%>
+<%@ page import="com.product.model.*"%> 
+
+<%
+	List<MallOrderDetailVO> mallOrderDetail = (List<MallOrderDetailVO>) request.getAttribute("mallOrderDetailList");
+	for (MallOrderDetailVO  mallOrderDetailVO : mallOrderDetail) {
+		System.out.println(mallOrderDetailVO.getMallOrderDetailId());
+	}
+	
+	pageContext.setAttribute("mallOrderDetail", mallOrderDetail);
+	
+%>
+
+<jsp:useBean id="mallOrderSvc" scope="page" class="com.mallOrder.model.MallOrderService" />
+<jsp:useBean id="productOrderSvc" scope="page" class="com.product.model.ProductService" />
+<jsp:useBean id="companySvc" scope="page" class="com.company.model.CompanyService" />
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 
@@ -53,50 +75,43 @@
 	<%-- =================  header區域   ===================== --%>
 	
 	<%-- =================  sidebar   ===================== --%>
-	<form class="form-horizontal" method="post"
-			action="<%=request.getContextPath()%>/member/MemberServlet">
-	<aside class="sidebar">
-		<div id="leftside-navigation" class="nano">
-			<ul class="nano-content">
-				<li class="sub-menu"><a href="javascript:void(0);"><i
-						class="fas fa-heart"></i><span>&nbsp;我的最愛</span><i
-						class="arrow fa fa-angle-right pull-right"></i></a>
-					<ul>
-						<li><a
-							href="<%=request.getContextPath()%>/front_end/member/jsp/member_favorite_camp.jsp">我的最愛營地</a>
-						</li>
-						<li><a
-							href="<%=request.getContextPath()%>/front_end/member/jsp/member_favorite_product.jsp">我的最愛商品</a>
-						</li>
-					</ul></li>
-				<li class="sub-menu"><a href="javascript:void(0);"><i
-						class="far fa-list-alt"></i><span>&nbsp;我的訂單</span><i
-						class="arrow fa fa-angle-right pull-right"></i></a>
-					<ul>
-						<li><a
-							href="<%=request.getContextPath()%>/front_end/member/jsp/member_camp_order_list.jsp">營地訂單</a>
-						</li>
-						<li><a
-							href="<%=request.getContextPath()%>/front_end/member/jsp/member_product_order_list.jsp">商品訂單</a>
-						</li>
-					</ul></li>
-				<li class="sub-menu"><a href="javascript:void(0);"><i
-						class="fa fa-table"></i><span>&nbsp;修改資料</span><i
-						class="arrow fa fa-angle-right pull-right"></i></a>
-					<ul>
-						<li><a
-							href="<%=request.getContextPath()%>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
-						</li>
-					</ul></li>
-				<li><a href=""><i class="fas fa-sign-out-alt"></i>
-				<span><input class="fas fa-sign-out-alt logout_button" type="submit" value="&nbsp;登出" /></span>
-				</a>
-				<input type="hidden" value="logout" name="action" />
-				</li>
-				
-		</div>
-	</aside>
-	</form>
+    <aside class="sidebar">
+        <div id="leftside-navigation" class="nano">
+            <ul class="nano-content">
+                <li class="sub-menu">
+                    <a href="javascript:void(0);"><i class="fas fa-heart"></i><span>&nbsp;我的最愛</span><i
+                            class="arrow fa fa-angle-right pull-right"></i></a>
+                    <ul>
+                        <li><a href="<%= request.getContextPath() %>/front_end/member/jsp/member_favorite_camp.jsp">我的最愛營地</a>
+                        </li>
+                        <li><a href="<%= request.getContextPath() %>/front_end/member/jsp/member_favorite_product.jsp">我的最愛商品</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:void(0);"><i class="far fa-list-alt"></i><span>&nbsp;我的訂單</span><i
+                            class="arrow fa fa-angle-right pull-right"></i></a>
+                    <ul>
+                        <li><a href="<%= request.getContextPath() %>/front_end/member/jsp/member_camp_order_list.jsp">營地訂單</a>
+                        </li>
+                        <li><a href="<%= request.getContextPath() %>/front_end/member/jsp/member_product_order_list.jsp">商品訂單</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sub-menu">
+                    <a href="javascript:void(0);"><i class="fa fa-table"></i><span>&nbsp;修改資料</span><i
+                            class="arrow fa fa-angle-right pull-right"></i></a>
+                    <ul>
+                        <li>
+                        <a href="<%= request.getContextPath() %>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href=""><i class="fas fa-sign-out-alt"></i><span>&nbsp;登出</span></a>
+                </li>
+        </div>
+    </aside>
     <%-- =================  sidebar   ===================== --%>
     
 	<%-- =================  商品訂單明細   ===================== --%>
@@ -104,12 +119,10 @@
         <h3>商品訂單明細</h3>
     </div>
     <table class="table-fill">
-    	<!-- <form class="form-horizontal" method="post"
-			action="<%=request.getContextPath()%>/member/????"> 再做一個servlet(?)-->
         <thead>
             <tr>
-                <th>訂單編號</th> <%-- ${ mallOrderVO.mallOrderId } --%>
-                <th>訂單日期</th> <%-- ${ mallOrderVO.mallOrderCompletedTime } --%>
+                <th>訂單編號 : ${mallOrderDetail.get(0).mallOrderId} </th>
+                <th>訂單日期 : <fmt:formatDate value="${mallOrderSvc.getOneMallOrder(mallOrderDetail.get(0).mallOrderId).mallOrderConfirmedTime}" pattern="yyyy-MM-dd "/></th>
             </tr>
             <tr>
                 <th class="text-left">商品圖片</th>
@@ -117,45 +130,47 @@
                 <th class="text-left">價格</th>
                 <th class="text-left">數量</th>
                 <th class="text-left">總價</th>
-                <th class="text-left">商品訂單狀態</th>
+                <th class="text-left">商品狀態</th>
                 <th class="text-left">物流狀態</th>
             </tr>
         </thead>
         <tbody class="table-hover">
-        
-        <%-- <c:forEach var="" varStatus="" items=""> --%>
+        	<c:forEach var="mallOrderDetailVO" items="${mallOrderDetail}">
             <tr>
-                <td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/product/PicServlet?productId=${ productVO.productId }&pic=1" alt="商品圖片"></td>
-                <td class="text-left"></td> <%-- ${ productVO.productName } --%>
-                <td class="text-left"></td> <%-- ${ mallOrderDetailVO.productPurchasePrice } --%>
-                <td class="text-left"></td> <%-- ${ mallOrderDetailVO.productPurchaseQuantity } --%>
-                <td class="text-left"></td> <%-- ${ productPurchasePrice X productPurchaseQuantity } --%>
-                <td class="text-left"></td> <%-- ${ mallOrderVO.mallOrderStatus } --%>
-                <td class="text-left"></td> <%-- ${ mallOrderVO.mall_order_status } --%>
+                <td class="text-center"><img class="product_pic" src="/TFA104G5copy/product/PicServlet?productId=${mallOrderDetailVO.productId}&pic=1" alt="商品圖片"></td>
+                <td class="text-left">${productOrderSvc.getOneProduct(mallOrderDetailVO.productId).productName}</td>
+                <td class="text-left">${mallOrderDetailVO.productPurchasePrice}</td>
+                <td class="text-left">${mallOrderDetailVO.productPurchaseQuantity}</td>
+                <td class="text-left">${mallOrderDetailVO.productPurchasePrice * mallOrderDetailVO.productPurchaseQuantity }</td>
+                <td class="text-left">${mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderStatus == 0 ? "處理中" : mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderStatus == 1 ? "已確認" : "已完成"}</td>
+                <td class="text-left">${mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderDeliveryStatus == 0 ? "未發貨" : mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderDeliveryStatus == 1 ? "已發貨" : "已收貨"}</td>
             </tr>
-         <%-- </c:forEach> --%>
-         
+			</c:forEach>
             <tr>
                 <td class="text-left" colspan="6">
-			                    訂單總金額<br> <%-- ${ mallOrderVO.mailOrderTotalAmount } --%>
-			                    收件人姓名<br> <%-- ${ mallOrderVO.receiverName } --%>
-			                    收件人電話<br> <%-- ${ mallOrderVO.receiverPhone } --%>
-			                    送貨地址<br> <%-- ${ mallOrderVO.receiverAddress } --%>
-			                    送貨廠商<br> <%-- ${ companyVO.companyName } --%>
+			                    訂單總金額:  ${mallOrderSvc.getOneMallOrder(mallOrderDetail.get(0).mallOrderId).mailOrderTotalAmount}<br>
+			                    訂購人姓名:  ${mallOrderSvc.getOneMallOrder(mallOrderDetail.get(0).mallOrderId).receiverName}<br>
+			                    訂購人電話:  ${mallOrderSvc.getOneMallOrder(mallOrderDetail.get(0).mallOrderId).receiverPhone}<br>
+			                    送貨地址:  ${mallOrderSvc.getOneMallOrder(mallOrderDetail.get(0).mallOrderId).receiverAddress}<br>
+			                    送貨廠商:  ${companySvc.getOneCompany(mallOrderSvc.getOneMallOrder(mallOrderDetail.get(0).mallOrderId).companyId).companyName}<br>
                 </td>
                 <td class="text-center">
+                    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Member/MemberProductServlet" style="margin-bottom: 0px;">
+                	<c:if test="${mallOrderSvc.getOneMallOrder(mallOrderDetail.get(0).mallOrderId).mallOrderDeliveryStatus == 1}">
+                    <input type="hidden" name="mallOrderId"  value="${mallOrderVO.mallOrderId}">
+					<input type="hidden" name="action"	value="updateMallOrderStatus">
+					<input type="submit" value="確認收貨">
+					</c:if>
+                    </FORM>
                     <button class="button" type="button" onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_product_order_list.jsp';">返回列表</button>
-                	<input class="button" type="submit" value="取消訂單"/>
-					<input type="hidden" value="delete" name="action" /> 
                 </td>
             </tr>
         </tbody>
-	<!-- </form>-->  
     </table>
     <%-- =================  商品訂單明細   ===================== --%>
     
 	<%-- =================  sidebar javascript   ===================== --%>
-    <script src="<%=request.getContextPath()%>/front_end/member/vendor/jQuery/jquery-3.6.0.min.js"></script>
+    <script src="<%=request.getContextPath()%>/front_end/member/vandors/jQuery/jquery-3.6.0.min.js"></script>
     <script>
         $("#leftside-navigation .sub-menu > a").click(function (e) {
             $("#leftside-navigation ul ul").slideUp(), $(this).next().is(":visible") || $(this).next().slideDown(),

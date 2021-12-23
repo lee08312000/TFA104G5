@@ -130,5 +130,71 @@ public class MallOrderService {
 	public List<MallOrderVO> getAll() {
 		return dao.getAll();
 	}
+	
+	//新增by ginny廠商條件查詢訂單 12/20
+		public List<MallOrderVO> getMallOrderByCompany(Integer companyId) {
+			List<MallOrderVO> mallOrderAll= dao.getAll();
+			List<MallOrderVO> mallOrderList = new ArrayList<MallOrderVO>();
+			for (MallOrderVO mallOrder : mallOrderAll) {
+				if(companyId == mallOrder.getCompanyId()) {
+					mallOrderList.add(mallOrder);
+				}			
+			}
+			return mallOrderList;
+		}
+		
+		public List<MallOrderVO> getMallOrdersByOrderStatus(Integer companyId,Integer mallOrderStatus) {
+			List<MallOrderVO> mallOrderList = getMallOrderByCompany(companyId);
+			List<MallOrderVO> mallOrderListByOrderStatus = new ArrayList<MallOrderVO>();
+			for (MallOrderVO mallOrder : mallOrderList) {
+				if(mallOrderStatus == mallOrder.getMallOrderStatus()) {
+					mallOrderListByOrderStatus.add(mallOrder);
+				}			
+			}
+			return mallOrderListByOrderStatus;
+		}
+		
+		public List<MallOrderVO> getMallOrdersByDeliveryStatus(Integer companyId,Integer mallOrderDeliveryStatus) {
+			List<MallOrderVO> mallOrderList = getMallOrderByCompany(companyId);
+			List<MallOrderVO> mallOrderListByDeliveryStatus = new ArrayList<MallOrderVO>();
+			for (MallOrderVO mallOrder : mallOrderList) {
+				if(mallOrderDeliveryStatus == mallOrder.getMallOrderStatus()) {
+					mallOrderListByDeliveryStatus.add(mallOrder);
+				}			
+			}
+			return mallOrderListByDeliveryStatus;
+		}
+		
+		public MallOrderVO getOneMallOrderByCompany(Integer companyId,Integer mallOrderId) {
+			MallOrderVO mallOrderVO = dao.findByPrimaryKey(mallOrderId);
+			MallOrderVO mallOrderbycompany = null;
+			if(companyId == mallOrderVO.getCompanyId()) {
+				mallOrderbycompany = mallOrderVO;
+			}
+			return mallOrderbycompany;
+		}
+		
+		//	ginny會員條件查詢訂單
+		public List<MallOrderVO> getMallOrderByMember(Integer memberId) {
+			List<MallOrderVO> mallOrderAll= dao.getAll();
+			List<MallOrderVO> mallOrderList = new ArrayList<MallOrderVO>();
+			for (MallOrderVO mallOrder : mallOrderAll) {
+				if(memberId == mallOrder.getMemberId()) {
+					mallOrderList.add(mallOrder);
+				}			
+			}
+			return mallOrderList;
+		}
+		
+		//test
+//		public static void main(String[] args) {
+//			MallOrderService mallOrderSvc = new MallOrderService();
+//			List<MallOrderVO> mallOrderList = mallOrderSvc.getMallOrdersByOrderStatus(1,2);
+//			for (MallOrderVO mallOrder : mallOrderList) {
+//				System.out.println(mallOrder.getCompanyId());
+//				System.out.println(mallOrder.getMailOrderTotalAmount());
+//			}
+//			
+//		}
 
 }
