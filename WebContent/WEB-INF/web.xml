@@ -62,7 +62,7 @@
 		<filter-name>loginFilter</filter-name>
 		<filter-class>com.company.controller.LoginFilter</filter-class>
 	</filter>
-	
+
 	<filter-mapping>
 		<filter-name>loginFilter</filter-name>
 		<url-pattern>/back_end/companyProduct/jsp/*</url-pattern>
@@ -73,15 +73,15 @@
 		<dispatcher>ASYNC</dispatcher>
 
 	</filter-mapping>
-	
-	
-	
-	
+
+
+
+
 	<filter>
 		<filter-name>MemberLoginFilter</filter-name>
 		<filter-class>com.member.controller.MemberLoginFilter</filter-class>
 	</filter>
-	
+
 	<filter-mapping>
 		<filter-name>MemberLoginFilter</filter-name>
 		<url-pattern>/front_end/member/jsp/*</url-pattern>
@@ -91,11 +91,38 @@
 		<dispatcher>ERROR</dispatcher>
 		<dispatcher>ASYNC</dispatcher>
 	</filter-mapping>
-	
-	
+
+
 	<filter-mapping>
 		<filter-name>MemberLoginFilter</filter-name>
 		<url-pattern>/front_end/camp/campBooking02.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>MemberLoginFilter</filter-name>
+		<url-pattern>/front_end/mall/shoppingCart01.jsp</url-pattern>
+		<url-pattern>/front_end/mall/shoppingCart02.jsp</url-pattern>
+		<url-pattern>/front_end/mall/shoppingCart03.jsp</url-pattern>
+		<url-pattern>/front_end/mall/shoppingCart04.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>adminLoginFilter</filter-name>
+		<filter-class>com.admin.controller.LoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>adminLoginFilter</filter-name>
+		<url-pattern>/back_end/admin/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
