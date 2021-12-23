@@ -15,19 +15,25 @@
 <%
 // 如何將list的campOrderVo取出???
 MemberVO memberVO =  (MemberVO)session.getAttribute("memberVO");
+CampOrderVO campOrderVO = (CampOrderVO)session.getAttribute("campOrderVO");
 
-CampOrderVO campOrderVO = new CampOrderVO();
-CampOrderService campOrderSvc =  new CampOrderService();
-campOrderVO = (CampOrderVO)campOrderSvc.OrderByUserId(memberVO.getMemberId());
-pageContext.setAttribute("onecamp", campOrderVO);
+CampAreaDAO campAreaDAO = new CampAreaDAOImpl();
+CampAreaVO campAreaVO = new CampAreaVO();
+campAreaVO.getCampAreaName();
 
-List<CampOrderVO> list = campOrderSvc.OrderByUserId(memberVO.getMemberId());
 
-pageContext.setAttribute("list", list);
-System.out.println(memberVO.getMemberId());
+// CampOrderVO campOrderVO = new CampOrderVO();
+// CampOrderService campOrderSvc =  new CampOrderService();
+// campOrderVO = (CampOrderVO)campOrderSvc.OrderByUserId(memberVO.getMemberId());
+// pageContext.setAttribute("onecamp", campOrderVO);
 
-CampAreaOrderDetailDAO campAreaOrderDetailDAO = new CampAreaOrderDetailDAOImpl();
-CampAreaOrderDetailVO campAreaOrderDetailVO = campAreaOrderDetailDAO.findByCampOrderId(campOrderVO.getCampOrderId());
+// List<CampOrderVO> list = campOrderSvc.OrderByUserId(memberVO.getMemberId());
+
+// pageContext.setAttribute("list", list);
+// System.out.println(memberVO.getMemberId());
+
+// CampAreaOrderDetailDAO campAreaOrderDetailDAO = new CampAreaOrderDetailDAOImpl();
+// CampAreaOrderDetailVO campAreaOrderDetailVO = campAreaOrderDetailDAO.findByCampOrderId(campOrderVO.getCampOrderId());
 
 %>
 
@@ -139,8 +145,6 @@ CampAreaOrderDetailVO campAreaOrderDetailVO = campAreaOrderDetailDAO.findByCampO
         <h3>營地訂單明細</h3>
     </div>
     <table class="table-fill">  
-	<!-- <form class="form-horizontal" method="post"
-			action="<%=request.getContextPath()%>/member/????"> 再做一個servlet(?)-->
         <thead>
             <tr>
                 <th>訂單編號 ${ campOrderVO.getCampOrderId() }</th> 
@@ -158,10 +162,10 @@ CampAreaOrderDetailVO campAreaOrderDetailVO = campAreaOrderDetailDAO.findByCampO
         <tbody class="table-hover">
         
         <%-- =================  營地迴圈  ===================== --%>
-        <%-- <c:forEach var="" varStatus="" items=""> --%>
+		<c:forEach var="campAreaOrderDetailVO" items="${ campAreaOrderDetailList }">
         
             <tr>
-                <td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/camp/PicWithCampServlet?campId=${ campOrderVO.campId }&pic=1" alt="商品圖片"></td>
+                <td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${ campOrderVO.campId }&pic=1" alt="營地圖片"></td>
                 <td class="text-left">${ campSvc.getOneCamp(campOrderVO.campId).campName }</td>
                 <td class="text-left">${ campOrderVO.campCheckInDate }</td> 
                 <td class="text-left" colspan="2">${ campOrderVO.campCheckOutDate }</td> 
@@ -170,7 +174,6 @@ CampAreaOrderDetailVO campAreaOrderDetailVO = campAreaOrderDetailDAO.findByCampO
                 </td> 
             </tr>
             
-		<%-- </c:forEach> --%>
         <%-- =================  營地迴圈  ===================== --%>  
           
             <tr>
@@ -180,7 +183,6 @@ CampAreaOrderDetailVO campAreaOrderDetailVO = campAreaOrderDetailDAO.findByCampO
             </tr>
            
         <%-- =================  營位迴圈  ===================== --%>      
-        <%-- <c:forEach var="" varStatus="" items=""> --%> 
         
             <tr>
                 <td class="text-left"></td> <%-- ${ campAreaVO.campAreaName } --%>
@@ -188,7 +190,6 @@ CampAreaOrderDetailVO campAreaOrderDetailVO = campAreaOrderDetailDAO.findByCampO
                 <td class="text-left"></td> <%-- ${ campAreaVO.campAreaName } --%>
             </tr>
             
-		<%-- </c:forEach> --%>
 		<%-- =================  營位迴圈  ===================== --%>  
            
            <tr>
@@ -198,31 +199,27 @@ CampAreaOrderDetailVO campAreaOrderDetailVO = campAreaOrderDetailDAO.findByCampO
             </tr>
            
         <%-- =================  加購迴圈  ===================== --%>      
-        <%-- <c:forEach var="" varStatus="" items=""> --%>
         
             <tr>
-                <td class="text-left"></td> <!-- ${ campAreaOrderDetail.capitationQuantity } -->
-                <td class="text-left"></td> <!-- ${ campAreaOrderDetail.perCapitationFee } -->
-                <td class="text-left"></td> <!-- ${ capitationQuantity X perCapitationFee } -->
+                <td class="text-left"></td> 
+                <td class="text-left"></td> 
+                <td class="text-left"></td> 
             </tr>
             
-		<%-- </c:forEach> --%>
+		</c:forEach>
 		<%-- =================  加購迴圈  ===================== --%>                                                           
                    
             <tr>
                 <td class="text-left" colspan="6">
 			                    訂單總金額 ${ campOrderVO.campOrderTotalAmount }<br> 
-			                    訂購人姓名 ${ CampOrderVO.payerName }<br> 
-			                    訂購人電話 ${ CampOrderVO.payerPhone }<br>
+			                    訂購人姓名 ${ campOrderVO.payerName }<br> 
+			                    訂購人電話 ${ campOrderVO.payerPhone }<br>
                 </td>
                 <td class="text-center">
                     <button class="button" type="button" onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_camp_order_list.jsp';">返回列表</button>
-                	<input class="button" type="submit" value="取消訂單"/>
-					<input type="hidden" value="delete" name="action" /> 
                 </td>
             </tr>
         </tbody>
-	<!-- </form>-->    
     </table>
     <%-- =================  營地訂單明細   ===================== --%>
 

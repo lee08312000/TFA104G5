@@ -59,9 +59,13 @@ public class CampOrderDAOImpl implements CampOrderDAO {
 
 	static {
 		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/David");
 			Class.forName(Util.DRIVER);
 		} catch (ClassNotFoundException ce) {
 			ce.printStackTrace();
+		} catch (NamingException e) {
+			e.printStackTrace();
 		}
 	}
 

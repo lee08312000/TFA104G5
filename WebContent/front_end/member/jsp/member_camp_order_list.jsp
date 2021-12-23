@@ -186,7 +186,7 @@ System.out.println(memberVO.getMemberId());
 			<tr>
 				<td class="text-left" colspan="5"></td>
 				<td class="text-center">
-					<form method="post" action="<%=request.getContextPath()%>/favoriteCamp/FavoriteCampServlet">
+					<form method="post" action="<%=request.getContextPath()%>/member/MemberOrderServlet">
 						<input class="button" type="submit" value="訂單明細"/>
 						<input type="hidden" value="detail" name="detail" /> 
 						<input type="hidden" value="${ campOrderVO.getCampOrderId() }" name="campOrderId" /> 

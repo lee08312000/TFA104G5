@@ -45,7 +45,7 @@ public class MemberOrderServlet extends HttpServlet {
 
 			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 			CampOrderService campOrderService = new CampOrderService();
-			CampAreaOrderDetailDAO campAreaOrderDetailDAO =  CampAreaOrderDetailDAOImpl();
+			CampAreaOrderDetailDAO campAreaOrderDetailDAO =  new CampAreaOrderDetailDAOImpl();
 			Integer campOrderId = Integer.parseInt(req.getParameter("campOrderId"));
 			System.out.println(campOrderId);
 
@@ -54,25 +54,11 @@ public class MemberOrderServlet extends HttpServlet {
 			if (campOrderVO != null) {
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 				session.setAttribute("campOrderVO", campOrderVO); // 成功登入的話
-				session.setAttribute("campAreaOrderDetailList", campAreaOrderDetailList);
+				session.setAttribute("campAreaOrderDetailList", campAreaOrderDetailDAO.findByCampOrderId(campOrderId));
 				System.out.println("跳轉明細成功");
 
-				/////////////////////////導回原本頁面////////////////////
-
-			       try {                                                        
-			           String location = (String) session.getAttribute("location");
-			           System.out.println(location);
-			           if (location != null) {
-			             session.removeAttribute("location");   
-			             res.sendRedirect(location);   
-			             return;
-			           }
-			         }catch (Exception ignored) { }
-				/////////////////////////導回原本頁面////////////////////
-
-				String url = "/front_end/member/jsp/member_main.jsp";
-
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交
+				String url = "/front_end/member/jsp/member_camp_order_detail.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功跳頁面
 				successView.forward(req, res);
 
 			} else {
