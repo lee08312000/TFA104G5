@@ -12,6 +12,20 @@
 <%
 
 MemberVO memberVO =  (MemberVO)session.getAttribute("memberVO");
+
+
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
+// 	// 營地假資料
+// 	CampService campSvc = new CampService();
+// 	CampVO campVO = campSvc.findCampByCampId(1);
+// 	request.setAttribute("CampVO", campVO);
+
+<<<<<<< HEAD
+=======
+
 CampOrderService campOrderSvc =  new CampOrderService();
 List<CampOrderVO> list = campOrderSvc.OrderByUserId(memberVO.getMemberId());
 pageContext.setAttribute("list", list);
@@ -22,6 +36,8 @@ System.out.println(memberVO.getMemberId());
 // 	CampVO campVO = campSvc.findCampByCampId(1);
 // 	request.setAttribute("CampVO", campVO);
 
+
+>>>>>>> main
 // 	MemberService memberSvc = new MemberService();
 // 	MemberVO memberVO = memberSvc.getOneMember(1);
 // 	request.setAttribute("memberVO", memberVO);
@@ -157,13 +173,29 @@ System.out.println(memberVO.getMemberId());
 		<h3>營地訂單列表</h3>
 	</div>
 	<!-- 整個TABLE用FORECACH來用 -->
+<<<<<<< HEAD
+=======
+
+
 	<div class="table-fill"><%@ include file="page1.file" %></div>
 	<c:forEach var="campOrderVO" items="${ list }" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+
+>>>>>>> main
 	<table class="table-fill">
 		<thead> 
 			<tr>
+<<<<<<< HEAD
+				<th>訂單編號 0000001</th> <!-- ${ campOrderVO.campOrderId } -->
+				<th>訂單日期 2021 / 12 / 13</th> <!-- ${ campOrderVO.campOrderCompletedTime } -->
+=======
+
+				<th>訂單編號 0000001</th> <!-- ${ campOrderVO.campOrderId } -->
+				<th>訂單日期 2021 / 12 / 13</th> <!-- ${ campOrderVO.campOrderCompletedTime } -->
+
 				<th>訂單編號 ${ campOrderVO.getCampOrderId() }</th> 
 				<th>訂單日期 ${ campOrderVO.getCampOrderConfirmedTime() }</th> 
+
+>>>>>>> main
 			</tr>
 			<tr>
 				<th class="text-left">營地圖片</th>
@@ -175,7 +207,22 @@ System.out.println(memberVO.getMemberId());
 			</tr>
 		</thead>
 		<tbody class="table-hover">
+			<div class="table-fill"><%@ include file="page1.file" %></div>
+			<c:forEach var="campOrderVO" items="${ list }" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 			<tr>
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
+				<td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${  }&pic=1"
+					alt="營地圖片"></td> 
+				<td class="text-left"></td> <!-- ${ campOrderVO.campCheckInDate } -->
+				<td class="text-left"></td>	<!-- ${ campCheckInDate - campCheckOutDate(?) } -->
+				<td class="text-left"></td> <!-- ${ campOrderVO.campOrderTotalAmount } -->
+				<td class="text-left" colspan="2"></td> <!-- ${ campOrderVO.campOrderStatus } -->
+<<<<<<< HEAD
+=======
+
 				<td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${ campOrderVO.campId }&pic=1"
 					alt="營地圖片"></td> 
 				<td class="text-left"><a href="#">${ campSvc.getOneCamp(campOrderVO.campId).campName }</a></td> 
@@ -183,12 +230,22 @@ System.out.println(memberVO.getMemberId());
 				<td class="text-left"></td>	
 				<td class="text-left">${ campOrderVO.campOrderTotalAmount }</td> 
 				<td class="text-left">${ campOrderVO.campOrderStatus }</td> 
+
+>>>>>>> main
 			</tr>
 
 			<tr>
 				<td class="text-left" colspan="5"></td>
 				<td class="text-center">
+<<<<<<< HEAD
+					<form method="post" action="<%=request.getContextPath()%>/favoriteCamp/FavoriteCampServlet">
+=======
+
+					<form method="post" action="<%=request.getContextPath()%>/favoriteCamp/FavoriteCampServlet">
+
 					<form method="post" action="">
+
+>>>>>>> main
 					<button class="button" type="button"
 						onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_camp_order_detail.jsp';">訂單明細</button>
 						<input class="button" type="submit" value="取消訂單"/>
@@ -196,10 +253,24 @@ System.out.println(memberVO.getMemberId());
 					</form> 
 				</td>
 			</tr>
+<<<<<<< HEAD
+			</c:forEach>	
+		</tbody>
+		<!-- </form> -->
+	</table>
+=======
+
+			</c:forEach>	
+		</tbody>
+		<!-- </form> -->
+	</table>
+
 		</tbody>	
 	</table>
 	</c:forEach>
 	<div class="table-fill"><%@ include file="page2.file" %></div>
+
+>>>>>>> main
 	<!-- 整個TABLE用FORECACH來用 -->
 	<%-- =================  營地訂單列表   ===================== --%>
 	

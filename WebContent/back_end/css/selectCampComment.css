@@ -9,7 +9,7 @@
             --header-outer-height: 110px;
             --header-inner-height: 70px;
             --header-height-difference: calc(var(--header-outer-height) - var(--header-inner-height));
-            --header-bg:#d7ab75 ;
+            --header-bg: #d7ab75;
         }
         
          body {
@@ -41,7 +41,7 @@
             display: flex;
             align-items: center;
             /* Other */
-            background-color: #d7ab75;
+            background-color: var(--header-bg);
             box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
             color: #FFFFFF;
             font-weight: bold;
@@ -127,30 +127,53 @@
                 display: none;
             }
         }
-            /* =====================main區域========================*/
-                     
-        h1 {
+        /* =====================main區域========================*/
+        
+        h1{
             color: black;
             text-align: center;
-            margin-right:150px;
-        }
         
-         table td{
-            background-color:#E0E0E0;
-           border:1px solid red;
-          text-align:left; 
+
+        }
+     
+
+        .camp_table{
+          border:1px solid blck; 
+          border-collapse: collapse;
+          margin-left: 400px;
+          margin-top: 0px;
+          width: 75%;
+        }
+        table td{
+          border:1px solid black;
+          text-align: center; 
           width: 90PX;
         }
         
         table th{
-           
+          background-color:	#E0E0E0;
           border:1px solid black;
           text-align: center; 
           width: 90PX;
+          margin-left:200px;
+        
+        
+        }
         
         
         
-          .selector{
+        .topnav{
+            margin-left:0;
+            margin-top:100px;        
+        }
+
+        body {
+            font-family: Arial;
+        }
+
+       
+       
+        .selector{
          height: 25px;
          margin-left:0;
          
@@ -159,78 +182,97 @@
         .submit_button{
         margin-right:210px;
         float:right;
+        }
+        form.searchForm input[type=text] {
         
-        }
-         
-        .topnav {
-            margin-left: 0;
-            margin-top: 100px;
-        }
+            padding: 5px;
+            font-size: 10px;
+            border: 1px solid grey;
+            float: right;
+            width: 150PX;
+            background: #f1f1f1;
+            max-width: 100%;
+           
+         }
 
-        body {
-            font-family: Arial;
-        }
-
-        div.pagination {
-
-            margin-left:0;
-            margin-top: 80px;
-            display: inline-block;
-
-        }
-
-        .pagination a {
-            color: black;
+        form.searchForm button {
             float: left;
-            padding: 8px 16px;
-            text-decoration: none;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-
-        .pagination a.active {
-            background-color: #4CAF50;
+            margin-left:100000000px;
+            width: 30PX;
+            padding: 5px;
+            background:#D0D0D0;
             color: white;
-            border-radius: 5px;
+            font-size: 10px;
+            border: 1px solid grey;
+            border-left: none;
+            cursor: pointer;
+            max-width: 100%;
+           
         }
 
-        .pagination a:hover:not(.active) {
-            background-color: #ddd;
-            border-radius: 5px;
-        }
-
-        /* 填寫營地上架資訊 */
-        .camp_shelves {
-         background-color:#E0E0E0;
-            border-collapse:separate;
-            border-spacing:0px 0px;
-            width: 750px;
-            font-size: 16px;
-            margin-left: 0px;
-        }
-
-        .sumit_form {
-            display: inline;
+        form.searchForm button:hover {
+            background: #0b7dda;
+         
         }
         
+         form.searchForm::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
         
-        
-        
-        	 /* =====================aside區域========================*/
+        div.divSearchForm{
+            
+            margin-left:10000 px;
+            margin-top: 80px;
+            display:inline-block;
+        }
+        div.pagination {
+       
+          margin-left: 200px;;
+          margin-top: 10px;
+		  display: inline-block;
+		  
+		}
 		
-	 
-    aside.aside{            
+		.pagination a {
+		  color: black;
+		  float: left;
+		  padding: 8px 16px;
+		  text-decoration: none;
+		  border-radius: 5px;
+		  border: 1px solid #ddd;
+		 
+		}
+		
+		.pagination a.active {
+		  background-color: #4CAF50;
+		  color: white;
+		  border-radius: 5px;
+		}
+		
+		.pagination a:hover:not(.active) {
+		  background-color: #ddd;
+		  border-radius: 5px;
+		}
+		
+		.camp_table{
+		   margin-right:200px;
+		}
+	
+	 /* =====================aside區域========================*/
+		aside.aside{            
         position: fixed;
-  		left: 0;
-        top: 0;
+        left: 0;
+        top: var(--header-height);
         width: var(--aside-width);
         height: calc(100% - var(--header-height));
         overflow-x: visible;
-        padding: 100px 0 0 0;
-
+        padding: 20px 0;
+        z-index: 2;
         transition: all 1s;
     }
-     .clearfix:before,
+    .clearfix:before,
     .clearfix:after {
         content: " ";
         display: table;
@@ -246,14 +288,13 @@
     .container {
         position: relative;
         margin: 0px auto;
-        padding: 10px;
+        padding: 0px 0;
         clear: both;
     }
-    
 
     .mcd-menu {
     list-style: none;
-    padding-left: 5px;
+    padding-left: 30px;
     margin: 0;
     background: #FFF;
     /*height: 100px;*/
@@ -282,7 +323,6 @@
     height: 55px;
     position: relative;
     border-bottom: 1px solid #EEE;
-    
     /* == */
     }
     .mcd-menu li a i {
@@ -300,6 +340,7 @@
     /* == */
     .mcd-menu li a p {
     float: left;
+    margin: 0 ;
     }
     /* == */
 
@@ -309,8 +350,7 @@
     }
     .mcd-menu li a small {
     display: block;
-    font-size: 15px;
-    text-align: center;
+    font-size: 10px;
     }
 
     .mcd-menu li a i, .mcd-menu li a strong, .mcd-menu li a small {
@@ -360,7 +400,6 @@
     box-shadow: 0 0 5px #DDD;
     -moz-box-shadow: 0 0 5px #DDD;
     -webkit-box-shadow: 0 0 5px #DDD;
-    height:90px;'
     
     /* == */
     border-left: 4px solid #e67e22;
@@ -512,7 +551,7 @@
     float: none;
     }*/
     .mcd-menu li ul li a {
-    padding: 10px;
+    padding: px;
     text-align: left;
     border: 0;
     border-bottom: 1px solid #EEE;
@@ -560,11 +599,16 @@
     margin: 0;
     display: inline-block;
     font-size: 18px;
-    }
+    }   
+	 
+    
 
     /* =====================footer區域========================*/
-      
-        footer {
+    
+     
+    
+    
+          footer {
             position: absolute;
             text-align: center;
             bottom: 0;
@@ -573,8 +617,8 @@
             transform: translateX(-50%);
             /* border: 1px black solid; */
             width: 100%;
-            background-color:#d7ab75;
+            background-color: #d7ab75;
             /* color: #FFFFFF; */
-            font-size:16px;
+            font-size: 16px;
             font-weight: bold;
         }

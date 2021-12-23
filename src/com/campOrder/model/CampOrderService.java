@@ -196,4 +196,14 @@ public class CampOrderService {
 		List<CampOrderVO> daolist = orderdao.findByParams(statusnum, begindate, finaldate);
 		return daolist;
 	}
+<<<<<<< HEAD
+
+	// 營地訂單評論
+	public List<CampOrderVO> selectCampComment(Timestamp startDateTimestamp, Timestamp endDateTimestamp,
+			int campOrder) {
+	
+		return orderdao.selectCampComment(startDateTimestamp, endDateTimestamp, campOrder);
+	}
+=======
+>>>>>>> main
 }
