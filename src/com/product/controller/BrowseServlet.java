@@ -46,10 +46,10 @@ public class BrowseServlet extends HttpServlet {
 		FavoriteProdoctService favoriteProdoctSvc = new FavoriteProdoctService();
 
 		HttpSession session = req.getSession();
-//		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 		/****************** 假會員 *******************/
-		MemberVO memberVO = new MemberVO();
-		memberVO.setMemberId(1);
+//		MemberVO memberVO = new MemberVO();
+//		memberVO.setMemberId(1);
 		/****************** 假會員 *******************/
 		String action = req.getParameter("action");
 
