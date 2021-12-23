@@ -28,7 +28,7 @@ public class CampOrderService {
 		campdao = new CampDAOImpl();
 	}
 
-// 新增一筆訂單包含新增訂單明細&日程表訂位數量
+// 新增一筆訂單包含新增訂單明細&日程表訂位數量 回傳訂單編號，當回傳等於=0訂單未成立
 	public int addOneOrder(CampOrderVO campOrderVO, List<CampAreaOrderDetailVO> list) {
 
 		if (!(campOrderVO == null || list.size() == 0)) {
@@ -159,7 +159,7 @@ public class CampOrderService {
 
 //查詢訂單by會員編號(使用者)
 	public List<CampOrderVO> OrderByUserId(Integer memberId) {
-		List<CampOrderVO> daolist = orderdao.getAll();
+		List<CampOrderVO> daolist = orderdao.getAll(0);
 		List<CampOrderVO> querylist = new ArrayList<CampOrderVO>();
 		for (CampOrderVO obj : daolist) {
 			if (obj.getMemberId() == memberId) {
@@ -173,7 +173,7 @@ public class CampOrderService {
 //查詢訂單明細by訂單編號(使用者)
 
 	public List<CampOrderVO> OrderByOrderId(Integer orderId, Integer memberId) {
-		List<CampOrderVO> daolist = orderdao.getAll();
+		List<CampOrderVO> daolist = orderdao.getAll(0);
 		List<CampOrderVO> querylist = new ArrayList<CampOrderVO>();
 		for (CampOrderVO obj : daolist) {
 			if (obj.getMemberId() == memberId && obj.getCampOrderId() == memberId) {

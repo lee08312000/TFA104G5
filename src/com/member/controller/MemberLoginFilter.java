@@ -3,7 +3,7 @@ package com.member.controller;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
-public class LoginFilter implements Filter{
+public class MemberLoginFilter implements Filter{
 
 	private FilterConfig config;
 
@@ -26,7 +26,7 @@ public class LoginFilter implements Filter{
 		Object memberId = session.getAttribute("memberId");
 		if (memberId == null) {
 			session.setAttribute("location", req.getRequestURI());
-			res.sendRedirect(req.getContextPath() + "/front_end/member/login.jsp");
+			res.sendRedirect(req.getContextPath() + "/front_end/member/login/login.jsp");
 			return;
 		} else {
 			chain.doFilter(request, response);

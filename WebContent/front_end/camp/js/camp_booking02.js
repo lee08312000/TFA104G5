@@ -12,23 +12,7 @@ window
 					document.getElementById("totalmoney").value = '$'
 							.concat(sum);
 
-					let checkbox = document.getElementById('memberdata');
-
-					checkbox.addEventListener("change", function(e) {
-
-						if (e.target.checked) {
-							let payername = document
-									.getElementById("payername");
-							let payertel = document.getElementById("payertel");
-							let email = document.getElementById("email");
-
-							payername.value = '<%=member.getMemberName()%>';
-							payertel.value = '<%=member.getMemberPhone()%>';
-							email.value = '<%=member.getMemberEmail()%>';
-
-						}
-
-					});
+					
 
 					const name = document.getElementById('name');
 					const cardnumber = document.getElementById('cardnumber');
