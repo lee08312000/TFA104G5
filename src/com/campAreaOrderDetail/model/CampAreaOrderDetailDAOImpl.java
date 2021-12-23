@@ -19,7 +19,7 @@ public class CampAreaOrderDetailDAOImpl implements CampAreaOrderDetailDAO {
 	private static final String DELETE_STMT = "DELETE FROM camp_area_order_detail WHERE camp_area_order_detail_id= ?";
 	private static final String FIND_BY_PK = "SELECT * FROM camp_area_order_detail WHERE camp_area_order_detail_id=?";
 	private static final String GET_ALL = "SELECT * FROM camp_area_order_detail";
-
+	private static final String	FIND_BY_CAMP_ORDER_ID="SELECT * FROM camp_area_order_detail WHERE camp_order_id=?";
 	static {
 		try {
 			Class.forName(Util.DRIVER);
@@ -241,5 +241,55 @@ public class CampAreaOrderDetailDAOImpl implements CampAreaOrderDetailDAO {
 		}
 
 	}
-
+	// 新增用訂單編號找營位訂單明細
+	@Override
+	public CampAreaOrderDetailVO findByCampOrderId(Integer campOrderId) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		CampAreaOrderDetailVO campAreaOrderDetailVO = new CampAreaOrderDetailVO();
+		try {
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+			pstmt = con.prepareStatement(FIND_BY_CAMP_ORDER_ID);
+			pstmt.setInt(3, campOrderId);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				campAreaOrderDetailVO.setCampAreaOrderDetailId(rs.getInt(1));
+				campAreaOrderDetailVO.setCampAreaId(rs.getInt(2));
+				campAreaOrderDetailVO.setCampOrderId(rs.getInt(3));
+				campAreaOrderDetailVO.setBookingQuantity(rs.getInt(4));
+				campAreaOrderDetailVO.setCampAreaWeekdayPrice(rs.getInt(5));
+				campAreaOrderDetailVO.setCampAreaHolidayPrice(rs.getInt(6));
+				campAreaOrderDetailVO.setCapitationQuantity(rs.getInt(7));
+				campAreaOrderDetailVO.setPerCapitationFee(rs.getInt(8));
+				campAreaOrderDetailVO.setBookingWeekdays(rs.getInt(9));
+				campAreaOrderDetailVO.setBookingHolidays(rs.getInt(10));
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return campAreaOrderDetailVO;
+	}
 }
