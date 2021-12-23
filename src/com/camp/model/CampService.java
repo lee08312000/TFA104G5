@@ -1,3 +1,4 @@
+
 package com.camp.model;
 
 import java.math.BigDecimal;
@@ -8,15 +9,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.company.model.CompanyDAO;
+import com.company.model.CompanyDAOImpl;
+import com.company.model.CompanyVO;
+
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
 public class CampService {
 	private CampDAO campdao;
+	private CompanyDAO companydao;
 
 	public CampService() {
 		campdao = new CampDAOImpl();
+		companydao = new CompanyDAOImpl();
 
 	}
 
@@ -55,6 +62,26 @@ public class CampService {
 	public List<CampVO> getAll() {
 
 		return campdao.getAll();
+	}
+
+	// 7.更新營地審核上架欄位 12/7新增
+	public void updateCampCertificatenum(CampVO campVO, CompanyVO companyVO) throws Exception {
+
+		campdao.updateCampCheck(campVO);
+
+	}
+
+	// 8.查詢營地上架審核欄位 12/7新增
+	public CampVO selectCampCheck(Integer campId) {
+
+		return campdao.getSelectStmt(campId);
+
+	}
+
+	// 9.查詢營地上架所有審核欄位 12/21新增
+	public List<CampVO> selectAllCampCheck(String companyName) {
+
+		return campdao.selectAllCampCheck(companyName);
 
 	}
 
@@ -121,6 +148,8 @@ public class CampService {
 		campdao.update(campvo);
 
 	}
+<<<<<<< HEAD
+=======
 
 //請求分頁	每頁欲顯示比數rows   請求頁數reqpage    營地狀態status
 	public Map showPage(Integer rows, Integer status, Integer reqpage) {
@@ -131,6 +160,7 @@ public class CampService {
 		} else {
 			return null;
 		}
+>>>>>>> main
 
 	}
 	

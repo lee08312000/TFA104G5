@@ -25,6 +25,14 @@ public class CampDAOImpl implements CampDAO {
 	private static final String INSERT_STMT = "INSERT INTO camp (" + CLOUM_FOR_INSERT + ") "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?)";
 
+	// 12/17新增營位查詢
+	private static final String SELECT_STMT_BY_CAMP_ID = " select cc.camp_name,cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address,cd.comapny_name "
+			+ "from company cd  JOIN  camp cc " + "on cd.company_id = cc.company_id where cc.camp_Id=?";
+
+	private static final String SELECT_STMT_BY_COMPANYNAME = " select cc.camp_name,cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address,cd.comapny_name "
+			+ "from company cd  JOIN  camp cc "
+			+ "on cd.company_id = cc.company_id where cd.comapny_name like '%' ? '%'";
+ 
 	// 查詢營地基本資料(動態調整排序條件1.營地上架時間2.熱門排行)兩隻表camp left join camp_order
 	private static final String GET_ALL_STMT = "SELECT \r\n"
 			+ "    camp.*, ifnull(ranktable.rank_num,9999) as rank_no\r\n" + "FROM\r\n" + "    camp\r\n"
@@ -40,9 +48,11 @@ public class CampDAOImpl implements CampDAO {
 	private static final String GET_ONE_STMT = "SELECT  *  FROM camp where camp_Id = ?";
 	private static final String DELETE = "DELETE FROM camp where camp_Id = ?";
 	private static final String UPDATE = "UPDATE camp set company_Id=?,camp_Status=?,camp_description=?,camp_Name=?,camp_Rule=?,camp_Pic_1=?,camp_Pic_2=?,camp_Pic_3=?,camp_Pic_4=?,camp_Pic_5=?,camp_Address=?,camp_Phone=?,certificate_Num=?,certificate_Pic=?,camp_Launched_Time=?,camp_Applied_Launch_Time=?,longitude=?,lattitude=? where camp_Id = ?";
+	private static final String UPDATECAMPCheck = "UPDATE camp set certificate_Num=?,certificate_Pic=? where camp_id=? ";// 12/21新增營地審核update
 	private static final String ALL_PAGE = "SELECT  * FROM camp where camp_status=? limit ?,?";
 	private static final String CAMPLIST = "SELECT " + CLOUM_FOR_ALL
 			+ " FROM camp where 1 = 1 and camp_launched_time  between ? and ? and camp_id like '%' ? '%'";
+	
 
 	@Override
 	public void insert(CampVO campVO) {
@@ -663,6 +673,104 @@ public class CampDAOImpl implements CampDAO {
 	}
 
 	@Override
+<<<<<<< HEAD
+	public CampVO getSelectStmt(Integer campId) {
+		CampVO campVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(SELECT_STMT_BY_CAMP_ID);
+
+			pstmt.setInt(1, campId);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address
+				campVO = new CampVO();
+				campVO.setCampName(rs.getString("cc.camp_name"));
+				campVO.setCampId(rs.getInt("cc.camp_id"));
+				campVO.setCompanyId(rs.getInt("cd.company_id"));
+				campVO.setCertificateNum(rs.getString("cc.certificate_num"));
+				campVO.setHeadName(rs.getString("cd.head_name"));
+				campVO.setCompanyTel(rs.getString("cd.company_tel"));
+				campVO.setCompanyAddress(rs.getString("cd.company_address"));
+				campVO.setCompanyName(rs.getString("cd.comapny_name"));
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return campVO;
+	}
+
+	@Override
+	public List<CampVO> selectAllCampCheck(String companyName) {
+		CampVO campVO = null;
+		List<CampVO> campVOlist = new ArrayList<CampVO>();
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(SELECT_STMT_BY_COMPANYNAME);
+			pstmt.setString(1, companyName);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address
+				campVO = new CampVO();
+				campVO.setCampName(rs.getString("cc.camp_name"));
+				campVO.setCampId(rs.getInt("cc.camp_id"));
+				campVO.setCompanyId(rs.getInt("cd.company_id"));
+				campVO.setCertificateNum(rs.getString("cc.certificate_num"));
+				campVO.setHeadName(rs.getString("cd.head_name"));
+				campVO.setCompanyTel(rs.getString("cd.company_tel"));
+				campVO.setCompanyAddress(rs.getString("cd.company_address"));
+				campVO.setCompanyName(rs.getString("cd.comapny_name"));
+				campVOlist.add(campVO);
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+=======
 	public Map getAllByPage(Integer rows, Integer status, Integer reqpage) {
 
 		Connection con = null;
@@ -739,6 +847,7 @@ System.out.println("請求頁數" + reqpage);
 			e.printStackTrace();
 		} catch (SQLException se) {
 			se.printStackTrace();
+>>>>>>> main
 		} finally {
 			if (rs != null) {
 				try {
@@ -754,14 +863,7 @@ System.out.println("請求頁數" + reqpage);
 					se.printStackTrace(System.err);
 				}
 			}
-			if (pstmt1 != null) {
-				try {
-					pstmt1.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-
+<<<<<<< HEAD
 			if (con != null) {
 				try {
 					con.close();
@@ -770,7 +872,66 @@ System.out.println("請求頁數" + reqpage);
 				}
 			}
 		}
+		return campVOlist;
+	}
+
+	@Override
+	public void updateCampCheck(CampVO campVO) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(UPDATECAMPCheck);
+
+			pstmt.setString(1, campVO.getCertificateNum());
+			if (campVO.getCertificatePic() != null) {
+				pstmt.setBlob(2, new SerialBlob(campVO.getCertificatePic()));
+			} else {
+				pstmt.setNull(2, java.sql.Types.BLOB);
+			}
+
+			pstmt.setInt(3, campVO.getCampId());
+			pstmt.executeUpdate();
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+=======
+			if (pstmt1 != null) {
+				try {
+					pstmt1.close();
+>>>>>>> main
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+<<<<<<< HEAD
+
+=======
 		return pagemap;
+>>>>>>> main
 	}
 
 }

@@ -1,8 +1,9 @@
 package com.campOrder.controller;
 
 import java.io.IOException;
-
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.camp.model.CampService;
+import com.camp.model.CampVO;
 import com.campOrder.model.CampOrderService;
 import com.campOrder.model.CampOrderVO;
 
@@ -41,7 +46,7 @@ public class CampOrderServlet extends HttpServlet {
 				cov = campOrderService.findByCampOrderId(Integer.valueOf(campOrderIdStr));
 			}
 			req.setAttribute("campOrderVO", cov);
-			String url = "/back-end/camp/updateCampOrder.jsp";
+			String url = "/back_end/camp/updateCampOrder.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
 
@@ -65,11 +70,12 @@ public class CampOrderServlet extends HttpServlet {
 
 			List<CampOrderVO> covList = campOrderService.findByParams(statusnum,begindate,finaldate);
 			req.setAttribute("list", covList);
-			String url = "/back-end/camp/listAllCampOrder.jsp";
+			String url = "/back_end/camp/listAllCampOrder.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
 
 		}
+		
 		// 修改訂單
 		if (action.equals("UPDATE")) {
 			String campOrderId = req.getParameter("campOrderId");
@@ -81,12 +87,40 @@ public class CampOrderServlet extends HttpServlet {
 			
 //			List<CampOrderVO> covList = campOrderService.findByParams(statusnum, startDate, endDate);
 //			req.setAttribute("list", covList);
-//			String url = "/back-end/camp/listAllCampOrder.jsp";
+//			String url = "/back_end/camp/listAllCampOrder.jsp";
 //			RequestDispatcher rd = req.getRequestDispatcher(url);			
 //			req.forward(req, res);
+			
 
+		}
+		/*************************** 營地評價查詢*****************************************/
+		if (action.equals("SEARCHCOMMENT")) {
+	
+		    String startDateStrs = req.getParameter("startDate");
+			String endDateStrs = req.getParameter("endDate");
+			String  campOrderIds=req.getParameter("campOrderId");
+			
+			Timestamp startDateTimestamp=Timestamp.valueOf(startDateStrs +" 00:00:00");
+			Timestamp endDateTimestamp=Timestamp.valueOf(endDateStrs +" 23:59:59");
+			int campOrder = -1;
+			if(StringUtils.isNotEmpty(campOrderIds)) {
+				campOrder = Integer.valueOf(campOrderIds);
+			}
+			
+			
+
+			CampOrderService campSvce = new CampOrderService();
+			List<CampOrderVO> campOrderVolist = new ArrayList<CampOrderVO>();
+			
+			campOrderVolist = campSvce.selectCampComment(startDateTimestamp,endDateTimestamp,campOrder);
+            
+			req.setAttribute("list", campOrderVolist);
+			String url = "/back_end/camp/campComment.jsp";
+			RequestDispatcher rd = req.getRequestDispatcher(url);
+			rd.forward(req, res);
 		}
 
 	}
+	
 
 }

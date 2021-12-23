@@ -9,7 +9,9 @@ public interface CampDAO {
 	public void insert(CampVO campVO);
 
 	public void update(CampVO campVO);
-
+	
+	public void updateCampCheck(CampVO campVO);
+	
 	public void delete(Integer campId);
 
 	public CampVO findByPrimaryKey(Integer campId);
@@ -21,9 +23,14 @@ public interface CampDAO {
 
 	public List<CampVO> getall(Integer orderby);
 	
-
-	List<CampVO> getAll();
 	
+	List<CampVO> getAll();
+
+	CampVO getSelectStmt(Integer campId);//12/17新增
+
+	public List<CampVO> selectAllCampCheck(String companyName);
+
+
 
 
 	//查詢全部營地(分頁模式)  rows=顯示筆數   
