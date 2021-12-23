@@ -32,7 +32,7 @@ public class CampDAOImpl implements CampDAO {
 	private static final String SELECT_STMT_BY_COMPANYNAME = " select cc.camp_name,cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address,cd.comapny_name "
 			+ "from company cd  JOIN  camp cc "
 			+ "on cd.company_id = cc.company_id where cd.comapny_name like '%' ? '%'";
- 
+
 	// 查詢營地基本資料(動態調整排序條件1.營地上架時間2.熱門排行)兩隻表camp left join camp_order
 	private static final String GET_ALL_STMT = "SELECT \r\n"
 			+ "    camp.*, ifnull(ranktable.rank_num,9999) as rank_no\r\n" + "FROM\r\n" + "    camp\r\n"
@@ -52,7 +52,6 @@ public class CampDAOImpl implements CampDAO {
 	private static final String ALL_PAGE = "SELECT  * FROM camp where camp_status=? limit ?,?";
 	private static final String CAMPLIST = "SELECT " + CLOUM_FOR_ALL
 			+ " FROM camp where 1 = 1 and camp_launched_time  between ? and ? and camp_id like '%' ? '%'";
-	
 
 	@Override
 	public void insert(CampVO campVO) {
@@ -673,7 +672,7 @@ public class CampDAOImpl implements CampDAO {
 	}
 
 	@Override
-<<<<<<< HEAD
+
 	public CampVO getSelectStmt(Integer campId) {
 		CampVO campVO = null;
 
@@ -770,7 +769,10 @@ public class CampDAOImpl implements CampDAO {
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-=======
+		}
+		return campVOlist;
+	}
+
 	public Map getAllByPage(Integer rows, Integer status, Integer reqpage) {
 
 		Connection con = null;
@@ -795,7 +797,7 @@ public class CampDAOImpl implements CampDAO {
 			}
 			rs1.close();
 			pstmt = con.prepareStatement(ALL_PAGE);
-			//計算總頁數
+			// 計算總頁數
 			if (allrows % rows >= 0) {
 
 				allpage = (allrows / rows) + 1;
@@ -803,17 +805,17 @@ public class CampDAOImpl implements CampDAO {
 			} else {
 				allpage = allrows / rows;
 			}
-System.out.println("總比數" + allrows);
+			System.out.println("總比數" + allrows);
 
-System.out.println("總頁數" + allpage);
+			System.out.println("總頁數" + allpage);
 			offset = rows * (reqpage - 1);
 			pstmt.setInt(1, status);
 			pstmt.setInt(2, offset);
 			pstmt.setInt(3, rows);
-System.out.println("顯示筆數" + rows);
-System.out.println("顯示筆數" + (allrows - offset));
-System.out.println("略過筆數" + offset);
-System.out.println("請求頁數" + reqpage);
+			System.out.println("顯示筆數" + rows);
+			System.out.println("顯示筆數" + (allrows - offset));
+			System.out.println("略過筆數" + offset);
+			System.out.println("請求頁數" + reqpage);
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -847,7 +849,6 @@ System.out.println("請求頁數" + reqpage);
 			e.printStackTrace();
 		} catch (SQLException se) {
 			se.printStackTrace();
->>>>>>> main
 		} finally {
 			if (rs != null) {
 				try {
@@ -856,6 +857,14 @@ System.out.println("請求頁數" + reqpage);
 					se.printStackTrace(System.err);
 				}
 			}
+			if (pstmt1 != null) {
+				try {
+					pstmt1.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+
 			if (pstmt != null) {
 				try {
 					pstmt.close();
@@ -863,7 +872,6 @@ System.out.println("請求頁數" + reqpage);
 					se.printStackTrace(System.err);
 				}
 			}
-<<<<<<< HEAD
 			if (con != null) {
 				try {
 					con.close();
@@ -872,7 +880,8 @@ System.out.println("請求頁數" + reqpage);
 				}
 			}
 		}
-		return campVOlist;
+
+		return pagemap;
 	}
 
 	@Override
@@ -906,19 +915,10 @@ System.out.println("請求頁數" + reqpage);
 			if (pstmt != null) {
 				try {
 					pstmt.close();
-=======
-			if (pstmt1 != null) {
-				try {
-					pstmt1.close();
->>>>>>> main
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
 				}
 			}
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 			if (con != null) {
 				try {
 					con.close();
@@ -926,12 +926,8 @@ System.out.println("請求頁數" + reqpage);
 					e.printStackTrace(System.err);
 				}
 			}
+
 		}
-<<<<<<< HEAD
 
-=======
-		return pagemap;
->>>>>>> main
 	}
-
 }
