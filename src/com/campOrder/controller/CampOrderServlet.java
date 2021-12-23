@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 
 import com.camp.model.CampService;
 import com.camp.model.CampVO;
@@ -103,7 +102,7 @@ public class CampOrderServlet extends HttpServlet {
 			Timestamp startDateTimestamp=Timestamp.valueOf(startDateStrs +" 00:00:00");
 			Timestamp endDateTimestamp=Timestamp.valueOf(endDateStrs +" 23:59:59");
 			int campOrder = -1;
-			if(StringUtils.isNotEmpty(campOrderIds)) {
+			if(campOrderIds != null && campOrderIds.length() != 0) {
 				campOrder = Integer.valueOf(campOrderIds);
 			}
 			
