@@ -243,17 +243,19 @@ public class CampAreaOrderDetailDAOImpl implements CampAreaOrderDetailDAO {
 	}
 	// 新增用訂單編號找營位訂單明細
 	@Override
-	public CampAreaOrderDetailVO findByCampOrderId(Integer campOrderId) {
+	public List<CampAreaOrderDetailVO> findByCampOrderId(Integer campOrderId) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		CampAreaOrderDetailVO campAreaOrderDetailVO = new CampAreaOrderDetailVO();
+		CampAreaOrderDetailVO campAreaOrderDetailVO = null;
+		List<CampAreaOrderDetailVO> list=new ArrayList<CampAreaOrderDetailVO>();
 		try {
 			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(FIND_BY_CAMP_ORDER_ID);
-			pstmt.setInt(3, campOrderId);
+			pstmt.setInt(1, campOrderId);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
+				campAreaOrderDetailVO = new CampAreaOrderDetailVO();
 				campAreaOrderDetailVO.setCampAreaOrderDetailId(rs.getInt(1));
 				campAreaOrderDetailVO.setCampAreaId(rs.getInt(2));
 				campAreaOrderDetailVO.setCampOrderId(rs.getInt(3));
@@ -264,6 +266,7 @@ public class CampAreaOrderDetailDAOImpl implements CampAreaOrderDetailDAO {
 				campAreaOrderDetailVO.setPerCapitationFee(rs.getInt(8));
 				campAreaOrderDetailVO.setBookingWeekdays(rs.getInt(9));
 				campAreaOrderDetailVO.setBookingHolidays(rs.getInt(10));
+				list.add(campAreaOrderDetailVO);
 			}
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -288,8 +291,9 @@ public class CampAreaOrderDetailDAOImpl implements CampAreaOrderDetailDAO {
 				} catch (Exception e) {
 					e.printStackTrace(System.err);
 				}
+				}
 			}
+			return list;
 		}
-		return campAreaOrderDetailVO;
-	}
 }
+
