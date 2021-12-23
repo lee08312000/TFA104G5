@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.company.model.CompanyDAO;
@@ -145,6 +146,45 @@ public class CampService {
 		campvo.setLongitude(longitude);
 		campvo.setLattitude(lattitude);
 		campdao.update(campvo);
+
+	}
+<<<<<<< HEAD
+=======
+
+//請求分頁	每頁欲顯示比數rows   請求頁數reqpage    營地狀態status
+	public Map showPage(Integer rows, Integer status, Integer reqpage) {
+		Map pagemap = null;
+		pagemap = campdao.getAllByPage(rows, status, reqpage);
+		if (pagemap != null||pagemap.isEmpty()) {
+			return pagemap;
+		} else {
+			return null;
+		}
+>>>>>>> main
+
+	}
+	
+	//推薦營地用(前台)
+	public List<CampVO> recommendCamp(int campnumber){
+		List<CampVO> list=campdao.getall(2);
+		int size=list.size();
+		System.out.println("拿到全部的"+size);
+		Set<Integer> randomSet=new HashSet();
+		//產生N個1~size的不重複隨機亂數
+		while(randomSet.size()<campnumber) {
+		int randomNum=(int)(Math.random()*size)+1; //產生1~size的隨機亂數
+		randomSet.add(randomNum);
+		System.out.println("查看亂數"+randomNum);
+		}
+		
+		//把陣列的CampVO用上面的亂數取出
+		List<CampVO> randomlist=new ArrayList<CampVO>();
+		for(Integer i:randomSet) {
+			
+			randomlist.add(list.get(i-1));	
+		}
+		
+		return randomlist;
 
 	}
 

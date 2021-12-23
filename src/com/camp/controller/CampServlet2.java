@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.camp.model.CampService;
 import com.camp.model.CampVO;
@@ -48,7 +49,6 @@ public class CampServlet2 extends HttpServlet {
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 		res.setContentType("text/plain;charset=UTF-8");
 		PrintWriter out = res.getWriter();
-
 
 ////////////////////////////////////////////首頁載入熱門營地八大/////////////////////////////////////////////////////////////////////////
 		if ("hotcamp".equals(action)) {
@@ -105,10 +105,9 @@ public class CampServlet2 extends HttpServlet {
 			CampTagDetailService camptagdetailSvc = new CampTagDetailService();
 			CampTagService camptagSvc = new CampTagService();
 			CampService campSvc = new CampService();
-			
-			
+
 			/*************************** 分業顯示全部營地 ****************************************/
-		
+
 //step1 根據排序查詢全部營地
 			List<CampVO> list = campSvc.getAllCamp(Integer.parseInt(orderby));
 //step2 根據搜尋條件1.地區 2.特色標籤 開始篩選
@@ -155,9 +154,9 @@ public class CampServlet2 extends HttpServlet {
 
 				out.print(jsArray);
 				return;
-			}else {
+			} else {
 
-			out.print("查無資料");
+				out.print("查無資料");
 			}
 		}
 
@@ -244,6 +243,62 @@ public class CampServlet2 extends HttpServlet {
 			res.getWriter().print(jsArray.toString());
 
 		}
+		if ("getallcamp".equals(action)) {
+			Integer rows = Integer.parseInt(req.getParameter("rows")); // 前端要求每頁資料量
+			Integer callpage = Integer.parseInt(req.getParameter("callpage")); // 呼叫頁數
+System.out.println(rows);
+System.out.println(callpage);
+
+			CampService campSvc = new CampService();
+			Map pagemap = null;
+			CampWindow window = null;
+			CampTagDetailService camptagdetailSvc = new CampTagDetailService();
+			CampTagService camptagSvc = new CampTagService();
+			Map outdata=new HashMap();
+			pagemap = campSvc.showPage(rows, 1, callpage);
+			List<CampWindow> pageout = new ArrayList<CampWindow>();
+			if (pagemap != null||pagemap.size()<rows) {
+				List<CampVO> pagelist=(List<CampVO>)pagemap.get("pagedata");
+				Integer allpage=(Integer)pagemap.get("allpage");
+
+				for (CampVO obj : pagelist) {
+					window = new CampWindow();
+					window.setCampId(obj.getCampId());
+					window.setName(obj.getCampName());
+					window.setAddress(obj.getCampAddress());
+					String Base64Str = Base64.getEncoder().encodeToString(obj.getCampPic1());
+					window.setImgBase64(Base64Str);
+					List<Integer> camptags = camptagdetailSvc.findCampTagsByCampId(obj.getCampId());
+					List<String> camptagsName = new ArrayList<String>();
+					for (Integer i : camptags) {
+						camptagsName.add(camptagSvc.getOneTag(i).getCampTagName());
+					}
+					window.setTags(camptagsName);
+					pageout.add(window);
+				}
+				outdata.put("camplist",pageout);
+				outdata.put("allpage", allpage);
+				JSONObject jsonobj=new JSONObject(outdata);
+				out.print(jsonobj);
+			} else {
+				out.print("endpage");
+
+			}
+
+		}
+		
+		if("recommend".equals(action)) {
+						
+			CampService campSvc=new CampService();
+			
+			List<CampVO> list=campSvc.recommendCamp(3);	
+			System.out.println("推薦營地的"+list.size());
+			JSONArray jsArray = new JSONArray(list);	
+			out.print(jsArray);
+
+			
+		}
 
 	}
+
 }

@@ -1,0 +1,118 @@
+/* 營位價格資訊欄 */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+table {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    color: #343a40;
+    /* line-height: 1; */
+    /* display: flex; */
+    justify-content: center;
+    /* width: 800px; */
+    /* border-right-color: #ffffff; */
+    /* margin-top: 100px; */
+    font-size: 15px;
+    text-align: center;
+    /* border: 1px solid #343a40; */
+    /* border-collapse: collapse; */
+}
+
+th,
+td {
+    /* border: 1px solid #343a40; */
+    padding: 16px 24px;
+    text-align: center;
+}
+
+th {
+    background-color: #087f5b;
+    color: #fff;
+    width: 25%;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f8f9fa;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #e9ecef;
+}
+
+.campinfo {
+    width: 600px;
+}
+
+
+/* 線上訂位按鈕 */
+
+button {
+    background-color: #009900;
+    border: 0;
+    border-radius: 15px;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 5px 10px;
+}
+
+button:hover {
+    background-color: #00cc00;
+}
+
+.outline {
+    outline: 3px solid #009900;
+    outline-offset: 2px;
+    position: relative;
+    left: 70%;
+    /* top: 20px; */
+}
+
+button.outline:hover {
+    outline: 3px solid #00cc00;
+}
+
+
+/* 地圖api */
+
+.map {
+    width: 400px;
+    background-color: blanchedalmond;
+    height: 300px;
+    margin: 0;
+    padding: 0;
+}
+
+.infoImg {
+    width: 50px;
+    height: 50px;
+}
+
+
+/* 星星 */
+
+div.star_block {
+    float: right;
+    margin: 0 0 0 10px;
+}
+
+div.star_block>span.star {
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 3px;
+}
+
+div.star_block>span.star.-on {
+    color: yellow;
+}
+
+.tdimg {
+    max-width: 60px;
+    height: 50px
+}
+
+.recomname {
+    font-size: 16px;
+    font-weight: bold;
+}

@@ -26,7 +26,7 @@ public class LoginFilter implements Filter{
 		Object vendorid = session.getAttribute("vendorId");
 		if (vendorid == null) {
 			session.setAttribute("location", req.getRequestURI());
-			res.sendRedirect(req.getContextPath() + "/back_end/companyProduct/jsp/vendorLogin.jsp");
+			res.sendRedirect(req.getContextPath() + "/back_end/companyLogin/vendorLogin.jsp");
 			return;
 		} else {
 			chain.doFilter(request, response);
