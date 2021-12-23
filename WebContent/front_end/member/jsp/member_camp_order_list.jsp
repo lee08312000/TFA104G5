@@ -179,7 +179,7 @@ System.out.println(memberVO.getMemberId());
 				<td class="text-left"></td>	
 				<td class="text-left">${ campOrderVO.campOrderTotalAmount }</td> 
 				<td class="text-left">
-				${(campOrderVO.campOrderStatus == 0) ? "處理中" : (campOrderVO.campOrderStatus == 1) ? "已確認" : (campOrderVO.campOrderStatus == 2) : "已完成" }			
+				${ (campOrderVO.campOrderStatus == 0) ? "處理中" : (campOrderVO.campOrderStatus == 1) ? "已確認" : (campOrderVO.campOrderStatus == 2) ? "已完成" : "" }			
 				</td> 
 			</tr>
 

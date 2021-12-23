@@ -144,7 +144,7 @@
 				</a>
 				<input type="hidden" value="logout" name="action" />
 				</li>
-				
+				</form>	
 		</div>
 		</form>
 	</aside>
