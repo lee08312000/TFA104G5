@@ -286,6 +286,18 @@ System.out.println(callpage);
 			}
 
 		}
+		
+		if("recommend".equals(action)) {
+						
+			CampService campSvc=new CampService();
+			
+			List<CampVO> list=campSvc.recommendCamp(3);	
+			System.out.println("推薦營地的"+list.size());
+			JSONArray jsArray = new JSONArray(list);	
+			out.print(jsArray);
+
+			
+		}
 
 	}
 
