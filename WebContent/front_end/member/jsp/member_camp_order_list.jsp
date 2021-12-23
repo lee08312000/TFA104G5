@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> <!-- jstl核心函式庫含for each標籤等 -->
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%> <!-- 日期格式化標籤使用 -->
 <%@ page import="com.member.model.*"%>
 <%@ page import="com.camp.model.*"%>
 <%@ page import="com.favoriteCamp.model.*"%>
@@ -147,26 +148,6 @@ System.out.println(memberVO.getMemberId());
 	</form>
 	<%-- =================  sidebar   ===================== --%>
 	
-	<%
-	CampOrderVO campOrderVO = (CampOrderVO)session.getAttribute("campOrderVO");
-	Integer statusNum = campOrderVO.getCampOrderStatus();
-	String statusMsg = "";
-	switch(statusNum) {  
-    case 0: 
-    	statusMsg = "處理中";
-        break; 
-    case 1: 
-        statusMsg = "已確認";
-        break; 
-    case 2: 
-    	statusMsg = "已完成";
-        break; 
-    default: 
-    	statusMsg = "";
-	}
-	%>
-	
-	
 	<%-- =================  營地訂單列表   ===================== --%>
 	<div class="table-title">
 		<h3>營地訂單列表</h3>
@@ -178,7 +159,7 @@ System.out.println(memberVO.getMemberId());
 		<thead> 
 			<tr>
 				<th>訂單編號 ${ campOrderVO.getCampOrderId() }</th> 
-				<th>訂單日期 ${ campOrderVO.getCampOrderConfirmedTime() }</th> 
+				<th format="yyyy-MM-dd">訂單日期 ${ campOrderVO.getCampOrderConfirmedTime() }</th> 
 			</tr>
 			<tr>
 				<th class="text-left">營地圖片</th>
@@ -217,7 +198,6 @@ System.out.println(memberVO.getMemberId());
 		</tbody>
 		<!-- </form> -->
 	</table>
-
 
 	<div class="table-fill"><%@ include file="page2.file" %></div>
 
