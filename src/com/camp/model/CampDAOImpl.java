@@ -25,6 +25,9 @@ public class CampDAOImpl implements CampDAO {
 	private static final String INSERT_STMT = "INSERT INTO camp (" + CLOUM_FOR_INSERT + ") "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?)";
 
+	private static final String GET_ALL = "select "+CLOUM_FOR_ALL +" from camp";
+	
+	
 	// 12/17新增營位查詢
 	private static final String SELECT_STMT_BY_CAMP_ID = " select cc.camp_name,cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address,cd.comapny_name "
 			+ "from company cd  JOIN  camp cc " + "on cd.company_id = cc.company_id where cc.camp_Id=?";
@@ -67,8 +70,8 @@ public class CampDAOImpl implements CampDAO {
 
 			pstmt.setInt(1, campVO.getCompanyId());
 			pstmt.setInt(2, campVO.getCampStatus());
-			pstmt.setString(3, campVO.getCampName());
-			pstmt.setString(4, campVO.getCampDiscription());
+			pstmt.setString(3, campVO.getCampDiscription());
+			pstmt.setString(4, campVO.getCampName());
 			pstmt.setString(5, campVO.getCampRule());
 			if (campVO.getCampPic1() != null) {
 				pstmt.setBlob(6, new SerialBlob(campVO.getCampPic1()));
@@ -111,6 +114,7 @@ public class CampDAOImpl implements CampDAO {
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
+			se.printStackTrace();
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
 		} catch (ClassNotFoundException e) {
@@ -520,7 +524,7 @@ public class CampDAOImpl implements CampDAO {
 
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(GET_ALL_STMT);
+			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
