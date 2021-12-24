@@ -21,6 +21,37 @@
 <!-- 我自己加的CSS -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/front_end/mall/css/shoppingCart.css">
+
+<style>
+div.overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: hsla(0, 0%, 0%, .5);
+  
+  display: none;
+  z-index: 999999999999;
+}
+
+/* 元素 article 置中及基本樣式 */
+div.overlay > article{
+  background-color: white;
+  width: 80%;
+  max-width: 100%;
+  border-radius: 10px;
+  /* box-shadow: 0 0 10px #ddd; */
+  padding: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: auto;
+  max-height: 90vh;
+  overflow: scroll;
+}
+</style>
 </head>
 
 <body>
@@ -157,7 +188,7 @@
 		</div>
 
 		<!-- 填寫收件人資訊 -->
-		<form action="<%=request.getContextPath()%>/Cart/CartServlet" method="post">
+		<form id="checkout" action="<%=request.getContextPath()%>/Cart/CartServlet" method="post">
 			<div style="text-align: center; margin-bottom: 50px;">
 				<div class="receiverInfo"
 					style="text-align: left; display: inline-block;">
@@ -236,11 +267,27 @@
 	</footer>
 	<!-- footer-end -->
 
+	<!-- 訂單成立中請稍等 -->
+	<div class="overlay" style="border: 1px solid red;">
+		<article style="text-align: center;">
+			<h1>訂單成立中請稍等...</h1>
+	
+			    <p></p>
+			<!-- <button type="button" class="btn_modal_close">關閉</button> -->
+		</article>
+	</div>
+
 	<script
 		src="<%=request.getContextPath()%>/front_end/mall/vendor/vendors_shoppingCart/jquery/jquery-3.6.0.min.js"></script>
 
 	<script
 		src="<%=request.getContextPath()%>/front_end/mall/js/shoppingCart.js"></script>
+	
+	<script>
+		$("form#checkout").on("submit", function(){
+			$("div.overlay").fadeIn();
+		});
+	</script>
 </body>
 
 </html>
