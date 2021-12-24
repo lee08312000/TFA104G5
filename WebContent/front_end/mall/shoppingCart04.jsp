@@ -163,8 +163,16 @@ div.overlay > article{
 			</c:forEach>
 		</table>
 
+		<!-- 下面兩個按鈕 -->
+		<button type="button" class="checkout" style="margin-right: 30px;"
+		onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_product_order_list.jsp';">我的訂單</button>
+		<button type="button" class="checkout" style="margin-right: 30px;"
+		onclick="location.href = '<%=request.getContextPath()%>/front_end/mall/mall_products_list.html';">繼續購物</button>
+		
 
 	</div>
+
+
 
 	<!-- footer-start -->
 	<footer class="tm-footer text-center">
