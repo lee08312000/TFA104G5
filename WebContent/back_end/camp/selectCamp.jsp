@@ -36,7 +36,7 @@
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/css/selectCamp.css?v=004">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/css/selectCamp.css?v=006">
 </head>
 <body>
 	<!-- --------main區域------- -->
@@ -111,12 +111,13 @@
 					<td>${campVO.campDiscription}</td>
 					<td>${campVO.campPic1}</td>					
 					<td>${campVO.campStatus==1?"上架":"下架"}
-					
+					<c:if test="${campVO.campStatus==0}" >
 					<form method="post" ACTION="<%=request.getContextPath()%>/camp/shelves.do" >
 					<input type="hidden" name="action" value="certificatepage">
 					<input type="hidden" name="campId" value="${campVO.campId}">
-					<button class="cal" type="submit">審核</button>					
-					</form></td>
+					<button class="cal" type="submit" >審核</button>					
+					</form>
+					</c:if></td>
 					
 					
 					<td>
@@ -155,16 +156,14 @@
 		<%@ include file="pages/page2.jsp"%>
 		
 	</div>
-	 
-
-
-
-<footer class="tm-footer text-center">
-		<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
-		<pre>Copyright &copy; 2021 Camping Paradise | Design: <a
-				style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a>
+	
+		<footer class="tm-footer text-center">
+			<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
+			<pre>Copyright &copy; 2021 Camping Paradise | Design: <a
+					style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a>
 				</pre>
-	</footer>
+		</footer>
+	 
 </body>
 
 </html>
