@@ -11,6 +11,6 @@ public interface CampAreaOrderDetailDAO {
 	public void delete(Integer campAreaOrderDetailId);
 	public CampAreaOrderDetailVO findByPK( Integer campAreaOrderDetailId);
 	public List<CampAreaOrderDetailVO> getAll();
-	
+	public List<CampAreaOrderDetailVO> findByCampOrderId( Integer campOrderId);
 
 }

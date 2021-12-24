@@ -65,10 +65,10 @@
 
 		<%
 		/************************************假資料測試***********************************/
-			MemberDAO memberDAO = new MemberDAOImpl();
-			MemberVO memberVO = memberDAO.findByPK(1);
+// 			MemberDAO memberDAO = new MemberDAOImpl();
+// 			MemberVO memberVO = memberDAO.findByPK(1);
 
-			session.setAttribute("memberVO", memberVO);
+// 			session.setAttribute("memberVO", memberVO);
 			
 // 			List<CartVO> buyList = new ArrayList<CartVO>();
 
