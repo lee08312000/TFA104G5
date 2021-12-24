@@ -107,17 +107,12 @@ div.overlay > article{
 					Paradise</span>
 			</div>
 			<nav class="header-navigation">
-				<a href="#">Home</a> <a href="#">線上商城</a> <a href="#"><img
-					src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a>
-				<a href="<%=request.getContextPath()%>/front_end/mall/shoppingCart01.jsp"><i style="color: white; font-size: 23px;"
-					class="fas fa-shopping-cart"><div id="cartNum" style="background-color: red; border-radius: 100%;text-align: center; width: 18px; font-size: 14px; position: absolute; top: -8px; right: -8px; padding: 3px;"></div></i></a> <a href="#">註冊</a> <a href="#">登入</a>
-				<a href="#"> <i class="fas fa-user"></i></a>
-
-				<!-- fas fa-user-circle
-    
-                fas fa-user-circle
-                 -->
-				<button>Menu</button>
+				<a href="/TFA104G5/front_end/camp/camp_index.html">Home</a>
+        		<a href="/TFA104G5/front_end/mall/mall_index.html">線上商城</a>
+        		<a href="/TFA104G5/front_end/member/jsp/member_favorite_product.jsp"><img src="/TFA104G5/front_end/mall/images/heart.png"></a>
+        		<a href="/TFA104G5/front_end/mall/shoppingCart01.jsp"><i style="color: white; font-size: 23px; position: relative;" class="fas fa-shopping-cart"><div id="cartNum" style="background-color: red; border-radius: 100%;text-align: center; width: 18px; font-size: 14px; position: absolute; top: -8px; right: -8px; padding: 3px;"></div></i></a>
+        		<a href="/TFA104G5/front_end/member/login/login.jsp">登入|註冊</a>
+        		<a href="/TFA104G5/front_end/member/jsp/member_main.jsp"> <i class="fas fa-user"></i></a>
 			</nav>
 		</div>
 	</header>
@@ -129,7 +124,7 @@ div.overlay > article{
 		</h2>
 	</div>
 	
-	<div class="orders" style="padding: 50px 30px 50px 30px;">
+	<div class="orders" style="padding: 50px 30px 100px 30px;">
 		<table style="margin-right: auto; margin-left: auto;">
 			<tr>
 				<th>訂單編號</th>
@@ -143,9 +138,12 @@ div.overlay > article{
 				<th>物流狀態</th>
 				<th>操作</th>
 			</tr>
-
+			<% int totalAmount = 0; %>
 			<jsp:useBean id="companySvc" class="com.company.model.CompanyService"></jsp:useBean>
 			<c:forEach var="mallOrderVO" items="${ mallOrderVOList }">
+			<% 
+				totalAmount += ((MallOrderVO) pageContext.getAttribute("mallOrderVO")).getMailOrderTotalAmount();
+			%>
 				<tr data-mallOrderId="${ mallOrderVO.mallOrderId }">
 					<td>${ mallOrderVO.mallOrderId }</td>
 					<td>${ companySvc.getOneCompany(mallOrderVO.companyId).companyName }</td>
@@ -162,7 +160,7 @@ div.overlay > article{
 				</tr>
 			</c:forEach>
 		</table>
-
+		<h2 style="text-align: right;">訂單總金額為 : NT$ <%= totalAmount %></h2>
 		<!-- 下面兩個按鈕 -->
 		<button type="button" class="checkout" style="margin-right: 30px;"
 		onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_product_order_list.jsp';">我的訂單</button>

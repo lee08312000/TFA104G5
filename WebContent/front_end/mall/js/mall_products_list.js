@@ -16,7 +16,7 @@ $(function () {
       getProducts($(that).children("a").text());
     }
 
-    window.scrollTo(0, 440);
+    window.scrollTo(0, 350);
 
   });
 

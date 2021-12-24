@@ -66,17 +66,12 @@ div.overlay > article{
 					Paradise</span>
 			</div>
 			<nav class="header-navigation">
-				<a href="#">Home</a> <a href="#">線上商城</a> <a href="#"><img
-					src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a>
-				<a href="<%=request.getContextPath()%>/front_end/mall/shoppingCart01.jsp"><i style="color: white; font-size: 23px;"
-					class="fas fa-shopping-cart"><div id="cartNum" style="background-color: red; border-radius: 100%;text-align: center; width: 18px; font-size: 14px; position: absolute; top: -8px; right: -8px; padding: 3px;"></div></i></a> <a href="#">註冊</a> <a href="#">登入</a>
-				<a href="#"> <i class="fas fa-user"></i></a>
-
-				<!-- fas fa-user-circle
-    
-                fas fa-user-circle
-                 -->
-				<button>Menu</button>
+				<a href="/TFA104G5/front_end/camp/camp_index.html">Home</a>
+        		<a href="/TFA104G5/front_end/mall/mall_index.html">線上商城</a>
+        		<a href="/TFA104G5/front_end/member/jsp/member_favorite_product.jsp"><img src="/TFA104G5/front_end/mall/images/heart.png"></a>
+        		<a href="/TFA104G5/front_end/mall/shoppingCart01.jsp"><i style="color: white; font-size: 23px; position: relative;" class="fas fa-shopping-cart"><div id="cartNum" style="background-color: red; border-radius: 100%;text-align: center; width: 18px; font-size: 14px; position: absolute; top: -8px; right: -8px; padding: 3px;"></div></i></a>
+        		<a href="/TFA104G5/front_end/member/login/login.jsp">登入|註冊</a>
+        		<a href="/TFA104G5/front_end/member/jsp/member_main.jsp"> <i class="fas fa-user"></i></a>
 			</nav>
 		</div>
 	</header>
