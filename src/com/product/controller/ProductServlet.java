@@ -128,7 +128,7 @@ public class ProductServlet extends HttpServlet{
 						
 						/***************************2.開始新增資料***************************************/
 						ProductService productSvc = new ProductService();
-						productVO = productSvc.addProduct( companyId, productTypeId, productStatus,
+						productVO = productSvc.addProduct( companyId, productTypeId, 1,
 								 productName, productPrice, productBrand, productInventory,
 								 productDescription, shoppingInformation, productPic1, productPic2,
 								 productPic3);

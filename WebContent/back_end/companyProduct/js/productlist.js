@@ -25,9 +25,9 @@ $(function(){
         	$("span#productStatus").text(productStatus);
         	$("div#describe").text(describe);
         	$("div#notice").text(notice);
-        	$("img#pic1").attr("src", `/CampingParadiseCopy/product/PicServlet?productId=${productId}&pic=1`);
-        	$("img#pic2").attr("src", `/CampingParadiseCopy/product/PicServlet?productId=${productId}&pic=2`);
-        	$("img#pic3").attr("src", `/CampingParadiseCopy/product/PicServlet?productId=${productId}&pic=3`);
+        	$("img#pic1").attr("src", `/TFA104G5/product/PicServlet?productId=${productId}&pic=1`);
+        	$("img#pic2").attr("src", `/TFA104G5/product/PicServlet?productId=${productId}&pic=2`);
+        	$("img#pic3").attr("src", `/TFA104G5/product/PicServlet?productId=${productId}&pic=3`);
         	$("span#time").text(time);
         	
         	
