@@ -1,3 +1,14 @@
+// 登出按鈕
+$("a#logout").on("click", function(e) {
+    e.preventDefault();
+    if (confirm("確定是否登出?\n(將清空購物車)")) {
+        $("form#logoutForm").submit();
+    } else {
+        
+    }
+});
+
+
 /* Set rates + misc */
 var taxRate = 0;
 var shippingRate = 0;

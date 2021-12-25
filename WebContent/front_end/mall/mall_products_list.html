@@ -26,6 +26,7 @@
   
     <!-- 我自己加的CSS -->
 <link rel="stylesheet" href="css/mall_products_list.css">
+<link href="images/camp_paradise_logo.png" rel="shortcut icon">
 <style>
   /* 抵銷height: 0  */
   div.row.grid{
@@ -51,7 +52,7 @@
   <header class="header-outer">
     <div class="header-inner responsive-wrapper">
       <div class="header-logo">
-        <a style="display:inline-block; vertical-align: middle;" href="首頁URL">
+        <a style="display:inline-block; vertical-align: middle;" href="/TFA104G5/front_end/camp/camp_index.html">
           <img src="images/camp_paradise_logo.png" />
         </a>
         <span style="display:inline-block; vertical-align: middle;">Camping Paradise</span>
@@ -61,8 +62,9 @@
         <a href="/TFA104G5/front_end/mall/mall_index.html">線上商城</a>
         <a href="/TFA104G5/front_end/member/jsp/member_favorite_product.jsp"><img src="images/heart.png"></a>
         <a href="/TFA104G5/front_end/mall/shoppingCart01.jsp"><i style="color: white; font-size: 23px; position: relative;" class="fas fa-shopping-cart"><div id="cartNum" style="background-color: red; border-radius: 100%;text-align: center; width: 18px; font-size: 14px; position: absolute; top: -8px; right: -8px; padding: 3px;"></div></i></a>
-        <a href="/TFA104G5/front_end/member/login/login.jsp">登入|註冊</a>
-        <a href="/TFA104G5/front_end/member/jsp/member_main.jsp"> <i class="fas fa-user"></i></a>
+        <a id="login" href="/TFA104G5/front_end/member/login/login.jsp">登入|註冊</a>
+		<a id="logout" class="-off" href="/TFA104G5/front_end/member/login/login.jsp">登出</a>
+		<a id="memberHead" class="-off" href="/TFA104G5/front_end/member/jsp/member_main.jsp"> <i class="fas fa-user"></i></a>
       </nav>
     </div>
   </header>

@@ -157,7 +157,7 @@
 
     /*愛心*/
     .-off {
-      display: none;
+      display: none !important;
     }
 
     img.redHeart{
