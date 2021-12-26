@@ -82,5 +82,11 @@ public class CampBookingVO implements Serializable{
 	public void setClosedStatus(Boolean closedStatus) {
 		this.closedStatus = closedStatus;
 	}
+	@Override
+	public String toString() {
+		return "CampBookingVO [campBookingId=" + campBookingId + ", campId=" + campId + ", campAreaId=" + campAreaId
+				+ ", date=" + date + ", bookingCampAreaMax=" + bookingCampAreaMax + ", bookedCampAreaNum="
+				+ bookedCampAreaNum + ", closedStatus=" + closedStatus + "]";
+	}
 
 }

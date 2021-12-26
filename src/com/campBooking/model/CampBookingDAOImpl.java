@@ -16,8 +16,8 @@ import java.util.TreeMap;
 import util.Util;
 
 public class CampBookingDAOImpl implements CampBookingDAO {
-	private static final String INSERT_STMT = "INSERT INTO  camp_booking (camp_id,camp_area_id,date,booking_camp_area_max,booked_camp_area_num,closed_status) VALUES (?,?,?,?,?,?)";
-	private static final String UPDATE_STMT = "UPDATE camp_booking  SET camp_id=?,camp_area_id=?,date=?,booking_camp_area_max=?,booked_camp_area_num=?,closed_status=? WHERE camp_booking_id=?";
+	private static final String INSERT_STMT = "INSERT INTO  camp_booking (camp_id,camp_area_id,date,booking_camp_area_max,booked_camp_area_num,close_status) VALUES (?,?,?,?,?,?)";
+	private static final String UPDATE_STMT = "UPDATE camp_booking  SET camp_id=?,camp_area_id=?,date=?,camp_area_max=?,booked_camp_area_num=?,close_status=? WHERE camp_booking_id=?";
 	private static final String DELETE_STMT = "DELETE FROM camp_booking WHERE camp_booking_id= ?";
 	private static final String FIND_BY_PK = "SELECT * FROM camp_booking WHERE camp_booking_id=?";
 	private static final String FIND_BY_AREAID = "SELECT * FROM camp_booking WHERE camp_area_id=? and date=?";
@@ -168,8 +168,8 @@ public class CampBookingDAOImpl implements CampBookingDAO {
 			pstmt.setInt(5, campBookingVO.getBookedCampAreaNum());
 			pstmt.setBoolean(6, campBookingVO.getClosedStatus());
 			pstmt.setInt(7, campBookingVO.getCampBookingId());
-			int suc_row = pstmt.executeUpdate();
-			System.out.println("成功更新" + suc_row + "筆");
+			 pstmt.executeUpdate();
+			
 		} catch (SQLException se) {
 			se.printStackTrace();
 
