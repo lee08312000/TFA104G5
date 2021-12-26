@@ -217,23 +217,24 @@ System.out.println("1mainkey="+mainkey);
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_STMT);
 
-			pstmt.setInt(1, campOrderVO.getMemberId());
-			pstmt.setInt(2, campOrderVO.getCampOrderStatus());
-			pstmt.setInt(3, campOrderVO.getCampOrderTotalAmount());
-			pstmt.setDate(4, campOrderVO.getCampCheckOutDate());
-			pstmt.setDate(5, campOrderVO.getCampCheckInDate());
-			pstmt.setString(6, campOrderVO.getCreditCardNum());
-			pstmt.setString(7, campOrderVO.getPayerName());
-			pstmt.setString(8, campOrderVO.getPayerPhone());
-			pstmt.setTimestamp(9, campOrderVO.getCampOrderConfirmedTime());
-			pstmt.setTimestamp(10, campOrderVO.getCampOrderCompletedTime());
-			pstmt.setInt(11, campOrderVO.getCampCommentStar());
-			pstmt.setString(12, campOrderVO.getCampComment());
-			pstmt.setTimestamp(13, campOrderVO.getCampOrderCommentTime());
-			pstmt.setInt(14, campOrderVO.getCampId());
+			pstmt.setInt(1, campOrderVO.getCampId());
+			pstmt.setInt(2, campOrderVO.getMemberId());
+			pstmt.setInt(3, campOrderVO.getCampOrderStatus());
+			pstmt.setInt(4, campOrderVO.getCampOrderTotalAmount());
+			pstmt.setDate(5, campOrderVO.getCampCheckOutDate());
+			pstmt.setDate(6, campOrderVO.getCampCheckInDate());
+			pstmt.setString(7, campOrderVO.getCreditCardNum());
+			pstmt.setString(8, campOrderVO.getPayerName());
+			pstmt.setString(9, campOrderVO.getPayerPhone());
+			pstmt.setTimestamp(10, campOrderVO.getCampOrderConfirmedTime());
+			pstmt.setTimestamp(11, campOrderVO.getCampOrderCompletedTime());
+			pstmt.setInt(12, campOrderVO.getCampCommentStar());
+			pstmt.setString(13, campOrderVO.getCampComment());
+			pstmt.setTimestamp(14, campOrderVO.getCampOrderCommentTime());
+			pstmt.setInt(15, campOrderVO.getCampOrderId());
 
 			pstmt.executeUpdate();
-
+			
 			// Handle any driver errors
 		} catch (SQLException se) {
 			se.printStackTrace();
