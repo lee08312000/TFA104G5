@@ -32,11 +32,16 @@ public class CampOrderService {
 	public int addOneOrder(CampOrderVO campOrderVO, List<CampAreaOrderDetailVO> list) {
 
 		if (!(campOrderVO == null || list.size() == 0)) {
+			try {
+				return orderdao.add(campOrderVO, list);
 
-			return orderdao.add(campOrderVO, list);
-
+			} catch (Exception e) {
+				e.printStackTrace();
+				return 0;
+			}
+		} else {
+			return 0;
 		}
-		return 0;
 	}
 
 	/********************************************
@@ -59,6 +64,7 @@ public class CampOrderService {
 		}
 		
 	}
+
 //更新訂單明細(我們專題沒有這個功能)
 	public void updateOrderDetail(Integer campAreaOrderDetailId, Integer campAreaId, Integer campOrderId,
 			Integer bookingQuantity, Integer campAreaWeekdayPrice, Integer campAreaHolidayPrice,
@@ -111,11 +117,13 @@ public class CampOrderService {
 
 //查詢訂單by預計入住日期(廠商查詢當日的訂單)
 //參數日期要轉換java.sql.Date
-	public List OrderByCheckin(Date checkinDate) {
-		List<CampOrderVO> daolist = orderdao.getAll();
+	public List<CampOrderVO> OrderByCheckin(Date checkinDate, Integer campid) {
+		List<CampOrderVO> daolist = orderdao.getAll(0);
 		List<CampOrderVO> querylist = new ArrayList<CampOrderVO>();
 		for (CampOrderVO obj : daolist) {
-			if (obj.getCampCheckInDate() == checkinDate) {
+			
+			if (obj.getCampCheckInDate().getTime() == checkinDate.getTime() && obj.getCampId() == campid) {
+
 				querylist.add(obj);
 			}
 		}
@@ -192,11 +200,10 @@ public class CampOrderService {
 		return daolist;
 	}
 
-
 	// 營地訂單評論
 	public List<CampOrderVO> selectCampComment(Timestamp startDateTimestamp, Timestamp endDateTimestamp,
 			int campOrder) {
-	
+
 		return orderdao.selectCampComment(startDateTimestamp, endDateTimestamp, campOrder);
 	}
 

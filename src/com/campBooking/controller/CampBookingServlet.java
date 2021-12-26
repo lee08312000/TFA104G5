@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -26,8 +25,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.camp.model.CampService;
+import com.camp.model.CampVO;
 import com.campArea.model.CampAreaService;
 import com.campArea.model.CampAreaVO;
 import com.campAreaOrderDetail.model.CampAreaOrderDetailVO;
@@ -60,6 +61,23 @@ public class CampBookingServlet extends HttpServlet {
 		res.setContentType("text/html;charset=UTF-8");
 
 		PrintWriter out = res.getWriter();
+		
+		
+		if("getcampdata".equals(action)) {
+			String campid=req.getParameter("campid");
+			CampService campSvc=new CampService();
+			CampVO campVO=campSvc.findCampByCampId(Integer.parseInt(campid));
+
+			JSONObject jobj=new  JSONObject(campVO);
+			out.print(jobj);
+
+		}
+		
+		
+		
+		
+		
+		
 
 ////////////////////////////////////日曆載入空位資訊///////////////////////////////
 		if ("calendar".equals(action)) {
@@ -85,8 +103,6 @@ public class CampBookingServlet extends HttpServlet {
 
 		if ("chooseday".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
 //step1 判斷使用者有無輸入資料，沒有就送提示
@@ -161,8 +177,7 @@ public class CampBookingServlet extends HttpServlet {
 
 			Object memberVO = session.getAttribute("memberVO");
 
-//			if (memberVO == null) {
-//			session.setAttribute("location", req.getServletPath());
+
 			session.setAttribute("action", "confirmseat");
 			session.setAttribute("campId", req.getParameter("campId"));
 			session.setAttribute("chooseDate", req.getParameter("chooseDate"));
@@ -201,10 +216,7 @@ public class CampBookingServlet extends HttpServlet {
 			session.setAttribute("seatlist", orderlist);
 			
 
-//				String url = "/front_end/member/login.jsp";
-//				res.sendRedirect(req.getContextPath() + "/front_end/member/login.jsp");
-//				return;
-//			}
+
 			//////////////////////////// 參數驗證//////////////////////////////////////
 
 			String campId = null, chooseDate = null, chooseDay = null;
@@ -247,8 +259,7 @@ public class CampBookingServlet extends HttpServlet {
 		if ("oneorder".equals(action)) {
 
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
+
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			Integer campId = Integer.parseInt(req.getParameter("campId"));
@@ -322,6 +333,17 @@ public class CampBookingServlet extends HttpServlet {
 			for (Map map : orderInfo) {
 				campareaorderdetailVO = new CampAreaOrderDetailVO();
 				Set<String> keyset = map.keySet();
+				
+				///////////////////////////////////////////
+				for(String i:keyset) {
+					
+					String value=(String)map.get(i);
+					System.out.println(i+":"+value);
+
+				}
+				///////////////////////////////////////////
+				
+				
 
 				for (String name : keyset) {
 					if ("subtotal".equals(name)) {// 計算總金額
@@ -358,9 +380,15 @@ public class CampBookingServlet extends HttpServlet {
 					}
 					// 訂位平日天數
 					if ("bookingWeekdays".equals(name)) {
-						String percapitationfee = (String) map.get(name);
-						campareaorderdetailVO.setPerCapitationFee(Integer.parseInt(percapitationfee));
+						String bookingweekdays= (String) map.get(name);
+						campareaorderdetailVO.setBookingWeekdays(Integer.parseInt(bookingweekdays));
 					}
+					//訂位假日天數
+					if ("bookingHolidays".equals(name)) {
+						String  bookingholidays= (String) map.get(name);
+						campareaorderdetailVO.setPerCapitationFee(Integer.parseInt(bookingholidays));
+					}
+
 					// 營位流水號
 					if ("campAreaId".equals(name)) {
 						String campareaid = (String) map.get(name);
