@@ -49,25 +49,20 @@ public class CampOrderService {
 	 *****************************************/
 
 //更新訂單(只能更新訂單狀態，訂單完成時間，評論時間)暫定
-	public void updateOrder(Integer campOrderId, Integer campId, Integer memberId, Integer campOrderStatus,
-			Integer campOrderTotalAmount, Date campCheckOutDate, Date campCheckInDate, String creditCardNum,
-			String payerName, String payerPhone, Timestamp campOrderConfirmedTime, Timestamp campOrderCompletedTime,
-			Integer campCommentStar, String campComment, Timestamp campOrderCommentTime) {
-		CampOrderVO order = orderdao.findByPK(campOrderId);
-		order.setMemberId(memberId);
-		order.setCampOrderStatus(campOrderStatus);
-		order.setCampOrderTotalAmount(campOrderTotalAmount);
-		order.setCampCheckOutDate(campCheckOutDate);
-		order.setCampCheckInDate(campCheckInDate);
-		order.setCreditCardNum(creditCardNum);
-		order.setPayerName(payerName);
-		order.setPayerPhone(payerPhone);
-		order.setCampOrderCompletedTime(campOrderCompletedTime);
-		order.setCampCommentStar(campCommentStar);
-		order.setCampComment(campComment);
-		order.setCampOrderCommentTime(campOrderCommentTime);
-		orderdao.update(order);
-
+	public void updateOrder(CampOrderVO campOrderVO) {
+		int campOrderId = campOrderVO.getCampOrderId();
+		int campOrderStatus = campOrderVO.getCampOrderStatus();
+		if (campOrderId != -1) {
+			CampOrderVO order = orderdao.findByPK(campOrderId);
+			order.setCampOrderStatus(campOrderVO.getCampOrderStatus());
+			order.setPayerName(campOrderVO.getPayerName());
+			order.setPayerPhone(campOrderVO.getPayerPhone());
+			if(1 == campOrderStatus) {
+				order.setCampOrderCompletedTime(new Timestamp(System.currentTimeMillis()));
+			}
+			orderdao.update(order);
+		}
+		
 	}
 
 //更新訂單明細(我們專題沒有這個功能)
