@@ -1,3 +1,4 @@
+
  <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -11,6 +12,15 @@
 		list = (ArrayList<CampOrderVO>)request.getAttribute("list");
 	}
     pageContext.setAttribute("list",list);
+    
+    Calendar startimeCalendar = Calendar.getInstance();
+	startimeCalendar.add(Calendar.DATE, -90);
+	pageContext.setAttribute("startime", startimeCalendar.getTime());
+	
+	
+	Calendar endtimeCalendar = Calendar.getInstance();
+	
+	pageContext.setAttribute("endtime", endtimeCalendar.getTime());
 %>
 <html>
 <head>
@@ -87,8 +97,17 @@ $(document).ready(function() {
 			</div>
 			<div>
 				<label>訂單日期區間</label>
-				<input type="date" id="startDate" name="startDate"> -
-			    <input type="date" id="endDate" name="endDate">
+				<input type="date" id="startDate" name="startDate" value="<fmt:formatDate value='${startime}' pattern='yyyy-MM-dd'/>"/> -
+			    <input type="date" id="endDate" name="endDate" value="<fmt:formatDate value='${endtime}' pattern='yyyy-MM-dd'/>">
+			</div>
+			
+			<div class="list">							
+			    <input type="text" placeholder="請輸入關鍵字" name="campOrderId">		
+             <div class="submit_button">			
+			 <input type="hidden" name="action"	value="SEARCHALL">
+			<button type="submit">
+				<i class="fa fa-search"></i>
+			</button>
 			</div>
 			
 		</form>
@@ -102,13 +121,19 @@ $(document).ready(function() {
 	<table>
 		<thead>
 			<tr>
-				<th>日期</th>
-				<th>訂單流水號</th>
+				<th>營地訂單<br>成立時間</th>
+				<th>營地訂單<br>流水號</th>
+				<th>營位名稱</th>
+				<th>會員帳號</th>
+				<th>預計入<br>住日期</th>
+				<th>預計退<br>房日期</th>
+				<th>訂帳數量</th>
+				<th>加購人<br>頭數量</th>
+				<th>平日訂<br>位天數 </th>
+				<th>假日訂<br>位天數</th>
+				<th>營地訂單<br>總金額</th>		
 				<th>付款人</th>
-				<th>連絡電話</th>
-				<th>訂單總金額</th>
-				<th>訂單狀態</th>
-				<th>評價</th>
+				<th>營地訂<br>單狀態</th>
 				<th>編輯</th>
 			</tr>
 		</thead>
@@ -118,13 +143,20 @@ $(document).ready(function() {
 		<c:forEach var="campOrderVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 				
 				<tr>
-					<td><fmt:formatDate value="${campOrderVO.campOrderConfirmedTime}" pattern="yyyy-MM-dd" /></td>
+				    
+					<td>${campOrderVO.campOrderConfirmedTime}</td>
 					<td>${campOrderVO.campOrderId}</td>
+			        <td>${campOrderVO.campName}</td>
+			        <td>${campOrderVO.memberAccount}</td>		        
+					<td>${campOrderVO.campCheckInDate}</td>
+					<td>${campOrderVO.campCheckOutDate}</td>
+					<td>${campOrderVO.bookingQuantity}</td>  
+			        <td>${campOrderVO.capitationQuantity}</td>  
+	                <td>${campOrderVO.bookingWeekdays}</td>
+	                <td>${campOrderVO.bookingHolidays}</td>
+	                <td>${campOrderVO.campOrderTotalAmount}</td>    	    
 					<td>${campOrderVO.payerName}</td>
-					<td>${campOrderVO.payerPhone}</td>
-					<td>${campOrderVO.campOrderTotalAmount}</td>
 					<td>${campOrderVO.campOrderStatus}</td> 
-					<td>${campOrderVO.campCommentStar}</td> 
 					<td>
 					     <input type="button" value="修改" name="${campOrderVO.campOrderId}" class="update"  />
 					</td>
@@ -139,52 +171,7 @@ $(document).ready(function() {
 		<%@ include file="pages/page2.jsp" %>
 	</div>
 </div>
-	<!-- ----------------aside區域------------------->
-<div id="sidebar">
-	<aside class="aside">
-		<div class="container">
-			<nav>
-				<ul class="mcd-menu">
-					<li><a href="" class="light"> <i class="fa fa-campground"></i>
-							<strong>營地管理</strong> <small>Camp Management</small>
-					</a>
-						<ul>
-							<li><a href="#"><i class="fas fa-cannabis"></i>我的營地</a></li>
-							<li><a href="#"><i class="fas fa-cannabis"></i>營地上下架</a></li>
-							<li><a href="#"><i class="fas fa-cannabis"></i>審核狀況</a></li>
-						</ul></li>
-					<li><a href="" class="light"> <i class="fa fa-edit"></i> <strong>商品管理</strong>
-							<small>Commodity </small>
-					</a></li>
-					<li><a href="" class="light"> <i class="fa fa-gift"></i> <strong>訂單管理</strong>
-							<small>Order </small>
-					</a>
-						<ul>
-							<li><a href="#"><i class="fas fa-cannabis"></i>日程表管理</a></li>
-							<li><a href="#"><i class="fas fa-cannabis"></i>營地訂單管理</a></li>
-							<li><a href="#"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
-						</ul></li>
-					<li><a href="" class="light"> <i
-							class="fas fa-calendar-week"></i> <strong>廠商資料</strong> <small>Vendor
-								Information</small>
-					</a>
-						<ul>
-							<li><a href="#"><i class="fas fa-cannabis"></i>基本資料瀏覽,修改</a></li>
-							<li><a href="#"><i class="fas fa-cannabis"></i>更改密碼</a></li>
-						</ul></li>
-					<li><a href="" class="light"> <i class="fa fa-comment-alt"></i>
-							<strong>我的評論</strong> <small>Comment</small>
-					</a>
-						<ul>
-							<li><a href="#"><i class="fas fa-cannabis"></i>營地評價</a></li>
-							<li><a href="#"><i class="fas fa-cannabis"></i>商品評價</a></li>
-						</ul></li>
-				</ul>
-			</nav>
-		</div>
-	</aside>
-</div>
-
+	
 
 
 	<footer class="tm-footer text-center">
