@@ -458,24 +458,28 @@ pre {
 }
 
 .logout_button {
-	margin: 15px 5px 0px 5px;
-	border-radius: 20px;
+    margin-right: 1.75rem;
+    margin-top: 5px;   
 	background-color: #d7ab75;
 	border: none;
 	color: white;
-	padding: 8px 16px;
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
-	font-size: 16px;
-	/* margin: 4px 2px; */
+	font-size: 1.125rem;     
 	transition-duration: 0.4s;
 	cursor: pointer;
+    vertical-align: middle;
+    position: relative;
+
 }
 
 .logout_button:hover {
-	color: #1abc9c;
+    text-decoration: none;
+    color: #FFFFFF; 
+    font-weight: bold;
 }
+
 /* =================  «ö¶s   =====================*/
 
 .welcome {

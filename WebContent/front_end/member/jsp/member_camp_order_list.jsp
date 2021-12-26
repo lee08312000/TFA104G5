@@ -88,9 +88,18 @@ System.out.println(memberVO.getMemberId());
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
 					value="">註冊</a></li>
-				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp"
-					value="">登入</a></li>
+					
+				<%-- =================  登出鈕   ===================== --%>	
+				<li>
+				<form method="post" action="<%=request.getContextPath()%>/member/MemberServlet">
+				<a>
+				<input class="fas fa-sign-out-alt logout_button" type="submit" value="登出" />
+				</a>
+				<input type="hidden" value="logout" name="action" />
+				</form>
+				</li>
+				<%-- =================  登出鈕   ===================== --%>	
+				
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"
 					value=""><i class="fas fa-user"></i></a></li>
@@ -102,8 +111,6 @@ System.out.println(memberVO.getMemberId());
 	
 	
 	<%-- =================  sidebar   ===================== --%>
-	<form class="form-horizontal" method="post"
-			action="<%=request.getContextPath()%>/member/MemberServlet">
 	<aside class="sidebar">
 		<div id="leftside-navigation" class="nano">
 			<ul class="nano-content">
@@ -136,16 +143,9 @@ System.out.println(memberVO.getMemberId());
 						<li><a
 							href="<%=request.getContextPath()%>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
 						</li>
-					</ul></li>
-				<li><a href=""><i class="fas fa-sign-out-alt"></i>
-				<span><input class="fas fa-sign-out-alt logout_button" type="submit" value="&nbsp;登出" /></span>
-				</a>
-				<input type="hidden" value="logout" name="action" />
-				</li>
-				
+					</ul></li>			
 		</div>
 	</aside>
-	</form>
 	<%-- =================  sidebar   ===================== --%>
 	
 	<%-- =================  營地訂單列表   ===================== --%>
