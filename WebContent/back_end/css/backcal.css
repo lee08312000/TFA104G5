@@ -1,0 +1,397 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+}
+
+ :root {
+    --header-outer-height: 110px;
+    --header-inner-height: 70px;
+    --header-height-difference: calc(var(--header-outer-height) - var(--header-inner-height));
+    --header-bg: #d7ab75;
+}
+
+body {
+    font-family: "DM Sans", sans-serif;
+    background-color: #FFFFFF;
+    line-height: 1.5;
+    min-height: 300vh;
+    position: relative;
+    margin: 0;
+}
+
+.responsive-wrapper {
+    width: 90%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Sticky header */
+
+.header-outer {
+    /* Make it stick */
+    height: var(--header-outer-height);
+    position: sticky;
+    top: calc(var(--header-height-difference) * -1);
+    /* Multiply by -1 to get a negative value */
+    display: flex;
+    align-items: center;
+    /* Other */
+    background-color: var(--header-bg);
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+    color: #FFFFFF;
+    font-weight: bold;
+    z-index: 5;
+}
+
+.header-inner {
+    /* Make it stick */
+    height: var(--header-inner-height);
+    position: sticky;
+    /* Other */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* Styling of other elements */
+
+.header-logo img {
+    display: block;
+    /* height: calc(var(--header-inner-height) - 30px); */
+    /* height: 100px; */
+    width: 95px;
+    /* text-align: center; */
+}
+
+.header-logo {
+    display: block;
+    font-size: 32px;
+}
+
+.header-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    font-weight: bold;
+}
+
+.header-navigation a,
+.header-navigation button {
+    font-size: 1.125rem;
+    color: inherit;
+    margin-left: 1.75rem;
+    position: relative;
+    /* font-weight: 500; */
+}
+
+.header-navigation a {
+    display: none;
+    font-size: 1.125rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+.header-navigation button {
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+}
+
+.header-navigation a:hover:after,
+.header-navigation button:hover:after {
+    transform: scalex(1);
+}
+
+.header-navigation a:after,
+.header-navigation button:after {
+    transition: 0.25s ease;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: currentcolor;
+    transform: scalex(0);
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+}
+
+@media (min-width: 800px) {
+    .header-navigation a {
+        display: inline-block;
+    }
+    .header-navigation button {
+        display: none;
+    }
+}
+
+footer {
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
+    /* border: 1px black solid; */
+    width: 100%;
+    background-color: #dbb07c;
+    /* color: #FFFFFF; */
+    font-weight: bold;
+}
+
+
+/* 日曆 */
+
+.cal {
+    padding: 0;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+    position: -webkit-sticky;
+    margin: 20px 40px;
+    width: 800px;
+    height: 500px;
+    flex-shrink: 0;
+}
+
+main {
+    z-index: 2;
+}
+
+.closedset {
+    display: inline-block;
+    flex-grow: 1;
+}
+
+
+/* 訂單管理 */
+
+table.products-table {
+    border-collapse: separate;
+    border-radius: 10px;
+    border-spacing: 0;
+    box-shadow: 0 0 25px #aaa;
+    margin: 4rem 0;
+    width: 100%;
+}
+
+th {
+    background-color: #fff;
+    font-weight: normal;
+    border-bottom: 1px solid #d1d1d1;
+}
+
+th,
+td {
+    line-height: 1.5;
+    padding: 0.75em;
+    text-align: center;
+}
+
+td {
+    background-color: white;
+}
+
+td:first-child {
+    font-weight: bold;
+    text-align: left;
+}
+
+tbody tr:nth-child(odd) td {
+    background-color: #f6f6f6;
+}
+
+thead th:first-child {
+    border-top-left-radius: 10px;
+    text-align: left;
+}
+
+thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+}
+
+tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+}
+
+
+/* Stack rows vertically on small screens */
+
+@media (max-width: 30rem) {
+    /* Hide column labels */
+    thead tr {
+        position: absolute;
+        top: -9999rem;
+        left: -9999rem;
+    }
+    tbody tr td {
+        border-radius: none;
+        text-align: left;
+    }
+    tbody tr:first-child td:first-child {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    tbody tr:last-child td:last-child {
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+    /* Leave a space between table rows */
+    tr+tr td:first-child {
+        border-top: 1px solid #d1d1d1;
+    }
+    /* Get table cells to act like rows */
+    tr,
+    td {
+        display: block;
+    }
+    td {
+        border: none;
+        /* Leave a space for data labels */
+        padding-left: 50%;
+    }
+    /* Data labels */
+    td:before {
+        content: attr(data-label);
+        display: inline-block;
+        font-weight: bold;
+        line-height: 1.5;
+        margin-left: -100%;
+        width: 100%;
+    }
+}
+
+
+/* 狀態藍 */
+
+ul {
+    box-sizing: border-box;
+    padding: 0;
+    width: 500px;
+    display: flex;
+    position: relative;
+    left: 40px;
+    list-style: none;
+}
+
+ul>li {
+    list-style: none;
+    /* border: 1px solid blue; */
+    width: 100px;
+}
+
+.dot {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.flexcontainer {
+    display: flex;
+}
+
+
+/* loading */
+
+.pl {
+    display: block;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg);
+    color: var(--fg);
+    font: 12px;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    z-index: 999;
+}
+
+.pl__ring,
+.pl__ball {
+    animation: ring 2s ease-out infinite;
+    background: var(--bg);
+    color: var(--fg);
+    font: 1em/1.5 sans-serif;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+}
+
+.pl__ball {
+    animation-name: ball;
+    background: var(--bg);
+    color: var(--fg);
+    font: 1em/1.5 sans-serif;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+}
+
+
+/* Dark theme  */
+
+@media (prefers-color-scheme: dark) {
+     :root {
+        --bg: hsl(var(--hue), 10%, 10%);
+        --fg: hsl(var(--hue), 10%, 90%);
+    }
+}
+
+
+/* Animation */
+
+@keyframes ring {
+    from {
+        stroke-dasharray: 0 257 0 0 1 0 0 258;
+    }
+    25% {
+        stroke-dasharray: 0 0 0 0 257 0 258 0;
+    }
+    50%,
+    to {
+        stroke-dasharray: 0 0 0 0 0 515 0 0;
+    }
+}
+
+@keyframes ball {
+    from,
+    50% {
+        animation-timing-function: ease-in;
+        stroke-dashoffset: 1;
+    }
+    64% {
+        animation-timing-function: ease-in;
+        stroke-dashoffset: -109;
+    }
+    78% {
+        animation-timing-function: ease-in;
+        stroke-dashoffset: -145;
+    }
+    92% {
+        animation-timing-function: ease-in;
+        stroke-dashoffset: -157;
+    }
+    57%,
+    71%,
+    85%,
+    99%,
+    to {
+        animation-timing-function: ease-out;
+        stroke-dashoffset: -163;
+    }
+}
+
+.on {
+    background-color: rgb(97, 99, 97);
+    opacity: 0.2;
+}
