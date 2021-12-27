@@ -138,14 +138,14 @@
         <tbody class="table-hover">
         	<c:forEach var="mallOrderDetailVO" items="${mallOrderDetail}">
             <tr data-comment="${mallOrderDetailVO.productComment}" data-star="${mallOrderDetailVO.productCommentStar}">
-                <td class="text-center"><img class="product_pic" src="/TFA104G5copy/product/PicServlet?productId=${mallOrderDetailVO.productId}&pic=1" alt="商品圖片"></td>
-                <td class="text-left">${productOrderSvc.getOneProduct(mallOrderDetailVO.productId).productName}</td>
+                <td class="text-center"><img class="product_pic" src="/TFA104G5/product/PicServlet?productId=${mallOrderDetailVO.productId}&pic=1" alt="商品圖片"></td>
+                <td class="text-left"><a href="<%=request.getContextPath()%>/front_end/mall/mall_product_detail.html?productId=${ mallOrderDetailVO.productId }">${productOrderSvc.getOneProduct(mallOrderDetailVO.productId).productName}</a></td>
                 <td class="text-left">${mallOrderDetailVO.productPurchasePrice}</td>
                 <td class="text-left">${mallOrderDetailVO.productPurchaseQuantity}</td>
                 <td class="text-left">${mallOrderDetailVO.productPurchasePrice * mallOrderDetailVO.productPurchaseQuantity }</td>
                 <td class="text-left">${mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderStatus == 0 ? "處理中" : mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderStatus == 1 ? "已確認" : "已完成"}</td>
                 <td class="text-left">${mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderDeliveryStatus == 0 ? "未發貨" : mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderDeliveryStatus == 1 ? "已發貨" : "已收貨"}</td>
-            	<td class="text-left">
+            	<td class="text-center">
 	            	<c:if test="${mallOrderSvc.getOneMallOrder(mallOrderDetail.get(0).mallOrderId).mallOrderDeliveryStatus == 2}">
 	            	<input type="hidden" class="commentOrderDetail" value="${mallOrderDetailVO.mallOrderDetailId}">
 	            	<button class="comment" type="button" >評論商品</button></td>
