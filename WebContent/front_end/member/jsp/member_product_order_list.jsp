@@ -29,7 +29,7 @@
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link
-	href="<%=request.getContextPath()%>/front_end/member/css/member_order.css"
+	href="<%=request.getContextPath()%>/front_end/member/css/member_product_order_list.css"
 	rel="stylesheet" type="text/css">
 <title>商品訂單列表</title>
 <!-- frontawesome把icon引入的東東 -->
@@ -162,7 +162,7 @@
 	
 	<%-- =================  sidebar javascript   ===================== --%>
 	<script
-		src="<%=request.getContextPath()%>/front_end/member/vandors/jQuery/jquery-3.6.0.min.js"></script>
+		src="<%=request.getContextPath()%>/front_end/member/vendor/jQuery/jquery-3.6.0.min.js"></script>
 	<script>
 		$("#leftside-navigation .sub-menu > a").click(
 				function(e) {
