@@ -1,0 +1,443 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+}
+
+ :root {
+    --header-outer-height: 110px;
+    --header-inner-height: 70px;
+    --header-height-difference: calc(var(--header-outer-height) - var(--header-inner-height));
+    --header-bg: #d7ab75;
+}
+
+body {
+    font-family: "DM Sans", sans-serif;
+    background-color: #FFFFFF;
+    line-height: 1.5;
+    min-height: 300vh;
+    position: relative;
+    margin: 0;
+}
+
+.responsive-wrapper {
+    width: 90%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Sticky header */
+
+.header-outer {
+    /* Make it stick */
+    height: var(--header-outer-height);
+    position: sticky;
+    top: calc(var(--header-height-difference) * -1);
+    /* Multiply by -1 to get a negative value */
+    display: flex;
+    align-items: center;
+    /* Other */
+    background-color: var(--header-bg);
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+    color: #FFFFFF;
+    font-weight: bold;
+    z-index: 5;
+}
+
+.header-inner {
+    /* Make it stick */
+    height: var(--header-inner-height);
+    position: sticky;
+    /* Other */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* Styling of other elements */
+
+.header-logo img {
+    display: block;
+    /* height: calc(var(--header-inner-height) - 30px); */
+    /* height: 100px; */
+    width: 95px;
+    /* text-align: center; */
+}
+
+.header-logo {
+    display: block;
+    font-size: 32px;
+}
+
+.header-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    font-weight: bold;
+}
+
+.header-navigation a,
+.header-navigation button {
+    font-size: 1.125rem;
+    color: inherit;
+    margin-left: 1.75rem;
+    position: relative;
+    /* font-weight: 500; */
+}
+
+.header-navigation a {
+    display: none;
+    font-size: 1.125rem;
+    color: inherit;
+    text-decoration: none;
+}
+
+.header-navigation button {
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+}
+
+.header-navigation a:hover:after,
+.header-navigation button:hover:after {
+    transform: scalex(1);
+}
+
+.header-navigation a:after,
+.header-navigation button:after {
+    transition: 0.25s ease;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: currentcolor;
+    transform: scalex(0);
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+}
+
+@media (min-width: 800px) {
+    .header-navigation a {
+        display: inline-block;
+    }
+    .header-navigation button {
+        display: none;
+    }
+}
+
+footer {
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
+    /* border: 1px black solid; */
+    width: 100%;
+    background-color: #dbb07c;
+    /* color: #FFFFFF; */
+    font-weight: bold;
+}
+
+
+/* 日曆 */
+
+.cal {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+    position: -webkit-sticky;
+    margin: 20px 40px;
+}
+
+main {
+    z-index: 2;
+}
+
+
+/* 說明欄 */
+
+ul {
+    box-sizing: border-box;
+    /* border: 1px solid red; */
+    padding: 0;
+    width: 500px;
+    display: flex;
+    position: relative;
+    left: 40px;
+}
+
+ul>li {
+    list-style: none;
+    /* border: 1px solid blue; */
+    width: 100px;
+}
+
+.dot {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+
+/* 日期標籤 */
+
+.dateform {
+    box-sizing: border-box;
+    margin: 30px 100px 100px 100px;
+    border: 1px dashed black;
+    background-image: url('../img/background/palm-leaf.png');
+    background-attachment: fixed;
+    /* 重複並壓縮或拉伸背景圖像以填充空間（無間隙） */
+    background-repeat: round;
+    /* 盡可能縮放圖像來填充容器，圖片比例不會變，但會裁剪圖像使容器沒有空白空間。 */
+    background-size: contain;
+}
+
+.datechoose {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+label {
+    display: inline-block;
+    width: 150px;
+}
+
+input:invalid+span:after {
+    content: '✖';
+    padding-left: 7px;
+    color: rgb(182, 36, 31);
+    font-weight: bold;
+}
+
+input:valid+span:after {
+    content: '✓';
+    padding-left: 7px;
+    color: rgb(60, 182, 87);
+    font-weight: bold;
+}
+
+
+/* 天數選單 */
+
+.choose {
+    background-color: #e8e8f6;
+    font-family: Merriweather;
+    border-radius: 15px;
+    padding: 10px 0px;
+    margin: 30px;
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: baseline;
+    /* border: 1px solid black; */
+    width: 300px;
+    height: 50px;
+    text-align: center;
+}
+
+.choose-inner2 {
+    margin-left: 300px;
+}
+
+
+/* 流程圖 */
+
+.checkout-progress {
+    display: block;
+    clear: both;
+    margin: 20px auto;
+    width: auto;
+    font-family: sans-serif;
+    overflow: auto;
+    padding-left: 100px;
+}
+
+.step {
+    margin: 0;
+    border: 0;
+    letter-spacing: 1px;
+    line-height: 30px;
+    padding: 5px 20px 5px 30px;
+    color: green;
+    text-decoration: none;
+    cursor: default;
+    font-weight: bold;
+    float: left;
+    height: auto;
+}
+
+.incomplete {
+    background: #EEEEEE;
+}
+
+.complete {
+    background: #BBBBBB;
+}
+
+.active {
+    background: #008000;
+    color: #FFF;
+}
+
+.checkout-progress .step em {
+    display: inline-block;
+    border-radius: 50%;
+    background: none;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    margin-right: 14px;
+    border: 1px solid #999;
+    font-size: 13px;
+    font-style: normal;
+}
+
+.triangle-completed {
+    float: left;
+    width: 0;
+    border-top: 20px solid transparent;
+    border-left: 15px solid #BBBBBB;
+    border-bottom: 20px solid transparent;
+    margin-left: -1px;
+}
+
+.triangle2-completed {
+    width: 0;
+    float: left;
+    border-top: 20px solid #BBBBBB;
+    border-left: 15px solid #fff;
+    border-bottom: 20px solid #BBBBBB;
+    margin-right: -1px;
+}
+
+.triangle-active {
+    float: left;
+    width: 0;
+    border-top: 20px solid transparent;
+    border-left: 15px solid #008000;
+    border-bottom: 20px solid transparent;
+    margin-left: -1px;
+}
+
+.triangle2-active {
+    width: 0;
+    float: left;
+    border-top: 20px solid #008000;
+    border-left: 15px solid #fff;
+    border-bottom: 20px solid #008000;
+    margin-right: -1px;
+}
+
+.triangle-incomplete {
+    float: left;
+    width: 0;
+    border-top: 20px solid transparent;
+    border-left: 15px solid #EEEEEE;
+    border-bottom: 20px solid transparent;
+    margin-left: -1px;
+}
+
+.triangle2-incomplete {
+    width: 0;
+    float: left;
+    border-top: 20px solid #EEEEEE;
+    border-left: 15px solid #fff;
+    border-bottom: 20px solid #EEEEEE;
+    margin-right: -1px;
+}
+
+
+/* 送出紐 */
+
+.cbtn {
+    width: 100px;
+    margin-left: 950px;
+}
+
+.formbtn {
+    position: relative;
+    top: -5px;
+    flex: 1 1 100px;
+    margin: 10px;
+    cursor: pointer;
+    border: none;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #05b413;
+    color: #FFFFFF;
+    box-shadow: 0 12px 7px -5px rgba(0, 0, 0, 0.35);
+    transition: box-shadow .2s, top .2s, background-color .2s, flex-basis .2s;
+    font-weight: bold;
+}
+
+.formbtn:hover,
+.formbtn:focus {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.35);
+    top: 0;
+}
+
+.form .form_submit:focus {
+    background-color: #4A65CE;
+    outline: 0;
+}
+
+.daynum:after {
+    content: "*";
+    color: red;
+}
+
+
+/* 營地資料 */
+
+.campimg {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+.campdesc {
+    /* border: 1px solid red; */
+    padding: 0;
+    box-sizing: content-box;
+    display: flex;
+    width: 800px;
+    background: #f6f8fa;
+    padding: 2rem;
+    border: var(--elemSize) solid #e1e4e8;
+    position: relative;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.campdesc ::before {
+    content: '';
+    width: var(--elemSize);
+    height: var(--elemSize);
+    background: white;
+    position: absolute;
+    /* negative value */
+    top: calc(-1 * var(--elemSize));
+    left: calc(-1 * var(--elemSize));
+    animation: borderAnime 5s infinite;
+}
+
+.campdesc-in {
+    list-style: none;
+    /* border: 1px solid blue; */
+    width: 200px;
+    flex-shrink: 0;
+    margin-left: 30px;
+}
+
+.camptext {
+    font-weight: bold;
+    font-size: 16px;
+}

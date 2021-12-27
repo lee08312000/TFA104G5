@@ -139,8 +139,18 @@
             margin-right:200px;
         }
 
+          /* 填寫營位上架資訊 */
+        .camp_shelves {
+          border:1px solid blck; 
+          border-collapse:separate;
+          border-spacing:0px 0px;
+          margin-left: 0px;
+          margin-top: 0px;
+          width: 85%;
+        }
+        
         table td{
-        background-color:#E0E0E0;
+           background-color:#E0E0E0;
            border:1px solid black;
           text-align:left; 
           width: 90PX;
@@ -195,14 +205,7 @@
             border-radius: 5px;
         }
 
-        /* 填寫營位上架資訊 */
-        .camparea_shelves {
-            border-collapse:separate;
-            border-spacing:0px 0px;
-            width: 620px;
-            font-size: 16px;
-            margin-left:0;
-        }
+      
 
         .sumit_form {
             display: inline;

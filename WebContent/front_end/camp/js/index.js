@@ -100,17 +100,17 @@ window.addEventListener("load", function() {
                     <a href="#" class="addlove btn_modal"><i class="far fa-heart"></i></a>
                     <p class="tm-gallery-description">${camp.address.substr(0,6)}</p>
                     <ul class="camp_target">
-                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">1231</a></li>
-                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
+                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
                    
                     </ul>
-                    <div class="camp_detailcontainer"><a id="accept-btn" class="btn btn__accept" href="page3.html?campid=${camp.campId}">了解更多</a></div>
+                    <div class="camp_detailcontainer"><a id="accept-btn" class="btn btn__accept" href="camp_detail.html?campid=${camp.campId}">了解更多</a></div>
                 </figcaption>
             </figure>
             </article>`;
@@ -220,7 +220,7 @@ searchbtn.addEventListener("click", function(e) {
     let searchtext = document.getElementsByClassName("searchTerm")[0];
     console.log(searchtext.value);
     sessionStorage.setItem("searchtext", searchtext.value);
-    location.href = "./page2.html";
+    location.href = "./camp_select.html";
 
 });
 
@@ -244,6 +244,11 @@ cbtn.addEventListener("click", function(e) {
 
 
     e.preventDefault();
+    
+    findcamp.section = [];
+    findcamp.feature = [];
+    findcamp.orderby = 0;
+
     let sec = selectcon.querySelectorAll("input[name='section']");
     let fea = selectcon.querySelectorAll("input[name='feature']");
     let ord = document.querySelectorAll("select[name='orderby']");
