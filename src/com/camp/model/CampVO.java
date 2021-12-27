@@ -106,6 +106,7 @@ public class CampVO implements Serializable {
 		this.campAppliedLaunchTime = campAppliedLaunchTime;
 		this.longitude = longitude;
 		this.lattitude = lattitude;
+		
 	}
 
 

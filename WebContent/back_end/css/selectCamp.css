@@ -137,25 +137,25 @@
         }
      
 
-        table{
+        .camp_table{
+          margin-left:300px;
           border:1px solid blck; 
           border-collapse: collapse;
           margin-left: 0px;
           margin-top: 0px;
-          table-layout: fixed;
-          width: 80%;
+          width: 95%;
         }
         table td{
           border:1px solid black;
           text-align: center; 
-          width: 90PX;
+          width: 95PX;
         }
         
         table th{
           background-color:	#E0E0E0;
           border:1px solid black;
           text-align: center; 
-          width: 90PX;
+          width: 95PX;
         
         
         }
@@ -175,12 +175,12 @@
        
         .selector{
          height: 25px;
-         margin-left:0;
+         margin-left:20px;
          
         }
         
         .submit_button{
-        margin-right:210px;
+        margin-right:100px;
         float:right;
         }
         form.searchForm input[type=text] {
@@ -229,7 +229,7 @@
         }
         div.pagination {
        
-          margin-left:0 ;
+          margin-left:18px ;
           margin-top: 10px;
 		  display: inline-block;
 		  
@@ -605,9 +605,7 @@
 
     /* =====================footer區域========================*/
     
-     
-    
-    
+
           footer {
             position: absolute;
             text-align: center;

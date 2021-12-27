@@ -1,6 +1,3 @@
-
-
-
 package com.camp.controller;
 
 import java.io.IOException;
@@ -130,7 +127,7 @@ public class CampServlet extends HttpServlet {
 				// 新增營地後,執行查詢
 				CampService campSvc = new CampService();
 				campSvc.insertCamp(campVO);
-				req.setAttribute("list", campSvc.selectCampCheck(campVO.getCampId()));
+				req.setAttribute("list", campSvc.getAll());
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 				String url = "/back_end/camp/selectCamp.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交campShelves.jsp
@@ -138,6 +135,7 @@ public class CampServlet extends HttpServlet {
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
+				e.getStackTrace();
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/back_end/camp/insertCampShelves.jsp");
 				failureView.forward(req, res);
@@ -157,7 +155,7 @@ public class CampServlet extends HttpServlet {
 			rd.forward(req, res);
 			
 			
-			}
+		}
 
 		
 		/*************************** 更新營地 *************************************/
@@ -240,6 +238,7 @@ public class CampServlet extends HttpServlet {
 				} else {
 					campVO.setCampRule(campRule);
 				}
+
 
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/back_end/camp/insertCampShelves.jsp");

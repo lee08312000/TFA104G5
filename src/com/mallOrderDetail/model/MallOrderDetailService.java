@@ -2,6 +2,7 @@ package com.mallOrderDetail.model;
 
 import java.sql.Connection;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MallOrderDetailService{
@@ -86,5 +87,17 @@ public class MallOrderDetailService{
 		
 		return dao.getProductComments(productId, orderType, limitX, viewNum);
 	}
+	
+	//增加by ginny 12/25
+		public List<MallOrderDetailVO> getAllProductComment(Integer productId) {
+			List<MallOrderDetailVO> mallOrderDetailAll = dao.getAll();
+			List<MallOrderDetailVO> mallOrderDetailList = new ArrayList<MallOrderDetailVO>();
+			for (MallOrderDetailVO mallOrderDetail : mallOrderDetailAll) {
+				if(productId == mallOrderDetail.getProductId()) {
+					mallOrderDetailList.add(mallOrderDetail);
+				}			
+			}
+			return mallOrderDetailList;
+		}
 
 }

@@ -21,14 +21,90 @@ public class CampOrderVO implements Serializable {
 	private Integer campCommentStar;// 營地訂單評價
 	private String campComment;// 營地訂單評論
 	private Timestamp campOrderCommentTime;// 營地訂單評論時間
-	
+
+	// 營地查詢時會使用到欄位
+
+	private String memberAccount;
+	private String campName;
+	private Integer bookingWeekdays;
+	private Integer bookingHolidays;
+	private Integer bookingQuantity;
+	private Integer capitationQuantity;
+	private Integer campAreaWeekdayPrice;
+	private Integer campAreaHolidayPrice;
+
+	public String getCampName() {
+		return campName;
+	}
+
+	public void setCampName(String campName) {
+		this.campName = campName;
+	}
+
+	public String getMemberAccount() {
+		return memberAccount;
+	}
+
+	public void setMemberAccount(String memberAccount) {
+		this.memberAccount = memberAccount;
+	}
+
+	public Integer getBookingWeekdays() {
+		return bookingWeekdays;
+	}
+
+	public void setBookingWeekdays(Integer bookingWeekdays) {
+		this.bookingWeekdays = bookingWeekdays;
+	}
+
+	public Integer getBookingHolidays() {
+		return bookingHolidays;
+	}
+
+	public void setBookingHolidays(Integer bookingHolidays) {
+		this.bookingHolidays = bookingHolidays;
+	}
+
+	public Integer getBookingQuantity() {
+		return bookingQuantity;
+	}
+
+	public void setBookingQuantity(Integer bookingQuantity) {
+		this.bookingQuantity = bookingQuantity;
+	}
+
+	public Integer getCapitationQuantity() {
+		return capitationQuantity;
+	}
+
+	public void setCapitationQuantity(Integer capitationQuantity) {
+		this.capitationQuantity = capitationQuantity;
+	}
+
+	public Integer getCampAreaWeekdayPrice() {
+		return campAreaWeekdayPrice;
+	}
+
+	public void setCampAreaWeekdayPrice(Integer campAreaWeekdayPrice) {
+		this.campAreaWeekdayPrice = campAreaWeekdayPrice;
+	}
+
+	public Integer getCampAreaHolidayPrice() {
+		return campAreaHolidayPrice;
+	}
+
+	public void setCampAreaHolidayPrice(Integer campAreaHolidayPrice) {
+		this.campAreaHolidayPrice = campAreaHolidayPrice;
+	}
+
 	public CampOrderVO() {
-	}	
+	}
+
 	public CampOrderVO(Integer campOrderId, Integer campId, Integer memberId, Integer campOrderStatus,
 			Integer campOrderTotalAmount, Date campCheckOutDate, Date campCheckInDate, String creditCardNum,
 			String payerName, String payerPhone, Timestamp campOrderConfirmedTime, Timestamp campOrderCompletedTime,
 			Integer campCommentStar, String campComment, Timestamp campOrderCommentTime) {
-	
+
 		this.campOrderId = campOrderId;
 		this.campId = campId;
 		this.memberId = memberId;
@@ -45,96 +121,125 @@ public class CampOrderVO implements Serializable {
 		this.campComment = campComment;
 		this.campOrderCommentTime = campOrderCommentTime;
 	}
+
 	public Integer getCampOrderId() {
 		return campOrderId;
 	}
+
 	public void setCampOrderId(Integer campOrderId) {
 		this.campOrderId = campOrderId;
 	}
+
 	public Integer getCampId() {
 		return campId;
 	}
+
 	public void setCampId(Integer campId) {
 		this.campId = campId;
 	}
+
 	public Integer getMemberId() {
 		return memberId;
 	}
+
 	public void setMemberId(Integer memberId) {
 		this.memberId = memberId;
 	}
+
 	public Integer getCampOrderStatus() {
 		return campOrderStatus;
 	}
+
 	public void setCampOrderStatus(Integer campOrderStatus) {
 		this.campOrderStatus = campOrderStatus;
 	}
+
 	public Integer getCampOrderTotalAmount() {
 		return campOrderTotalAmount;
 	}
+
 	public void setCampOrderTotalAmount(Integer campOrderTotalAmount) {
 		this.campOrderTotalAmount = campOrderTotalAmount;
 	}
+
 	public Date getCampCheckOutDate() {
 		return campCheckOutDate;
 	}
+
 	public void setCampCheckOutDate(Date campCheckOutDate) {
 		this.campCheckOutDate = campCheckOutDate;
 	}
+
 	public Date getCampCheckInDate() {
 		return campCheckInDate;
 	}
+
 	public void setCampCheckInDate(Date campCheckInDate) {
 		this.campCheckInDate = campCheckInDate;
 	}
+
 	public String getCreditCardNum() {
 		return creditCardNum;
 	}
+
 	public void setCreditCardNum(String creditCardNum) {
 		this.creditCardNum = creditCardNum;
 	}
+
 	public String getPayerName() {
 		return payerName;
 	}
+
 	public void setPayerName(String payerName) {
 		this.payerName = payerName;
 	}
+
 	public String getPayerPhone() {
 		return payerPhone;
 	}
+
 	public void setPayerPhone(String payerPhone) {
 		this.payerPhone = payerPhone;
 	}
+
 	public Timestamp getCampOrderConfirmedTime() {
 		return campOrderConfirmedTime;
 	}
+
 	public void setCampOrderConfirmedTime(Timestamp campOrderConfirmedTime) {
 		this.campOrderConfirmedTime = campOrderConfirmedTime;
 	}
+
 	public Timestamp getCampOrderCompletedTime() {
 		return campOrderCompletedTime;
 	}
+
 	public void setCampOrderCompletedTime(Timestamp campOrderCompletedTime) {
 		this.campOrderCompletedTime = campOrderCompletedTime;
 	}
+
 	public Integer getCampCommentStar() {
 		return campCommentStar;
 	}
+
 	public void setCampCommentStar(Integer campCommentStar) {
 		this.campCommentStar = campCommentStar;
 	}
+
 	public String getCampComment() {
 		return campComment;
 	}
+
 	public void setCampComment(String campComment) {
 		this.campComment = campComment;
 	}
+
 	public Timestamp getCampOrderCommentTime() {
 		return campOrderCommentTime;
 	}
+
 	public void setCampOrderCommentTime(Timestamp campOrderCommentTime) {
 		this.campOrderCommentTime = campOrderCommentTime;
 	}
 
-	
 }

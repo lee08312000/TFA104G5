@@ -116,3 +116,10 @@ div.star_block>span.star.-on {
     font-size: 16px;
     font-weight: bold;
 }
+
+.islogin{
+	
+	display: none !important;
+	
+	
+}

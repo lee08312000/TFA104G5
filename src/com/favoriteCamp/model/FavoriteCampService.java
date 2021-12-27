@@ -49,4 +49,13 @@ public class FavoriteCampService {
 		return favoritecampdao.findByPrimaryKey(favoriteCampId);
 
 	}
+
+	// 查詢某會員全部的最愛營地
+	public List<FavoriteCampVO> findBymemberId(Integer memberId){		
+		if(memberId!=null) {			
+			return favoritecampdao.getAllByMemberId(memberId);						
+		}else {			
+			return null;			
+		}		
+	}
 }

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import com.product.model.ProductDAOImpl;
 import com.product.model.ProductService;
 import com.product.model.ProductVO;
 
@@ -128,7 +129,7 @@ public class ProductServlet extends HttpServlet{
 						
 						/***************************2.開始新增資料***************************************/
 						ProductService productSvc = new ProductService();
-						productVO = productSvc.addProduct( companyId, productTypeId, productStatus,
+						productVO = productSvc.addProduct( companyId, productTypeId, 1,
 								 productName, productPrice, productBrand, productInventory,
 								 productDescription, shoppingInformation, productPic1, productPic2,
 								 productPic3);
@@ -298,6 +299,31 @@ public class ProductServlet extends HttpServlet{
 						.getRequestDispatcher("/back_end/companyProduct/jsp/updateProduct.jsp");
 				failureView.forward(req, res);
 			}
+		}
+		
+		//更改商品上下架狀態
+		if ("update_Status".equals(action)) {
+			try {
+				
+				/***************************1.修改訂單狀態(Send the Success view)***********/
+				Integer productId = Integer.parseInt(req.getParameter("productId"));
+				Integer productStatus = Integer.parseInt(req.getParameter("productStatus"));
+				ProductService productSvc = new ProductService();
+				ProductVO productVO = productSvc.getOneProduct(productId);
+				productVO.setProductStatus(productStatus);
+
+				ProductDAOImpl productDao = new ProductDAOImpl();
+				productDao.update(productVO);					
+				
+				/***************************2.修改狀態完成,準備轉交(Send the Success view)***********/
+				
+				String url = "/back_end/companyProduct/jsp/productlist.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
+				successView.forward(req, res);
+								
+			}catch (Exception e) {
+				e.printStackTrace();
+			}					
 		}
 		
 	}

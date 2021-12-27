@@ -29,6 +29,12 @@ import javax.sql.DataSource;
 import util.Util;
 
 public class CampOrderDAOImpl implements CampOrderDAO {
+	
+	String driver = "com.mysql.cj.jdbc.Driver";
+	String url = "jdbc:mysql://localhost:3306/campingParadise?serverTimezone=Asia/Taipei";
+	String userid = "David";
+	String passwd = "123456";
+	
 	private static final String INSERTORDER_STMT = "INSERT INTO camp_order (camp_id, member_id, camp_order_total_amount, camp_check_out_date, camp_check_in_date, credit_card_num,payer_name,payer_phone) values(?,?,?,?,?,?,?,?)";
 	private static final String INSERTDETAIL_STMT = "INSERT INTO camp_area_order_detail(camp_area_id,camp_order_id,booking_quantity,camp_area_weekday_price,camp_area_holiday_price,capitation_quantity,per_capitation_fee,booking_weekdays,booking_holidays) VALUES (?,?,?,?,?,?,?,?,?)";
 	private static final String UPDATEBOOKING_STMT = "UPDATE camp_booking SET booked_camp_area_num=? where  camp_area_id=?  and date=?";
@@ -53,6 +59,20 @@ public class CampOrderDAOImpl implements CampOrderDAO {
 	private static final String FIND_HOTCAMP = "SELECT camp_id,(sum(camp_comment_star)/count(*)) as 'avg_star',count(*) as 'compl_ordernum' FROM campingParadise.camp_order where camp_order_completed_time is not null group by camp_id order by compl_ordernum desc,avg_star desc";
 
 	private static final String FIND_BY_PARAMS = "SELECT * FROM camp_order where  camp_order_confirmed_time >=? and camp_order_confirmed_time <= ? and camp_order_status=? ";
+	
+	private static final String FIND_BY_ORDER="select ce.* , ch.capitation_Quantity,ch.booking_Weekdays,ch.booking_Holidays, cf.camp_name, cg.member_Account,ch.booking_quantity" + 
+			" from  campingParadise.camp_order ce " + 
+			" join campingParadise.camp_area_order_detail ch on ch.camp_order_id=ce.camp_order_id" + 
+			" join campingParadise.member cg on cg.member_id=ce.member_id" + 
+			" join  campingParadise.camp cf on cf.camp_id=ce.camp_id  where  ce.camp_order_confirmed_time >=? and ce.camp_order_confirmed_time <= ?  and ce.camp_order_status=? ";
+	
+	private static final String FIND_BY_ORDER_NO_STATUS="select ce.* , ch.capitation_Quantity,ch.booking_Weekdays,ch.booking_Holidays, cf.camp_name, cg.member_Account,ch.booking_quantity" + 
+			" from  campingParadise.camp_order ce " + 
+			" join campingParadise.camp_area_order_detail ch on ch.camp_order_id=ce.camp_order_id" + 
+			" join campingParadise.member cg on cg.member_id=ce.member_id" + 
+			" join  campingParadise.camp cf on cf.camp_id=ce.camp_id  where  ce.camp_order_confirmed_time >=? and ce.camp_order_confirmed_time <= ?  ";
+	
+	
 	private static final String FIND_BY_PARAMS_NO_STATUS = "SELECT * FROM camp_order where  camp_order_confirmed_time >=? and camp_order_confirmed_time <= ? ";
 
 	private static DataSource ds = null;
@@ -214,9 +234,9 @@ System.out.println("1mainkey="+mainkey);
 		PreparedStatement pstmt = null;
 		try {
 
-			con = ds.getConnection();
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE_STMT);
-
 			pstmt.setInt(1, campOrderVO.getCampId());
 			pstmt.setInt(2, campOrderVO.getMemberId());
 			pstmt.setInt(3, campOrderVO.getCampOrderStatus());
@@ -236,7 +256,7 @@ System.out.println("1mainkey="+mainkey);
 			pstmt.executeUpdate();
 			
 			// Handle any driver errors
-		} catch (SQLException se) {
+		} catch (SQLException | ClassNotFoundException se) {
 			se.printStackTrace();
 			// Clean up JDBC resources
 		} finally {
@@ -308,7 +328,8 @@ System.out.println("1mainkey="+mainkey);
 		CampOrderVO campOrderVO = null;
 		try {
 
-			con = ds.getConnection();
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(FIND_BY_PK);
 			pstmt.setInt(1, campOrderId);
 			rs = pstmt.executeQuery();
@@ -330,7 +351,7 @@ System.out.println("1mainkey="+mainkey);
 				campOrderVO.setCampComment(rs.getString(14));
 				campOrderVO.setCampOrderCommentTime(rs.getTimestamp(15));
 			}
-		} catch (SQLException se) {
+		} catch (SQLException | ClassNotFoundException se) {
 			se.printStackTrace();
 			// Clean up JDBC resources
 		} finally {
@@ -368,12 +389,16 @@ System.out.println("1mainkey="+mainkey);
 		ResultSet rs = null;
 		List<CampOrderVO> list = new ArrayList<>();
 		try {
-			con = ds.getConnection();
-			String sql = FIND_BY_PARAMS;
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			
+			String sql;
 			if (statusnum == -1) {
-				sql = FIND_BY_PARAMS_NO_STATUS;
-			}
-			pstmt = con.prepareStatement(sql);
+				sql = FIND_BY_ORDER_NO_STATUS;		
+				pstmt = con.prepareStatement(sql);	
+			}else {
+				pstmt = con.prepareStatement(FIND_BY_ORDER );	
+			}								
 			java.sql.Date startSqlDate = new java.sql.Date(startDate.getTime());
 			pstmt.setDate(1, startSqlDate);
 			java.sql.Date endSqlDate = new java.sql.Date(endDate.getTime());
@@ -402,9 +427,15 @@ System.out.println("1mainkey="+mainkey);
 				campOrderVO.setCampCommentStar(rs.getInt(13));
 				campOrderVO.setCampComment(rs.getString(14));
 				campOrderVO.setCampOrderCommentTime(rs.getTimestamp(15));
+				campOrderVO.setCapitationQuantity(rs.getInt("ch.capitation_Quantity"));
+				campOrderVO.setBookingWeekdays(rs.getInt("ch.booking_Weekdays"));
+				campOrderVO.setBookingHolidays(rs.getInt("ch.booking_Holidays"));
+				campOrderVO.setCampName(rs.getString("cf.camp_name"));
+				campOrderVO.setMemberAccount(rs.getString("cg.member_Account"));
+				campOrderVO.setBookingQuantity(rs.getInt("ch.booking_quantity"));
 				list.add(campOrderVO);
 			}
-		} catch (SQLException se) {
+		} catch (SQLException | ClassNotFoundException se) {
 			se.printStackTrace();
 			// Clean up JDBC resources
 		} finally {
