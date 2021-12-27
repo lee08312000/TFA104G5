@@ -239,6 +239,7 @@ public class CampServlet extends HttpServlet {
 					campVO.setCampRule(campRule);
 				}
 
+
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/back_end/camp/insertCampShelves.jsp");
 					failureView.forward(req, res);

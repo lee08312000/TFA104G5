@@ -32,11 +32,16 @@ public class CampOrderService {
 	public int addOneOrder(CampOrderVO campOrderVO, List<CampAreaOrderDetailVO> list) {
 
 		if (!(campOrderVO == null || list.size() == 0)) {
+			try {
+				return orderdao.add(campOrderVO, list);
 
-			return orderdao.add(campOrderVO, list);
-
+			} catch (Exception e) {
+				e.printStackTrace();
+				return 0;
+			}
+		} else {
+			return 0;
 		}
-		return 0;
 	}
 
 	/********************************************
@@ -44,26 +49,22 @@ public class CampOrderService {
 	 *****************************************/
 
 //更新訂單(只能更新訂單狀態，訂單完成時間，評論時間)暫定
-	public void updateOrder(Integer campOrderId, Integer campId, Integer memberId, Integer campOrderStatus,
-			Integer campOrderTotalAmount, Date campCheckOutDate, Date campCheckInDate, String creditCardNum,
-			String payerName, String payerPhone, Timestamp campOrderConfirmedTime, Timestamp campOrderCompletedTime,
-			Integer campCommentStar, String campComment, Timestamp campOrderCommentTime) {
-		CampOrderVO order = orderdao.findByPK(campOrderId);
-		order.setMemberId(memberId);
-		order.setCampOrderStatus(campOrderStatus);
-		order.setCampOrderTotalAmount(campOrderTotalAmount);
-		order.setCampCheckOutDate(campCheckOutDate);
-		order.setCampCheckInDate(campCheckInDate);
-		order.setCreditCardNum(creditCardNum);
-		order.setPayerName(payerName);
-		order.setPayerPhone(payerPhone);
-		order.setCampOrderCompletedTime(campOrderCompletedTime);
-		order.setCampCommentStar(campCommentStar);
-		order.setCampComment(campComment);
-		order.setCampOrderCommentTime(campOrderCommentTime);
-		orderdao.update(order);
-
+	public void updateOrder(CampOrderVO campOrderVO) {
+		int campOrderId = campOrderVO.getCampOrderId();
+		int campOrderStatus = campOrderVO.getCampOrderStatus();
+		if (campOrderId != -1) {
+			CampOrderVO order = orderdao.findByPK(campOrderId);
+			order.setCampOrderStatus(campOrderVO.getCampOrderStatus());
+			order.setPayerName(campOrderVO.getPayerName());
+			order.setPayerPhone(campOrderVO.getPayerPhone());
+			if(1 == campOrderStatus) {
+				order.setCampOrderCompletedTime(new Timestamp(System.currentTimeMillis()));
+			}
+			orderdao.update(order);
+		}
+		
 	}
+
 //更新訂單明細(我們專題沒有這個功能)
 	public void updateOrderDetail(Integer campAreaOrderDetailId, Integer campAreaId, Integer campOrderId,
 			Integer bookingQuantity, Integer campAreaWeekdayPrice, Integer campAreaHolidayPrice,
@@ -116,11 +117,13 @@ public class CampOrderService {
 
 //查詢訂單by預計入住日期(廠商查詢當日的訂單)
 //參數日期要轉換java.sql.Date
-	public List OrderByCheckin(Date checkinDate) {
-		List<CampOrderVO> daolist = orderdao.getAll();
+	public List<CampOrderVO> OrderByCheckin(Date checkinDate, Integer campid) {
+		List<CampOrderVO> daolist = orderdao.getAll(0);
 		List<CampOrderVO> querylist = new ArrayList<CampOrderVO>();
 		for (CampOrderVO obj : daolist) {
-			if (obj.getCampCheckInDate() == checkinDate) {
+			
+			if (obj.getCampCheckInDate().getTime() == checkinDate.getTime() && obj.getCampId() == campid) {
+
 				querylist.add(obj);
 			}
 		}
@@ -197,11 +200,10 @@ public class CampOrderService {
 		return daolist;
 	}
 
-
 	// 營地訂單評論
 	public List<CampOrderVO> selectCampComment(Timestamp startDateTimestamp, Timestamp endDateTimestamp,
 			int campOrder) {
-	
+
 		return orderdao.selectCampComment(startDateTimestamp, endDateTimestamp, campOrder);
 	}
 

@@ -140,7 +140,6 @@ $(document).ready(function() {
 				<th>連絡電話</th>
 				<th>訂單總金額</th>
 				<th>訂單狀態</th>
-				<th>評價</th>
 				<th>編輯</th>
 			</tr>
 		</thead>
@@ -156,7 +155,6 @@ $(document).ready(function() {
 					<td>${campOrderVO.payerPhone}</td>
 					<td>${campOrderVO.campOrderTotalAmount}</td>
 					<td>${campOrderVO.campOrderStatus}</td> 
-					<td>${campOrderVO.campCommentStar}</td> 
 					<td>
 					     <input type="button" value="修改" name="${campOrderVO.campOrderId}" class="update"  />
 					</td>
@@ -171,52 +169,7 @@ $(document).ready(function() {
 		<%@ include file="pages/page2.jsp" %>
 	</div>
 </div>
-	<!-- ----------------aside區域------------------->
-<div id="sidebar">
-	<aside class="aside">
-		<div class="container">
-			<nav>
-				<ul class="mcd-menu">
-					<li><a href="" class="light"> <i class="fa fa-campground"></i>
-							<strong>營地管理</strong> <small>Camp Management</small>
-					</a>
-						<ul>
-							<li><a href="#"><i class="fas fa-cannabis"></i>我的營地</a></li>
-							<li><a href="#"><i class="fas fa-cannabis"></i>營地上下架</a></li>
-							<li><a href="#"><i class="fas fa-cannabis"></i>審核狀況</a></li>
-						</ul></li>
-					<li><a href="" class="light"> <i class="fa fa-edit"></i> <strong>商品管理</strong>
-							<small>Commodity </small>
-					</a></li>
-					<li><a href="" class="light"> <i class="fa fa-gift"></i> <strong>訂單管理</strong>
-							<small>Order </small>
-					</a>
-						<ul>
-							<li><a href="#"><i class="fas fa-cannabis"></i>日程表管理</a></li>
-							<li><a href="#"><i class="fas fa-cannabis"></i>營地訂單管理</a></li>
-							<li><a href="#"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
-						</ul></li>
-					<li><a href="" class="light"> <i
-							class="fas fa-calendar-week"></i> <strong>廠商資料</strong> <small>Vendor
-								Information</small>
-					</a>
-						<ul>
-							<li><a href="#"><i class="fas fa-cannabis"></i>基本資料瀏覽,修改</a></li>
-							<li><a href="#"><i class="fas fa-cannabis"></i>更改密碼</a></li>
-						</ul></li>
-					<li><a href="" class="light"> <i class="fa fa-comment-alt"></i>
-							<strong>我的評論</strong> <small>Comment</small>
-					</a>
-						<ul>
-							<li><a href="#"><i class="fas fa-cannabis"></i>營地評價</a></li>
-							<li><a href="#"><i class="fas fa-cannabis"></i>商品評價</a></li>
-						</ul></li>
-				</ul>
-			</nav>
-		</div>
-	</aside>
-</div>
-
+	
 
 
 	<footer class="tm-footer text-center">
