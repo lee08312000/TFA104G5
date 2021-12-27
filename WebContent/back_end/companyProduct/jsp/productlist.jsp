@@ -7,8 +7,10 @@
 
 
 <%
-	ProductService productSvc = new ProductService();
-	List<ProductVO> list = productSvc.getAllProduct();
+	Integer vendorId = (Integer) session.getAttribute("vendorId");
+	
+	ProductService ProductSvc = new ProductService();
+	List<ProductVO> list = ProductSvc.getProductsByCompany(vendorId);
 	pageContext.setAttribute("list",list);
 %>
 <jsp:useBean id="productTypeSvc" scope="page" class="com.productType.model.ProductTypeService" />
@@ -124,10 +126,19 @@
 	                <td>${productVO.productInventory}</td>
 	                <td>${productVO.productSellAllnum}</td>
 	                <td>${(1==productVO.productStatus)? '上架':'下架'}</td>
-	                <td><select>
-		                	<option value="1" ${(1==productVO.productStatus)? 'selected':''}>上架
-		                	<option value="0" ${(0==productVO.productStatus)? 'selected':''}>下架  	        
-	                    </select> 
+	                <td><FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductServlet" style="margin-bottom: 0px;">
+		                		 <input type="submit" value="上架">
+		                		 <input type="hidden" name="productId"  value="${productVO.productId}">
+							     <input type="hidden" name="productStatus"  value="1">
+							     <input type="hidden" name="action"	value="update_Status">
+		                	</FORM>
+		                	 	        
+	                    	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductServlet" style="margin-bottom: 0px;">
+		                		 <input type="submit" value="下架">
+		                		 <input type="hidden" name="productId"  value="${productVO.productId}">
+							     <input type="hidden" name="productStatus"  value="0">
+							     <input type="hidden" name="action"	value="update_Status">
+		                	</FORM>  
 	                </td>    
 	                <td>
 	                	<button type="button" class="btn_open">查看</button>
