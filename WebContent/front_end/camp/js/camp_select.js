@@ -6,17 +6,17 @@ var data = {
 
 }
 
-var page = 0; //目前頁數
+var page = 0; // 目前頁數
 var endpage = 0;
 var getallcamp = {
     'action': 'getallcamp',
-    'callpage': page + 1, //請求頁數
-    'rows': 8, //顯示筆數
+    'callpage': page + 1, // 請求頁數
+    'rows': 8, // 顯示筆數
 
 
 }
 
-//匯入符合篩選條件的營地
+// 匯入符合篩選條件的營地
 var cbtn = document.getElementById("cbtn");
 var loading = `<div class="loader">
 <h1>LOADING <span class="bullets">.</span></h1>
@@ -29,15 +29,14 @@ cbtn.addEventListener("click", loadquery, false);
 
 
 
-
-//匯入篩選按鈕，第一頁篩選的東東
+// 匯入篩選按鈕，第一頁篩選的東東
 window.addEventListener("load", function() {
 
 
-    //抓取首頁篩選的選項
+    // 抓取首頁篩選的選項
     var selected = JSON.parse(sessionStorage.getItem("findcamp"));
     console.log(selected);
-    if (selected != null) {
+    if (selected.feature.length!=0 || selected.section.length!=0) {
         let sec = document.querySelectorAll("input[name='section']");
         let fea = document.querySelectorAll("input[name='feature']");
         let ord = document.querySelectorAll("select[name='orderby']");
@@ -63,7 +62,7 @@ window.addEventListener("load", function() {
 
 
 
-        清空session
+        // 清空session
         sessionStorage.setItem("findcamp", JSON.stringify({
             section: [],
             feature: [],
@@ -75,46 +74,127 @@ window.addEventListener("load", function() {
 
     } else {
         document.getElementById("a").checked = true;
+        $(window).on("scroll", function() {
+            // 变量scrollTop是滚动条滚动时，滚动条上端距离顶部的距离
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+            // 变量windowHeight是可视区的高度
+            var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+
+            // 变量scrollHeight是滚动条的总高度（当前可滚动的页面的总高度）
+            var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+
+            // 滚动条到底部
+            if (page <= endpage) {
+                if ($(document).height() - ($(window).scrollTop() + $(window).height()) <= 20) {
+
+                    console.log("目前頁數" + page);
+                    console.log("請求頁數".concat(getallcamp.callpage));
+                    console.log("總頁數" + endpage);
+                    endpage = document.getElementById("endpage").value;
+                    allcamp(endpage, getallcamp.callpage);
+                    page = page + 1;
+                    getallcamp.callpage = page + 1;
+
+
+
+                }
+            } else {
+                window.onscroll = null;
+
+
+            }
+
+
+        });
 
 
     }
 });
 
-$(window).on("scroll", function() {
-    //变量scrollTop是滚动条滚动时，滚动条上端距离顶部的距离
-    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-
-    //变量windowHeight是可视区的高度
-    var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
-
-    //变量scrollHeight是滚动条的总高度（当前可滚动的页面的总高度）
-    var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-
-    //滚动条到底部
-    if (page <= endpage) {
-        if ($(document).height() - ($(window).scrollTop() + $(window).height()) <= 20) {
-
-            console.log("目前頁數" + page);
-            console.log("請求頁數".concat(getallcamp.callpage));
-            console.log("總頁數" + endpage);
-            endpage = document.getElementById("endpage").value;
-            allcamp(endpage, getallcamp.callpage);
-            page = page + 1;
-            getallcamp.callpage = page + 1;
 
 
 
-        }
-    } else {
-        window.onscroll = null;
 
+var sec=document.querySelectorAll("input[name=section]");
 
-    }
-
-
+sec.forEach(function(item,i){
+	item.addEventListener("click",function(){
+		
+		document.getElementById("a").checked = false;		
+	});
+	
+	
+	
 });
 
 
+
+
+
+
+var findall=document.getElementById("a");
+
+findall.addEventListener("click",function(e){
+	var sec=document.querySelectorAll("input[name=section]");
+
+	sec.forEach(function(item,i){
+		item.checked=false;
+
+	});
+	 findall.checked = true;
+	 page = 0; // 目前頁數
+	 endpage = 0;
+	 getallcamp = {
+	     'action': 'getallcamp',
+	     'callpage': page + 1, // 請求頁數
+	     'rows': 8, // 顯示筆數
+	 }
+	 // 先清空之前搜尋的東東
+	    var mainsection = document.getElementsByClassName("page2-gallery")[0];
+	    var childs = mainsection.lastElementChild;
+	    while (childs) {
+	        mainsection.removeChild(childs);
+	        childs = mainsection.lastElementChild;
+	    }
+     $(window).on("scroll", function() {
+         // 变量scrollTop是滚动条滚动时，滚动条上端距离顶部的距离
+         var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+         // 变量windowHeight是可视区的高度
+         var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+
+         // 变量scrollHeight是滚动条的总高度（当前可滚动的页面的总高度）
+         var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+
+         // 滚动条到底部
+         if (page <= endpage) {
+             if ($(document).height() - ($(window).scrollTop() + $(window).height()) <= 20) {
+
+                 console.log("目前頁數" + page);
+                 console.log("請求頁數".concat(getallcamp.callpage));
+                 console.log("總頁數" + endpage);
+                 endpage = document.getElementById("endpage").value;
+                 allcamp(endpage, getallcamp.callpage);
+                 page = page + 1;
+                 getallcamp.callpage = page + 1;
+
+
+
+             }
+         } else {
+             window.onscroll = null;
+
+
+         }
+
+
+     });
+
+	
+	
+	
+});
 
 function allcamp(end, req) {
 
@@ -128,8 +208,8 @@ function allcamp(end, req) {
         traditional: true,
         data: getallcamp,
         dataType: "json",
-        timeout: 0,
-        beforeSend: function() {
+        timeout: 2000,
+        beforeSend: function() {            
             document.getElementsByClassName("tm-gallery")[0].insertAdjacentHTML("beforeend", loading)
         },
         cache: false, // 避免有圖片 cache 狀況
@@ -142,29 +222,29 @@ function allcamp(end, req) {
             document.getElementById("endpage").value = data.allpage;
             var campdata = data.camplist;
             if (campdata.length != 0) {
-                //判斷回傳陣列長度
+                // 判斷回傳陣列長度
                 for (let i = 0; i < campdata.length; i++) {
                     let camp = campdata[i];
                     let selecampdata = `
             <article class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item itempage2" campid=${camp.campId}>
             <figure>
-                <img src='data:image/png;base64,${camp.imgBase64}' alt="Image" class="img-fluid tm-gallery-img"> 
+                <img src='/TFA104G5/PicWithCampServlet?campid=${camp.campId}&pic=1' alt="Image" class="img-fluid tm-gallery-img"> 
                 <figcaption>
                     <h4 class="tm-gallery-title">${camp.name}</h4>
-                    <a href="#" class="addlove btn_modal"><i class="far fa-heart"></i></a>
+                    <a href="#" class="addlove btn_modal" campid=${camp.campId}><i class="far fa-heart"></i></a>
                     <p class="tm-gallery-description">${camp.address.substr(0,6)}</p>
                     <ul class="camp_target">
-                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
+                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
 
                     </ul>
-                    <div class="camp_detailcontainer"><a id="accept-btn" class="btn btn__accept" href="page3.html?campid=${camp.campId}">了解更多</a></div>
+                    <div class="camp_detailcontainer"><a id="accept-btn" class="btn btn__accept" href="camp_detail.html?campid=${camp.campId}">了解更多</a></div>
                 </figcaption>
             </figure>
             </article>`;
@@ -181,14 +261,24 @@ function allcamp(end, req) {
                         tagchild2[j].style.visibility = "visible";
                     }
 
-                    $("a.btn_modal").on("click", function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        $("div.overlay").fadeIn();
-                        $("div.overlay").fadeOut(2000);
-                    });
+                    
 
                 }
+                
+                
+                // 我的最愛
+                $("a.btn_modal").on("click", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    let campid=(e.target.parentElement).getAttribute('campid');
+                    let memberid=sessionStorage['memberid'];
+                    var target=e.target;
+                    addfav(memberid,campid,target);
+                    
+                    
+                    
+             
+                });
             } else {
 
                 console.log("已經沒有資料了");
@@ -201,10 +291,13 @@ function allcamp(end, req) {
 
         },
         error: function(xhr) { // request 發生錯誤的話執行
-            //    location.reload();
+            // location.reload();
         },
         complete: function(xhr) { // request 完成之後執行(在 success / error 事件之後執行)
 
+            data.section = [];
+            data.feature = [];
+            data.orderby = 0;
         }
     });
 
@@ -212,6 +305,62 @@ function allcamp(end, req) {
 
 
 }
+
+
+
+
+function addfav(memberid,campid,target){
+
+	if(memberid==null||Number(memberid)==NaN){
+		alert("請先登入會員，謝謝!");
+		return;		
+	}
+	$.ajax({
+		  url: "http://localhost:8081/TFA104G5/FavorCampServlet",           // 資料請求的網址
+		  type: "GET",                  // GET | POST | PUT | DELETE | PATCH
+		   data: {
+			   'action':'addfav',
+			   'memberid':memberid,
+				   'campid':campid
+
+		   },               // 傳送資料到指定的 url
+		  dataType: "text",             // 預期會接收到回傳資料的格式： json | xml | html
+		  success: function(data){      // request 成功取得回應後執行
+		    console.log(data);
+		    switch(data){
+		    case "已經加入過了，移除我的最愛成功":
+		    	alert("已經加入過了，移除我的最愛成功");
+		    	if(target.classList.contains("fas")){
+		    		target.classList.remove("fas");
+		    		target.classList.add("far");
+		    	}
+		    	break;
+		    case "新增我的最愛成功"	:
+		    	alert("新增我的最愛成功");
+		    	if(target.classList.contains("far")){
+		    	target.classList.remove("far");
+		    	target.classList.add("fas");
+		    	}
+		    	break;
+		    case "新增失敗，請重新登入":
+		    	alert("新增失敗，請重新登入");
+		    	break;
+		    }
+
+		    }
+		    		  
+		});
+	
+
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -249,19 +398,26 @@ function allcamp(end, req) {
 
 function loadquery(e) {
 
-    //先清空之前搜尋的東東
+    // 先清空之前搜尋的東東
     var mainsection = document.getElementsByClassName("page2-gallery")[0];
     var childs = mainsection.lastElementChild;
     while (childs) {
         mainsection.removeChild(childs);
         childs = mainsection.lastElementChild;
     }
-    //先清空之前搜尋的東東
-
-    //把點選的東西蒐集起來
+    // 先清空之前搜尋的東東
+   
+    // 把點選的東西蒐集起來
     let sec = document.querySelectorAll("input[name='section']");
     let fea = document.querySelectorAll("input[name='feature']");
     let ord = document.querySelectorAll("select[name='orderby']");
+    
+    
+    // 把data 清空
+    data.section = [];
+    data.feature = [];
+    data.orderby = 0;
+    
     sec.forEach(function(item, i) {
         if ($(item).prop("checked")) {
 
@@ -315,17 +471,17 @@ function loadquery(e) {
                     <a href="#" class="addlove btn_modal"><i class="far fa-heart"></i></a>
                     <p class="tm-gallery-description">${camp.address.substr(0,6)}</p>
                     <ul class="camp_target">
-                    <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}">123</a></li>
+                    	<li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
 
                     </ul>
-                    <div class="camp_detailcontainer"><a id="accept-btn" class="btn btn__accept" href="page3.html?campid=${camp.campId}">了解更多</a></div>
+                    <div class="camp_detailcontainer"><a id="accept-btn" class="btn btn__accept" href="camp_detail.html?campid=${camp.campId}">了解更多</a></div>
                 </figcaption>
             </figure>
             </article>`;
@@ -360,7 +516,7 @@ function loadquery(e) {
 
         },
         error: function(xhr) { // request 發生錯誤的話執行
-            //    location.reload();
+            // location.reload();
         },
         complete: function(xhr) { // request 完成之後執行(在 success / error 事件之後執行)
 
@@ -379,18 +535,18 @@ function loadquery(e) {
 
 
 
-//搜尋欄查詢
+// 搜尋欄查詢
 var searchbtn = document.getElementsByClassName("searchButton")[0];
 
 searchbtn.addEventListener("click", function(e) {
-    //先清空之前搜尋的東東
+    // 先清空之前搜尋的東東
     var mainsection = document.getElementsByClassName("page2-gallery")[0];
     var childs = mainsection.lastElementChild;
     while (childs) {
         mainsection.removeChild(childs);
         childs = mainsection.lastElementChild;
     }
-    //先清空之前搜尋的東東
+    // 先清空之前搜尋的東東
     let searchtext = document.getElementsByClassName("searchTerm")[0];
     console.log(searchtext.value);
     var text = searchtext.value;
@@ -426,17 +582,17 @@ searchbtn.addEventListener("click", function(e) {
                         <a href="#" class="addlove btn_modal"><i class="far fa-heart"></i></a>
                         <p class="tm-gallery-description">${camp.address.substr(0,6)}</p>
                         <ul class="camp_target">
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}"> 2132321312</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}"> 1212</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}"> 212121</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}"> 122213213211</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}"> 123121</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}"> 21321</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}"> 1321</a></li>
-                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="page3.html?campid=${camp.campId}"> 2232132133</a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
+                        <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
     
                         </ul>
-                        <div class="camp_detailcontainer"><a id="accept-btn" class="btn btn__accept" href='page3.html?campid=${camp.campId}'">了解更多</a></div>
+                        <div class="camp_detailcontainer"><a id="accept-btn" class="btn btn__accept" href='camp_detail.html?campid=${camp.campId}'">了解更多</a></div>
 
                     </figcaption>
                 </figure>
@@ -473,11 +629,11 @@ searchbtn.addEventListener("click", function(e) {
 });
 
 
-//綁定enter鍵
+// 綁定enter鍵
 $("body").keydown(function(e) {
-    if (e.which == "13") { //13是enter键的键码
+    if (e.which == "13") { // 13是enter键的键码
         searchbtn.click();
-        //调用登录方法,在div中定义方法,或通过js绑定的方法都可以,我的登录方法就是通过jquery绑定的点击事件
+        // 调用登录方法,在div中定义方法,或通过js绑定的方法都可以,我的登录方法就是通过jquery绑定的点击事件
     }
 });
 

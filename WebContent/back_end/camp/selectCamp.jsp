@@ -36,7 +36,8 @@
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/css/selectCamp.css?v=004">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/css/selectCamp.css?v=009">
+
 </head>
 <body>
 	<!-- --------main區域------- -->
@@ -67,7 +68,7 @@
 	
 	<form method="post" ACTION="<%=request.getContextPath()%>/camp/shelves.do">
 					  <input type="hidden" name="action" value="INSERTCAMP">
-					    <button  style="background-color:#4CAF50;font-size:16px;color:white;border:1px solid #4CAF50;border-radius: 8px" type="submit" id="insertSubmit">新增營地</button>
+					    <button  style="background-color:#4CAF50;font-size:16px;color:white;border:1px solid #4CAF50 ;margin-left:22px" type="submit" id="insertSubmit">新增營地</button>
 				
 					</form>
 					
@@ -77,7 +78,7 @@
 	<div class="pagination">
 		<%@ include file="pages/page1.jsp" %>
 	</div>
-	<table>
+	<table class="camp_table" style="margin-left:20px">
 	
 		<thead>
 		
@@ -109,14 +110,15 @@
 					<td>${campVO.campPhone}</td>
 					<td>${campVO.campAddress}</td>
 					<td>${campVO.campDiscription}</td>
-					<td>${campVO.campPic1}</td>					
+					<td><img id="smallPic1" style="width: 30%;" src='<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&pic=1' /></td>					
 					<td>${campVO.campStatus==1?"上架":"下架"}
-					
+					<c:if test="${campVO.campStatus==0}" >
 					<form method="post" ACTION="<%=request.getContextPath()%>/camp/shelves.do" >
 					<input type="hidden" name="action" value="certificatepage">
 					<input type="hidden" name="campId" value="${campVO.campId}">
-					<button class="cal" type="submit">審核</button>					
-					</form></td>
+					<button class="cal" type="submit" >審核</button>					
+					</form>
+					</c:if></td>
 					
 					
 					<td>
@@ -136,7 +138,7 @@
 					<form method="post" ACTION="<%=request.getContextPath()%>/camp/shelves.do" >				
 					 <input type="hidden" name="action" value="UPDATEFINDBYKEY">
 					 <input type="hidden" name="campId" value="${campVO.campId}">
-					<button  style="background-color: #008CBA ;font-size:16px;color:white;border:1px solid #4CAF50;border-radius: 8px" type="submit" id="insertSubmit"type="submit">修改</button>
+					<button  style="background-color: #008CBA ;font-size:16px;color:white;border:1px solid #4CAF50" type="submit" id="insertSubmit"type="submit">修改</button>
 						</form>	
 				</td>
 			
@@ -155,16 +157,15 @@
 		<%@ include file="pages/page2.jsp"%>
 		
 	</div>
-	 
-
-
-
-<footer class="tm-footer text-center">
-		<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
-		<pre>Copyright &copy; 2021 Camping Paradise | Design: <a
-				style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a>
+	
+		<footer class="tm-footer text-center">
+			<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
+			<pre>Copyright &copy; 2021 Camping Paradise | Design: <a
+					style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a>
 				</pre>
-	</footer>
+		</footer>
+	
+	 
 </body>
 
 </html>

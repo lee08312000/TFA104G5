@@ -180,7 +180,7 @@ public class VendorLoginServlet extends HttpServlet{
 				}			
 
 				Integer companyStatus = 0;
-				Timestamp companyRegisterTime = null;
+				Timestamp companyRegisterTime = new Timestamp(System.currentTimeMillis());
 			
 				CompanyVO companyVO = new CompanyVO();				
 				companyVO.setHeadName(headName);				

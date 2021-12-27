@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.SimpleFormatter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -53,6 +54,50 @@ public class BrowseServlet extends HttpServlet {
 		/****************** 假會員 *******************/
 		String action = req.getParameter("action");
 
+		// 檢查會員是否登入
+		if ("getMemberStatus".equals(action) ) {
+			JSONObject obj = new JSONObject();
+			
+			if (memberVO != null) {
+				try {
+					obj.put("msg", "isLogined");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				
+				out.println(obj.toString());
+				return;
+			} else {
+				try {
+					obj.put("msg", "noLogin");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				
+				out.println(obj.toString());
+				return;
+			}
+			
+		}
+		
+		// 登出
+		if ("logout".equals(action)) {
+
+			if (session != null) {
+
+				session.removeAttribute("memberVO");
+				session.invalidate();
+				JSONObject obj = new JSONObject();
+				try {
+					obj.put("msg", "success");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				
+				out.println(obj.toString());
+			}
+		}
+		
 		// 首頁熱門商品3 及最新上架商品3 區塊
 		if ("getMallProducts3".equals(action)) {
 			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/

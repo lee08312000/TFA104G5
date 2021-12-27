@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,6 +29,7 @@ import com.campOrder.model.CampOrderVO;
 import com.campTag.model.CampTagService;
 import com.campTagDetail.model.CampTagDetailService;
 import com.campTagDetail.model.CampTagDetailVO;
+import com.member.model.MemberVO;
 
 @WebServlet("/CampServlet2")
 
@@ -49,6 +51,25 @@ public class CampServlet2 extends HttpServlet {
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 		res.setContentType("text/plain;charset=UTF-8");
 		PrintWriter out = res.getWriter();
+
+		if ("islogin".equals(action)) {
+
+			HttpSession session = req.getSession();
+
+			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+
+			if (memberVO != null) {
+				Integer memberid = memberVO.getMemberId();
+
+				out.print(String.valueOf(memberid));
+				return;
+			}else {
+				
+				out.print("not-login");
+				return;
+				
+			}
+		}
 
 ////////////////////////////////////////////首頁載入熱門營地八大/////////////////////////////////////////////////////////////////////////
 		if ("hotcamp".equals(action)) {
@@ -243,31 +264,32 @@ public class CampServlet2 extends HttpServlet {
 			res.getWriter().print(jsArray.toString());
 
 		}
+
 		if ("getallcamp".equals(action)) {
 			Integer rows = Integer.parseInt(req.getParameter("rows")); // 前端要求每頁資料量
 			Integer callpage = Integer.parseInt(req.getParameter("callpage")); // 呼叫頁數
-System.out.println(rows);
-System.out.println(callpage);
+			System.out.println(rows);
+			System.out.println(callpage);
 
 			CampService campSvc = new CampService();
 			Map pagemap = null;
 			CampWindow window = null;
 			CampTagDetailService camptagdetailSvc = new CampTagDetailService();
 			CampTagService camptagSvc = new CampTagService();
-			Map outdata=new HashMap();
+			Map outdata = new HashMap();
 			pagemap = campSvc.showPage(rows, 1, callpage);
 			List<CampWindow> pageout = new ArrayList<CampWindow>();
-			if (pagemap != null||pagemap.size()<rows) {
-				List<CampVO> pagelist=(List<CampVO>)pagemap.get("pagedata");
-				Integer allpage=(Integer)pagemap.get("allpage");
+			if (pagemap != null || pagemap.size() < rows) {
+				List<CampVO> pagelist = (List<CampVO>) pagemap.get("pagedata");
+				Integer allpage = (Integer) pagemap.get("allpage");
 
 				for (CampVO obj : pagelist) {
 					window = new CampWindow();
 					window.setCampId(obj.getCampId());
 					window.setName(obj.getCampName());
 					window.setAddress(obj.getCampAddress());
-					String Base64Str = Base64.getEncoder().encodeToString(obj.getCampPic1());
-					window.setImgBase64(Base64Str);
+//					String Base64Str = Base64.getEncoder().encodeToString(obj.getCampPic1());
+					window.setImgBase64("noPic");
 					List<Integer> camptags = camptagdetailSvc.findCampTagsByCampId(obj.getCampId());
 					List<String> camptagsName = new ArrayList<String>();
 					for (Integer i : camptags) {
@@ -275,10 +297,11 @@ System.out.println(callpage);
 					}
 					window.setTags(camptagsName);
 					pageout.add(window);
+					System.out.println("window物件" + window);
 				}
-				outdata.put("camplist",pageout);
+				outdata.put("camplist", pageout);
 				outdata.put("allpage", allpage);
-				JSONObject jsonobj=new JSONObject(outdata);
+				JSONObject jsonobj = new JSONObject(outdata);
 				out.print(jsonobj);
 			} else {
 				out.print("endpage");
@@ -286,17 +309,16 @@ System.out.println(callpage);
 			}
 
 		}
-		
-		if("recommend".equals(action)) {
-						
-			CampService campSvc=new CampService();
-			
-			List<CampVO> list=campSvc.recommendCamp(3);	
-			System.out.println("推薦營地的"+list.size());
-			JSONArray jsArray = new JSONArray(list);	
+
+		if ("recommend".equals(action)) {
+
+			CampService campSvc = new CampService();
+
+			List<CampVO> list = campSvc.recommendCamp(3);
+			System.out.println("推薦營地的" + list.size());
+			JSONArray jsArray = new JSONArray(list);
 			out.print(jsArray);
 
-			
 		}
 
 	}

@@ -1,13 +1,11 @@
 package com.campBooking.model;
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 
 import util.DiffDays;
 import util.GetnextMonth;
@@ -22,27 +20,43 @@ public class CampBookingService {
 
 //新增公休日某個日期(廠商)	確認要新增的公休日是否有人訂位，否則新增成功
 
-	public Boolean update(Integer campId, String date) {
-		if (campId != null && date != null) {
-			List<CampBookingVO> list = bookdao.findByAllArea(campId, date);
-			Iterator it = list.iterator();
-			while (it.hasNext()) {
-				CampBookingVO booking = (CampBookingVO) it.next();
-				if (booking.getBookedCampAreaNum() > 0) {
-					System.out.println("此日期已有人預約，請確認訂單");
-					return false;
-				}
-			}
-			while (it.hasNext()) {
-				CampBookingVO booking = (CampBookingVO) it.next();
-				booking.setClosedStatus(true);
-				bookdao.update(booking);
-			}
-			System.out.println("新增公休日成功");
-			return true;
-		}
+	public int updateCloseStatus(Integer campId, String date) {
+		try {
+			if (campId != null && date != null) {
 
-		return false;
+				List<CampBookingVO> list = bookdao.findByAllArea(campId, date);
+				Iterator it = list.iterator();
+				while (it.hasNext()) {
+					CampBookingVO booking = (CampBookingVO) it.next();
+					if (booking.getBookedCampAreaNum() > 0) {
+						System.out.println("此日期已有人預約，請確認訂單");
+						return 1;
+					}
+					if (booking.getClosedStatus() == true) {
+						System.out.println("此日期已設公休日，請確認日期");
+						return 2;
+					}
+				}
+
+				for (CampBookingVO obj : list) {
+
+					CampBookingVO cb = bookdao.findByPK(obj.getCampBookingId());
+					cb.setClosedStatus(true); // 設為公休狀態
+					System.out.println(cb);
+					bookdao.update(cb);
+				}
+				System.out.println(date + ":公休日新增成功");
+				return 3;
+			}
+			System.out.println("請確認輸入格式，新增失敗");
+			return 4;
+
+		} catch (Exception e) {
+		e.printStackTrace();
+		System.out.println("請確認輸入格式，新增失敗");
+		return 4;
+	
+		}
 	}
 
 //查詢否個營地某一天某一個日期某一個營位的空位狀態
@@ -61,28 +75,24 @@ public class CampBookingService {
 		}
 		return null;
 	}
-	
-	
-	
-	//查詢否個某一個營位的某一天空位狀態
-		public CampBookingVO findByPK(Integer campAreaId, String date) {
 
-			if(campAreaId!=null&&date!=null) {
-				return bookdao.findByOneArea(campAreaId, date);
-			}else {
-				
-				return null;
-			}
+	// 查詢否個某一個營位的某一天空位狀態
+	public CampBookingVO findByPK(Integer campAreaId, String date) {
 
+		if (campAreaId != null && date != null) {
+			return bookdao.findByOneArea(campAreaId, date);
+		} else {
+
+			return null;
 		}
+
+	}
 
 //拿取全部空位的資訊
 	public List<CampBookingVO> getAll() {
 		return bookdao.getAll();
 	}
 
-	
-	
 //查詢某個營地某一天的空位數量(月曆用)
 //	可以設定抓出要幾個月後的所有日期空位數量
 
@@ -114,37 +124,14 @@ public class CampBookingService {
 		}
 		return null;
 	}
-	
+
 //某營地的空位資訊
-	public Map<String,Integer> findByAllArea(Integer campId,String date) {
-		if(campId!=null&&date!=null) {
-			return  bookdao.findByCampId(campId, date);
+	public Map<String, Integer> findByAllArea(Integer campId, String date) {
+		if (campId != null && date != null) {
+			return bookdao.findByCampId(campId, date);
 		}
 		return null;
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }
-
-
-
-
