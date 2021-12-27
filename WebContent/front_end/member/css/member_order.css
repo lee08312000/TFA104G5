@@ -457,3 +457,62 @@ pre {
     color: #FFFFFF; 
     font-weight: bold;
 }
+
+/* =================  ginny   =====================*/
+.updateButton, .comment , .button{
+    background-color: #636060;
+    border: 0cm ;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    color:#D5DDE5;
+    margin: 5px 0px;
+}
+
+.commentArea{
+    background-color: #EEE;
+    border-radius: 4px;
+    box-shadow: 12px 12px 7px rgba(0, 0, 0, 0.7);;
+    width: 450px;
+    height: 300px;
+    position: relative;
+    margin: auto 25% auto 25%;
+    padding-left: 10px;    
+}
+
+#close{
+    position: relative;
+    left:400px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.textarea{    
+    border-color: #6d6a68;
+    width: 420px;
+    height: 200px;
+    resize: none;   
+}
+
+#commentButton{
+    position: relative;
+    left:350px;
+    margin-top: 0px;
+
+}
+
+.-off{
+    display: none;
+}
+
+div.star_block{
+    display: inline-block;
+}
+div.star_block > span.star{
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 3px;
+}
+div.star_block > span.star.-on{
+    color: yellow;
+}

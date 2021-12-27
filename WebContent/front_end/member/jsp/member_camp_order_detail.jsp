@@ -13,13 +13,13 @@
 <%@ page import="java.util.*"%> <!-- list用 -->
 
 <%
-// 如何將list的campOrderVo取出???
+
 MemberVO memberVO =  (MemberVO)session.getAttribute("memberVO");
 CampOrderVO campOrderVO = (CampOrderVO)session.getAttribute("campOrderVO");
-
-CampAreaDAO campAreaDAO = new CampAreaDAOImpl();
 CampAreaVO campAreaVO = new CampAreaVO();
-campAreaVO.getCampAreaName();
+CampAreaOrderDetailDAO campAreaOrderDetailDAO = new CampAreaOrderDetailDAOImpl();
+// List<CampAreaVO> campAreaList = campAreaSvc.camparealist(campOrderVO.getCampId());  // 為了要拿到campAreaName 
+// List<CampAreaOrderDetailVO> campAreaOrderDetailList = (CampAreaOrderDetailVO)session.getAttribute("campAreaOrderDetailList");
 
 
 // CampOrderVO campOrderVO = new CampOrderVO();
@@ -76,10 +76,7 @@ campAreaVO.getCampAreaName();
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
 						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
-				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
-					value="">註冊</a></li>
-					
+				
 				<%-- =================  登出鈕   ===================== --%>	
 				<li>
 				<form method="post" action="<%=request.getContextPath()%>/member/MemberServlet">
@@ -134,7 +131,7 @@ campAreaVO.getCampAreaName();
 						<li><a
 							href="<%=request.getContextPath()%>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
 						</li>
-					</ul></li>				
+					</ul>	
 		</div>
 	</aside>
     <%-- =================  sidebar   ===================== --%>
@@ -162,8 +159,6 @@ campAreaVO.getCampAreaName();
         <tbody class="table-hover">
         
         <%-- =================  營地迴圈  ===================== --%>
-		<c:forEach var="campAreaOrderDetailVO" items="${ campAreaOrderDetailList }">
-        
             <tr>
                 <td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${ campOrderVO.campId }&pic=1" alt="營地圖片"></td>
                 <td class="text-left">${ campSvc.getOneCamp(campOrderVO.campId).campName }</td>
@@ -172,42 +167,30 @@ campAreaVO.getCampAreaName();
                 <td class="text-left" colspan="2">
                 ${ (campOrderVO.campOrderStatus == 0) ? "處理中" : (campOrderVO.campOrderStatus == 1) ? "已確認" : (campOrderVO.campOrderStatus == 2) ? "已完成" : "" }
                 </td> 
-            </tr>
-            
+            </tr> 
         <%-- =================  營地迴圈  ===================== --%>  
-          
+
             <tr>
                 <th class="text-left">營位名稱</th> 
                 <th class="text-left">數量</th>
-                <th class="text-left">金額</th>
-            </tr>
-           
-        <%-- =================  營位迴圈  ===================== --%>      
-        
-            <tr>
-                <td class="text-left"></td> <%-- ${ campAreaVO.campAreaName } --%>
-                <td class="text-left"></td> <%-- ${ campAreaVO.booking_quantity } --%>
-                <td class="text-left"></td> <%-- ${ campAreaVO.campAreaName } --%>
-            </tr>
-            
-		<%-- =================  營位迴圈  ===================== --%>  
-           
-           <tr>
+                <th class="text-left">營位總金額</th>
                 <th class="text-left">加購人頭數</th>
                 <th class="text-left">加購人頭單價</th>
-                <th class="text-left">金額</th>
+                <th class="text-left" colspan="2">人頭總金額</th>
             </tr>
-           
-        <%-- =================  加購迴圈  ===================== --%>      
-        
+
+        <%-- =================  迴圈  ===================== --%>      
+			<c:forEach var="campAreaOrderDetailVO" items="${ campAreaOrderDetailList }">
             <tr>
-                <td class="text-left"></td> 
-                <td class="text-left"></td> 
-                <td class="text-left"></td> 
+                <td class="text-left">${ campAreaSvc.getOneCampArea(campAreaOrderDetailVO.campAreaId).campAreaName }</td> 
+                <td class="text-left">${ campAreaOrderDetailVO.bookingQuantity }</td> 
+                <td class="text-left">${ campAreaOrderDetailVO.campAreaWeekdayPrice * campAreaOrderDetailVO.bookingWeekdays + campAreaOrderDetailVO.campAreaHolidayPrice * ampAreaOrderDetailVO.bookingHolidays }</td> 
+                <td class="text-left">${ campAreaOrderDetailVO.capitationQuantity }</td> 
+                <td class="text-left">${ campAreaOrderDetailVO.perCapitationFee }</td> 
+                <td class="text-left" colspan="2">${ campAreaOrderDetailVO.capitationQuantity * campAreaOrderDetailVO.perCapitationFee }</td> 
             </tr>
-            
-		</c:forEach>
-		<%-- =================  加購迴圈  ===================== --%>                                                           
+			</c:forEach>
+		<%-- =================  迴圈  ===================== --%>                                                           
                    
             <tr>
                 <td class="text-left" colspan="6">
@@ -216,12 +199,72 @@ campAreaVO.getCampAreaName();
 			                    訂購人電話 ${ campOrderVO.payerPhone }<br>
                 </td>
                 <td class="text-center">
-                    <button class="button" type="button" onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_camp_order_list.jsp';">返回列表</button>
+                    <button class="button" type="button" onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_camp_order_list.jsp';">返回列表</button><br>
+	            	<input type="hidden" class="commentOrderDetail" value="${ campOrderVO.getCampOrderId() }">
+	            	<button class="comment" type="button" >評論營地</button></td>
                 </td>
             </tr>
         </tbody>
     </table>
-    <%-- =================  營地訂單明細   ===================== --%>
+    <%-- =================  營地訂單明細   ===================== --%> 
+    
+    <div class="commentArea -off">
+        <button class="comment" id="close" type="button">X</button>
+        <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/MemberOrderServlet" style="margin-bottom: 0px;">
+        <div>
+            <div class="star_block">
+            	
+	                <span class="star -on" data-star="1">
+		                <label for="radio1">
+		                    <input type="radio" id="radio1" name="starNum" value="1" style="display: none" checked>    
+		                    <i class="fas fa-star"></i>
+		                </label>
+	                </span>	            
+	              
+	                <span class="star" data-star="2">
+	                	<label for="radio2">
+		                    <input type="radio" id="radio2" name="starNum" value="2" style="display: none">
+		                    <i class="fas fa-star"></i>
+	                    </label>
+	                </span>
+	            
+	            
+	                <span class="star" data-star="3">
+		                <label for="radio3">
+		                    <input type="radio" id="radio3" name="starNum" value="3" style="display: none">
+		                    <i class="fas fa-star"></i>
+		                </label>
+	                </span>
+	            
+	            
+	                <span class="star" data-star="4">
+		                <label for="radio4">
+		                    <input type="radio" id="radio4" name="starNum" value="4" style="display: none">
+		                    <i class="fas fa-star"></i>
+		                </label>                    
+	                </span>
+	            
+	            
+	                <span class="star" data-star="5">
+		                <label for="radio5">
+		                    <input type="radio" id="radio5" name="starNum" value="5" style="display: none">
+		                    <i class="fas fa-star"></i>
+		                </label>
+	                </span>
+	            
+            </div>
+            <div>營地評論:</div>
+            <textarea class="textarea" name="commentText"></textarea>            
+				<input type="hidden" name="action"	value="updateComment">
+				<input type="hidden" name="campOrderId"  value="${ campOrderVO.getCampOrderId() }">
+				<input class="updateButton" id="commentButton" type="submit" value="確認送出">
+            </FORM> 
+        </div>  
+     </div>  
+    
+    <%-- =================  訂單評論區   ===================== --%>
+    
+    
 
 	<%-- =================  sidebar javascript   ===================== --%>
     <script src="<%=request.getContextPath()%>/front_end/member/vendor/jQuery/jquery-3.6.0.min.js"></script>
@@ -230,6 +273,46 @@ campAreaVO.getCampAreaName();
             $("#leftside-navigation ul ul").slideUp(), $(this).next().is(":visible") || $(this).next().slideDown(),
                 e.stopPropagation()
         })
+        
+                // 開啟 Modal 彈跳視窗
+        $("button.comment").on("click", function(){
+            $("div.commentArea").removeClass("-off");            
+            $("#mallOrderDetailIdVar").val($(this).closest("tr").find("input.commentOrderDetail").eq(0).val()); 
+            let mallOrder = $(this).closest("tr");
+            let comment = mallOrder.attr("data-comment");
+        	let star = mallOrder.attr("data-star");
+        	$(".textarea").text(comment);
+        	
+        	$("div.star_block").find("span.star").each(function(i, item){
+
+                if( parseInt($(this).attr("data-star")) == star ){
+                	$(this).click();
+                	$(this).children("label").click();
+                	
+                };
+             });
+        });        
+        // 關閉 Modal
+        $("#close").on("click", function(){
+            $("div.commentArea").addClass("-off");
+            $("textarea.textarea").text("");
+        });
+
+        $("div.commentArea").on("click", "span.star", function(e){
+
+            let current_star = parseInt($(this).attr("data-star"));
+
+            $(this).closest("div.star_block").find("span.star").each(function(i, item){
+
+            if( parseInt($(this).attr("data-star")) <= current_star ){
+                $(this).addClass("-on");
+            }else{
+                $(this).removeClass("-on");
+            }
+
+            });
+
+        });   
     </script>
     <%-- =================  sidebar javascript   ===================== --%>
     
