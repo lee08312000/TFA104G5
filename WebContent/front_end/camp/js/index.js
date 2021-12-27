@@ -65,7 +65,7 @@ window.addEventListener("load", function() {
 
 
     $.ajax({
-        url: "http://localhost:8081/TFA104G5/CampServlet2", // 資料請求的網址
+        url: "/TFA104G5/CampServlet2", // 資料請求的網址
         type: "GET", // GET | POST | PUT | DELETE | PATCH
         data: {
             'action': 'hotcamp'
@@ -91,13 +91,14 @@ window.addEventListener("load", function() {
             var count = 0;
             for (let i = 0; i < data.length; i++) {
                 let camp = data[i];
+                let id=camp.campId;
                 let hotcampdata = `
             <article class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item" campid=${camp.campId}>
             <figure class="figcol">
                 <img src='data:image/png;base64,${camp.imgBase64}' alt="Image" class="img-fluid tm-gallery-img"/> 
                 <figcaption>
                     <h4 class="tm-gallery-title">${camp.name}</h4>
-                    <a href="#" class="addlove btn_modal"><i class="far fa-heart"></i></a>
+                    <a href="#" class="addlove btn_modal" campid=${camp.campId}>`+loadfavorcamp(memberid,id)+`</i></a>                        
                     <p class="tm-gallery-description">${camp.address.substr(0,6)}</p>
                     <ul class="camp_target">
                     <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
@@ -110,7 +111,7 @@ window.addEventListener("load", function() {
                     <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
                    
                     </ul>
-                    <div class="camp_detailcontainer"><a id="accept-btn" class="btn btn__accept" href="camp_detail.html?campid=${camp.campId}">了解更多</a></div>
+                        <div class="camp_detailcontainer"><a id="accept-btn" class="btn btn__accept" href='camp_detail.html?campid=${camp.campId}'">了解更多</a></div>
                 </figcaption>
             </figure>
             </article>`;
@@ -150,17 +151,19 @@ window.addEventListener("load", function() {
                 }
                 count++;
 
-                //加入我的最愛
-                $("a.btn_modal").on("click", function(e) {
-                    e.preventDefault();
-
-                    $("div.overlay").fadeIn();
-                    $("div.overlay").fadeOut(2000);
-                });
+               
 
             }
 
-
+            // 我的最愛
+            $("a.btn_modal").on("click", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                let campid=(e.target.parentElement).getAttribute('campid');
+                let memberid=sessionStorage['memberid'];
+                var target=e.target;
+                addfav(memberid,campid,target);
+            });
 
         },
         error: function(xhr) {
@@ -288,3 +291,77 @@ cbtn.addEventListener("click", function(e) {
 
 
 });
+
+
+
+function addfav(memberid,campid,target){
+
+	if(memberid==null||Number(memberid)==NaN){
+		alert("請先登入會員，謝謝!");
+		return;		
+	}
+	$.ajax({
+		  url: "http://localhost:8081/TFA104G5/FavorCampServlet",           // 資料請求的網址
+		  type: "GET",                  // GET | POST | PUT | DELETE | PATCH
+		   data: {
+			   'action':'addfav',
+			   'memberid':memberid,
+				   'campid':campid
+
+		   },               // 傳送資料到指定的 url
+		  dataType: "text",             // 預期會接收到回傳資料的格式： json | xml | html
+		  success: function(data){      // request 成功取得回應後執行
+		    console.log(data);
+		    switch(data){
+		    case "已經加入過了，移除我的最愛成功":
+		    	alert("已經加入過了，移除我的最愛成功");
+		    	if(target.classList.contains("fas")){
+		    		target.classList.remove("fas");
+		    		target.classList.add("far");
+		    	}
+		    	break;
+		    case "新增我的最愛成功"	:
+		    	alert("新增我的最愛成功");
+		    	if(target.classList.contains("far")){
+		    	target.classList.remove("far");
+		    	target.classList.add("fas");
+		    	}
+		    	break;
+		    case "新增失敗，請重新登入":
+		    	alert("新增失敗，請重新登入");
+		    	break;
+		    }
+
+		    }
+		    		  
+		});
+	
+
+}
+
+
+function unbind() {
+
+    window.onscroll = false;
+}
+
+
+
+function loadfavorcamp(memberid,campid){
+	
+	if(memberid==null){
+		
+		return `<i class="far fa-heart"></i>`;
+		
+	}
+	if(favorlist.includes(campid)){
+	
+		return `<i class="fas fa-heart"></i>`;
+
+	}else{
+		
+		return `<i class="far fa-heart"></i>`;
+		
+	}
+	
+}
