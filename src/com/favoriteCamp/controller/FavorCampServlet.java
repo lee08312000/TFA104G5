@@ -36,7 +36,7 @@ public class FavorCampServlet extends HttpServlet {
 		if ("addfav".equals(action)) {
 			String memberid = req.getParameter("memberid");
 			String campid = req.getParameter("campid");
-
+System.out.println(memberid+":"+campid);
 			String statusText = null;
 			// 檢查有無登入
 			if (memberid == null || memberid.length() == 0) {
@@ -50,8 +50,9 @@ public class FavorCampServlet extends HttpServlet {
 
 			FavoriteCampService favoritecampSvc = new FavoriteCampService();
 			List<FavoriteCampVO> list = favoritecampSvc.findBymemberId(Integer.parseInt(memberid));
+
 			try {
-				if (list != null && list.size() > 0) {
+				if (list != null&& list.size() > 0) {
 
 					for (FavoriteCampVO faobj : list) {
 
@@ -65,7 +66,7 @@ public class FavorCampServlet extends HttpServlet {
 
 					}
 				}
-				if (list != null && list.size() == 0) {
+				if (list.size() >= 0) {
 					statusText = "新增我的最愛成功";
 					favoritecampSvc.addFavoriteCamp(Integer.parseInt(memberid), Integer.parseInt(campid));
 					out.print(statusText);
@@ -77,6 +78,7 @@ public class FavorCampServlet extends HttpServlet {
 				statusText = "新增失敗，請重新登入";
 				out.print(statusText);
 			}
+			System.out.println("都沒執行到");
 		}
 
 	}
