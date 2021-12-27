@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>營地詳細葉面</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-    <link href="css/header_footer.css" rel="stylesheet" />
+<link href="css/header_footer.css" rel="stylesheet" />  
     <link href="css/camp_detail.css" rel="stylesheet" />
     <link href="img/icon/chuba_logo.png" rel="shortcut icon">
     <script type="text/javascript" src="js/camp_detail.js"></script>
@@ -36,9 +36,11 @@
                 <a href="camp_index.html">Home</a>
                 <a href="../mall/mall_index.html">線上商城</a>
                 <a href="../member/jsp/member_favorite_camp.jsp"><img src="img/icon/heart.png"></a>
-                <a href="../member/login/login.jsp">登入|註冊</a>        
-                <a href="../member/jsp/member_main.jsp"><i class="fas fa-user-circle"></i></a>
-                <button>Menu</button>
+                <a href="../member/login/login.jsp">登入|註冊</a>
+                <a href="#" class="islogin">登出</a>     
+                <a href="../member/jsp/member_main.jsp" class="islogin"><i class="fas fa-user-circle islogin"></i></a>
+              
+              	
             </nav>
         </div>
     </header>
@@ -262,6 +264,7 @@
         <pre>Copyright &copy; 2020 Simple House | Design: <a style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a></pre>
 
     </footer>
+      <script src="js/login.js"></script> 
 
 
 </body>

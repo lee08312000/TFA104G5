@@ -243,7 +243,7 @@ address {
     width: 100%;
     min-height: 120px;
     /* ÃC¦âº¥¼h */
-    background: linear-gradient(to bottom, #724408, #dbb07c);
+    background: #dbb07c;
 }
 
 .placeholder-2 {
