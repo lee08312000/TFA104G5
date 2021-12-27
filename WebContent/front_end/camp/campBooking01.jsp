@@ -39,18 +39,19 @@
 	<header class="header-outer">
 		<div class="header-inner responsive-wrapper">
 			<div class="header-logo">
-				<a style="display: inline-block; vertical-align: middle;"
-					href="camp_index.html"> <img src="img/icon/chuba_logo.png" />
+				<a style="display: inline-block; vertical-align: middle;" href="camp_index.html"> 
+					<img src="img/icon/chuba_logo.png" />
 				</a> <span style="display: inline-block; vertical-align: middle;">Camping
 					Paradise</span>
 			</div>
 			<nav class="header-navigation">
-				<a href="camp_index.html">Home</a> <a href="../mall/mall_index.html">線上商城</a>
-				<a href="#"><img
-					src="<%=request.getContextPath()%>/front_end/camp/img/icon/heart.png"></a>
-				<a href="../member/login.jsp">登入|註冊</a> <a href="#"><i
-					class="fas fa-user-circle"></i></a>
-				<button>Menu</button>
+				<a href="camp_index.html">Home</a>
+                <a href="../mall/mall_index.html">線上商城</a>
+                <a href="../member/jsp/member_favorite_camp.jsp"><img src="img/icon/heart.png"></a>
+                <a href="../member/login/login.jsp">登入|註冊</a>
+                <a href="#" class="islogin">登出</a>     
+                <a href="../member/jsp/member_main.jsp" class="islogin"><i class="fas fa-user-circle islogin"></i></a>
+				
 			</nav>
 		</div>
 	</header>
@@ -253,7 +254,7 @@
 
 
 
-
+    <script src="js/login.js"></script> 
 	<script type="text/javascript"
 		src="front_end/camp/js/camp_booking01.js"></script>
 
