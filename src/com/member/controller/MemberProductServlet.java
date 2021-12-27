@@ -1,6 +1,7 @@
 package com.member.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,6 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mallOrder.model.MallOrderDAOImpl;
+import com.mallOrder.model.MallOrderService;
+import com.mallOrder.model.MallOrderVO;
+import com.mallOrderDetail.model.MallOrderDetailDAOImpl;
 import com.mallOrderDetail.model.MallOrderDetailService;
 import com.mallOrderDetail.model.MallOrderDetailVO;
 
@@ -49,17 +54,67 @@ public class MemberProductServlet extends HttpServlet{
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/front_end/member/jsp/member_product_order_list.jsp");
 				failureView.forward(req, res);
-			}
-			
-			
-			
-			
-			
-			
-			
-			
+			}	
 			
 		}
+		
+		//確認訂單
+				if ("updateMallOrderAllStatus".equals(action)) {
+					try {
+						
+						/***************************1.修改訂單狀態(Send the Success view)***********/
+						Integer mallOrderId = Integer.parseInt(req.getParameter("mallOrderId"));
+						
+						MallOrderService mallOrderSvc = new MallOrderService();
+						MallOrderVO mallOrderVO = mallOrderSvc.getOneMallOrder(mallOrderId);
+						mallOrderVO.setMallOrderStatus(2);
+						mallOrderVO.setMallOrderDeliveryStatus(2);
+						MallOrderDAOImpl mallOrderDao = new MallOrderDAOImpl();
+						mallOrderDao.update(mallOrderVO);
+						
+						MallOrderDetailService mallOrderDetailSvc = new MallOrderDetailService();
+						List<MallOrderDetailVO> mallOrderDetailList = mallOrderDetailSvc.getBymallOrderId(mallOrderId);
+						/***************************2.修改狀態完成,準備轉交(Send the Success view)***********/
+						req.setAttribute("mallOrderDetailList", mallOrderDetailList); // 資料庫update成功後,重新抓取訂單明細
+						String url = "/front_end/member/jsp/member_product_order_detail.jsp";
+						RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
+						successView.forward(req, res);
+										
+					}catch (Exception e) {
+						e.printStackTrace();
+					}					
+				}
+				
+				//訂單評論送出
+						if ("updateComment".equals(action)) {
+							try {
+								
+								/***************************1.修改訂單狀態(Send the Success view)***********/
+								Integer mallOrderId = Integer.parseInt(req.getParameter("mallOrderId"));
+								Integer mallOrderDetailId = Integer.parseInt(req.getParameter("mallOrderDetailId"));
+								Integer starNum = Integer.parseInt(req.getParameter("starNum"));						
+								String commentText = req.getParameter("commentText").trim();
+								
+								MallOrderDetailService mallOrderDetailSvc = new MallOrderDetailService();
+								MallOrderDetailVO mallOrderDetailVO = mallOrderDetailSvc.getOneMallOrderDetail(mallOrderDetailId);
+								mallOrderDetailVO.setProductCommentStar(starNum);
+								mallOrderDetailVO.setProductComment(commentText);
+								mallOrderDetailVO.setProductCommentTime(new Timestamp(System.currentTimeMillis()));
+								MallOrderDetailDAOImpl mallOrderDetailDao = new MallOrderDetailDAOImpl();
+								mallOrderDetailDao.update(mallOrderDetailVO);
+								
+
+								List<MallOrderDetailVO> mallOrderDetailList = mallOrderDetailSvc.getBymallOrderId(mallOrderId);
+								/***************************2.修改狀態完成,準備轉交(Send the Success view)***********/
+								req.setAttribute("mallOrderDetailList", mallOrderDetailList); // 資料庫update成功後,重新抓取訂單明細
+								String url = "/front_end/member/jsp/member_product_order_detail.jsp";
+								RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
+								successView.forward(req, res);
+												
+							}catch (Exception e) {
+								e.printStackTrace();
+							}					
+						}
 		
 		
 		
