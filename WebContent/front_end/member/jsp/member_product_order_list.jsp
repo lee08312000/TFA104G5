@@ -11,7 +11,7 @@
 	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 	
 	MallOrderService mallOrderSvc = new MallOrderService();
-	List<MallOrderVO> list = mallOrderSvc.getMallOrderByMember(1);
+	List<MallOrderVO> list = mallOrderSvc.getMallOrderByMember(memberVO.getMemberId());
 	pageContext.setAttribute("list",list);
 %>
 <jsp:useBean id="companySvc" scope="page" class="com.company.model.CompanyService" />
