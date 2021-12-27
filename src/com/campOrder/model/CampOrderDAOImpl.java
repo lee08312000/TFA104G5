@@ -79,9 +79,13 @@ public class CampOrderDAOImpl implements CampOrderDAO {
 
 	static {
 		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/David");
 			Class.forName(Util.DRIVER);
 		} catch (ClassNotFoundException ce) {
 			ce.printStackTrace();
+		} catch (NamingException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -233,7 +237,6 @@ System.out.println("1mainkey="+mainkey);
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE_STMT);
-			
 			pstmt.setInt(1, campOrderVO.getCampId());
 			pstmt.setInt(2, campOrderVO.getMemberId());
 			pstmt.setInt(3, campOrderVO.getCampOrderStatus());
@@ -251,7 +254,7 @@ System.out.println("1mainkey="+mainkey);
 			pstmt.setInt(15, campOrderVO.getCampOrderId());
 
 			pstmt.executeUpdate();
-
+			
 			// Handle any driver errors
 		} catch (SQLException | ClassNotFoundException se) {
 			se.printStackTrace();
