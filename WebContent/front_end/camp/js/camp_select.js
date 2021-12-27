@@ -16,6 +16,15 @@ var getallcamp = {
 
 }
 
+//看有沒有登入過
+var memberid=sessionStorage.getItem("memberid");
+
+
+window.onscroll = null;
+
+
+
+
 // 匯入符合篩選條件的營地
 var cbtn = document.getElementById("cbtn");
 var loading = `<div class="loader">
@@ -203,7 +212,7 @@ function allcamp(end, req) {
         return;
     }
     $.ajax({
-        url: "http://localhost:8081/TFA104G5/CampServlet2", // 資料請求的網址
+        url: "/TFA104G5/CampServlet2", // 資料請求的網址
         type: "GET", // GET | POST | PUT | DELETE | PATCH
         traditional: true,
         data: getallcamp,
@@ -225,13 +234,14 @@ function allcamp(end, req) {
                 // 判斷回傳陣列長度
                 for (let i = 0; i < campdata.length; i++) {
                     let camp = campdata[i];
+                    let id=camp.campId;
                     let selecampdata = `
             <article class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item itempage2" campid=${camp.campId}>
             <figure>
                 <img src='/TFA104G5/PicWithCampServlet?campid=${camp.campId}&pic=1' alt="Image" class="img-fluid tm-gallery-img"> 
                 <figcaption>
                     <h4 class="tm-gallery-title">${camp.name}</h4>
-                    <a href="#" class="addlove btn_modal" campid=${camp.campId}><i class="far fa-heart"></i></a>
+                    <a href="#" class="addlove btn_modal" campid=${camp.campId}>`+loadfavorcamp(memberid,id)+`</i></a>
                     <p class="tm-gallery-description">${camp.address.substr(0,6)}</p>
                     <ul class="camp_target">
                     <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
@@ -309,50 +319,6 @@ function allcamp(end, req) {
 
 
 
-function addfav(memberid,campid,target){
-
-	if(memberid==null||Number(memberid)==NaN){
-		alert("請先登入會員，謝謝!");
-		return;		
-	}
-	$.ajax({
-		  url: "http://localhost:8081/TFA104G5/FavorCampServlet",           // 資料請求的網址
-		  type: "GET",                  // GET | POST | PUT | DELETE | PATCH
-		   data: {
-			   'action':'addfav',
-			   'memberid':memberid,
-				   'campid':campid
-
-		   },               // 傳送資料到指定的 url
-		  dataType: "text",             // 預期會接收到回傳資料的格式： json | xml | html
-		  success: function(data){      // request 成功取得回應後執行
-		    console.log(data);
-		    switch(data){
-		    case "已經加入過了，移除我的最愛成功":
-		    	alert("已經加入過了，移除我的最愛成功");
-		    	if(target.classList.contains("fas")){
-		    		target.classList.remove("fas");
-		    		target.classList.add("far");
-		    	}
-		    	break;
-		    case "新增我的最愛成功"	:
-		    	alert("新增我的最愛成功");
-		    	if(target.classList.contains("far")){
-		    	target.classList.remove("far");
-		    	target.classList.add("fas");
-		    	}
-		    	break;
-		    case "新增失敗，請重新登入":
-		    	alert("新增失敗，請重新登入");
-		    	break;
-		    }
-
-		    }
-		    		  
-		});
-	
-
-}
 
 
 
@@ -444,7 +410,7 @@ function loadquery(e) {
     console.log(data);
 
     $.ajax({
-        url: "http://localhost:8081/TFA104G5/CampServlet2", // 資料請求的網址
+        url: "/TFA104G5/CampServlet2", // 資料請求的網址
         type: "GET", // GET | POST | PUT | DELETE | PATCH
         traditional: true,
         data: data,
@@ -462,15 +428,16 @@ function loadquery(e) {
             if (data.length != 0) {
                 for (let i = 0; i < data.length; i++) {
                     let camp = data[i];
+                    let id=camp.campId;
                     let selecampdata = `
             <article class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item itempage2" campid=${camp.campId}>
             <figure>
                 <img src='data:image/png;base64,${camp.imgBase64}' alt="Image" class="img-fluid tm-gallery-img"> 
                 <figcaption>
                     <h4 class="tm-gallery-title">${camp.name}</h4>
-                    <a href="#" class="addlove btn_modal"><i class="far fa-heart"></i></a>
-                    <p class="tm-gallery-description">${camp.address.substr(0,6)}</p>
-                    <ul class="camp_target">
+                    	<a href="#" class="addlove btn_modal" campid=${camp.campId}>`+loadfavorcamp(memberid,id)+`</i></a>                    
+                    	<p class="tm-gallery-description">${camp.address.substr(0,6)}</p>
+                    	<ul class="camp_target">
                     	<li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
                         <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
                         <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
@@ -498,14 +465,17 @@ function loadquery(e) {
                         tagchild2[j].style.visibility = "visible";
                     }
 
-                    $("a.btn_modal").on("click", function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        $("div.overlay").fadeIn();
-                        $("div.overlay").fadeOut(2000);
-                    });
-
                 }
+                // 我的最愛
+                $("a.btn_modal").on("click", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    let campid=(e.target.parentElement).getAttribute('campid');
+                    let memberid=sessionStorage['memberid'];
+                    var target=e.target;
+                    addfav(memberid,campid,target);
+                    
+                });
             } else {
                 document.getElementsByClassName("tm-gallery")[0].insertAdjacentHTML("afterbegin", `<p style="color: crimson;font-size: 18px;margin: 0 auto;">查無符合的資料</p>`)
 
@@ -539,6 +509,9 @@ function loadquery(e) {
 var searchbtn = document.getElementsByClassName("searchButton")[0];
 
 searchbtn.addEventListener("click", function(e) {
+	  document.getElementById("a").checked = false;
+	  window.onscroll = false;
+	
     // 先清空之前搜尋的東東
     var mainsection = document.getElementsByClassName("page2-gallery")[0];
     var childs = mainsection.lastElementChild;
@@ -553,7 +526,7 @@ searchbtn.addEventListener("click", function(e) {
     if ((text = text.replace(/\s*/g, "")) != "") {
 
         $.ajax({
-            url: "http://localhost:8081/TFA104G5/CampServlet2", // 資料請求的網址
+            url: "/TFA104G5/CampServlet2", // 資料請求的網址
             type: "get",
             traditional: true,
             data: {
@@ -570,17 +543,18 @@ searchbtn.addEventListener("click", function(e) {
                 var gallery = document.getElementsByClassName("loader")[0];
                 gallery.parentNode.removeChild(gallery);
                 console.log(data);
-
+if(data.length!=0){
                 for (let i = 0; i < data.length; i++) {
                     let camp = data[i];
+                    let id=camp.campId;
                     let selecampdata = `
                 <article class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item itempage2" campid=${camp.campId}>
                 <figure>
                     <img src='data:image/png;base64,${camp.imgBase64}' alt="Image" class="img-fluid tm-gallery-img"> 
                     <figcaption>
                         <h4 class="tm-gallery-title">${camp.name}</h4>
-                        <a href="#" class="addlove btn_modal"><i class="far fa-heart"></i></a>
-                        <p class="tm-gallery-description">${camp.address.substr(0,6)}</p>
+                    	<a href="#" class="addlove btn_modal" campid=${camp.campId}>`+loadfavorcamp(memberid,id)+`</i></a>                        
+                    	<p class="tm-gallery-description">${camp.address.substr(0,6)}</p>
                         <ul class="camp_target">
                         <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
                         <li style="visibility:hidden"><a id="accept-btn" class="btn btn__accept btn_small" href="camp_detail.html?campid=${camp.campId}"></a></li>
@@ -610,18 +584,26 @@ searchbtn.addEventListener("click", function(e) {
                         tagchild2[j].style.visibility = "visible";
                     }
 
-                    $("a.btn_modal").on("click", function(e) {
-                        e.preventDefault();
+                    
+                }
+                // 我的最愛
+                $("a.btn_modal").on("click", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    let campid=(e.target.parentElement).getAttribute('campid');
+                    let memberid=sessionStorage['memberid'];
+                    var target=e.target;
+                    addfav(memberid,campid,target);
 
-                        $("div.overlay").fadeIn();
-                        $("div.overlay").fadeOut(2000);
-                    });
+                });
+            }else{
+                document.getElementsByClassName("tm-gallery")[0].insertAdjacentHTML("afterbegin", `<p style="color: crimson;font-size: 18px;margin: 0 auto;">查無符合的資料</p>`)
 
                 }
-
-
             }
+            
         });
+        
     } else {
         alert("提示:請輸入查詢營地名稱，謝謝!");
 
@@ -636,9 +618,74 @@ $("body").keydown(function(e) {
         // 调用登录方法,在div中定义方法,或通过js绑定的方法都可以,我的登录方法就是通过jquery绑定的点击事件
     }
 });
+function addfav(memberid,campid,target){
+
+	if(memberid==null||Number(memberid)==NaN){
+		alert("請先登入會員，謝謝!");
+		return;		
+	}
+	$.ajax({
+		  url: "/TFA104G5/FavorCampServlet",           // 資料請求的網址
+		  type: "GET",                  // GET | POST | PUT | DELETE | PATCH
+		   data: {
+			   'action':'addfav',
+			   'memberid':memberid,
+				   'campid':campid
+
+		   },               // 傳送資料到指定的 url
+		  dataType: "text",             // 預期會接收到回傳資料的格式： json | xml | html
+		  success: function(data){      // request 成功取得回應後執行
+		    console.log(data);
+		    switch(data){
+		    case "已經加入過了，移除我的最愛成功":
+		    	alert("已經加入過了，移除我的最愛成功");
+		    	if(target.classList.contains("fas")){
+		    		target.classList.remove("fas");
+		    		target.classList.add("far");
+		    	}
+		    	break;
+		    case "新增我的最愛成功"	:
+		    	alert("新增我的最愛成功");
+		    	if(target.classList.contains("far")){
+		    	target.classList.remove("far");
+		    	target.classList.add("fas");
+		    	}
+		    	break;
+		    case "新增失敗，請重新登入":
+		    	alert("新增失敗，請重新登入");
+		    	break;
+		    }
+
+		    }
+		    		  
+		});
+	
+
+}
 
 
 function unbind() {
 
     window.onscroll = false;
+}
+
+
+
+function loadfavorcamp(memberid,campid){
+	
+	if(memberid==null){
+		
+		return `<i class="far fa-heart"></i>`;
+		
+	}
+	if(favorlist.includes(campid)){
+	
+		return `<i class="fas fa-heart"></i>`;
+
+	}else{
+		
+		return `<i class="far fa-heart"></i>`;
+		
+	}
+	
 }

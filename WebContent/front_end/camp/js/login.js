@@ -1,11 +1,13 @@
+
+var favorlist=[];
 document.addEventListener("DOMContentLoaded", function() {
 	$.ajax({
-		  url: "http://localhost:8081/TFA104G5/CampServlet2",           // 資料請求的網址
+		  url: "/TFA104G5/CampServlet2",           // 資料請求的網址
 		  type: "GET",                  // GET | POST | PUT | DELETE | PATCH
 		  data: {
 			  'action':'islogin',			  
 		  },                  // 傳送資料到指定的 url
-		  dataType: "text",             // 預期會接收到回傳資料的格式： json | xml | html
+		  dataType: "json",             // 預期會接收到回傳資料的格式： json | xml | html
 		  timeout: 0,                   // request 可等待的毫秒數 | 0 代表不設定 timeout
 		  beforeSend: function(){       // 在 request 發送之前執行
 		  },
@@ -22,8 +24,11 @@ document.addEventListener("DOMContentLoaded", function() {
 		  },
 		  success: function(data){      // request 成功取得回應後執行
 		    console.log(data);
-		    if(data!="not-login" && Number(data)!=NaN){
-		    	sessionStorage.setItem('memberid', data);
+		  
+
+		    if(typeof(data['not-login'])=='undefined'){
+		    	//更改header上面的東東
+		    	sessionStorage.setItem('memberid', data['memberid']);
 		    	var membershow=document.getElementsByClassName("islogin");
 		    	var membershow_a=document.querySelectorAll("a.islogin");
 		    	for(let i=0;i<membershow.length;i++){
@@ -40,8 +45,22 @@ document.addEventListener("DOMContentLoaded", function() {
 		    	var Pmemberlogin=memberlogin.parentNode;
 		    	memberlogin.classList.add("islogin");
 		    	Pmemberlogin.classList.add("islogin");
+		    	
+		    	
+		    	
+		    	//我最愛的營地id 存入session
+		    	let list=data['favorlist'];
+		    	for(let i=0;i<list.length;i++){
+		    		favorlist.push(list[i].campId);
+
+		    	}
+		    	
+		    	
+		    	
+		    	
 
 		    }
+		    
 		    
 		    
 		    
@@ -56,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		  },
 		  complete: function(xhr){      // request 完成之後執行(在 success / error 事件之後執行)
 		    console.log(xhr);
+		    console.log(favorlist);
 		  }
 		});
 	

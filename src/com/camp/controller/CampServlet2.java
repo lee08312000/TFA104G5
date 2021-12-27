@@ -29,6 +29,8 @@ import com.campOrder.model.CampOrderVO;
 import com.campTag.model.CampTagService;
 import com.campTagDetail.model.CampTagDetailService;
 import com.campTagDetail.model.CampTagDetailVO;
+import com.favoriteCamp.model.FavoriteCampService;
+import com.favoriteCamp.model.FavoriteCampVO;
 import com.member.model.MemberVO;
 
 @WebServlet("/CampServlet2")
@@ -55,17 +57,27 @@ public class CampServlet2 extends HttpServlet {
 		if ("islogin".equals(action)) {
 
 			HttpSession session = req.getSession();
-
+			Map loginMap=new HashMap();
 			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 
 			if (memberVO != null) {
 				Integer memberid = memberVO.getMemberId();
-
-				out.print(String.valueOf(memberid));
+				
+				FavoriteCampService favoritecampSvc=new FavoriteCampService();
+				List<FavoriteCampVO> favorlist=favoritecampSvc.findBymemberId(memberid);
+			loginMap.put("memberid",memberid);
+			loginMap.put("favorlist",favorlist);
+			JSONObject jObject=new JSONObject(loginMap);
+				
+				out.print(jObject);
+				
+				
+				
 				return;
 			}else {
-				
-				out.print("not-login");
+				loginMap.put("not-login","not-login");
+				JSONObject jObject=new JSONObject(loginMap);			
+				out.print(jObject);
 				return;
 				
 			}
