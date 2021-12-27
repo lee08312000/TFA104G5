@@ -225,10 +225,6 @@ footer {
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp" style="display:block;">註冊</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp" style="display:block;">登入</a></li>
-				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp" style="display:none;">登出</a></li>
-				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"><i
 						class="fas fa-user"></i></a></li>
 			</nav>
