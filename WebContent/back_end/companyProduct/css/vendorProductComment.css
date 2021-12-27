@@ -439,57 +439,29 @@
             padding: 20px;
             
         }
-        .updateButton, .comment {
-            background-color: #636060;
-            border: 0cm ;
-            border-radius: 4px;
-            font-size: 16px;
-            font-weight: bold;
-            color:#D5DDE5;
+        table#miyazaki { 
+        margin: 30px 0;        
+        font-family: Agenda-Light, sans-serif;
+        font-weight: 50; 
+        background: #646463; color: #fff;
+        text-rendering: optimizeLegibility;
+        border-radius: 5px; 
+        text-align: center;
+        margin-left: 40px;
         }
-
-        .commentArea{
-            background-color: #EEE;
-            border-radius: 4px;
-            box-shadow: 9px 9px 5px rgba(90, 86, 86, 0.7);;
-            width: 420px;
-            height: 300px;
-            position: relative;
-            display: inline-block;
-            margin: 30px;
-            padding-left: 10px;
-               
+        
+        table#miyazaki thead th { font-weight: 600; }
+        table#miyazaki thead th, table#miyazaki tbody td { 
+        padding: 3px; font-size: 16px;
         }
-
-        #close{
-            position: relative;
-            left:400px;
-            top: 10px;
-            cursor: pointer;
+        table#miyazaki tbody td { 
+        padding: 3px; font-size: 16px;
+        color: #444; background: rgb(248, 246, 246);
+        font-weight:500; 
         }
-
-        .commentText{
-            background-color: white; 
-            border-color: #6d6a68;
-            width: 400px;
-            height: 200px;            
-            border: 0cm;   
-            border-radius: 4px;
-            position: relative;
-        }
-
-        #commentButton{
-            position: relative;
-            left:350px;
-
-        }
-
-        div.star_block{
-            display: inline-block;
-        }
-        div.star_block > span.star{
-            cursor: pointer;
-            display: inline-block;
-            margin-right: 3px;
-            color: yellow;
+        table#miyazaki tbody tr { 
+        border-top: 5px solid #ddd;
+        border-bottom: 5px solid #ddd;
+        border-left: 5px solid #ddd;
+        border-right: 5px solid #ddd;        
         }

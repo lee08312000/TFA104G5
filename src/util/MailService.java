@@ -40,8 +40,8 @@ public class MailService {
 
 	       // ●設定 gmail 的帳號 & 密碼 (將藉由你的Gmail來傳送Email)
 	       // ●須將myGmail的【安全性較低的應用程式存取權】打開
-		     final String myGmail = "john08312000@gmail.com"; // 換成自己的gmail
-		     final String myGmail_password = "zz96323323";
+		     final String myGmail = "leezoha23939889@gmail.com"; // 換成自己的gmail
+		     final String myGmail_password = "cc96323323";
 			   Session session = Session.getInstance(props, new Authenticator() {
 				   protected PasswordAuthentication getPasswordAuthentication() {
 					   return new PasswordAuthentication(myGmail, myGmail_password);
@@ -152,18 +152,18 @@ public class MailService {
 				   
 				   
 			   }
-			   String orgerTable = 
+			   String orderTable = 
 					   "<html><head><style>table,th,tr,td{border: 1px solid black; border-collapse: collapse;}</style></head>"
 					   + "<body>"
 					   +"<h2>訂單已成立，訂單資訊如下:" + "共 " + mallOrderIdList.size() + " 筆" +"</h2>"
 					   + mallOrderStr
-					   + "<p>交易總金額: "
+					   + "<p>交易總金額: NT$ "
 					   + tradeTotalAmount
 					   + "</p>"
 					   + "</body>"
 					   + "</html>"; 
 			   
-			   message.setContent(orgerTable, "text/html; charset=UTF-8");
+			   message.setContent(orderTable, "text/html; charset=UTF-8");
 			   
 			   Transport.send(message);
 			   System.out.println("傳送成功!");
@@ -188,8 +188,8 @@ public class MailService {
 
        // ●設定 gmail 的帳號 & 密碼 (將藉由你的Gmail來傳送Email)
        // ●須將myGmail的【安全性較低的應用程式存取權】打開
-	     final String myGmail = "john08312000@gmail.com"; // 換成自己的gmail
-	     final String myGmail_password = "zz96323323";
+	     final String myGmail = "leezoha23939889@gmail.com"; // 換成自己的gmail
+	     final String myGmail_password = "cc96323323";
 		   Session session = Session.getInstance(props, new Authenticator() {
 			   protected PasswordAuthentication getPasswordAuthentication() {
 				   return new PasswordAuthentication(myGmail, myGmail_password);
@@ -227,7 +227,7 @@ public class MailService {
 //      mailService.sendMail(to, subject, messageText);
       
       
-      mailService.sendMailByMallOrder(to, "Camping Paradise-商城訂單成立", Arrays.asList(71));
+      mailService.sendMailByMallOrder(to, "Camping Paradise-商城訂單成立", Arrays.asList(1,2));
 
    }
 

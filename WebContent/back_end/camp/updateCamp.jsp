@@ -28,7 +28,7 @@ pageContext.setAttribute("campTagDetailList", campTagDetailList);
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <title>campshelves</title>
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
@@ -36,6 +36,87 @@ pageContext.setAttribute("campTagDetailList", campTagDetailList);
 	crossorigin="anonymous">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/back_end/css/insertCampShelves.css?v=003">
+	
+<script >
+$(function(){
+	  $('#camp_pic1').change(function(){
+	    var input = this;
+	    var url = $(this).val();
+	    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+	    if (input.files && input.files[0]&& (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
+	     {
+	        var reader = new FileReader();
+
+	        reader.onload = function (e) {
+	           $('#smallPic1').attr('src', e.target.result);
+	        }
+	       reader.readAsDataURL(input.files[0]);
+	    }
+	  });
+	  
+	  $('#camp_pic2').change(function(){
+	    var input = this;
+	    var url = $(this).val();
+	    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+	    if (input.files && input.files[0]&& (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
+	     {
+	        var reader = new FileReader();
+
+	        reader.onload = function (e) {
+	           $('#smallPic2').attr('src', e.target.result);
+	        }
+	       reader.readAsDataURL(input.files[0]);
+	    }
+	  });
+
+	  $('#camp_pic3').change(function(){
+	    var input = this;
+	    var url = $(this).val();
+	    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+	    if (input.files && input.files[0]&& (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
+	     {
+	        var reader = new FileReader();
+
+	        reader.onload = function (e) {
+	           $('#smallPic3').attr('src', e.target.result);
+	        }
+	       reader.readAsDataURL(input.files[0]);
+	    }
+	  });
+
+	  $('#camp_pic4').change(function(){
+	    var input = this;
+	    var url = $(this).val();
+	    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+	    if (input.files && input.files[0]&& (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
+	     {
+	        var reader = new FileReader();
+
+	        reader.onload = function (e) {
+	           $('#smallPic4').attr('src', e.target.result);
+	        }
+	       reader.readAsDataURL(input.files[0]);
+	    }
+	  });
+
+	  $('#camp_pic5').change(function(){
+	    var input = this;
+	    var url = $(this).val();
+	    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+	    if (input.files && input.files[0]&& (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
+	     {
+	        var reader = new FileReader();
+
+	        reader.onload = function (e) {
+	           $('#smallPic5').attr('src', e.target.result);
+	        }
+	       reader.readAsDataURL(input.files[0]);
+	    }
+	  });
+
+
+	});
+</script>
 </head>
 <body>
 	
@@ -110,11 +191,13 @@ pageContext.setAttribute("campTagDetailList", campTagDetailList);
 
 
 				<tr>
-					<td><label for="fname">營地美照:</label></td>
-					<td><textarea name="camp_pic1" cols="78" rows="14" value="${campVO.campPic1}"> </textarea></td>
+					<td><label for="fname">營地美照1:</label></td>
+					<td><input type="file" name="camp_pic1" id="camp_pic1" value=""/> 
+					<img id="smallPic1" style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&pic=1" />
+					</td>
 
 				</tr>
-
+				
 				<tr>
 					<td><label for="fname">營地狀態:</label></td>
 					<td>
@@ -136,7 +219,6 @@ pageContext.setAttribute("campTagDetailList", campTagDetailList);
 					
 			</table>
 		</form>
-		
 		
 		
 

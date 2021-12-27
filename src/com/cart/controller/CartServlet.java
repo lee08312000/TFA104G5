@@ -597,6 +597,16 @@ public class CartServlet extends HttpServlet {
 			return;
 			
 		}
+		
+		// 從購物車中登出
+		if ("logout".equals(action)) {
+			if (session != null) {
+				session.invalidate();
+				
+				res.sendRedirect(req.getContextPath() + "/front_end/mall/mall_index.html");
+				return;
+			}
+		}
 
 	}
 
