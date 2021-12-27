@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> <!-- jstl核心函式庫含for each標籤等 -->
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%> <!-- 日期格式化標籤使用 -->
 <%@ page import="com.member.model.*"%>
 <%@ page import="com.camp.model.*"%>
 <%@ page import="com.favoriteCamp.model.*"%>
@@ -12,32 +13,21 @@
 <%
 
 MemberVO memberVO =  (MemberVO)session.getAttribute("memberVO");
-
-
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-// 	// 營地假資料
-// 	CampService campSvc = new CampService();
-// 	CampVO campVO = campSvc.findCampByCampId(1);
-// 	request.setAttribute("CampVO", campVO);
-
-<<<<<<< HEAD
-=======
-
 CampOrderService campOrderSvc =  new CampOrderService();
 List<CampOrderVO> list = campOrderSvc.OrderByUserId(memberVO.getMemberId());
 pageContext.setAttribute("list", list);
-
 System.out.println(memberVO.getMemberId());
+
 // 	// 營地假資料
 // 	CampService campSvc = new CampService();
 // 	CampVO campVO = campSvc.findCampByCampId(1);
 // 	request.setAttribute("CampVO", campVO);
 
+// 	// 營地假資料
+// 	CampService campSvc = new CampService();
+// 	CampVO campVO = campSvc.findCampByCampId(1);
+// 	request.setAttribute("CampVO", campVO);
 
->>>>>>> main
 // 	MemberService memberSvc = new MemberService();
 // 	MemberVO memberVO = memberSvc.getOneMember(1);
 // 	request.setAttribute("memberVO", memberVO);
@@ -49,7 +39,7 @@ System.out.println(memberVO.getMemberId());
 	
 %>
 
-	<jsp:useBean id="campSvc" class="com.camp.model.CampService"></jsp:useBean> 
+<jsp:useBean id="campSvc" class="com.camp.model.CampService"></jsp:useBean> 
 
 
 <!DOCTYPE html>
@@ -98,9 +88,18 @@ System.out.println(memberVO.getMemberId());
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
 					value="">註冊</a></li>
-				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp"
-					value="">登入</a></li>
+					
+				<%-- =================  登出鈕   ===================== --%>	
+				<li>
+				<form method="post" action="<%=request.getContextPath()%>/member/MemberServlet">
+				<a>
+				<input class="fas fa-sign-out-alt logout_button" type="submit" value="登出" />
+				</a>
+				<input type="hidden" value="logout" name="action" />
+				</form>
+				</li>
+				<%-- =================  登出鈕   ===================== --%>	
+				
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"
 					value=""><i class="fas fa-user"></i></a></li>
@@ -112,8 +111,6 @@ System.out.println(memberVO.getMemberId());
 	
 	
 	<%-- =================  sidebar   ===================== --%>
-	<form class="form-horizontal" method="post"
-			action="<%=request.getContextPath()%>/member/MemberServlet">
 	<aside class="sidebar">
 		<div id="leftside-navigation" class="nano">
 			<ul class="nano-content">
@@ -146,131 +143,63 @@ System.out.println(memberVO.getMemberId());
 						<li><a
 							href="<%=request.getContextPath()%>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
 						</li>
-					</ul></li>
-				<li><a href=""><i class="fas fa-sign-out-alt"></i>
-				<span><input class="fas fa-sign-out-alt logout_button" type="submit" value="&nbsp;登出" /></span>
-				</a>
-				<input type="hidden" value="logout" name="action" />
-				</li>
-				
+					</ul></li>			
 		</div>
 	</aside>
-	</form>
 	<%-- =================  sidebar   ===================== --%>
-	
-	<%
-		String a = "";
-		CampOrderVO.
-		if(campOrderVO.)
-	
-	
-	
-	%>
-	
 	
 	<%-- =================  營地訂單列表   ===================== --%>
 	<div class="table-title">
 		<h3>營地訂單列表</h3>
 	</div>
 	<!-- 整個TABLE用FORECACH來用 -->
-<<<<<<< HEAD
-=======
-
-
 	<div class="table-fill"><%@ include file="page1.file" %></div>
 	<c:forEach var="campOrderVO" items="${ list }" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-
->>>>>>> main
 	<table class="table-fill">
 		<thead> 
 			<tr>
-<<<<<<< HEAD
-				<th>訂單編號 0000001</th> <!-- ${ campOrderVO.campOrderId } -->
-				<th>訂單日期 2021 / 12 / 13</th> <!-- ${ campOrderVO.campOrderCompletedTime } -->
-=======
-
-				<th>訂單編號 0000001</th> <!-- ${ campOrderVO.campOrderId } -->
-				<th>訂單日期 2021 / 12 / 13</th> <!-- ${ campOrderVO.campOrderCompletedTime } -->
-
 				<th>訂單編號 ${ campOrderVO.getCampOrderId() }</th> 
-				<th>訂單日期 ${ campOrderVO.getCampOrderConfirmedTime() }</th> 
-
->>>>>>> main
+				<th>訂單日期 <fmt:formatDate value="${campOrderVO.getCampOrderConfirmedTime()}" pattern="yyyy-MM-dd"/></th> 
 			</tr>
 			<tr>
 				<th class="text-left">營地圖片</th>
 				<th class="text-left">營地名稱</th>
-				<th class="text-left">訂位日期</th>
-				<th class="text-left">天數</th>
+				<th class="text-left">入住日期</th>
+				<th class="text-left">退房日期</th>
 				<th class="text-left">總價</th>
 				<th class="text-left">訂單狀態</th>
 			</tr>
 		</thead>
 		<tbody class="table-hover">
-			<div class="table-fill"><%@ include file="page1.file" %></div>
-			<c:forEach var="campOrderVO" items="${ list }" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 			<tr>
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-				<td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${  }&pic=1"
-					alt="營地圖片"></td> 
-				<td class="text-left"></td> <!-- ${ campOrderVO.campCheckInDate } -->
-				<td class="text-left"></td>	<!-- ${ campCheckInDate - campCheckOutDate(?) } -->
-				<td class="text-left"></td> <!-- ${ campOrderVO.campOrderTotalAmount } -->
-				<td class="text-left" colspan="2"></td> <!-- ${ campOrderVO.campOrderStatus } -->
-<<<<<<< HEAD
-=======
-
 				<td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${ campOrderVO.campId }&pic=1"
 					alt="營地圖片"></td> 
 				<td class="text-left"><a href="#">${ campSvc.getOneCamp(campOrderVO.campId).campName }</a></td> 
 				<td class="text-left">${ campOrderVO.campCheckInDate }</td> 
-				<td class="text-left"></td>	
+				<td class="text-left">${ campOrderVO.campCheckOutDate }</td>	
 				<td class="text-left">${ campOrderVO.campOrderTotalAmount }</td> 
-				<td class="text-left">${ campOrderVO.campOrderStatus }</td> 
-
->>>>>>> main
+				<td class="text-left">
+				${ (campOrderVO.campOrderStatus == 0) ? "處理中" : (campOrderVO.campOrderStatus == 1) ? "已確認" : (campOrderVO.campOrderStatus == 2) ? "已完成" : "" }			
+				</td> 
 			</tr>
 
 			<tr>
 				<td class="text-left" colspan="5"></td>
 				<td class="text-center">
-<<<<<<< HEAD
-					<form method="post" action="<%=request.getContextPath()%>/favoriteCamp/FavoriteCampServlet">
-=======
+					<form method="post" action="<%=request.getContextPath()%>/member/MemberOrderServlet">
+						<input class="button" type="submit" value="訂單明細"/>
+						<input type="hidden" value="detail" name="detail" /> 
+						<input type="hidden" value="${ campOrderVO.getCampOrderId() }" name="campOrderId" /> 
 
-					<form method="post" action="<%=request.getContextPath()%>/favoriteCamp/FavoriteCampServlet">
-
-					<form method="post" action="">
-
->>>>>>> main
-					<button class="button" type="button"
-						onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_camp_order_detail.jsp';">訂單明細</button>
-						<input class="button" type="submit" value="取消訂單"/>
-						<input type="hidden" value="delete" name="action" /> 
 					</form> 
 				</td>
-			</tr>
-<<<<<<< HEAD
-			</c:forEach>	
+			</tr>	
 		</tbody>
 		<!-- </form> -->
+		</c:forEach>
 	</table>
-=======
-
-			</c:forEach>	
-		</tbody>
-		<!-- </form> -->
-	</table>
-
-		</tbody>	
-	</table>
-	</c:forEach>
 	<div class="table-fill"><%@ include file="page2.file" %></div>
 
->>>>>>> main
 	<!-- 整個TABLE用FORECACH來用 -->
 	<%-- =================  營地訂單列表   ===================== --%>
 	
