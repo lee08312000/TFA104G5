@@ -1,6 +1,12 @@
 $(function () {
 
   let page = 1;
+  // 登出按鈕
+  $("a#logout").on("click", function(e) {
+    e.preventDefault();
+    logoutMember();
+    refreshCartNum();
+  });
   // 右邊商品加入我的最愛 按空的愛心
   $(document).on("click", "i.addRightFavoriteProduct", function () {
     
@@ -235,6 +241,63 @@ $.ajax({
   }
 });
 
+//檢查是否登入會員
+function getMember() {
+    
+  $.ajax({
+    url: "/TFA104G5/product/BrowseServlet",
+    type: "POST",
+    data: {
+      "action": "getMemberStatus"
+    },
+    dataType: "json",
+    beforeSend: function () {
+
+    },
+    success: function (data) {
+      if (data.msg == "isLogined") {
+        $("a#login").addClass("-off");
+        $("a#logout").removeClass("-off");
+        $("a#memberHead").removeClass("-off");
+      } else if (data.msg == "noLogin") {
+        $("a#login").removeClass("-off");
+        $("a#logout").addClass("-off");
+        $("a#memberHead").addClass("-off");
+      }
+    },
+    complete: function (xhr) {
+      // console.log(xhr);
+    }
+  });
+}
+
+ //會員登出
+ function logoutMember() {
+    
+  $.ajax({
+    url: "/TFA104G5/product/BrowseServlet",
+    type: "POST",
+    data: {
+      "action": "logout"
+    },
+    dataType: "json",
+    beforeSend: function () {
+
+    },
+    success: function (data) {
+     if (data.msg == "success") {
+        $("a#login").removeClass("-off");
+        $("a#logout").addClass("-off");
+        $("a#memberHead").addClass("-off");
+        alert("會員成功登出");
+      }
+    },
+    complete: function (xhr) {
+      // console.log(xhr);
+    }
+  });
+}
+
 // 從資料庫調出商品評論
 function getProductComments(page) {
 
@@ -296,7 +359,8 @@ function getProductComments(page) {
     }
   });
 }
-
+//檢查是否登入會員
+getMember();
 getProductComments(page);
 });
 // var product = {

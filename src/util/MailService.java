@@ -152,7 +152,7 @@ public class MailService {
 				   
 				   
 			   }
-			   String orgerTable = 
+			   String orderTable = 
 					   "<html><head><style>table,th,tr,td{border: 1px solid black; border-collapse: collapse;}</style></head>"
 					   + "<body>"
 					   +"<h2>訂單已成立，訂單資訊如下:" + "共 " + mallOrderIdList.size() + " 筆" +"</h2>"
@@ -163,7 +163,7 @@ public class MailService {
 					   + "</body>"
 					   + "</html>"; 
 			   
-			   message.setContent(orgerTable, "text/html; charset=UTF-8");
+			   message.setContent(orderTable, "text/html; charset=UTF-8");
 			   
 			   Transport.send(message);
 			   System.out.println("傳送成功!");
