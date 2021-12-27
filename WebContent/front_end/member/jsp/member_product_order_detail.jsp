@@ -132,6 +132,7 @@
                 <th class="text-left">總價</th>
                 <th class="text-left">商品狀態</th>
                 <th class="text-left">物流狀態</th>
+                <th class="text-left">評論商品</th>
             </tr>
         </thead>
         <tbody class="table-hover">
@@ -144,10 +145,16 @@
                 <td class="text-left">${mallOrderDetailVO.productPurchasePrice * mallOrderDetailVO.productPurchaseQuantity }</td>
                 <td class="text-left">${mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderStatus == 0 ? "處理中" : mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderStatus == 1 ? "已確認" : "已完成"}</td>
                 <td class="text-left">${mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderDeliveryStatus == 0 ? "未發貨" : mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderDeliveryStatus == 1 ? "已發貨" : "已收貨"}</td>
+            	<td class="text-left">
+	            	<c:if test="${mallOrderSvc.getOneMallOrder(mallOrderDetail.get(0).mallOrderId).mallOrderDeliveryStatus == 2}">
+	            	<input type="hidden" class="commentOrderDetail" value="${mallOrderDetailVO.mallOrderDetailId}">
+	            	<button class="comment" type="button" >評論商品</button></td>
+	            	</c:if>
+            	</td>
             </tr>
 			</c:forEach>
             <tr>
-                <td class="text-left" colspan="6">
+                <td class="text-left" colspan="7">
 			                    訂單總金額:  ${mallOrderSvc.getOneMallOrder(mallOrderDetail.get(0).mallOrderId).mailOrderTotalAmount}<br>
 			                    訂購人姓名:  ${mallOrderSvc.getOneMallOrder(mallOrderDetail.get(0).mallOrderId).receiverName}<br>
 			                    訂購人電話:  ${mallOrderSvc.getOneMallOrder(mallOrderDetail.get(0).mallOrderId).receiverPhone}<br>
@@ -176,6 +183,45 @@
             $("#leftside-navigation ul ul").slideUp(), $(this).next().is(":visible") || $(this).next().slideDown(),
                 e.stopPropagation()
         })
+        // 開啟 Modal 彈跳視窗
+        $("button.comment").on("click", function(){
+            $("div.commentArea").removeClass("-off");            
+            $("#mallOrderDetailIdVar").val($(this).closest("tr").find("input.commentOrderDetail").eq(0).val()); 
+            let mallOrder = $(this).closest("tr");
+            let comment = mallOrder.attr("data-comment");
+        	let star = mallOrder.attr("data-star");
+        	$(".textarea").text(comment);
+        	
+        	$("div.star_block").find("span.star").each(function(i, item){
+
+                if( parseInt($(this).attr("data-star")) == star ){
+                	$(this).click();
+                	$(this).children("label").click();
+                	
+                };
+             });
+        });        
+        // 關閉 Modal
+        $("#close").on("click", function(){
+            $("div.commentArea").addClass("-off");
+            $("textarea.textarea").text("");
+        });
+
+        $("div.commentArea").on("click", "span.star", function(e){
+
+            let current_star = parseInt($(this).attr("data-star"));
+
+            $(this).closest("div.star_block").find("span.star").each(function(i, item){
+
+            if( parseInt($(this).attr("data-star")) <= current_star ){
+                $(this).addClass("-on");
+            }else{
+                $(this).removeClass("-on");
+            }
+
+            });
+
+        });   
     </script>
     <%-- =================  sidebar javascript   ===================== --%>
     
