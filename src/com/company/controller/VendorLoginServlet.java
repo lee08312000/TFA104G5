@@ -61,7 +61,7 @@ public class VendorLoginServlet extends HttpServlet{
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {					
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/companyProduct/jsp/vendorLogin.jsp");
+							.getRequestDispatcher("/back_end/companyLogin/vendorLogin.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -72,7 +72,7 @@ public class VendorLoginServlet extends HttpServlet{
 				if (companyVO == null) {
 					errorMsgs.add("查無資料");
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/companyProduct/jsp/vendorLogin.jsp");
+							.getRequestDispatcher("/back_end/companyLogin/vendorLogin.jsp");
 					failureView.forward(req, res);
 					return;
 				}else {
@@ -102,7 +102,7 @@ public class VendorLoginServlet extends HttpServlet{
 					e.printStackTrace();
 //					errorMsgs.add(e.getMessage());
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/companyProduct/jsp/vendorLogin.jsp");
+							.getRequestDispatcher("/back_end/companyLogin/vendorLogin.jsp");
 					failureView.forward(req, res);
 				}			
 		}
@@ -196,7 +196,7 @@ public class VendorLoginServlet extends HttpServlet{
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("companyVO", companyVO); // 含有輸入格式錯誤的empVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/companyProduct/jsp/register.jsp");
+							.getRequestDispatcher("/back_end/companyLogin/register.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -207,7 +207,7 @@ public class VendorLoginServlet extends HttpServlet{
 					req.setAttribute("companyVO", companyVO);
 					errorMsgs.put("errorAccount","此帳號已被使用");
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/companyProduct/jsp/register.jsp");
+							.getRequestDispatcher("/back_end/companyLogin/register.jsp");
 					failureView.forward(req, res);
 					return;
 				}			
@@ -224,7 +224,7 @@ public class VendorLoginServlet extends HttpServlet{
 				MailService mailSvc = new MailService();
 				mailSvc.sendMail(email,account,"activation",realContextPath);
 				/***************************4.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/back_end/companyProduct/jsp/vendorLogin.jsp";
+				String url = "/back_end/companyLogin/vendorLogin.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);				
 				
@@ -233,7 +233,7 @@ public class VendorLoginServlet extends HttpServlet{
 					e.printStackTrace();
 //					errorMsgs.add(e.getMessage());
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/companyProduct/jsp/register.jsp");
+							.getRequestDispatcher("/back_end/companyLogin/register.jsp");
 					failureView.forward(req, res);
 				}
 			
@@ -252,7 +252,7 @@ public class VendorLoginServlet extends HttpServlet{
 				companyDao.update(companyVO);
 				
 				/***************************修改狀態完成,準備轉交(Send the Success view)***********/
-				String url = "/back_end/companyProduct/jsp/vendorLogin.jsp";
+				String url = "/back_end/companyLogin/vendorLogin.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);	
 				
@@ -260,7 +260,7 @@ public class VendorLoginServlet extends HttpServlet{
 				e.printStackTrace();
 //				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back_end/companyProduct/jsp/vendorLogin.jsp");
+						.getRequestDispatcher("/back_end/companyLogin/vendorLogin.jsp");
 				failureView.forward(req, res);
 			}			
 		}
