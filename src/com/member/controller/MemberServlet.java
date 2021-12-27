@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +25,7 @@ import com.member.model.MemberService;
 import com.member.model.MemberVO;
 
 @WebServlet("/member/MemberServlet")
+@MultipartConfig
 public class MemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +46,7 @@ public class MemberServlet extends HttpServlet {
 		// PrintWriter out = res.getWriter();
 
 		String action = req.getParameter("action");
-
+		System.out.println(action);
 		if ("login".equals(action)) {
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -106,12 +108,14 @@ public class MemberServlet extends HttpServlet {
 
 				session.removeAttribute("memberVO");
 
-				session.invalidate();
+//				session.invalidate();
 
 				System.out.println("登出成功");
-				String url = "/front_end/camp/camp_index.html";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交
-				successView.forward(req, res);
+				String url = "/TFA104G5/front_end/camp/camp_index.html";
+//				.RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交
+//				successView.forward(req, res);
+				 res.sendRedirect(url);   
+	             return;
 
 			}
 		}
@@ -446,6 +450,7 @@ public class MemberServlet extends HttpServlet {
 		}
 
 		if("pic_upload".equals(action)) {
+			System.out.println("COOL");
         	MemberVO memberVO = (MemberVO)session.getAttribute("memberVO");
     		MemberService memberSvc = new MemberService();
 			byte[] memberPic = null;
@@ -459,6 +464,7 @@ public class MemberServlet extends HttpServlet {
 			String url = "/front_end/member/jsp/member_main.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 l
 			successView.forward(req, res);
+			return;
         }
     	
         
