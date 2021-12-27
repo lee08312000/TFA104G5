@@ -59,12 +59,18 @@
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
 						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
-				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
-					value="">註冊</a></li>
-				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp"
-					value="">登入</a></li>
+
+				<%-- =================  登出鈕   ===================== --%>	
+				<li>
+				<form method="post" action="<%=request.getContextPath()%>/member/MemberServlet">
+				<a>
+				<input class="fas fa-sign-out-alt logout_button" type="submit" value="登出" />
+				</a>
+				<input type="hidden" value="logout" name="action" />
+				</form>
+				</li>
+				<%-- =================  登出鈕   ===================== --%>	
+				
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"
 					value=""><i class="fas fa-user"></i></a></li>
@@ -107,8 +113,7 @@
 						<li><a
 							href="<%=request.getContextPath()%>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
 						</li>
-					</ul></li>
-				<li><a href=""><i class="fas fa-sign-out-alt"></i><span>&nbsp;登出</span></a>
+					</ul>
 				</li>
 		</div>
 	</aside>
@@ -142,8 +147,8 @@
 				<td class="text-left">${mallOrderVO.receiverPhone}</td>
 				<td class="text-left">${mallOrderVO.receiverAddress}</td>
 				<td class="text-left">${mallOrderVO.mailOrderTotalAmount}</td>
-				<td class="text-left">${mallOrderVO.mallOrderStatus == 0 ? "處理中" : mallOrderVO.mallOrderStatus == 1 ? "已確認" : "已完成"}</td>
-				<td class="text-left">${mallOrderVO.mallOrderDeliveryStatus == 0 ? "未發貨" : mallOrderVO.mallOrderDeliveryStatus == 1 ? "已發貨" : "已收貨"}</td>
+				<td class="text-center">${mallOrderVO.mallOrderStatus == 0 ? "處理中" : mallOrderVO.mallOrderStatus == 1 ? "已確認" : "已完成"}</td>
+				<td class="text-center">${mallOrderVO.mallOrderDeliveryStatus == 0 ? "未發貨" : mallOrderVO.mallOrderDeliveryStatus == 1 ? "已發貨" : "已收貨"}</td>
 			</tr>
 			<tr>
 				<td class="text-left" colspan="6">訂單總金額: ${mallOrderVO.mailOrderTotalAmount}</td>
@@ -151,7 +156,7 @@
 					<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Member/MemberProductServlet" style="margin-bottom: 0px;">
 					<input type="hidden" name="mallOrderId"  value="${mallOrderVO.mallOrderId}">
 					<input type="hidden" name="action"	value="getMallOrderDetail">
-					<input type="submit" value="查看明細">					
+					<input class="button" type="submit" value="查看明細">					
 					</FORM>
 				</td>
 			</tr>			 
