@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,6 +20,8 @@ import com.company.model.CompanyDAOImpl;
 import com.company.model.CompanyService;
 import com.company.model.CompanyVO;
 import com.company.model.MailService;
+
+import redis.clients.jedis.Jedis;
 
 
 @WebServlet("/Company/VendorLoginServlet")
@@ -61,7 +64,7 @@ public class VendorLoginServlet extends HttpServlet{
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {					
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/companyProduct/jsp/vendorLogin.jsp");
+							.getRequestDispatcher("/back_end/companyLogin/vendorLogin.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -72,7 +75,7 @@ public class VendorLoginServlet extends HttpServlet{
 				if (companyVO == null) {
 					errorMsgs.add("查無資料");
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/companyProduct/jsp/vendorLogin.jsp");
+							.getRequestDispatcher("/back_end/companyLogin/vendorLogin.jsp");
 					failureView.forward(req, res);
 					return;
 				}else {
@@ -102,7 +105,7 @@ public class VendorLoginServlet extends HttpServlet{
 					e.printStackTrace();
 //					errorMsgs.add(e.getMessage());
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/companyProduct/jsp/vendorLogin.jsp");
+							.getRequestDispatcher("/back_end/companyLogin/vendorLogin.jsp");
 					failureView.forward(req, res);
 				}			
 		}
@@ -196,7 +199,7 @@ public class VendorLoginServlet extends HttpServlet{
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("companyVO", companyVO); // 含有輸入格式錯誤的empVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/companyProduct/jsp/register.jsp");
+							.getRequestDispatcher("/back_end/companyLogin/register.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -207,7 +210,7 @@ public class VendorLoginServlet extends HttpServlet{
 					req.setAttribute("companyVO", companyVO);
 					errorMsgs.put("errorAccount","此帳號已被使用");
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/companyProduct/jsp/register.jsp");
+							.getRequestDispatcher("/back_end/companyLogin/register.jsp");
 					failureView.forward(req, res);
 					return;
 				}			
@@ -221,10 +224,24 @@ public class VendorLoginServlet extends HttpServlet{
 				String serverPort = req.getServerPort() + "";
 				String contextPath = req.getContextPath();
 				String realContextPath = scheme +"://"+serverName +":"+ serverPort + contextPath;
+				//產生通用唯一識別碼
+				UUID uuid = UUID.randomUUID();
+				String code = uuid.toString();				
+				//存UUID與會員帳號至redis
+				Jedis jedis = null;
+				try {
+					jedis = new Jedis("localhost", 6379);
+					jedis.set(code, account);
+					jedis.expire(code, 30);
+				}finally {
+					if(jedis != null)
+					   jedis.close();
+				}
+				
 				MailService mailSvc = new MailService();
-				mailSvc.sendMail(email,account,"activation",realContextPath);
+				mailSvc.sendMail(email,code,"activation",realContextPath);
 				/***************************4.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/back_end/companyProduct/jsp/vendorLogin.jsp";
+				String url = "/back_end/companyLogin/vendorLogin.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);				
 				
@@ -233,7 +250,7 @@ public class VendorLoginServlet extends HttpServlet{
 					e.printStackTrace();
 //					errorMsgs.add(e.getMessage());
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/back_end/companyProduct/jsp/register.jsp");
+							.getRequestDispatcher("/back_end/companyLogin/register.jsp");
 					failureView.forward(req, res);
 				}
 			
@@ -243,7 +260,16 @@ public class VendorLoginServlet extends HttpServlet{
 		if ("activation".equals(action)) {
 			try {
 				
-				String account = req.getParameter("account");
+				String code = req.getParameter("code");
+				Jedis jedis = null;
+				String account = null;
+				try {
+					jedis = new Jedis("localhost", 6379);
+					account = jedis.get(code);
+				}finally {
+					if(jedis != null)
+					   jedis.close();
+				}
 				
 				CompanyService companySvc= new CompanyService();			
 				CompanyVO companyVO = companySvc.getOneCompanyByAccount(account);
@@ -252,7 +278,7 @@ public class VendorLoginServlet extends HttpServlet{
 				companyDao.update(companyVO);
 				
 				/***************************修改狀態完成,準備轉交(Send the Success view)***********/
-				String url = "/back_end/companyProduct/jsp/vendorLogin.jsp";
+				String url = "/back_end/companyLogin/vendorLogin.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);	
 				
@@ -260,7 +286,7 @@ public class VendorLoginServlet extends HttpServlet{
 				e.printStackTrace();
 //				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/back_end/companyProduct/jsp/vendorLogin.jsp");
+						.getRequestDispatcher("/back_end/companyLogin/vendorLogin.jsp");
 				failureView.forward(req, res);
 			}			
 		}
