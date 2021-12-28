@@ -20,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.cart.model.CartRedisService;
 import com.cart.model.CartVO;
 import com.cart.model.ReceiverVO;
 import com.mallOrder.model.MallOrderService;
@@ -49,11 +50,12 @@ public class CartServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 		MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 		List<CartVO> buyList = (List<CartVO>) session.getAttribute("buyList");
+		CartRedisService cartRedisSvc = new CartRedisService();
 		String action = req.getParameter("action");
 
 		// 從商城新增商品到購物車
 		if ("add".equals(action)) {
-
+			
 			ProductService productSvc = new ProductService();
 			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 			Integer productId = Integer.parseInt(req.getParameter("productId").trim());
@@ -77,65 +79,135 @@ public class CartServlet extends HttpServlet {
 			cartVO.setProductName(productVO.getProductName());
 			cartVO.setProductPrice(productVO.getProductPrice());
 			cartVO.setProductPurchaseQuantity(productPurchaseQuantity);
-
-			// 若沒有buyList 或 裡面沒東西時
-			if (buyList == null || buyList.size() == 0) {
-				// 若庫存量大於等於選購數量
-				if (productInventory >= productPurchaseQuantity.intValue()) {
-					buyList = new ArrayList<CartVO>();
-					buyList.add(cartVO);
-					msg = "success";
-				} else {
-					// 若庫存量小於選購數量
-					// 若庫存量>0將購買數量設為庫存量加回購物車中
-					if (productInventory > 0) {
-						buyList = new ArrayList<CartVO>();
-						cartVO.setProductPurchaseQuantity(productInventory);
-						buyList.add(cartVO);
-					}
-				}
-			} else {
-				// buyList 有東西時
-				for (int i = 0; i < buyList.size(); i++) {
-					CartVO c = buyList.get(i);
-					// buyList 有東西時，且購物車已有欲加入的商品時
-					if (cartVO.getProductId().intValue() == c.getProductId().intValue()) {
-						match = true;
-						newProductPurchaseQuantity = cartVO.getProductPurchaseQuantity()
-								+ c.getProductPurchaseQuantity();
-						// 若庫存量大於等於選購數量(剛剛新增的加上購物車裡的)
-						if (productInventory >= newProductPurchaseQuantity) {
-							cartVO.setProductPurchaseQuantity(newProductPurchaseQuantity);
-							buyList.set(i, cartVO);
-							msg = "success";
-						} else {
-							// 若庫存量小於選購數量(剛剛新增的加上購物車裡的)
-							// 若庫存量>0將購買數量設為庫存量加回購物車中
-							if (productInventory > 0) {
-								cartVO.setProductPurchaseQuantity(productInventory);
-								buyList.set(i, cartVO);
-							}
-						}
-
-					}
-				}
-				// buyList 有東西時，購物車沒有欲加入的商品時
-				if (!match) {
+			List<CartVO> redisBuyList = null;
+			// 若為登入中存進Redis
+			if (memberVO != null) {
+				redisBuyList = cartRedisSvc.getBuyList(memberVO.getMemberId());
+				// 若沒有redisBuyList 或 裡面沒東西時
+				if (redisBuyList == null || redisBuyList.size() == 0) {
 					// 若庫存量大於等於選購數量
 					if (productInventory >= productPurchaseQuantity.intValue()) {
+						redisBuyList = new ArrayList<CartVO>();
+						redisBuyList.add(cartVO);
+						msg = "success";
+					} else {
+						// 若庫存量小於選購數量
+						// 若庫存量>0將購買數量設為庫存量加回購物車中
+						if (productInventory > 0) {
+							redisBuyList = new ArrayList<CartVO>();
+							cartVO.setProductPurchaseQuantity(productInventory);
+							redisBuyList.add(cartVO);
+						}
+					}
+				} else {
+					// redisBuyList 有東西時
+					for (int i = 0; i < redisBuyList.size(); i++) {
+						CartVO c = redisBuyList.get(i);
+						// redisBuyList 有東西時，且購物車已有欲加入的商品時
+						if (cartVO.getProductId().intValue() == c.getProductId().intValue()) {
+							match = true;
+							newProductPurchaseQuantity = cartVO.getProductPurchaseQuantity()
+									+ c.getProductPurchaseQuantity();
+							// 若庫存量大於等於選購數量(剛剛新增的加上購物車裡的)
+							if (productInventory >= newProductPurchaseQuantity) {
+								cartVO.setProductPurchaseQuantity(newProductPurchaseQuantity);
+								redisBuyList.set(i, cartVO);
+								msg = "success";
+							} else {
+								// 若庫存量小於選購數量(剛剛新增的加上購物車裡的)
+								// 若庫存量>0將購買數量設為庫存量加回購物車中
+								if (productInventory > 0) {
+									cartVO.setProductPurchaseQuantity(productInventory);
+									redisBuyList.set(i, cartVO);
+								}
+							}
+
+						}
+					}
+					// redisBuyList 有東西時，購物車沒有欲加入的商品時
+					if (!match) {
+						// 若庫存量大於等於選購數量
+						if (productInventory >= productPurchaseQuantity.intValue()) {
+							redisBuyList.add(cartVO);
+							msg = "success";
+						} else { // 若庫存量小於選購數量
+							if (productInventory > 0) {
+								cartVO.setProductPurchaseQuantity(productInventory);
+								redisBuyList.add(cartVO);
+							}
+						}
+					}
+
+				}
+
+			} else {
+				// 若未登入中存進session
+				// 若沒有buyList 或 裡面沒東西時
+				if (buyList == null || buyList.size() == 0) {
+					// 若庫存量大於等於選購數量
+					if (productInventory >= productPurchaseQuantity.intValue()) {
+						buyList = new ArrayList<CartVO>();
 						buyList.add(cartVO);
 						msg = "success";
-					} else { // 若庫存量小於選購數量
+					} else {
+						// 若庫存量小於選購數量
+						// 若庫存量>0將購買數量設為庫存量加回購物車中
 						if (productInventory > 0) {
+							buyList = new ArrayList<CartVO>();
 							cartVO.setProductPurchaseQuantity(productInventory);
 							buyList.add(cartVO);
 						}
 					}
+				} else {
+					// buyList 有東西時
+					for (int i = 0; i < buyList.size(); i++) {
+						CartVO c = buyList.get(i);
+						// buyList 有東西時，且購物車已有欲加入的商品時
+						if (cartVO.getProductId().intValue() == c.getProductId().intValue()) {
+							match = true;
+							newProductPurchaseQuantity = cartVO.getProductPurchaseQuantity()
+									+ c.getProductPurchaseQuantity();
+							// 若庫存量大於等於選購數量(剛剛新增的加上購物車裡的)
+							if (productInventory >= newProductPurchaseQuantity) {
+								cartVO.setProductPurchaseQuantity(newProductPurchaseQuantity);
+								buyList.set(i, cartVO);
+								msg = "success";
+							} else {
+								// 若庫存量小於選購數量(剛剛新增的加上購物車裡的)
+								// 若庫存量>0將購買數量設為庫存量加回購物車中
+								if (productInventory > 0) {
+									cartVO.setProductPurchaseQuantity(productInventory);
+									buyList.set(i, cartVO);
+								}
+							}
+
+						}
+					}
+					// buyList 有東西時，購物車沒有欲加入的商品時
+					if (!match) {
+						// 若庫存量大於等於選購數量
+						if (productInventory >= productPurchaseQuantity.intValue()) {
+							buyList.add(cartVO);
+							msg = "success";
+						} else { // 若庫存量小於選購數量
+							if (productInventory > 0) {
+								cartVO.setProductPurchaseQuantity(productInventory);
+								buyList.add(cartVO);
+							}
+						}
+					}
+
 				}
 
 			}
+
 			/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
-			session.setAttribute("buyList", buyList);
+			if (memberVO != null) {
+				cartRedisSvc.setBuyList(memberVO.getMemberId(), redisBuyList);
+			} else {
+				session.setAttribute("buyList", buyList);
+			}
+			
 			// 回傳Json給Ajax
 			JSONObject obj = new JSONObject();
 			try {
@@ -529,7 +601,7 @@ public class CartServlet extends HttpServlet {
 				req.setAttribute("mallOrderIdList", mallOrderIdList);
 				// 寄送email給會員
 				mailSvc.sendMailByMallOrder(memberVO.getMemberEmail(), "Camping Paradise-商城訂單成立", mallOrderIdList);
-				
+
 				String url = "/front_end/mall/shoppingCart04.jsp";
 				RequestDispatcher rd = req.getRequestDispatcher(url);
 				rd.forward(req, res);
@@ -565,13 +637,13 @@ public class CartServlet extends HttpServlet {
 			}
 
 		}
-		
+
 		if ("getCartNum".equals(action)) {
 			/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
 			/*************************** 2.開始查詢資料 ***************************************/
 			/*************************** 3.準備轉交(Send the Success view) *************/
 			int cartNum = 0;
-			
+
 			if (buyList == null || buyList.size() == 0) {
 				try {
 					JSONObject obj = new JSONObject();
@@ -582,11 +654,11 @@ public class CartServlet extends HttpServlet {
 				}
 				return;
 			}
-			
+
 			for (CartVO cartVO : buyList) {
 				cartNum += cartVO.getProductPurchaseQuantity();
 			}
-			
+
 			try {
 				JSONObject obj = new JSONObject();
 				obj.put("cartNum", cartNum);
@@ -595,14 +667,14 @@ public class CartServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 			return;
-			
+
 		}
-		
+
 		// 從購物車中登出
 		if ("logout".equals(action)) {
 			if (session != null) {
 				session.invalidate();
-				
+
 				res.sendRedirect(req.getContextPath() + "/front_end/mall/mall_index.html");
 				return;
 			}
