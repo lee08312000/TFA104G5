@@ -192,6 +192,7 @@ $(function () {
           $("a#logout").addClass("-off");
           $("a#memberHead").addClass("-off");
           alert("會員成功登出");
+          location.reload();
         }
       },
       complete: function (xhr) {
