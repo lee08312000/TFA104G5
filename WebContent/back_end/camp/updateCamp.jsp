@@ -37,86 +37,8 @@ pageContext.setAttribute("campTagDetailList", campTagDetailList);
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/back_end/css/insertCampShelves.css?v=003">
 	
-<script >
-$(function(){
-	  $('#camp_pic1').change(function(){
-	    var input = this;
-	    var url = $(this).val();
-	    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-	    if (input.files && input.files[0]&& (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
-	     {
-	        var reader = new FileReader();
+<script src="<%=request.getContextPath()%>/back_end/camp/js/updateCamp.js"></script>
 
-	        reader.onload = function (e) {
-	           $('#smallPic1').attr('src', e.target.result);
-	        }
-	       reader.readAsDataURL(input.files[0]);
-	    }
-	  });
-	  
-	  $('#camp_pic2').change(function(){
-	    var input = this;
-	    var url = $(this).val();
-	    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-	    if (input.files && input.files[0]&& (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
-	     {
-	        var reader = new FileReader();
-
-	        reader.onload = function (e) {
-	           $('#smallPic2').attr('src', e.target.result);
-	        }
-	       reader.readAsDataURL(input.files[0]);
-	    }
-	  });
-
-	  $('#camp_pic3').change(function(){
-	    var input = this;
-	    var url = $(this).val();
-	    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-	    if (input.files && input.files[0]&& (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
-	     {
-	        var reader = new FileReader();
-
-	        reader.onload = function (e) {
-	           $('#smallPic3').attr('src', e.target.result);
-	        }
-	       reader.readAsDataURL(input.files[0]);
-	    }
-	  });
-
-	  $('#camp_pic4').change(function(){
-	    var input = this;
-	    var url = $(this).val();
-	    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-	    if (input.files && input.files[0]&& (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
-	     {
-	        var reader = new FileReader();
-
-	        reader.onload = function (e) {
-	           $('#smallPic4').attr('src', e.target.result);
-	        }
-	       reader.readAsDataURL(input.files[0]);
-	    }
-	  });
-
-	  $('#camp_pic5').change(function(){
-	    var input = this;
-	    var url = $(this).val();
-	    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-	    if (input.files && input.files[0]&& (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
-	     {
-	        var reader = new FileReader();
-
-	        reader.onload = function (e) {
-	           $('#smallPic5').attr('src', e.target.result);
-	        }
-	       reader.readAsDataURL(input.files[0]);
-	    }
-	  });
-
-
-	});
-</script>
 </head>
 <body>
 	
@@ -124,7 +46,7 @@ $(function(){
 		<!-- --------main區域------- -->
 		
 		<h1>營地上架 ${errorMsgs}</h1>
-		<form method="post"ACTION="<%=request.getContextPath()%>/camp/shelves.do">
+		<form method="post" ACTION="<%=request.getContextPath()%>/camp/shelves.do" name="form1" enctype="multipart/form-data">
 			<table class="camp_shelves">
 				<tr>
 						<td><label>選擇上架日期</label></td>
@@ -192,11 +114,52 @@ $(function(){
 
 				<tr>
 					<td><label for="fname">營地美照1:</label></td>
-					<td><input type="file" name="camp_pic1" id="camp_pic1" value=""/> 
-					<img id="smallPic1" style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&pic=1" />
+					<td><input type="file" name="camp_pic1" id="fileInput1" value=""/> 
+					<div id="fileDisplayArea1">
+					<img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&pic=1" />
+					</div>
 					</td>
 
 				</tr>
+				<tr>
+					<td><label for="fname">營地美照2:</label></td>
+					<td><input type="file" name="camp_pic2" id="fileInput2" value=""/> 
+					<div id="fileDisplayArea2">
+					<img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&pic=2" />
+					</div>
+					</td>
+					
+
+				</tr>
+				<tr>
+					<td><label for="fname">營地美照3:</label></td>
+					<td><input type="file" name="camp_pic3" id="fileInput3" value=""/> 
+					<div id="fileDisplayArea3">
+					<img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&pic=3" />
+					</div>
+					</td>
+
+				</tr>
+				<tr>
+					<td><label for="fname">營地美照4:</label></td>
+					<td><input type="file" name="camp_pic4" id="fileInput4" value=""/> 
+					<div id="fileDisplayArea4">
+					<img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&pic=4" />
+					</div>
+					</td>
+
+				</tr>
+				<tr>
+					<td><label for="fname">營地美照5:</label></td>
+					<td><input type="file" name="camp_pic5" id="fileInput5" value=""/> 
+					<div id="fileDisplayArea5">
+					<img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&pic=5" />
+					</div>
+					</td>
+
+				</tr>
+				
+				
 				
 				<tr>
 					<td><label for="fname">營地狀態:</label></td>
@@ -211,7 +174,7 @@ $(function(){
 				<tr>
 					
 					<td colspan="2"><input type="hidden" name="action" value="UPDATE" />		
-					<input type="submit" value="確認修改"style="margin-left: 280px;"> 
+					<input type="submit" value="確認修改" style="margin-left: 280px;"> 
 					<input type="button" onclick="location.href='<%=request.getContextPath()%>/back_end/camp/selectCamp.jsp'" value="取消" />
 				</tr>
 				

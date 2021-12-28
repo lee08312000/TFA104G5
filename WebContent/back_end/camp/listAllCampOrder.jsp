@@ -129,8 +129,6 @@ $(document).ready(function() {
 				<th>預計退<br>房日期</th>
 				<th>訂帳數量</th>
 				<th>加購人<br>頭數量</th>
-				<th>平日訂<br>位天數 </th>
-				<th>假日訂<br>位天數</th>
 				<th>營地訂單<br>總金額</th>		
 				<th>付款人</th>
 				<th>營地訂<br>單狀態</th>
@@ -152,8 +150,6 @@ $(document).ready(function() {
 					<td>${campOrderVO.campCheckOutDate}</td>
 					<td>${campOrderVO.bookingQuantity}</td>  
 			        <td>${campOrderVO.capitationQuantity}</td>  
-	                <td>${campOrderVO.bookingWeekdays}</td>
-	                <td>${campOrderVO.bookingHolidays}</td>
 	                <td>${campOrderVO.campOrderTotalAmount}</td>    	    
 					<td>${campOrderVO.payerName}</td>
 					<td>${campOrderVO.campOrderStatus}</td> 
@@ -174,11 +170,5 @@ $(document).ready(function() {
 	
 
 
-	<footer class="tm-footer text-center">
-		<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
-		<pre>Copyright &copy; 2021 Camping Paradise | Design: <a
-				style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a>
-				</pre>
-	</footer>
 </body>
 </html>

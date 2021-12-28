@@ -73,34 +73,35 @@ public class CampDAOImpl implements CampDAO {
 			pstmt.setString(4, campVO.getCampName());
 			pstmt.setString(5, campVO.getCampRule());
 			if (campVO.getCampPic1() != null) {
-				pstmt.setBlob(6, new SerialBlob(campVO.getCampPic1()));
+				pstmt.setBytes(6, campVO.getCampPic1());
 			} else {
 				pstmt.setNull(6, java.sql.Types.BLOB);
 			}
 			if (campVO.getCampPic2() != null) {
-				pstmt.setBlob(7, new SerialBlob(campVO.getCampPic2()));
+				pstmt.setBytes(7, campVO.getCampPic2());
 			} else {
 				pstmt.setNull(7, java.sql.Types.BLOB);
 			}
 			if (campVO.getCampPic3() != null) {
-				pstmt.setBlob(8, new SerialBlob(campVO.getCampPic3()));
+				pstmt.setBytes(8, campVO.getCampPic3());
 			} else {
 				pstmt.setNull(8, java.sql.Types.BLOB);
 			}
 			if (campVO.getCampPic4() != null) {
-				pstmt.setBlob(9, new SerialBlob(campVO.getCampPic4()));
+				pstmt.setBytes(9, campVO.getCampPic4());
 			} else {
 				pstmt.setNull(9, java.sql.Types.BLOB);
 			}
+
 			if (campVO.getCampPic5() != null) {
-				pstmt.setBlob(10, new SerialBlob(campVO.getCampPic5()));
+				pstmt.setBytes(10, campVO.getCampPic5());
 			} else {
 				pstmt.setNull(10, java.sql.Types.BLOB);
 			}
 			pstmt.setString(11, campVO.getCampAddress());
 			pstmt.setString(12, campVO.getCampPhone());
 			pstmt.setString(13, campVO.getCertificateNum());
-			if (campVO.getCampPic1() != null) {
+			if (campVO.getCertificatePic() != null) {
 				pstmt.setBlob(14, new SerialBlob(campVO.getCertificatePic()));
 			} else {
 				pstmt.setNull(14, java.sql.Types.BLOB);
@@ -155,28 +156,28 @@ public class CampDAOImpl implements CampDAO {
 			pstmt.setString(4, campVO.getCampName());
 			pstmt.setString(5, campVO.getCampRule());
 			if (campVO.getCampPic1() != null) {
-				pstmt.setBlob(6, new SerialBlob(campVO.getCampPic1()));
+				pstmt.setBytes(6, campVO.getCampPic1());
 			} else {
 				pstmt.setNull(6, java.sql.Types.BLOB);
 			}
 			if (campVO.getCampPic2() != null) {
-				pstmt.setBlob(7, new SerialBlob(campVO.getCampPic2()));
+				pstmt.setBytes(7, campVO.getCampPic2());
 			} else {
 				pstmt.setNull(7, java.sql.Types.BLOB);
 			}
-			if (campVO.getCampPic1() != null) {
-				pstmt.setBlob(8, new SerialBlob(campVO.getCampPic3()));
+			if (campVO.getCampPic3() != null) {
+				pstmt.setBytes(8, campVO.getCampPic3());
 			} else {
 				pstmt.setNull(8, java.sql.Types.BLOB);
 			}
-			if (campVO.getCampPic1() != null) {
-				pstmt.setBlob(9, new SerialBlob(campVO.getCampPic4()));
+			if (campVO.getCampPic4() != null) {
+				pstmt.setBytes(9, campVO.getCampPic4());
 			} else {
 				pstmt.setNull(9, java.sql.Types.BLOB);
 			}
 
 			if (campVO.getCampPic5() != null) {
-				pstmt.setBlob(10, new SerialBlob(campVO.getCampPic5()));
+				pstmt.setBytes(10, campVO.getCampPic5());
 			} else {
 				pstmt.setNull(10, java.sql.Types.BLOB);
 			}
@@ -533,6 +534,8 @@ public class CampDAOImpl implements CampDAO {
 				campVO.setCampAppliedLaunchTime(rs.getTimestamp("camp_Applied_Launch_Time"));
 				campVO.setLongitude(rs.getBigDecimal("longitude"));
 				campVO.setLattitude(rs.getBigDecimal("lattitude"));
+				campVO.setCampRule(rs.getString("camp_rule"));
+				campVO.setCampDiscription(rs.getString("camp_description"));
 				list.add(campVO); // Store the row in the list
 			}
 
