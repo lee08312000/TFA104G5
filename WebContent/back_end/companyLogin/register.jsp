@@ -39,8 +39,8 @@
      <div class="login-wrap">        
         <div class="login-html">
             <h1 class="title1">廠商專區</h1>            
-            <input id="tab-1" type="radio" name="tab" class="sign-in" onclick="location.href='<%=request.getContextPath()%>/back_end/companyProduct/jsp/vendorLogin.jsp'"><label for="tab-1" class="tab">登入</label>
-            <input id="tab-2" type="radio" name="tab" class="sign-up" checked><label for="tab-2" class="tab">註冊</label>
+            <input id="tab-1" type="radio" name="tab" class="sign-in" onclick="location.href='<%=request.getContextPath()%>/back_end/companyLogin/vendorLogin.jsp'"><label for="tab-1" class="tab">登入</label>
+            <input id="tab-2" type="radio" name="tab" class="sign-up" onclick="location.href='<%=request.getContextPath()%>/back_end/companyLogin/register.jsp'" checked><label for="tab-2" class="tab">註冊</label>
             <div class="login-form">                
                 <div class="sign-up-htm">
                 <FORM METHOD="post" ACTION="/TFA104G5/Company/VendorLoginServlet" name="form1">
