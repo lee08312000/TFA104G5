@@ -55,22 +55,22 @@ public class MailService {
 			   //設定信中的主旨  
 			   message.setSubject(subject);
 			   //設定信中的內容 
-			   String mallOrderStr = "";
+			   StringBuffer mallOrderStr = new StringBuffer();
 			   int count = 1;
 			   int tradeTotalAmount = 0;
 			   for (Integer mallOrderId : mallOrderIdList) {
 				   MallOrderVO mallOrderVO = mallOrderSvc.getOneMallOrder(mallOrderId);
 				   tradeTotalAmount += mallOrderVO.getMailOrderTotalAmount();
 				   List<MallOrderDetailVO> mallOrderDetailVOList = mallOrderDetailSvc.getBymallOrderId(mallOrderId);
-				   String orderDetailTableStr = "";
+				   StringBuffer orderDetailTableStr = new StringBuffer();
 				   for (MallOrderDetailVO mallOrderDetailVO : mallOrderDetailVOList) {
-					   orderDetailTableStr += 
+					   orderDetailTableStr.append(
 							   "<tr>"
 							   + "<td>" + productSvc.getOneProduct(mallOrderDetailVO.getProductId()).getProductName() + "</td>"
 							   + "<td>" + mallOrderDetailVO.getProductPurchaseQuantity() + "</td>"
 							   + "<td>" + mallOrderDetailVO.getProductPurchasePrice() + "</td>"
 							   + "<td>" + (mallOrderDetailVO.getProductPurchaseQuantity().intValue() * mallOrderDetailVO.getProductPurchasePrice().intValue()) + "</td>"
-							   + "</tr>";
+							   + "</tr>");
 				   }
 				   
 				   String orderDetailStr = 
@@ -81,14 +81,14 @@ public class MailService {
 							+ "<th>單價</th>"
 							+ "<th>項目金額</th>"
 							+ "</tr>"
-							+ orderDetailTableStr
+							+ orderDetailTableStr.toString()
 							+ "</table>";
 				   
 				   
 				   
 				   
 				   if (mallOrderIdList.size() > 1) {
-					   mallOrderStr += 
+					   mallOrderStr.append(
 							   "<p>第 " + (count++) + " 筆訂單資訊如下:</p>"
 							   + "<table>"
 							   + "<tr>"
@@ -116,10 +116,10 @@ public class MailService {
 							   + "</table>"
 							   + "<p>商品明細如下:</p>"
 							   + orderDetailStr
-							   + "<hr>";
+							   + "<hr>");
 				   } else {
 					   
-					   mallOrderStr += 
+					   mallOrderStr.append(
 									   "<table>"
 									   + "<tr>"
 									   + "<th>訂單編號</th>" 
@@ -146,7 +146,7 @@ public class MailService {
 									   + "</table>"
 									   + "<p>商品明細如下:</p>"
 									   + orderDetailStr
-									   + "<hr>";
+									   + "<hr>");
 				   }
 				   
 				   
@@ -156,7 +156,7 @@ public class MailService {
 					   "<html><head><style>table,th,tr,td{border: 1px solid black; border-collapse: collapse;}</style></head>"
 					   + "<body>"
 					   +"<h2>訂單已成立，訂單資訊如下:" + "共 " + mallOrderIdList.size() + " 筆" +"</h2>"
-					   + mallOrderStr
+					   + mallOrderStr.toString()
 					   + "<p>交易總金額: NT$ "
 					   + tradeTotalAmount
 					   + "</p>"
