@@ -18,6 +18,10 @@ import com.mallOrder.model.MallOrderVO;
 import com.mallOrderDetail.model.MallOrderDetailDAOImpl;
 import com.mallOrderDetail.model.MallOrderDetailService;
 import com.mallOrderDetail.model.MallOrderDetailVO;
+import com.product.model.ProductDAO;
+import com.product.model.ProductDAOImpl;
+import com.product.model.ProductService;
+import com.product.model.ProductVO;
 
 
 @WebServlet("/Member/MemberProductServlet")
@@ -103,7 +107,13 @@ public class MemberProductServlet extends HttpServlet{
 								MallOrderDetailDAOImpl mallOrderDetailDao = new MallOrderDetailDAOImpl();
 								mallOrderDetailDao.update(mallOrderDetailVO);
 								
-
+								// 更新商品的評價總人數及總評價
+								ProductService productSvc = new ProductService();
+								ProductVO productVO = productSvc.getOneProduct(mallOrderDetailVO.getProductId());
+								productVO.setProductCommentedAllnum(productVO.getProductCommentedAllnum() + 1);
+								productVO.setProductCommentAllstar(productVO.getProductCommentAllstar() + starNum);
+								ProductDAO productDAO = new ProductDAOImpl();
+								productDAO.update(productVO);
 								List<MallOrderDetailVO> mallOrderDetailList = mallOrderDetailSvc.getBymallOrderId(mallOrderId);
 								/***************************2.修改狀態完成,準備轉交(Send the Success view)***********/
 								req.setAttribute("mallOrderDetailList", mallOrderDetailList); // 資料庫update成功後,重新抓取訂單明細

@@ -115,9 +115,9 @@ public class AdminServlet extends HttpServlet {
 
 			if (session != null) {
 
-				session.removeAttribute("adminVO");
+//				session.removeAttribute("adminVO");
 
-//    			session.invalidate();
+    			session.invalidate();
 
 				System.out.println("登出成功");
 				
