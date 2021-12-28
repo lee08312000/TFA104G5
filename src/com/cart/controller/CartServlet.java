@@ -226,15 +226,16 @@ public class CartServlet extends HttpServlet {
 			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 			int productId = Integer.parseInt(req.getParameter("productId"));
 			/*************************** 2.開始修改資料 *****************************************/
-			for (int i = 0; i < buyList.size(); i++) {
-				CartVO cartVO = buyList.get(i);
+			List<CartVO> redisBuyList = cartRedisSvc.getBuyList(memberVO.getMemberId());
+			for (int i = 0; i < redisBuyList.size(); i++) {
+				CartVO cartVO = redisBuyList.get(i);
 				if (productId == cartVO.getProductId().intValue()) {
-					buyList.remove(i);
+					redisBuyList.remove(i);
 					i--;
 				}
 			}
 			/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
-			session.setAttribute("buyList", buyList);
+			cartRedisSvc.setBuyList(memberVO.getMemberId(), redisBuyList);
 			// 回傳Json給Ajax
 			JSONObject obj = new JSONObject();
 			try {
