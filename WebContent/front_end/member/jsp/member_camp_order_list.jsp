@@ -85,9 +85,6 @@ System.out.println(memberVO.getMemberId());
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
 						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
-				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
-					value="">註冊</a></li>
 					
 				<%-- =================  登出鈕   ===================== --%>	
 				<li>
@@ -174,7 +171,7 @@ System.out.println(memberVO.getMemberId());
 			<tr>
 				<td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${ campOrderVO.campId }&pic=1"
 					alt="營地圖片"></td> 
-				<td class="text-left"><a href="#">${ campSvc.getOneCamp(campOrderVO.campId).campName }</a></td> 
+				<td class="text-left"><a href="<%=request.getContextPath()%>/front_end/camp/camp_detail.html?campId=${ campOrderVO.campId }">${ campSvc.getOneCamp(campOrderVO.campId).campName }</a></td> 
 				<td class="text-left">${ campOrderVO.campCheckInDate }</td> 
 				<td class="text-left">${ campOrderVO.campCheckOutDate }</td>	
 				<td class="text-left">${ campOrderVO.campOrderTotalAmount }</td> 

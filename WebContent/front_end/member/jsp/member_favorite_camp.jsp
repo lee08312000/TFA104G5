@@ -88,9 +88,6 @@
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
 						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
-				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
-					value="">註冊</a></li>
 					
 				<%-- =================  登出鈕   ===================== --%>	
 				<li>
@@ -195,7 +192,7 @@
 					<td class="text-left"><a href="<%=request.getContextPath()%>/front_end/camp/camp_detail.html?campId=${ favoriteCampVO.campId }">${ campSvc.getOneCamp(favoriteCampVO.campId).campName }</a></td> 
 					<td class="text-center">
 					<c:forEach var="campTagName" items="${ campTagDetailSvc.findCampTagsByCampIdNames(favoriteCampVO.campId) }">
-					<a href="#">${ campTagName }</a>
+					<a>${ campTagName }</a>
 					</c:forEach>
 					</td> <!-- ${ campTagDetail.營地標籤中文方法列出  } 或 ${ campTagVO.campTagName } (?) 如何點了進入相同類型營地列表?健泯的網站? 或者直接列就好不要按鈕? -->
 					<td class="text-left">${ campSvc.getOneCamp(favoriteCampVO.campId).campAddress }</td> <!-- ${ campVO.campAddress } -->

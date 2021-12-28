@@ -628,7 +628,9 @@
     		<input type="hidden" name="action" value="searchByAdminId">
     		<input type="submit" value="查詢">
     		<a style="margin-left: 20px;" href="<%=request.getContextPath()%>/back_end/admin/adminManagement.jsp">所有管理員</a>
-    		<a href="<%=request.getContextPath()%>/back_end/admin/addAdmin.jsp" style="text-decoration: none; margin-left: 20px; color: white; background-color: gray; border-radius: 20px; padding: 3px 10px; border: 0px;">新增</a>
+    		<c:if test="${ sessionScope.adminVO.adminId.intValue() == 1 }">
+    			<a href="<%=request.getContextPath()%>/back_end/admin/addAdmin.jsp" style="text-decoration: none; margin-left: 20px; color: white; background-color: gray; border-radius: 20px; padding: 3px 10px; border: 0px;">新增</a>
+    		</c:if>
     	</form>
     	<%-- 錯誤表列 --%>
 		<c:if test="${not empty errorMsgs}">
@@ -654,12 +656,14 @@
 							<td>${ adminVO.adminAccountStatus.intValue() == 0 ? "停用中" : adminVO.adminAccountStatus.intValue() == 1 ? "啟用中" : "異常" }</td>
 							
 							<td>
-								<c:if test="${ adminVO.adminId.intValue() != 1 }">
-									<form method="post" action="<%=request.getContextPath()%>/admin/AdminManagementServlet" style="display:inline-block;">
-										<input type="hidden" name="action" value='${ adminVO.adminAccountStatus.intValue() == 0 ? "on" : adminVO.adminAccountStatus.intValue() == 1 ? "off" : "異常" }'>
-										<input type="hidden" name="adminId" value="${ adminVO.adminId }">
-										<input type="submit" value='${ adminVO.adminAccountStatus.intValue() == 0 ? "啟用" : adminVO.adminAccountStatus.intValue() == 1 ? "停用" : "異常" }'>
-									</form>
+								<c:if test="${ sessionScope.adminVO.adminId.intValue() == 1 }">
+									<c:if test="${ adminVO.adminId.intValue() != 1 }">
+										<form method="post" action="<%=request.getContextPath()%>/admin/AdminManagementServlet" style="display:inline-block;">
+											<input type="hidden" name="action" value='${ adminVO.adminAccountStatus.intValue() == 0 ? "on" : adminVO.adminAccountStatus.intValue() == 1 ? "off" : "異常" }'>
+											<input type="hidden" name="adminId" value="${ adminVO.adminId }">
+											<input type="submit" value='${ adminVO.adminAccountStatus.intValue() == 0 ? "啟用" : adminVO.adminAccountStatus.intValue() == 1 ? "停用" : "異常" }'>
+										</form>
+									</c:if>
 								</c:if>
 							</td>
 						</tr>
