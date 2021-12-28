@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,6 +20,8 @@ import com.company.model.CompanyDAOImpl;
 import com.company.model.CompanyService;
 import com.company.model.CompanyVO;
 import com.company.model.MailService;
+
+import redis.clients.jedis.Jedis;
 
 
 @WebServlet("/Company/VendorLoginServlet")
@@ -221,8 +224,22 @@ public class VendorLoginServlet extends HttpServlet{
 				String serverPort = req.getServerPort() + "";
 				String contextPath = req.getContextPath();
 				String realContextPath = scheme +"://"+serverName +":"+ serverPort + contextPath;
+				//產生通用唯一識別碼
+				UUID uuid = UUID.randomUUID();
+				String code = uuid.toString();				
+				//存UUID與會員帳號至redis
+				Jedis jedis = null;
+				try {
+					jedis = new Jedis("localhost", 6379);
+					jedis.set(code, account);
+					jedis.expire(code, 30);
+				}finally {
+					if(jedis != null)
+					   jedis.close();
+				}
+				
 				MailService mailSvc = new MailService();
-				mailSvc.sendMail(email,account,"activation",realContextPath);
+				mailSvc.sendMail(email,code,"activation",realContextPath);
 				/***************************4.新增完成,準備轉交(Send the Success view)***********/
 				String url = "/back_end/companyLogin/vendorLogin.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
@@ -243,7 +260,16 @@ public class VendorLoginServlet extends HttpServlet{
 		if ("activation".equals(action)) {
 			try {
 				
-				String account = req.getParameter("account");
+				String code = req.getParameter("code");
+				Jedis jedis = null;
+				String account = null;
+				try {
+					jedis = new Jedis("localhost", 6379);
+					account = jedis.get(code);
+				}finally {
+					if(jedis != null)
+					   jedis.close();
+				}
 				
 				CompanyService companySvc= new CompanyService();			
 				CompanyVO companyVO = companySvc.getOneCompanyByAccount(account);
