@@ -527,3 +527,23 @@
             height: 25px;
             border-radius: 3px;
         }
+        input.update{
+        	background-color: #636060;
+		    border: 0cm ;
+		    border-radius: 4px;
+		    font-size: 16px;
+		    font-weight: bold;
+		    color:#D5DDE5;
+		    margin: 5px 0px;
+        }
+        input.return{
+        	background-color: #636060;
+		    border: 0cm ;
+		    border-radius: 4px;
+		    font-size: 16px;
+		    font-weight: bold;
+		    color:#D5DDE5;		    
+		    position: absolute;
+		    bottom:25px;
+		    left:300px;
+        }
