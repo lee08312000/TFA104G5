@@ -82,28 +82,36 @@ public class MemberServlet extends HttpServlet {
 				
 				// 若buyList有東西時
 				if (buyList != null && buyList.size() != 0 ) {
-					// 合併開始
-					for (int i = 0; i < buyList.size(); i++) {
-						boolean match = false;
-						CartVO cartVOb = buyList.get(i);
-						for (int j = 0; j < redisBuyList.size(); j++) {
-							CartVO cartVOr = redisBuyList.get(j);
-							// Redis中已有相同商品時
-							if (cartVOb.getProductId().intValue() == cartVOr.getProductId().intValue()) {
-								match = true;
-								if (cartVOr.getProductPurchaseQuantity().intValue() <= cartVOb.getProductPurchaseQuantity().intValue()) {
-									redisBuyList.set(j, cartVOb);
+					// 若redisBuyList不為空
+					if (redisBuyList != null && redisBuyList.size() != 0) {
+						// 合併開始
+						for (int i = 0; i < buyList.size(); i++) {
+							boolean match = false;
+							CartVO cartVOb = buyList.get(i);
+							for (int j = 0; j < redisBuyList.size(); j++) {
+								CartVO cartVOr = redisBuyList.get(j);
+								// Redis中已有相同商品時
+								if (cartVOb.getProductId().intValue() == cartVOr.getProductId().intValue()) {
+									match = true;
+									if (cartVOr.getProductPurchaseQuantity().intValue() <= cartVOb.getProductPurchaseQuantity().intValue()) {
+										redisBuyList.set(j, cartVOb);
+									}
+									
 								}
-								
 							}
+							
+							if (!match) {
+								redisBuyList.add(cartVOb);
+							}
+							
+							
 						}
 						
-						if (!match) {
-							redisBuyList.add(cartVOb);
-						}
-						
-						
+					} else {
+						// 若redisBuyList為空
+						redisBuyList = buyList;
 					}
+					
 					cartRedisSvc.setBuyList(memberVO.getMemberId(), redisBuyList);
 					session.removeAttribute("buyList");
 				}
