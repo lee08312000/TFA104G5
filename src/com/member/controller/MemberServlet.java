@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.cart.model.CartRedisService;
+import com.cart.model.CartVO;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 
@@ -73,7 +75,46 @@ public class MemberServlet extends HttpServlet {
 				session.setAttribute("memberId", memberVO.getMemberId());
 				session.setAttribute("memberId", memberVO.getMemberName());
 				System.out.println("登入成功");
-
+				// 合併session 和 Redis的購買清單
+				CartRedisService cartRedisSvc = new CartRedisService();
+				List<CartVO> redisBuyList = cartRedisSvc.getBuyList(memberVO.getMemberId());
+				List<CartVO> buyList = (List<CartVO>) session.getAttribute("buyList");
+				
+				// 若buyList有東西時
+				if (buyList != null && buyList.size() != 0 ) {
+					// 若redisBuyList不為空
+					if (redisBuyList != null && redisBuyList.size() != 0) {
+						// 合併開始
+						for (int i = 0; i < buyList.size(); i++) {
+							boolean match = false;
+							CartVO cartVOb = buyList.get(i);
+							for (int j = 0; j < redisBuyList.size(); j++) {
+								CartVO cartVOr = redisBuyList.get(j);
+								// Redis中已有相同商品時
+								if (cartVOb.getProductId().intValue() == cartVOr.getProductId().intValue()) {
+									match = true;
+									if (cartVOr.getProductPurchaseQuantity().intValue() <= cartVOb.getProductPurchaseQuantity().intValue()) {
+										redisBuyList.set(j, cartVOb);
+									}
+									
+								}
+							}
+							
+							if (!match) {
+								redisBuyList.add(cartVOb);
+							}
+							
+							
+						}
+						
+					} else {
+						// 若redisBuyList為空
+						redisBuyList = buyList;
+					}
+					
+					cartRedisSvc.setBuyList(memberVO.getMemberId(), redisBuyList);
+					session.removeAttribute("buyList");
+				}
 				/////////////////////////導回原本頁面////////////////////
 
 			       try {                                                        

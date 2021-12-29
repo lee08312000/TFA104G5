@@ -22,85 +22,85 @@ html{
 /* =================  all   =====================*/
 
 /* =================  header區域   =====================*/
-header.header {        
-    width: 100%;
-    height: var(--header-height);
-    background-color: #d7ab75;
-    position: fixed;
-    top: 0;
-    left: 0;
-    position: sticky;
-    top: 0;
-    display: flex;
-    justify-content: space-between;
-    color: #FFFFFF; 
-    font-weight: bold;   
-    z-index: 2;              
+header.header {
+	width: 100%;
+	height: 100px;
+	background-color: #d7ab75;
+	/* position: fixed;
+        top: 0;
+        left: 0; */
+	position: sticky;
+	top: 0;
+	display: flex;
+	justify-content: space-between;
+	color: #FFFFFF;
+	font-weight: bold;
 }
 
-.header-inner { 
-        /* Make it stick */ 
-        height: var(--header-inner-height); 
-        position: sticky; 
-        top: 1; 
-        /* Other */ 
-        display: flex; 
-        align-items: center; 
-        justify-content: space-between;
-        padding-left: 60px; 
-} 
-        /* Styling of other elements */ 
-     
-.header-logo img { 
-        display: block; 
-        height: calc(var(--header-inner-height) - 30px); 
-        height: 100px; 
-        width: 95px; 
-        text-align: center; 
-} 
-     
-.header-logo { 
-    display: block; 
-    font-size: 32px; 
+.header-inner {
+	/* Make it stick */
+	height: var(--header-inner-height);
+	position: sticky;
+	top: 1;
+	/* Other */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-left: 60px;
+}
+
+/* Styling of other elements */
+.header-logo img {
+	display: block;
+	height: calc(var(--header-inner-height) - 30px); 
+	/* height: 100px; */
+	width: 95px;
+	/* text-align: center; */
+}
+
+.header-logo {
+	display: block;
+	font-size: 32px;
 }
 
 header ul {
-    margin-right: 40px;
-}   
-
-.header-navigation li{
-    font-size: 1.125rem;             
-    margin-right: 1.75rem;            
-    position: relative;
-    text-decoration: none;
-    vertical-align: middle;
-    display: inline-block;
-    margin-top: 5px;                                              
+	margin-right: 40px;
 }
 
-.header-navigation li > a{
-    text-decoration: none;
-    color: #FFFFFF; 
-    font-weight: bold;
-}
-    
-.header-navigation li:hover:after{ 
-    transform: scalex(1); 
+.header-navigation li {
+	font-size: 1.125rem;
+	margin-right: 1.75rem;
+	position: relative;
+	text-decoration: none;
+	vertical-align: middle;
+	display: inline-block;
+	margin-top: 5px;
 }
 
-.header-navigation li:after{ 
-    transition: 0.25s ease; 
-    content: ""; 
-    display: block; 
-    width: 100%; 
-    height: 2px; 
-    background-color: currentcolor; 
-    transform: scalex(0); 
-    position: absolute; 
-    bottom: -2px; 
-    left: 0; 
+.header-navigation li>a {
+	text-decoration: none;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+.header-navigation li:hover:after {
+	transform: scalex(1);
+}
+
+.header-navigation li:after {
+	transition: 0.25s ease;
+	content: "";
+	display: block;
+	width: 100%;
+	height: 2px;
+	background-color: currentcolor;
+	transform: scalex(0);
+	position: absolute;
+	bottom: -2px;
+	left: 0;
 }
 /* =================  header區域   =====================*/
+
 
 /* =================  登入區塊   =====================*/
 .updateform {
@@ -473,8 +473,7 @@ pre {
     width: 450px;
     height: 300px;
     position: relative;
-    left: 300px;
-    margin: 30px;
+    margin: auto 25% auto 25%;
     padding-left: 10px;    
 }
 
@@ -513,27 +512,4 @@ div.star_block > span.star{
 }
 div.star_block > span.star.-on{
     color: yellow;
-}
-
-.logout_button {
-    margin-right: 1.75rem;
-    margin-top: 5px;   
-	background-color: #d7ab75;
-	border: none;
-	color: white;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 1.125rem;     
-	transition-duration: 0.4s;
-	cursor: pointer;
-    vertical-align: middle;
-    position: relative;
-
-}
-
-.logout_button:hover {
-    text-decoration: none;
-    color: #FFFFFF; 
-    font-weight: bold;
 }
