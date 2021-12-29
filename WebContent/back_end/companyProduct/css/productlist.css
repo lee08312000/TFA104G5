@@ -17,7 +17,7 @@ html{
 }
 
 
-/* =================  header�����   =====================*/
+/* =================  header嚙踝蕭嚙踝蕭嚙�   =====================*/
 header.header{        
     width: 100%;
     height: var(--header-height);
@@ -89,7 +89,7 @@ header.header{
         bottom: -2px; 
         left: 0; 
     }         
-/* =================   aside�����   =====================*/
+/* =================   aside嚙踝蕭嚙踝蕭嚙�   =====================*/
 aside.aside{            
     position: fixed;
     left: 0;
@@ -429,7 +429,7 @@ margin: 0;
 display: inline-block;
 font-size: 18px;
 }
-    /* =====================main�����========================*/
+    /* =====================main嚙踝蕭嚙踝蕭嚙�========================*/
     main.main{
         /* border: 1px solid blue; */
         /* height: 1000px; */
@@ -462,7 +462,7 @@ font-size: 18px;
     border-left: 5px solid #ddd;
     border-right: 5px solid #ddd;        
     }
-    /* 燈箱區域 */
+    /* ��拳����� */
         button{
         cursor: pointer;
         }
@@ -476,7 +476,7 @@ font-size: 18px;
         display: none;
         }
 
-        /* -------元素 article 置中及基本樣式-------- */
+        /* -------���� article 蝵桐葉���璅�撘�-------- */
         div.overlay > article{
         background-color: white;
         color: rgb(68, 66, 66);
@@ -511,4 +511,18 @@ font-size: 18px;
         }
         img {
         max-width: 100%;
+        }
+        div.search {
+            padding-top: 50px;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+        input.button,button.btn_open{
+        	background-color: #636060;
+		    border: 0cm ;
+		    border-radius: 4px;
+		    font-size: 16px;
+		    font-weight: bold;
+		    color:#D5DDE5;
+		    margin: 5px 0px;
         }
