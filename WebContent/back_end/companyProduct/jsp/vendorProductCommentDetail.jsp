@@ -4,6 +4,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.company.model.*"%>
 <%@ page import="com.product.model.*"%>
+<%@ page import="com.member.model.*"%>
 <%@ page import="com.productType.model.*"%>
 <%@ page import="com.mallOrder.model.*"%>
 <%@ page import="com.mallOrderDetail.model.*"%>
@@ -13,6 +14,8 @@
 
 	pageContext.setAttribute("mallOrderDetailList",mallOrderDetailList);
 %>
+<jsp:useBean id="memberSvc" scope="page" class="com.member.model.MemberService" />
+<jsp:useBean id="mallOrderSvc" scope="page" class="com.mallOrder.model.MallOrderService" />
 
 <html>
 <head>
@@ -38,7 +41,7 @@
                 <li><a href="#">線上商城</a></li>
                 <li><a href="#"><img src="<%=request.getContextPath()%>/back_end/companyProduct/img/heart.png"></a></li>
                 <li><a href="#">註冊</a></li>
-                <li><a href="#">登入</a></li>
+                <li><a href="#">登出</a></li>
                 <li><a href="#"><i class="fas fa-user"></i></a></li>                
             </nav>
         </ul>    
@@ -111,7 +114,7 @@
     	<c:forEach var="mallOrderDetailVO" items="${mallOrderDetailList}">
          <div class="commentArea ">
             <br>
-            <div>會員名稱:</div>
+            <div>會員名稱:${memberSvc.getOneMember(mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).memberId).memberName}</div>
             <div>
                 <div class="star_block">
                 	<c:if test="${mallOrderDetailVO.productCommentStar >= 1}">

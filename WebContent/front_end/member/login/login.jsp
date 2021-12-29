@@ -64,7 +64,7 @@ html {
 /* =================  header區域   =====================*/
 header.header {
 	width: 100%;
-	height: var(- -header-height);
+	height: 100px;
 	background-color: #d7ab75;
 	/* position: fixed;
         top: 0;
@@ -79,7 +79,7 @@ header.header {
 
 .header-inner {
 	/* Make it stick */
-	height: var(- -header-inner-height);
+	height: var(--header-inner-height);
 	position: sticky;
 	top: 1;
 	/* Other */
@@ -92,7 +92,7 @@ header.header {
 /* Styling of other elements */
 .header-logo img {
 	display: block;
-	/* height: calc(var(--header-inner-height) - 30px); */
+	height: calc(var(--header-inner-height) - 30px); 
 	/* height: 100px; */
 	width: 95px;
 	/* text-align: center; */

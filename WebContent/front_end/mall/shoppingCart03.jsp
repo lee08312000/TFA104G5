@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.cart.model.CartVO"%>
+<%@ page import="com.cart.model.CartRedisService"%>
+<%@ page import="com.member.model.*"%>
 
 <!DOCTYPE html>
 <html lang="zh-Hant">
@@ -92,16 +94,19 @@ div.overlay > article{
 	<div class="shopping-cart" style="padding: 50px 30px 50px 30px;">
 
 		<%
-			if (session.getAttribute("buyList") != null) {
+			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+			CartRedisService cartRedisSvc = new CartRedisService();
+			if (cartRedisSvc.getBuyList(memberVO.getMemberId()) != null) {
 
-				List<CartVO> buyList = (List<CartVO>) session.getAttribute("buyList");
+				List<CartVO> cart = cartRedisSvc.getBuyList(memberVO.getMemberId());
 
 				Set<Integer> companySet = new TreeSet<Integer>();
-				for (CartVO c : buyList) {
+				for (CartVO c : cart) {
 					companySet.add(c.getCompanyId());
 				}
 
 				request.setAttribute("companySet", companySet);
+				pageContext.setAttribute("redisBuyList", cart);
 			}
 		%>
 
@@ -130,7 +135,7 @@ div.overlay > article{
 						style="color: black; font-weight: bold;">總計</label>
 				</div>
 
-				<c:forEach var="oneProduct" items="${ buyList }">
+				<c:forEach var="oneProduct" items="${ redisBuyList }">
 
 					<c:if test="${oneOrder == oneProduct.companyId}">
 						<!-- 一個商品項start -->
