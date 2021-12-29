@@ -43,6 +43,19 @@ public class CartRedisService {
 		List<CartVO> buyList = gson.fromJson(buyListJson, collectionType);
 		return buyList;
 	}
+	
+	public void clearBuyList(Integer memberId) {
+		Jedis jedis = null;
+		try {
+			jedis = new Jedis("localhost",6379);
+			Long delete = jedis.del("member:" + memberId);
+			System.out.println(delete);
+		} finally {
+			if (jedis != null) {
+				jedis.close();
+			}
+		}
+	}
 
 //	public static void main(String[] args) {
 //		CartRedisService cartRedisSvc = new CartRedisService();

@@ -55,7 +55,7 @@ public class CartServlet extends HttpServlet {
 
 		// 從商城新增商品到購物車
 		if ("add".equals(action)) {
-			
+
 			ProductService productSvc = new ProductService();
 			/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 			Integer productId = Integer.parseInt(req.getParameter("productId").trim());
@@ -207,7 +207,7 @@ public class CartServlet extends HttpServlet {
 			} else {
 				session.setAttribute("buyList", buyList);
 			}
-			
+
 			// 回傳Json給Ajax
 			JSONObject obj = new JSONObject();
 			try {
@@ -235,7 +235,11 @@ public class CartServlet extends HttpServlet {
 				}
 			}
 			/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
-			cartRedisSvc.setBuyList(memberVO.getMemberId(), redisBuyList);
+			if (redisBuyList.size() != 0) {
+				cartRedisSvc.setBuyList(memberVO.getMemberId(), redisBuyList);
+			} else {
+				cartRedisSvc.clearBuyList(memberVO.getMemberId());
+			}
 			// 回傳Json給Ajax
 			JSONObject obj = new JSONObject();
 			try {
@@ -313,12 +317,13 @@ public class CartServlet extends HttpServlet {
 				}
 			}
 
-			buyList = getBuyList(req);
+			List<CartVO> redisBuyList = cartRedisSvc.getBuyList(memberVO.getMemberId());
+			redisBuyList = getBuyList(req);
 
 			// 檢查庫存量及購買流程時廠商是否更動價格
 			ProductService productSvc = new ProductService();
-			for (int i = 0; i < buyList.size(); i++) {
-				CartVO cartVO = buyList.get(i);
+			for (int i = 0; i < redisBuyList.size(); i++) {
+				CartVO cartVO = redisBuyList.get(i);
 				ProductVO productVO = productSvc.getOneProduct(cartVO.getProductId());
 				// 檢查庫存量
 				Integer productInventory = productVO.getProductInventory();
@@ -326,10 +331,10 @@ public class CartServlet extends HttpServlet {
 				if ((productInventory.intValue() - productPurchaseQuantity.intValue()) < 0) {
 					cartVO.setProductPurchaseQuantity(productInventory);
 					if (cartVO.getProductPurchaseQuantity().intValue() == 0) {
-						buyList.remove(i);
+						redisBuyList.remove(i);
 						i--;
 					} else {
-						buyList.set(i, cartVO);
+						redisBuyList.set(i, cartVO);
 					}
 					errorMsgs.add(cartVO.getProductName() + " 的庫存量為" + productInventory + "，請重新確認數量");
 				}
@@ -339,19 +344,18 @@ public class CartServlet extends HttpServlet {
 				Integer cartPrice = cartVO.getProductPrice();
 				if (cartPrice.intValue() != realPrice.intValue()) {
 					cartVO.setProductPrice(realPrice);
-					buyList.set(i, cartVO);
+					redisBuyList.set(i, cartVO);
 					errorMsgs.add(cartVO.getProductName() + " : 廠商在您 shopping 時更動了價格，請重新確認");
 				}
 				// 檢查購買流程時廠商是否下價商品
 				if (productVO.getProductStatus().intValue() == 0) {
-					buyList.remove(i);
+					redisBuyList.remove(i);
 					i--;
 					errorMsgs.add(cartVO.getProductName() + " : 商品已下架，請重新確認");
 				}
 			}
 
-			session.setAttribute("buyList", buyList);
-
+			cartRedisSvc.setBuyList(memberVO.getMemberId(), redisBuyList);
 			// Send the use back to the form, if there were errors
 			if (!errorMsgs.isEmpty()) {
 				RequestDispatcher failureView = req.getRequestDispatcher("/front_end/mall/shoppingCart01.jsp");
@@ -513,6 +517,7 @@ public class CartServlet extends HttpServlet {
 
 		// 購物車結帳
 		if ("checkout".equals(action)) {
+			List<CartVO> redisBuyList = cartRedisSvc.getBuyList(memberVO.getMemberId());
 			MailService mailSvc = new MailService();
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -529,8 +534,8 @@ public class CartServlet extends HttpServlet {
 
 			// 檢查庫存量及購買流程時廠商是否更動價格
 			ProductService productSvc = new ProductService();
-			for (int i = 0; i < buyList.size(); i++) {
-				CartVO cartVO = buyList.get(i);
+			for (int i = 0; i < redisBuyList.size(); i++) {
+				CartVO cartVO = redisBuyList.get(i);
 				ProductVO productVO = productSvc.getOneProduct(cartVO.getProductId());
 				// 檢查庫存量
 				Integer productInventory = productVO.getProductInventory();
@@ -538,10 +543,10 @@ public class CartServlet extends HttpServlet {
 				if ((productInventory.intValue() - productPurchaseQuantity.intValue()) < 0) {
 					cartVO.setProductPurchaseQuantity(productInventory);
 					if (cartVO.getProductPurchaseQuantity().intValue() == 0) {
-						buyList.remove(i);
+						redisBuyList.remove(i);
 						i--;
 					} else {
-						buyList.set(i, cartVO);
+						redisBuyList.set(i, cartVO);
 					}
 					errorMsgs.add(cartVO.getProductName() + " 的庫存量為" + productInventory + "，請重新確認數量");
 				}
@@ -550,18 +555,17 @@ public class CartServlet extends HttpServlet {
 				Integer cartPrice = cartVO.getProductPrice();
 				if (cartPrice.intValue() != realPrice.intValue()) {
 					cartVO.setProductPrice(realPrice);
-					buyList.set(i, cartVO);
+					redisBuyList.set(i, cartVO);
 					errorMsgs.add(cartVO.getProductName() + " : 廠商在您 shopping 時更動了價格，請重新確認");
 				}
 				// 檢查購買流程時廠商是否下價商品
 				if (productVO.getProductStatus().intValue() == 0) {
-					buyList.remove(i);
+					redisBuyList.remove(i);
 					i--;
 					errorMsgs.add(cartVO.getProductName() + " : 商品已下架，請重新確認");
 				}
 			}
-
-			session.setAttribute("buyList", buyList);
+			cartRedisSvc.setBuyList(memberVO.getMemberId(), redisBuyList);
 			// Send the use back to the form, if there were errors
 			if (!errorMsgs.isEmpty()) {
 
@@ -585,7 +589,7 @@ public class CartServlet extends HttpServlet {
 			MallOrderService mallOrderSvc = new MallOrderService();
 			// 存放增加的訂單的ID
 			List<Integer> mallOrderIdList = mallOrderSvc.checkout(memberVO.getMemberId(), creditCardNum, receiverName,
-					receiverPhone, receiverAddress, buyList);
+					receiverPhone, receiverAddress, redisBuyList);
 			// 測試:印出增加的mallOrderId
 			for (Integer mallOrderId : mallOrderIdList) {
 				System.out.println(mallOrderId);
@@ -599,7 +603,7 @@ public class CartServlet extends HttpServlet {
 				failureView.forward(req, res);
 				return;
 			} else {
-				session.removeAttribute("buyList");
+				cartRedisSvc.clearBuyList(memberVO.getMemberId());
 				req.setAttribute("mallOrderIdList", mallOrderIdList);
 				// 寄送email給會員
 				mailSvc.sendMailByMallOrder(memberVO.getMemberEmail(), "Camping Paradise-商城訂單成立", mallOrderIdList);
@@ -646,7 +650,50 @@ public class CartServlet extends HttpServlet {
 			/*************************** 3.準備轉交(Send the Success view) *************/
 			int cartNum = 0;
 
-			if (buyList == null || buyList.size() == 0) {
+			if (memberVO != null) {
+				List<CartVO> redisBuyList = cartRedisSvc.getBuyList(memberVO.getMemberId());
+
+				if (redisBuyList == null || redisBuyList.size() == 0) {
+					try {
+						JSONObject obj = new JSONObject();
+						obj.put("cartNum", cartNum);
+						out.println(obj.toString());
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					return;
+				}
+
+				for (CartVO cartVO : redisBuyList) {
+					cartNum += cartVO.getProductPurchaseQuantity();
+				}
+
+				try {
+					JSONObject obj = new JSONObject();
+					obj.put("cartNum", cartNum);
+					out.println(obj.toString());
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				return;
+				
+			} else {
+
+				if (buyList == null || buyList.size() == 0) {
+					try {
+						JSONObject obj = new JSONObject();
+						obj.put("cartNum", cartNum);
+						out.println(obj.toString());
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					return;
+				}
+
+				for (CartVO cartVO : buyList) {
+					cartNum += cartVO.getProductPurchaseQuantity();
+				}
+
 				try {
 					JSONObject obj = new JSONObject();
 					obj.put("cartNum", cartNum);
@@ -656,19 +703,6 @@ public class CartServlet extends HttpServlet {
 				}
 				return;
 			}
-
-			for (CartVO cartVO : buyList) {
-				cartNum += cartVO.getProductPurchaseQuantity();
-			}
-
-			try {
-				JSONObject obj = new JSONObject();
-				obj.put("cartNum", cartNum);
-				out.println(obj.toString());
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			return;
 
 		}
 
