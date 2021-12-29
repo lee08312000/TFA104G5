@@ -127,9 +127,6 @@
 								href="<%=request.getContextPath()%>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
 							</li>
 						</ul></li>
-					<li><a href=""><i class="fas fa-sign-out-alt"></i> <span><input
-								class="fas fa-sign-out-alt logout_button" type="submit" value="&nbsp;登出" /></span> </a>
-						<input type="hidden" value="logout" name="action" /></li>
 			</div>
 		</aside>
 	<%-- =================  sidebar   ===================== --%>
