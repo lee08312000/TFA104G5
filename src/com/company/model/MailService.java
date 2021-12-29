@@ -13,7 +13,7 @@ import javax.mail.internet.MimeMessage;
 
 public class MailService {
  // 設定傳送郵件:至收信人的Email信箱,Email內容
- public void sendMail(String toEmail,String account,String active,String realContextPath) {
+ public void sendMail(String toEmail,String code,String active,String realContextPath) {
    
     try {
      // 設定使用SSL連線至 Gmail smtp Server
@@ -43,7 +43,7 @@ public class MailService {
      //設定信中的內容 
      String content = "<html><head></head><body>"
 //    +"<a href='http://www.w3school.com.cn'>請點選此連結開通帳號</a>"   
-       + "<a href=" + realContextPath + "/Company/VendorLoginServlet?action="+active+"&account="+account+">請點選此連結開通帳號</a>"
+       + "<a href=" + realContextPath + "/Company/VendorLoginServlet?action="+active+"&code="+code+">請點選此連結開通帳號</a>"
        + "</body></html>";
      message.setContent(content, "text/html;charset=UTF-8");
 

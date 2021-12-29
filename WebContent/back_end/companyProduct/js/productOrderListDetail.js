@@ -7,7 +7,7 @@ $(function () {
 		
 		// 獲得商品詳細資訊
 		$.ajax({
-		  url: "/TFA104G5copy/mallOrder/CompanyBrowseServlet",
+		  url: "/TFA104G5/mallOrder/CompanyBrowseServlet",
 		  type: "POST",
 		  data: {
 		    "action": "getMallOrderDetail",
@@ -30,7 +30,7 @@ $(function () {
 		    		
 		    		let mallOrderDetail_item =
 		                  `<tr>
-				                <td class="text-center" ><img src="/TFA104G5copy/product/PicServlet?productId=${mallOrderDetail.productId}&pic=1" style="width:120px;" alt="商品照片"></td>
+				                <td class="text-center" ><img src="/TFA104G5/product/PicServlet?productId=${mallOrderDetail.productId}&pic=1" style="width:120px;" alt="商品照片"></td>
 				                <td class="text-left">${mallOrderDetail.productName}</td>
 				                <td class="text-left">${mallOrderDetail.productPurchasePrice}</td>
 				                <td class="text-left">${mallOrderDetail.productPurchaseQuantity}</td>
@@ -51,17 +51,18 @@ $(function () {
 				            <div>送貨地址:  ${mallOrderDetailList[0].receiverAddress}</div>
 				        </td>
 				        <td class="text-center" id="updateButton">
-				                                
+				        	<button class="updateButton" type="button" onclick="location.href='/TFA104G5/back_end/companyProduct/html/productOrderList.html'">返回列表</button>                        
 				        </td>
 				    </tr>`);
 		    	
 		    	if(mallOrderDetailList[0].mallOrderStatus == 0){
-		    		$("#updateButton").append(`<button class="updateButton" id="confirm" type="button">確認訂單</button>`);	
+		    		$("#updateButton").prepend(`<button class="updateButton" id="confirm" type="button">確認訂單</button>`);
+		 
 		    	}else if(mallOrderDetailList[0].mallOrderDeliveryStatus == 0){
-		    		$("#updateButton").append(`<button class="updateButton" id="delivery" type="button">確認出貨</button>`);	
+		    		$("#updateButton").prepend(`<button class="updateButton" id="delivery" type="button">確認出貨</button>`);	
 		    	}else{
 		    		
-		    	}
+		    	}    	
 
 		    }
 		  },
@@ -73,7 +74,7 @@ $(function () {
 	//更改訂單狀態
 	$(document).on("click", "#confirm", function (){
 		$.ajax({
-            url: "/TFA104G5copy/mallOrder/CompanyBrowseServlet",
+            url: "/TFA104G5/mallOrder/CompanyBrowseServlet",
             type: "POST",
             data: {
             	"action": "updateMallOrderStatus",
@@ -99,7 +100,7 @@ $(function () {
 	//更改物流狀態
 	$(document).on("click", "#delivery", function (){
 		$.ajax({
-            url: "/TFA104G5copy/mallOrder/CompanyBrowseServlet",
+            url: "/TFA104G5/mallOrder/CompanyBrowseServlet",
             type: "POST",
             data: {
             	"action": "updateMallOrderdDeliveryStatus",
