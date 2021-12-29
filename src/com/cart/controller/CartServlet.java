@@ -258,28 +258,29 @@ public class CartServlet extends HttpServlet {
 			Integer productInventory = productSvc.getOneProduct(productId).getProductInventory();
 			String msg = "";
 			/*************************** 2.開始修改資料 *****************************************/
+			List<CartVO> redisBuyList = cartRedisSvc.getBuyList(memberVO.getMemberId());
 			if (productPurchaseQuantity.intValue() > productInventory.intValue()) {
 
-				for (int i = 0; i < buyList.size(); i++) {
-					CartVO c = buyList.get(i);
+				for (int i = 0; i < redisBuyList.size(); i++) {
+					CartVO c = redisBuyList.get(i);
 					if (productId.intValue() == c.getProductId().intValue()) {
 						c.setProductPurchaseQuantity(productInventory);
-						buyList.set(i, c);
+						redisBuyList.set(i, c);
 					}
 				}
 				msg = "denied";
 			} else {
-				for (int i = 0; i < buyList.size(); i++) {
-					CartVO c = buyList.get(i);
+				for (int i = 0; i < redisBuyList.size(); i++) {
+					CartVO c = redisBuyList.get(i);
 					if (productId.intValue() == c.getProductId().intValue()) {
 						c.setProductPurchaseQuantity(productPurchaseQuantity);
-						buyList.set(i, c);
+						redisBuyList.set(i, c);
 					}
 				}
 				msg = "success";
 			}
 			/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
-			session.setAttribute("buyList", buyList);
+			cartRedisSvc.setBuyList(memberVO.getMemberId(), redisBuyList);
 			// 回傳Json給Ajax
 			JSONObject obj = new JSONObject();
 			try {
