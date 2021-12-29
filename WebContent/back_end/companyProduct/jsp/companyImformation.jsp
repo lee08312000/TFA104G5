@@ -31,7 +31,7 @@
                 <li><a href="#">線上商城</a></li>
                 <li><a href="#"><img src="<%=request.getContextPath()%>/back_end/companyProduct/img/heart.png"></a></li>
                 <li><a href="#">註冊</a></li>
-                <li><a href="#">登入</a></li>
+                <li><a href="#">登出</a></li>
                 <li><a href="#"><i class="fas fa-user"></i></a></li>                
             </nav>
         </ul>    

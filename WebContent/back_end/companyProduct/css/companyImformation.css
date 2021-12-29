@@ -522,3 +522,12 @@
             right:20px;
             bottom: 20px;
         }
+        input.update{
+        	background-color: #636060;
+		    border: 0cm ;
+		    border-radius: 4px;
+		    font-size: 16px;
+		    font-weight: bold;
+		    color:#D5DDE5;
+		    margin: 5px 0px;
+        }

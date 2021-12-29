@@ -5,7 +5,9 @@
 <%@ page import="com.cart.model.CartVO"%>
 <%@ page import="com.company.model.CompanyDAOImpl"%>
 <%@ page import="com.member.model.*"%>
-
+<%@ page import="com.product.model.ProductService"%>
+<%@ page import="com.product.model.ProductVO"%>
+<%@ page import="com.cart.model.CartRedisService"%>
 
 <!DOCTYPE html>
 <html lang="zh-Hant">
@@ -82,10 +84,42 @@
 
 // 			session.setAttribute("buyList", buyList);
 			/************************************假資料測試***********************************/
-			
-			if (session.getAttribute("buyList") != null) {
+			MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
+			CartRedisService cartRedisSvc = new CartRedisService();
+			ProductService productSvc = new ProductService();
+			if (cartRedisSvc.getBuyList(memberVO.getMemberId()) != null) {
 
-				List<CartVO> cart = (List<CartVO>) session.getAttribute("buyList");
+				List<CartVO> cart = cartRedisSvc.getBuyList(memberVO.getMemberId());
+				// 檢查現在的商品狀態
+				for (int i = 0; i < cart.size(); i++) {
+					CartVO cartVO = cart.get(i);
+					ProductVO productVO = productSvc.getOneProduct(cartVO.getProductId());
+					// 檢查商品是否上架中
+					if (productVO.getProductStatus().intValue() != 0) {
+						// 檢查單價
+						if (cartVO.getProductPrice().intValue() != productVO.getProductPrice().intValue()) {
+							cartVO.setProductPrice(productVO.getProductPrice());
+							
+						}
+						// 檢查名稱
+						if (!(cartVO.getProductName().equals(productVO.getProductName()))) {
+							cartVO.setProductName(productVO.getProductName());
+						}
+						
+						cart.set(i, cartVO);
+						
+					} else {
+						cart.remove(i);
+						i--;
+					}
+				}
+				
+				if (cart.size() != 0) {
+					cartRedisSvc.setBuyList(memberVO.getMemberId(), cart);
+				} else {
+					cartRedisSvc.clearBuyList(memberVO.getMemberId());
+				}
+				
 
 				Set<Integer> companySet = new TreeSet<Integer>();
 				for (CartVO c : cart) {
@@ -93,7 +127,7 @@
 				}
 
 				request.setAttribute("companySet", companySet);
-				
+				pageContext.setAttribute("redisBuyList", cart);
 			}
 		
 		%>
@@ -127,7 +161,7 @@
 							style="color: black; font-weight: bold;">總計</label>
 					</div>
 
-					<c:forEach var="oneProduct" items="${ buyList }">
+					<c:forEach var="oneProduct" items="${ redisBuyList }">
 
 						<c:if test="${oneOrder == oneProduct.companyId}">
 							<!-- 一個商品項start -->

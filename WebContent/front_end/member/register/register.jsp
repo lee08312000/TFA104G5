@@ -65,7 +65,7 @@ html {
 /* =================  header區域   =====================*/
 header.header {
 	width: 100%;
-	height: var(- -header-height);
+	height: 100px;
 	background-color: #d7ab75;
 	/* position: fixed;
         top: 0;

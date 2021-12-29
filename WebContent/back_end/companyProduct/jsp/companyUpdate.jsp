@@ -31,7 +31,7 @@
                 <li><a href="#">線上商城</a></li>
                 <li><a href="#"><img src="<%=request.getContextPath()%>/back_end/companyProduct/img/heart.png"></a></li>
                 <li><a href="#">註冊</a></li>
-                <li><a href="#">登入</a></li>
+                <li><a href="#">登出</a></li>
                 <li><a href="#"><i class="fas fa-user"></i></a></li>                
             </nav>
         </ul>    
@@ -143,10 +143,11 @@
                         <div class="wrap">
                             <div class="left">註冊時間:</div>
                             <div class="right"><fmt:formatDate value="${companyVO.companyRegisterTime}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
-                        </div>
+                        </div>                         
                          <input type="hidden" name="action" value="update">
 			             <input class="update" type="submit" value="確認修改">                                          
-		            	</FORM>                         
+		            	</FORM>
+		            	<input class="return" type="button" value="返回" onclick="location.href='<%=request.getContextPath()%>/back_end/companyProduct/jsp/companyImformation.jsp'">                         
                     </div>                    
                 </div>
             </div>
