@@ -130,10 +130,10 @@
         /* =====================main區域========================*/
         
         h1{
+            
             color: black;
             text-align: center;
         
-
         }
      
 
@@ -143,19 +143,19 @@
           border-collapse: collapse;
           margin-left: 0px;
           margin-top: 0px;
-          width: 95%;
+          width: 98%;
         }
         table td{
           border:1px solid black;
           text-align: center; 
-          width: 95PX;
+          width: 100PX;
         }
         
         table th{
           background-color:	#E0E0E0;
           border:1px solid black;
           text-align: center; 
-          width: 95PX;
+          width: 100PX;
         
         
         }

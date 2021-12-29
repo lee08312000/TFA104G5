@@ -19,7 +19,7 @@ pageContext.setAttribute("campAreaVO", cv);
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<script src="<%=request.getContextPath()%>/back_end/camp/js/updateCampArea.js"></script>
 <title>CampArea</title>
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
@@ -33,7 +33,7 @@ pageContext.setAttribute("campAreaVO", cv);
 	<!-- --------main區域------- -->
 
 	<h1>營位上架 ${errorMsgs}</h1>
-	<form method="post" ACTION="<%=request.getContextPath()%>/camp/campareashelves.do">
+	<form method="post" ACTION="<%=request.getContextPath()%>/camp/campareashelves.do" enctype="multipart/form-data">
 		<table class="camparea_shelves">
 		
 			<tr>
@@ -79,14 +79,10 @@ pageContext.setAttribute("campAreaVO", cv);
 			</tr>
 
 			<tr>
-				<td><label>營位美照:</label></td>
-				<td>
-					<div class="upload-header">
-						<input id="upload" type="file" accept="image/*"
-							multiple="multiple">
-						<div class="img-box">
-							<!-- 存放預覽圖片 -->
-						</div>
+				<td><label for="fname">營位美照1:</label></td>
+					<td><input type="file" name="campArea_pic1" id="fileInput1" value="${campAreaVO.campAreaPic}"/> 
+					<div id="fileDisplayArea1">
+					<img id="smallPic1" style="width: 30%;" src='<%=request.getContextPath()%>/PicWithCampServlet?campid=${campAreaVO.campId}&&areaindex=1' />
 					</div>
 				</td>
 

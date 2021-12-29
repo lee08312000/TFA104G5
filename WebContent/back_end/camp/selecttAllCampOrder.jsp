@@ -93,7 +93,7 @@ $(document).ready(function() {
 <table>
 	<div class="divSearchForm">
 		<form class="searchForm"  method="post" ACTION="<%=request.getContextPath()%>/camp/campOrder.do"
-			style="margin: auto; max-width: 300px">
+			style="margin-left:50px; max-width: 300px">
 			<div class="">
 			<label>ª¬ºA</label>
 				<select>

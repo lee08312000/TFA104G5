@@ -116,7 +116,7 @@ pageContext.setAttribute("campTagDetailList", campTagDetailList);
 					<td><label for="fname">營地美照1:</label></td>
 					<td><input type="file" name="camp_pic1" id="fileInput1" value=""/> 
 					<div id="fileDisplayArea1">
-					<img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&pic=1" />
+					<img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&pic=t" />
 					</div>
 					</td>
 

@@ -36,12 +36,12 @@
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/css/selectCamp.css?v=009">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/css/selectCamp.css?v=008">
 
 </head>
 <body>
 	<!-- --------main區域------- -->
-	<h1 style="margin-right:160px">營地查詢列表 </h1>
+	<h1 style="margin-right:10px">營地查詢列表 </h1>
     <h2>${errorMsgs}</h2>
   
 	<form method="post" ACTION="<%=request.getContextPath()%>/camp/shelves.do"  >

@@ -31,7 +31,7 @@ public class CampDAOImpl implements CampDAO {
 	private static final String SELECT_STMT_BY_CAMP_ID = " select cc.camp_name,cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address,cd.comapny_name "
 			+ "from company cd  JOIN  camp cc " + "on cd.company_id = cc.company_id where cc.camp_Id=?";
 
-	private static final String SELECT_STMT_BY_COMPANYNAME = " select cc.camp_name,cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address,cd.comapny_name "
+	private static final String SELECT_STMT_BY_COMPANYNAME = " select cc.camp_name,cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address,cd.comapny_name,cc.certificate_Pic "
 			+ "from company cd  JOIN  camp cc "
 			+ "on cd.company_id = cc.company_id where cd.comapny_name like '%' ? '%'";
 
@@ -744,7 +744,7 @@ public class CampDAOImpl implements CampDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address
+				// cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address,cc.certificate_Pic
 				campVO = new CampVO();
 				campVO.setCampName(rs.getString("cc.camp_name"));
 				campVO.setCampId(rs.getInt("cc.camp_id"));
@@ -754,6 +754,7 @@ public class CampDAOImpl implements CampDAO {
 				campVO.setCompanyTel(rs.getString("cd.company_tel"));
 				campVO.setCompanyAddress(rs.getString("cd.company_address"));
 				campVO.setCompanyName(rs.getString("cd.comapny_name"));
+				campVO.setCertificatePic(rs.getBytes("cc.certificate_Pic"));
 				campVOlist.add(campVO);
 			}
 
@@ -891,7 +892,7 @@ public class CampDAOImpl implements CampDAO {
 
 			pstmt.setString(1, campVO.getCertificateNum());
 			if (campVO.getCertificatePic() != null) {
-				pstmt.setBlob(2, new SerialBlob(campVO.getCertificatePic()));
+				pstmt.setBytes(2, campVO.getCertificatePic());
 			} else {
 				pstmt.setNull(2, java.sql.Types.BLOB);
 			}

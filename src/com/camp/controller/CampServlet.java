@@ -394,7 +394,7 @@ public class CampServlet extends HttpServlet {
 			String campStr = req.getParameter("campId");
 			Integer campId = Integer.valueOf(campStr);
 
-			// 取得已選取的tag標簽
+			// 取得已選取的tag標籤
 			List<CampTagDetailVO> checkedList = campTagDetailService.findByCampId(campId);
 			List<Integer> checkedIntList = new ArrayList<Integer>();
 
@@ -455,13 +455,20 @@ public class CampServlet extends HttpServlet {
 				} else {
 					campVO.setCertificateNum(certificateNum);
 				}
+				
+				byte[] campPic1 = null;
+				Part parts1 = req.getPart("camp_pic1");
+
+				if (parts1.getInputStream().available() != 0) {
+					campPic1 = getBytesFromPart(parts1);
+					campVO.setCertificatePic(campPic1);
+				}
 
 				/*************************** 2.開始查詢資料 *****************************************/
 				// 新增營地後,執行查詢
 
 				CampService campSerive = new CampService();
 				campSerive.updateCampCertificatenum(campVO, companyVO);
-
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 				String url = "/back_end/camp/selectCampCertificatenum.jsp";
 				RequestDispatcher rd = req.getRequestDispatcher(url);
@@ -474,9 +481,7 @@ public class CampServlet extends HttpServlet {
 			}
 		}
 
-		/********************
-		 * * 營地上架審核
-		 ********************************************************/
+		/***************************************************************************/
 		// 查詢營地上架審核
 
 		if (action.equals("SEARCHCAMPANY")) {

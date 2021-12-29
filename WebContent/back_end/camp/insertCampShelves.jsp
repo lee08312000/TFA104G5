@@ -26,7 +26,7 @@
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/back_end/css/insertCampShelves.css?v=4">
+	href="<%=request.getContextPath()%>/back_end/css/insertCampShelves.css?v=005">
 </head>
 <body>
 
@@ -86,12 +86,12 @@
 
 			<tr>
 				<td><label> 營地敘述:</label></td>
-				<td><textarea name="campDiscription" cols="80" rows="14"> </textarea></td>
+				<td><textarea name="campDiscription" cols="50" rows="10"> </textarea></td>
 			</tr>
 
 			<tr>
 				<td><label>營地租借規則:</label></td>
-				<td><textarea name="campRule" cols="80" rows="14"> </textarea></td>
+				<td><textarea name="campRule" cols="50" rows="10"> </textarea></td>
 
 			</tr>
 

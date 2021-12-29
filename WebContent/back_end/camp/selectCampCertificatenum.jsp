@@ -81,7 +81,7 @@
 					<td>${campVO.campName}</td>
 					<td>${campVO.companyAddress}</td>
 					<td>${campVO.certificateNum}</td>
-					<td>${campVO.certificatePic}</td>
+					<td><img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&certificate=t" /></td>
 					
 			        
 				</tr>
