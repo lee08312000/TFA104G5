@@ -152,6 +152,6 @@ footer {
 
 .islogin{
 	
-	display:display:none;
+	display:none !important;
 
 }

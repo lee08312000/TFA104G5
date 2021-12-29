@@ -48,15 +48,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 recoma[i].setAttribute("href", "camp_detail.html?campid=" + recommendcamp.campId)
             }
-
-
-
-
-
-
-
-
-
         }
     });
 
@@ -69,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
     bookbtn.setAttribute("campid", params.get("campid"));
 
     bookbtn.addEventListener("click", function() {
-        location.href = "./page4.html" + "?campid=" + bookbtn.getAttribute("campid");
+        location.href = "./camp_calendar.html" + "?campid=" + bookbtn.getAttribute("campid");
 
     });
 

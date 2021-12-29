@@ -243,27 +243,6 @@ var findcamp = {
 };
 
 
-var logout=document.getElementsByClassName("out")[0];
-console.log(logout);
-logout.addEventListener("click",function(e){
-	
-
-	sessionStorage.removeItem("memberid");
-	$.ajax({
-		  url: "http://localhost:8081/TFA104G5/member/MemberServlet",           // 資料請求的網址
-		  type: "GET",                  // GET | POST | PUT | DELETE | PATCH
-		   data: {
-			   "action":"logout",               // 傳送資料到指定的 url
-		   },
-		  dataType: "text",             // 預期會接收到回傳資料的格式： json | xml | html
-		  success: function(data){      // request 成功取得回應後執行
-			alert("登出成功");
-		  }
-		});
-	
-	
-	
-});
 
 
 
