@@ -145,20 +145,23 @@ System.out.println("1mainkey="+mainkey);
 			java.util.Date checkout = new java.util.Date(campOrderVO.getCampCheckOutDate().getTime());
 			List<java.util.Date> list = DiffDays.getDates(checkin, checkout);
 
-			for(Date d:list) {
-				System.out.println(d.toString());
-			}
+			
+			
+			
 
 			CampBookingDAO bookdao = new CampBookingDAOImpl();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			for (int i = 0; i < orderdetailList.size(); i++) {
 				for (int j=0;j<list.size()-1;j++) {
-
+					
 					CampBookingVO target = bookdao.findByOneArea(orderdetailList.get(i).getCampAreaId(),
 							sdf.format(list.get(j)));
+					
 
 					// 這個營位的這一天剩餘空位數
 					int lastAreaNum = target.getBookingCampAreaMax() - target.getBookedCampAreaNum();
+System.out.println(sdf.format(list.get(j))+","+"剩餘空位"+lastAreaNum+","+"已目前數量"+target.getBookedCampAreaNum()+","+"想要預定數量"+orderdetailList.get(i).getBookingQuantity());
+
 
 					if (orderdetailList.get(i).getBookingQuantity() <= lastAreaNum) {
 						pstmt3.setInt(1, orderdetailList.get(i).getBookingQuantity()+target.getBookedCampAreaNum());
@@ -177,11 +180,10 @@ System.out.println("1mainkey="+mainkey);
 			
 			con.commit();
 			System.out.println("新增訂單成功");
-			
-			
 
 		} catch (Exception se) {
 			try {
+				System.out.println("模型發生錯誤");
 				con.rollback();
 				mainkey=0;
 			} catch (SQLException e) {
@@ -216,12 +218,13 @@ System.out.println("1mainkey="+mainkey);
 				try {
 					con.setAutoCommit(true);
 					con.close();
+					return mainkey;
 					
 				} catch (SQLException se) {
 					se.printStackTrace(System.err);
 				}
 			}
-
+			
 		}
 		return mainkey;
 

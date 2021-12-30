@@ -1,7 +1,7 @@
 // 登出按鈕
 $("a#logout").on("click", function(e) {
     e.preventDefault();
-    if (confirm("確定是否登出?\n(將清空購物車)")) {
+    if (confirm("確定是否登出?")) {
         $("form#logoutForm").submit();
     } else {
         
