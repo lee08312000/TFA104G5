@@ -12,6 +12,8 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +22,7 @@ import com.camp.model.CampService;
 import com.camp.model.CampVO;
 import com.campOrder.model.CampOrderService;
 import com.campOrder.model.CampOrderVO;
+
 
 public class CampOrderServlet extends HttpServlet {
 
@@ -135,29 +138,29 @@ public class CampOrderServlet extends HttpServlet {
 			}
 		}
 
-//		/*************************** 營地評價查詢 *****************************************/
-//		if (action.equals("SEARCHCOMMENT")) {
-//
-//			String startDateStrs = req.getParameter("startDate");
-//			String endDateStrs = req.getParameter("endDate");
-//			String campOrderIds = req.getParameter("campOrderId");
-//
-//			Timestamp startDateTimestamp = Timestamp.valueOf(startDateStrs + " 00:00:00");
-//			Timestamp endDateTimestamp = Timestamp.valueOf(endDateStrs + " 23:59:59");
-//			int campOrder = -1;
-//			if (campOrderIds != null && campOrderIds.length() != 0) {
-//				campOrder = Integer.valueOf(campOrderIds);
-//			}
-//
-//			CampOrderService campSvce = new CampOrderService();
-//			List<CampOrderVO> campOrderVolist = new ArrayList<CampOrderVO>();
-//
-//			campOrderVolist = campSvce.selectCampComment(startDateTimestamp, endDateTimestamp, campOrder);
-//
-//			req.setAttribute("list", campOrderVolist);
-//			String url = "/back_end/camp/campComment.jsp";
-//			RequestDispatcher rd = req.getRequestDispatcher(url);
-//			rd.forward(req, res);
-//		}
+		/*************************** 營地評價查詢 *****************************************/
+		if (action.equals("SEARCHCOMMENT")) {
+
+			String startDateStrs = req.getParameter("startDate");
+     		String endDateStrs = req.getParameter("endDate");
+			String campOrderIds = req.getParameter("campOrderId");
+
+			Timestamp startDateTimestamp = Timestamp.valueOf(startDateStrs + " 00:00:00");
+			Timestamp endDateTimestamp = Timestamp.valueOf(endDateStrs + " 23:59:59");
+			int campOrder = -1;
+			if (campOrderIds != null && campOrderIds.length() != 0) {
+				campOrder = Integer.valueOf(campOrderIds);
+			}
+
+			CampOrderService campSvce = new CampOrderService();
+			List<CampOrderVO> campOrderVolist = new ArrayList<CampOrderVO>();
+
+			campOrderVolist = campSvce.selectCampComment(startDateTimestamp, endDateTimestamp, campOrder);
+
+			req.setAttribute("list", campOrderVolist);
+			String url = "/back_end/camp/campComment.jsp";
+			RequestDispatcher rd = req.getRequestDispatcher(url);
+			rd.forward(req, res);
+		}
 	}
 }

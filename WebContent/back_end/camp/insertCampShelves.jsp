@@ -19,14 +19,14 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<script src="<%=request.getContextPath()%>/back_end/camp/js/addCamp.js"></script>
 <title>campshelves</title>
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/back_end/css/insertCampShelves.css?v=4">
+	href="<%=request.getContextPath()%>/back_end/css/insertCampShelves.css?v=005">
 </head>
 <body>
 
@@ -34,7 +34,7 @@
 
 	<h1>營地上架 ${errorMsgs}</h1>
 	<form method="post"
-		ACTION="<%=request.getContextPath()%>/camp/shelves.do">
+		ACTION="<%=request.getContextPath()%>/camp/shelves.do" enctype="multipart/form-data">
 		<table class="camp_shelves">
 			<tr>
 				<td><label>選擇上架日期:</label></td>
@@ -86,22 +86,63 @@
 
 			<tr>
 				<td><label> 營地敘述:</label></td>
-				<td><textarea name="campDiscription" cols="80" rows="14"> </textarea></td>
+				<td><textarea name="campDiscription" cols="50" rows="10"> </textarea></td>
 			</tr>
 
 			<tr>
 				<td><label>營地租借規則:</label></td>
-				<td><textarea name="campRule" cols="80" rows="14"> </textarea></td>
+				<td><textarea name="campRule" cols="50" rows="10"> </textarea></td>
 
 			</tr>
 
 
 			<tr>
-				<td><label for="fname">營地美照:</label></td>
-				<td><textarea name="camp_pic1" cols="80" rows="14"> </textarea></td>
+					<td><label for="fname">營地美照1:</label></td>
+					<td><input type="file" name="camp_pic1" id="fileInput1" value=""/> 
+					<div id="fileDisplayArea1">
+					<img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&pic=1" />
+					</div>
+					</td>
 
-			</tr>
+				</tr>
+				<tr>
+					<td><label for="fname">營地美照2:</label></td>
+					<td><input type="file" name="camp_pic2" id="fileInput2" value=""/> 
+					<div id="fileDisplayArea2">
+					<img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&pic=2" />
+					</div>
+					</td>
+					
 
+				</tr>
+				<tr>
+					<td><label for="fname">營地美照3:</label></td>
+					<td><input type="file" name="camp_pic3" id="fileInput3" value=""/> 
+					<div id="fileDisplayArea3">
+					<img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&pic=3" />
+					</div>
+					</td>
+
+				</tr>
+				<tr>
+					<td><label for="fname">營地美照4:</label></td>
+					<td><input type="file" name="camp_pic4" id="fileInput4" value=""/> 
+					<div id="fileDisplayArea4">
+					<img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&pic=4" />
+					</div>
+					</td>
+
+				</tr>
+				<tr>
+					<td><label for="fname">營地美照5:</label></td>
+					<td><input type="file" name="camp_pic5" id="fileInput5" value=""/> 
+					<div id="fileDisplayArea5">
+					<img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&pic=5" />
+					</div>
+					</td>
+
+				</tr>
+						
 			<tr>
 				<td><label for="fname">營地狀態:</label></td>
 
@@ -129,13 +170,7 @@
 
 	
 </body>
-<footer class="tm-footer text-center">
-		<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
-		<pre>
-		Copyright &copy; 2021 Camping Paradise | Design: 
-		<a style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a>
-		</pre>
-	</footer>
+
 </html>
 
 

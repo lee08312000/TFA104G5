@@ -78,7 +78,7 @@
             
 			<tr>
 
-				<td>${camporderVO.campOrderCommentTime}</td>
+				<td><fmt:formatDate value="${camporderVO.campOrderCommentTime}" pattern="yyyy-MM-dd" /></td>
 				<td>${camporderVO.campOrderId}</td>
 				<td>${camporderVO.memberId}</td>
 				<td>${camporderVO.campComment}</td>
