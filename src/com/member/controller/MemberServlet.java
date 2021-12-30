@@ -1,22 +1,33 @@
 package com.member.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
+import com.cart.model.CartRedisService;
+import com.cart.model.CartVO;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 
 @WebServlet("/member/MemberServlet")
+@MultipartConfig
 public class MemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -37,7 +48,7 @@ public class MemberServlet extends HttpServlet {
 		// PrintWriter out = res.getWriter();
 
 		String action = req.getParameter("action");
-
+		System.out.println(action);
 		if ("login".equals(action)) {
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -64,7 +75,46 @@ public class MemberServlet extends HttpServlet {
 				session.setAttribute("memberId", memberVO.getMemberId());
 				session.setAttribute("memberId", memberVO.getMemberName());
 				System.out.println("登入成功");
-
+				// 合併session 和 Redis的購買清單
+				CartRedisService cartRedisSvc = new CartRedisService();
+				List<CartVO> redisBuyList = cartRedisSvc.getBuyList(memberVO.getMemberId());
+				List<CartVO> buyList = (List<CartVO>) session.getAttribute("buyList");
+				
+				// 若buyList有東西時
+				if (buyList != null && buyList.size() != 0 ) {
+					// 若redisBuyList不為空
+					if (redisBuyList != null && redisBuyList.size() != 0) {
+						// 合併開始
+						for (int i = 0; i < buyList.size(); i++) {
+							boolean match = false;
+							CartVO cartVOb = buyList.get(i);
+							for (int j = 0; j < redisBuyList.size(); j++) {
+								CartVO cartVOr = redisBuyList.get(j);
+								// Redis中已有相同商品時
+								if (cartVOb.getProductId().intValue() == cartVOr.getProductId().intValue()) {
+									match = true;
+									if (cartVOr.getProductPurchaseQuantity().intValue() <= cartVOb.getProductPurchaseQuantity().intValue()) {
+										redisBuyList.set(j, cartVOb);
+									}
+									
+								}
+							}
+							
+							if (!match) {
+								redisBuyList.add(cartVOb);
+							}
+							
+							
+						}
+						
+					} else {
+						// 若redisBuyList為空
+						redisBuyList = buyList;
+					}
+					
+					cartRedisSvc.setBuyList(memberVO.getMemberId(), redisBuyList);
+					session.removeAttribute("buyList");
+				}
 				/////////////////////////導回原本頁面////////////////////
 
 			       try {                                                        
@@ -99,12 +149,14 @@ public class MemberServlet extends HttpServlet {
 
 				session.removeAttribute("memberVO");
 
-				session.invalidate();
+//				session.invalidate();
 
 				System.out.println("登出成功");
-				String url = "/front_end/camp/camp_index.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交
-				successView.forward(req, res);
+				String url = "/TFA104G5/front_end/camp/camp_index.html";
+//				.RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交
+//				successView.forward(req, res);
+				 res.sendRedirect(url);   
+	             return;
 
 			}
 		}
@@ -438,6 +490,41 @@ public class MemberServlet extends HttpServlet {
 
 		}
 
+		if("pic_upload".equals(action)) {
+			System.out.println("COOL");
+        	MemberVO memberVO = (MemberVO)session.getAttribute("memberVO");
+    		MemberService memberSvc = new MemberService();
+			byte[] memberPic = null;
+			Part parts1 = req.getPart("member_pic_upload");
+			
+			if(parts1.getInputStream().available() != 0) {
+				memberPic = getBytesFromPart(parts1);
+			}
+			
+			memberSvc.updateMember(memberVO.getMemberId(), memberVO.getMemberAccountStatus(), memberVO.getMemberName(), memberVO.getMemberAccount(), memberVO.getMemberPassword(), memberVO.getMemberEmail(), memberVO.getMemberAddress(), memberVO.getMemberPhone(), memberPic);
+			String url = "/front_end/member/jsp/member_main.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 l
+			successView.forward(req, res);
+			return;
+        }
+    	
+        
+    		
+        }
+
+		//處理圖片讀取
+		private byte[] getBytesFromPart(Part part) {
+			byte[] buf = null;
+			InputStream in;
+			try {
+				in = part.getInputStream();
+				buf = new byte[in.available()];
+				in.read(buf);
+				in.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}	
+			return buf;	
 	}
 
 }

@@ -40,7 +40,7 @@
                 <li><a href="#">線上商城</a></li>
                 <li><a href="#"><img src="<%=request.getContextPath()%>/back_end/companyProduct/img/heart.png"></a></li>
                 <li><a href="#">註冊</a></li>
-                <li><a href="#">登入</a></li>
+                <li><a href="#">登出</a></li>
                 <li><a href="#"><i class="fas fa-user"></i></a></li>                
             </nav>
         </ul>    
@@ -110,7 +110,27 @@
     </aside>
 
     <main class="main">
-        <input type="button" value="新增商品" onclick="location.href='<%=request.getContextPath()%>/back_end/companyProduct/jsp/addProduct.jsp'">
+    	<div class="search"> 
+	    	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductServlet" style="margin-bottom: 0px;">
+	    			<input type="text" name="searchName" class="form-control" placeholder="請輸入商品名稱" value="">
+					<input class="button" type="submit" value="送出">				
+					<input type="hidden" name="action"	value="getOne_For_Update">
+			</FORM>
+		</div>
+		<div class="search">
+			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductServlet" style="margin-bottom: 0px;">
+	    			<select size="1" name="productTypeId">
+	                    	<c:forEach var="productType" items="${productTypeSvc.allProductType}">
+								<option value="${productType.productTypeId}" ${(productVO.productTypeId == productType.productTypeId) ? "selected" : "" }>${productType.productTypeName}</option>
+							</c:forEach>             
+	                </select>
+					<input class="button" type="submit" value="查詢">				
+					<input type="hidden" name="action"	value="getOne_For_Update">
+			</FORM>
+		</div>
+		<div class="addProduct">
+        <input class="button" type="button" value="新增商品" onclick="location.href='<%=request.getContextPath()%>/back_end/companyProduct/jsp/addProduct.jsp'">
+        </div>
         <table id="miyazaki">
             <thead>
             <tr><th>商品編號<th>商品分類<th>商品名稱<th>商品品牌<th>商品單價<th>商品庫存數量<th>商品售出總數<th>商品狀態<th>變更狀態<th>操作
@@ -127,14 +147,14 @@
 	                <td>${productVO.productSellAllnum}</td>
 	                <td>${(1==productVO.productStatus)? '上架':'下架'}</td>
 	                <td><FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductServlet" style="margin-bottom: 0px;">
-		                		 <input type="submit" value="上架">
+		                		 <input class="button" type="submit" value="上架">
 		                		 <input type="hidden" name="productId"  value="${productVO.productId}">
 							     <input type="hidden" name="productStatus"  value="1">
 							     <input type="hidden" name="action"	value="update_Status">
 		                	</FORM>
 		                	 	        
 	                    	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductServlet" style="margin-bottom: 0px;">
-		                		 <input type="submit" value="下架">
+		                		 <input class="button" type="submit" value="下架">
 		                		 <input type="hidden" name="productId"  value="${productVO.productId}">
 							     <input type="hidden" name="productStatus"  value="0">
 							     <input type="hidden" name="action"	value="update_Status">
@@ -142,8 +162,8 @@
 	                </td>    
 	                <td>
 	                	<button type="button" class="btn_open">查看</button>
-	                	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/TFA104G5/Product/ProductServlet" style="margin-bottom: 0px;">
-						     <input type="submit" value="修改">
+	                	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductServlet" style="margin-bottom: 0px;">
+						     <input class="button" type="submit" value="修改">
 						     <input type="hidden" name="productId"  value="${productVO.productId}">
 						     <input type="hidden" name="action"	value="getOne_For_Update">
 					    </FORM>

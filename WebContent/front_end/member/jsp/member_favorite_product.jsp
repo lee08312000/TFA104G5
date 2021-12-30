@@ -72,12 +72,18 @@
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
 						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
-				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
-					value="">註冊</a></li>
-				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp"
-					value="">登入</a></li>
+					
+				<%-- =================  登出鈕   ===================== --%>	
+				<li>
+				<form method="post" action="<%=request.getContextPath()%>/member/MemberServlet">
+				<a>
+				<input class="fas fa-sign-out-alt logout_button" type="submit" value="登出" />
+				<input type="hidden" value="logout" name="action" />
+				</a>
+				</form>
+				</li>
+				<%-- =================  登出鈕   ===================== --%>	
+				
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"
 					value=""><i class="fas fa-user"></i></a></li>
@@ -88,8 +94,6 @@
 	<%-- =================  header區域   ===================== --%>
 
 	<%-- =================  sidebar   ===================== --%>
-	<form class="form-horizontal" method="post"
-		action="<%=request.getContextPath()%>/member/MemberServlet">
 		<aside class="sidebar">
 			<div id="leftside-navigation" class="nano">
 				<ul class="nano-content">
@@ -123,12 +127,8 @@
 								href="<%=request.getContextPath()%>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
 							</li>
 						</ul></li>
-					<li><a href=""><i class="fas fa-sign-out-alt"></i> <span><input
-								class="fas fa-sign-out-alt logout_button" type="submit" value="&nbsp;登出" /></span> </a>
-						<input type="hidden" value="logout" name="action" /></li>
 			</div>
 		</aside>
-	</form>
 	<%-- =================  sidebar   ===================== --%>
 
 	<%-- =================  我的最愛商品表格   ===================== --%>

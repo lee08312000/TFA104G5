@@ -32,7 +32,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
         integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-    <link href="<%=request.getContextPath()%>/front_end/member/css/member_order.css" rel="stylesheet" type="text/css">
+    <link href="<%=request.getContextPath()%>/front_end/member/css/member_product_order_list.css" rel="stylesheet" type="text/css">
     <title>商品訂單明細</title>
     <!-- frontawesome把icon引入的東東 -->
     <script src="https://kit.fontawesome.com/05a51b0b98.js" crossorigin="anonymous"></script>
@@ -59,12 +59,18 @@
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
 						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
-				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
-					value="">註冊</a></li>
-				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp"
-					value="">登入</a></li>
+				
+				<%-- =================  登出鈕   ===================== --%>	
+				<li>
+				<form method="post" action="<%=request.getContextPath()%>/member/MemberServlet">
+				<a>
+				<input class="fas fa-sign-out-alt logout_button" type="submit" value="登出" />
+				</a>
+				<input type="hidden" value="logout" name="action" />
+				</form>
+				</li>
+				<%-- =================  登出鈕   ===================== --%>	
+
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"
 					value=""><i class="fas fa-user"></i></a></li>
@@ -107,9 +113,6 @@
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a href=""><i class="fas fa-sign-out-alt"></i><span>&nbsp;登出</span></a>
-                </li>
         </div>
     </aside>
     <%-- =================  sidebar   ===================== --%>
@@ -137,18 +140,24 @@
         </thead>
         <tbody class="table-hover">
         	<c:forEach var="mallOrderDetailVO" items="${mallOrderDetail}">
-            <tr>
-                <td class="text-center"><img class="product_pic" src="/TFA104G5copy/product/PicServlet?productId=${mallOrderDetailVO.productId}&pic=1" alt="商品圖片"></td>
-                <td class="text-left">${productOrderSvc.getOneProduct(mallOrderDetailVO.productId).productName}</td>
+            <tr data-comment="${mallOrderDetailVO.productComment}" data-star="${mallOrderDetailVO.productCommentStar}">
+                <td class="text-center"><img class="product_pic" src="/TFA104G5/product/PicServlet?productId=${mallOrderDetailVO.productId}&pic=1" alt="商品圖片"></td>
+                <td class="text-left"><a href="<%=request.getContextPath()%>/front_end/mall/mall_product_detail.html?productId=${ mallOrderDetailVO.productId }">${productOrderSvc.getOneProduct(mallOrderDetailVO.productId).productName}</a></td>
                 <td class="text-left">${mallOrderDetailVO.productPurchasePrice}</td>
                 <td class="text-left">${mallOrderDetailVO.productPurchaseQuantity}</td>
                 <td class="text-left">${mallOrderDetailVO.productPurchasePrice * mallOrderDetailVO.productPurchaseQuantity }</td>
-                <td class="text-left">${mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderStatus == 0 ? "處理中" : mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderStatus == 1 ? "已確認" : "已完成"}</td>
-                <td class="text-left">${mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderDeliveryStatus == 0 ? "未發貨" : mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderDeliveryStatus == 1 ? "已發貨" : "已收貨"}</td>
-            	<td class="text-left">
+                <td class="text-center">${mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderStatus == 0 ? "處理中" : mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderStatus == 1 ? "已確認" : "已完成"}</td>
+                <td class="text-center">${mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderDeliveryStatus == 0 ? "未發貨" : mallOrderSvc.getOneMallOrder(mallOrderDetailVO.mallOrderId).mallOrderDeliveryStatus == 1 ? "已發貨" : "已收貨"}</td>
+            	<td class="text-center">
 	            	<c:if test="${mallOrderSvc.getOneMallOrder(mallOrderDetail.get(0).mallOrderId).mallOrderDeliveryStatus == 2}">
-	            	<input type="hidden" class="commentOrderDetail" value="${mallOrderDetailVO.mallOrderDetailId}">
-	            	<button class="comment" type="button" >評論商品</button></td>
+	            		<c:if test="${mallOrderDetailVO.productCommentStar.intValue() == 0}">
+	            			<input type="hidden" class="commentOrderDetail" value="${mallOrderDetailVO.mallOrderDetailId}">
+	            			<button class="comment" type="button" >評論商品</button></td>
+	            		</c:if>
+	            		<c:if test="${mallOrderDetailVO.productCommentStar.intValue() != 0}">
+	            			<input type="hidden" class="commentOrderDetail" value="${mallOrderDetailVO.mallOrderDetailId}">
+	            			<button class="comment" type="button" >已評論</button></td>
+	            		</c:if>
 	            	</c:if>
             	</td>
             </tr>
@@ -164,9 +173,9 @@
                 <td class="text-center">
                     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Member/MemberProductServlet" style="margin-bottom: 0px;">
                 	<c:if test="${mallOrderSvc.getOneMallOrder(mallOrderDetail.get(0).mallOrderId).mallOrderDeliveryStatus == 1}">
-                    <input type="hidden" name="mallOrderId"  value="${mallOrderVO.mallOrderId}">
-					<input type="hidden" name="action"	value="updateMallOrderStatus">
-					<input type="submit" value="確認收貨">
+                    <input type="hidden" name="mallOrderId"  value="${mallOrderDetail.get(0).mallOrderId}">
+					<input type="hidden" name="action"	value="updateMallOrderAllStatus">
+					<input class="button" type="submit" value="確認收貨">
 					</c:if>
                     </FORM>
                     <button class="button" type="button" onclick="location.href = '<%=request.getContextPath()%>/front_end/member/jsp/member_product_order_list.jsp';">返回列表</button>
@@ -174,15 +183,72 @@
             </tr>
         </tbody>
     </table>
+    <div class="commentArea -off">
+        <button class="comment" id="close" type="button">X</button>
+        <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Member/MemberProductServlet" style="margin-bottom: 0px;">
+        <div>
+            <div class="star_block">
+            	
+	                <span class="star -on" data-star="1">
+		                <label for="radio1">
+		                    <input type="radio" id="radio1" name="starNum" value="1" style="display: none" checked>    
+		                    <i class="fas fa-star"></i>
+		                </label>
+	                </span>	            
+	              
+	                <span class="star" data-star="2">
+	                	<label for="radio2">
+		                    <input type="radio" id="radio2" name="starNum" value="2" style="display: none">
+		                    <i class="fas fa-star"></i>
+	                    </label>
+	                </span>
+	            
+	            
+	                <span class="star" data-star="3">
+		                <label for="radio3">
+		                    <input type="radio" id="radio3" name="starNum" value="3" style="display: none">
+		                    <i class="fas fa-star"></i>
+		                </label>
+	                </span>
+	            
+	            
+	                <span class="star" data-star="4">
+		                <label for="radio4">
+		                    <input type="radio" id="radio4" name="starNum" value="4" style="display: none">
+		                    <i class="fas fa-star"></i>
+		                </label>                    
+	                </span>
+	            
+	            
+	                <span class="star" data-star="5">
+		                <label for="radio5">
+		                    <input type="radio" id="radio5" name="starNum" value="5" style="display: none">
+		                    <i class="fas fa-star"></i>
+		                </label>
+	                </span>
+	            
+            </div>
+            <div>商品評論:</div>
+            <textarea class="textarea" name="commentText"></textarea>            
+	            <input type="hidden" name="mallOrderDetailId" id="mallOrderDetailIdVar" value="">
+				<input type="hidden" name="action"	value="updateComment">
+				<input type="hidden" name="mallOrderId"  value="${mallOrderDetail.get(0).mallOrderId}">
+				<input class="updateButton" id="commentButton" type="submit" value="確認送出">
+            </FORM> 
+        </div>    
+    </div>
+    
     <%-- =================  商品訂單明細   ===================== --%>
     
 	<%-- =================  sidebar javascript   ===================== --%>
-    <script src="<%=request.getContextPath()%>/front_end/member/vandors/jQuery/jquery-3.6.0.min.js"></script>
+    <script
+		src="<%=request.getContextPath()%>/front_end/member/vendor/jQuery/jquery-3.6.0.min.js"></script>
     <script>
         $("#leftside-navigation .sub-menu > a").click(function (e) {
             $("#leftside-navigation ul ul").slideUp(), $(this).next().is(":visible") || $(this).next().slideDown(),
                 e.stopPropagation()
         })
+        
         // 開啟 Modal 彈跳視窗
         $("button.comment").on("click", function(){
             $("div.commentArea").removeClass("-off");            
@@ -200,6 +266,14 @@
                 	
                 };
              });
+        	
+        	if (star == 0) {
+        		$("div.star_block").find("span.star").eq(0).click();
+        		$("div.star_block").find("span.star").eq(0).children("label").click();
+        		$("input#commentButton").removeClass("-off");
+        	} else {
+        		$("input#commentButton").addClass("-off");
+        	}
         });        
         // 關閉 Modal
         $("#close").on("click", function(){
@@ -221,7 +295,9 @@
 
             });
 
-        });   
+        });           
+        
+        
     </script>
     <%-- =================  sidebar javascript   ===================== --%>
     

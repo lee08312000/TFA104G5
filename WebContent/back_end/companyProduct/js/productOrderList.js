@@ -16,7 +16,7 @@ $(function () {
 	//一開始進入頁面
     function getProducts() {
         $.ajax({
-          url: "/TFA104G5copy/mallOrder/CompanyBrowseServlet",
+          url: "/TFA104G5/mallOrder/CompanyBrowseServlet",
           type: "POST",
           data: {
             "action": "getMallOrders"                       
@@ -49,7 +49,7 @@ $(function () {
 		                <td>${mallOrder.mallOrderStatus == 0 ? "處理中" : mallOrder.mallOrderStatus == 1 ? "已確認" : "已完成"}
 		                <td>${mallOrder.mallOrderDeliveryStatus == 0 ? "未發貨" : mallOrder.mallOrderDeliveryStatus == 1 ? "已發貨" : "已收貨"}
 		                <td>${mallOrder.mallOrderConfirmedTime}                
-		                <td><input type="button" value="查看訂單明細" onclick="location.href='/TFA104G5copy/back_end/companyProduct/html/productOrderListDetail.html?mallOrderId=${mallOrder.mallOrderId}'">`;
+		                <td><input class="button" type="button" value="查看訂單明細" onclick="location.href='/TFA104G5/back_end/companyProduct/html/productOrderListDetail.html?mallOrderId=${mallOrder.mallOrderId}'">`;
                 $(".tbody").append(mallOrder_item);
               });
             }
@@ -73,7 +73,7 @@ $(function () {
     //依狀態查詢訂單    
     $("#search-deal").on("change", function () {
     	$.ajax({
-            url: "/TFA104G5copy/mallOrder/CompanyBrowseServlet",
+            url: "/TFA104G5/mallOrder/CompanyBrowseServlet",
             type: "POST",
             data: {
               "action": "getMallOrdersByOrderStatus",
@@ -107,7 +107,7 @@ $(function () {
   		                <td>${mallOrder.mallOrderStatus == 0 ? "處理中" : mallOrder.mallOrderStatus == 1 ? "已確認" : "已完成"}
 		                <td>${mallOrder.mallOrderDeliveryStatus == 0 ? "未發貨" : mallOrder.mallOrderDeliveryStatus == 1 ? "已發貨" : "已收貨"}
   		                <td>${mallOrder.mallOrderConfirmedTime}                
-  		                <td><input type="button" value="查看訂單明細" onclick="location.href='/TFA104G5copy/back_end/companyProduct/html/productOrderListDetail.html?mallOrderId=${mallOrder.mallOrderId}'">`;
+  		                <td><input class="button" type="button" value="查看訂單明細" onclick="location.href='/TFA104G5/back_end/companyProduct/html/productOrderListDetail.html?mallOrderId=${mallOrder.mallOrderId}'">`;
                   $(".tbody").append(mallOrder_item);
                 });
               }
@@ -125,7 +125,7 @@ $(function () {
   //依物流狀態查詢訂單    
     $("#search-delivery").on("change", function () {
     	$.ajax({
-            url: "/TFA104G5copy/mallOrder/CompanyBrowseServlet",
+            url: "/TFA104G5/mallOrder/CompanyBrowseServlet",
             type: "POST",
             data: {
               "action": "getMallOrdersByDeliveryStatus",
@@ -159,7 +159,7 @@ $(function () {
   		                <td>${mallOrder.mallOrderStatus == 0 ? "處理中" : mallOrder.mallOrderStatus == 1 ? "已確認" : "已完成"}
 		                <td>${mallOrder.mallOrderDeliveryStatus == 0 ? "未發貨" : mallOrder.mallOrderDeliveryStatus == 1 ? "已發貨" : "已收貨"}
   		                <td>${mallOrder.mallOrderConfirmedTime}                
-  		                <td><input type="button" value="查看訂單明細" onclick="location.href='/TFA104G5copy/back_end/companyProduct/html/productOrderListDetail.html?mallOrderId=${mallOrder.mallOrderId}'">`;
+  		                <td><input class="button" class="button" type="button" value="查看訂單明細" onclick="location.href='/TFA104G5/back_end/companyProduct/html/productOrderListDetail.html?mallOrderId=${mallOrder.mallOrderId}'">`;
                   $(".tbody").append(mallOrder_item);
                 });
               }
@@ -176,7 +176,7 @@ $(function () {
   //依訂單編號    
     $("#search-one").on("click", function () {
     	$.ajax({
-            url: "/TFA104G5copy/mallOrder/CompanyBrowseServlet",
+            url: "/TFA104G5/mallOrder/CompanyBrowseServlet",
             type: "POST",
             data: {
               "action": "getMallOrdersById",
@@ -209,7 +209,7 @@ $(function () {
   		                <td>${mallOrder.mallOrderStatus == 0 ? "處理中" : mallOrder.mallOrderStatus == 1 ? "已確認" : "已完成"}
 		                <td>${mallOrder.mallOrderDeliveryStatus == 0 ? "未發貨" : mallOrder.mallOrderDeliveryStatus == 1 ? "已發貨" : "已收貨"}
   		                <td>${mallOrder.mallOrderConfirmedTime}                
-  		                <td><input type="button" value="查看訂單明細" onclick="location.href='/TFA104G5copy/back_end/companyProduct/html/productOrderListDetail.html?mallOrderId=${mallOrder.mallOrderId}'">`;
+  		                <td><input class="button" type="button" value="查看訂單明細" onclick="location.href='/TFA104G5/back_end/companyProduct/html/productOrderListDetail.html?mallOrderId=${mallOrder.mallOrderId}'">`;
                   $(".tbody").append(mallOrder_item);
                 
               }

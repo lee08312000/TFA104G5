@@ -88,12 +88,18 @@
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
 						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
-				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"
-					value="">註冊</a></li>
-				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/login/login.jsp"
-					value="">登入</a></li>
+					
+				<%-- =================  登出鈕   ===================== --%>	
+				<li>
+				<form method="post" action="<%=request.getContextPath()%>/member/MemberServlet">
+				<a>
+				<input class="fas fa-sign-out-alt logout_button" type="submit" value="登出" />
+				<input type="hidden" value="logout" name="action" />
+				</a>
+				</form>
+				</li>
+				<%-- =================  登出鈕   ===================== --%>	
+				
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"
 					value=""><i class="fas fa-user"></i></a></li>
@@ -104,9 +110,7 @@
 	<%-- =================  header區域   ===================== --%>
 	
 	<%-- =================  sidebar   ===================== --%>
-	<aside class="sidebar">
-		<form class="form-horizontal" method="post"
-			action="<%=request.getContextPath()%>/member/MemberServlet">
+		<aside class="sidebar">		
 		<div id="leftside-navigation" class="nano">
 			<ul class="nano-content">
 				<li class="sub-menu"><a href="javascript:void(0);"><i
@@ -139,16 +143,8 @@
 							href="<%=request.getContextPath()%>/front_end/member/jsp/member_reset_info.jsp">修改會員資訊與密碼</a>
 						</li>
 					</ul></li>
-				<li><a href=""><i class="fas fa-sign-out-alt"></i>
-				<span><input class="fas fa-sign-out-alt logout_button" type="submit" value="&nbsp;登出" /></span>
-				</a>
-				<input type="hidden" value="logout" name="action" />
-				</li>
-				
 		</div>
-		</form>
 	</aside>
-	</form>
 	<%-- =================  sidebar   ===================== --%>
 	
 	<%-- =================  我的最愛營地表格   ===================== --%>
@@ -184,36 +180,23 @@
 					}
 				}
 				int finalCountStar = 0;
-				if (newCampOrderVOList.size() != 0) {
-					
-				finalCountStar = Math.round((float)countStar / (float)newCampOrderVOList.size());
+				if (newCampOrderVOList.size() != 0) {		
+					finalCountStar = Math.round((float)countStar / (float)newCampOrderVOList.size());
 				}
-				
 				pageContext.setAttribute("finalCountStar", finalCountStar);
-				
-				
-				
-				
 				%>
+				
 				<tr>
 					<td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${ favoriteCampVO.campId }&pic=1"
 						alt="營地圖片"></td>
 					<td class="text-left"><a href="<%=request.getContextPath()%>/front_end/camp/camp_detail.html?campId=${ favoriteCampVO.campId }">${ campSvc.getOneCamp(favoriteCampVO.campId).campName }</a></td> 
 					<td class="text-center">
 					<c:forEach var="campTagName" items="${ campTagDetailSvc.findCampTagsByCampIdNames(favoriteCampVO.campId) }">
-					<a href="#">${ campTagName }</a>
+					<a>${ campTagName }</a>
 					</c:forEach>
 					</td> <!-- ${ campTagDetail.營地標籤中文方法列出  } 或 ${ campTagVO.campTagName } (?) 如何點了進入相同類型營地列表?健泯的網站? 或者直接列就好不要按鈕? -->
 					<td class="text-left">${ campSvc.getOneCamp(favoriteCampVO.campId).campAddress }</td> <!-- ${ campVO.campAddress } -->
-<<<<<<< HEAD
-					<td class="text-left">${ finalCountStar }</td> <!-- ${ campOrderVO.campCommentStar } -->
-=======
-
-					<td class="text-left">${ finalCountStar }</td> <!-- ${ campOrderVO.campCommentStar } -->
-
 					<td class="text-left">${ finalCountStar } / 5</td> <!-- ${ campOrderVO.campCommentStar } -->
-
->>>>>>> main
 					<td class="text-center">
 						<form method="post"
 						action="<%=request.getContextPath()%>/favoriteCamp/FavoriteCampServlet">

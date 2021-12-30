@@ -39,7 +39,7 @@
                 <li><a href="#">線上商城</a></li>
                 <li><a href="#"><img src="<%=request.getContextPath()%>/back_end/companyProduct/img/heart.png"></a></li>
                 <li><a href="#">註冊</a></li>
-                <li><a href="#">登入</a></li>
+                <li><a href="#">登出</a></li>
                 <li><a href="#"><i class="fas fa-user"></i></a></li>                
             </nav>
         </ul>    
@@ -109,6 +109,24 @@
     </aside>
 
     <main class="main">
+    	<div class="search"> 
+	    	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductServlet" style="margin-bottom: 0px;">
+	    			<input type="text" name="searchName" class="form-control" placeholder="請輸入商品名稱" value="">
+					<input class="button" type="submit" value="送出">				
+					<input type="hidden" name="action"	value="getOne_For_Update">
+			</FORM>
+		</div>
+		<div class="search">
+			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductServlet" style="margin-bottom: 0px;">
+	    			<select size="1" name="productTypeId">
+	                    	<c:forEach var="productType" items="${productTypeSvc.allProductType}">
+								<option value="${productType.productTypeId}" ${(productVO.productTypeId == productType.productTypeId) ? "selected" : "" }>${productType.productTypeName}</option>
+							</c:forEach>             
+	                </select>
+					<input class="button" type="submit" value="查詢">				
+					<input type="hidden" name="action"	value="getOne_For_Update">
+			</FORM>
+		</div>
          <table id="miyazaki">
             <thead>
             <tr><th>商品編號<th>商品分類<th>商品名稱<th>商品圖片<th>商品品牌<th>商品狀態<th>查看商品評論
@@ -122,7 +140,7 @@
                 <td>${productVO.productBrand}
                 <td>${(1==productVO.productStatus)? '上架':'下架'}                                
                 <td><FORM METHOD="post" ACTION="<%=request.getContextPath()%>/MallOrderDetail/productCommentServlet" style="margin-bottom: 0px;">
-						 <input type="submit" value="查看商品評論">
+						 <input class="button" type="submit" value="查看商品評論">
 						 <input type="hidden" name="productId"  value="${productVO.productId}">
 						 <input type="hidden" name="action"	value="getProductComment">
 					</FORM>                 
