@@ -18,7 +18,7 @@
 <body>
 <!--傳送修改資料到後台  -->
 <form method ="POST" action="<%=request.getContextPath()%>/camp/campOrder.do">
-	<div style="padding: 10px; width: 95%;" id="workArea">
+	<div style="padding: 10px; width: 95%;" id="workArea" margin-right:20px>
 		<div style="clear: both;"></div>
 		<table id="datatable" width="100%">
 			<thead>
@@ -31,14 +31,14 @@
 			<tbody>
 				<tr class="confirmTr">
 
-					<td id="confirmTd" colspan="1" style="text-align: left; padding: 10px;"><font color="red">*</font>營地訂單流水號:<br></td>
+					<td id="confirmTd" colspan="1" style="text-align: left; padding: 10px;"><font color="red"></font>營地訂單流水號:<br></td>
 					<td style="text-align: left; padding: 10px;"><input type="hidden" name="campOrderId" value="${campOrderVO.campOrderId}">${campOrderVO.campOrderId}</td>
 				</tr>
 
 				<tr class="confirmTr">
 
 					<td id="confirmTd" colspan="1"
-						style="text-align: left; padding: 10px;"><font color="red">*</font>會員編號:<br></td>
+						style="text-align: left; padding: 10px;"><font color="red"></font>會員編號:<br></td>
 					<td style="text-align: left; padding: 10px;">${campOrderVO.campOrderId}</td>
 				</tr>
 				<tr class="confirmTr">
@@ -53,25 +53,25 @@
 					<td id="confirmTd" colspan="1"
 						style="text-align: left; padding: 10px;"><font color="red">*</font>訂單狀態:<br></td>
 					<td style="text-align: left; padding: 10px;">	<select name="campStatus">
-							<option value="0"
-								${campOrderVO.campOrderStatus == 0 ? 'selected="selected"' : ''}>處理中</option>
 							<option value="1"
-								${campOrderVO.campOrderStatus == 1 ? 'selected="selected"' : ''}>已確認</option>
+								${campOrderVO.campOrderStatus == 1 ? 'selected="selected"' : ''}>處理中</option>
 							<option value="2"
-								${campOrderVO.campOrderStatus == 2 ? 'selected="selected"' : ''}>已完成</option>
+								${campOrderVO.campOrderStatus == 2 ? 'selected="selected"' : ''}>已確認</option>
+							
+							
 					</select></td>
 				</tr>
 
 				<tr class="confirmTr">
 					<td id="confirmTd" colspan="1"
-						style="text-align: left; padding: 10px;"><font color="red">*</font>會員編號:<br></td>
+						style="text-align: left; padding: 10px;"><font color="red"></font>會員編號:<br></td>
 					<td style="text-align: left; padding: 10px;"><input type="hidden" name="memberId" value="${campOrderVO.memberId}"> ${campOrderVO.memberId}</td>
 				</tr>
 
 
 				<tr class="confirmTr">
 					<td id="confirmTd" colspan="1"
-						style="text-align: left; padding: 10px;"><font color="red">*</font>入住日期:<br></td>
+						style="text-align: left; padding: 10px;"><font color="red"></font>入住日期:<br></td>
 					<td style="text-align: left; padding: 10px;"><fmt:formatDate value="${campOrderVO.campOrderConfirmedTime}"
 							pattern="yyyy-MM-dd" /></td>
 				</tr>

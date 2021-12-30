@@ -81,7 +81,7 @@
 					<td>${campVO.campName}</td>
 					<td>${campVO.companyAddress}</td>
 					<td>${campVO.certificateNum}</td>
-					<td>${campVO.certificatePic}</td>
+					<td><img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&certificate=t" /></td>
 					
 			        
 				</tr>
@@ -98,12 +98,7 @@
 
 
 
-	<footer class="tm-footer text-center">
-		<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
-		<pre>Copyright &copy; 2021 Camping Paradise | Design: <a
-				style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a>
-				</pre>
-	</footer>
+
 </body>
 </html>
 

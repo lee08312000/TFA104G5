@@ -42,7 +42,7 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 
 	private static final String GET_ONE_BY_CAMP_ID ="select ct.camp_tag_name,ct.camp_tag_id from camp_tag_detail ctd join camp_tag ct on ctd.camp_tag_id = ct.camp_tag_id where ctd.camp_id = ? group by ct.camp_tag_id";
 	
-	private static final String GET_ALL ="select ct.camp_tag_name,ct.camp_tag_id from camp_tag_detail ctd join camp_tag ct on ctd.camp_tag_id = ct.camp_tag_id group by ct.camp_tag_id";
+	private static final String GET_ALL ="select camp_tag_name,camp_tag_id from camp_tag ct ";
 
 	@Override
 	public void insert(CampTagDetailVO campTagDetailVO) {
@@ -297,8 +297,8 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 
 			while (rs.next()) {
 				campTagDetailVO = new CampTagDetailVO();
-				campTagDetailVO.setCampTagName(rs.getString("ct.camp_tag_name"));
-				campTagDetailVO.setCampTagId(rs.getInt("ct.camp_tag_id"));
+				campTagDetailVO.setCampTagName(rs.getString("camp_tag_name"));
+				campTagDetailVO.setCampTagId(rs.getInt("camp_tag_id"));
 				list.add(campTagDetailVO);
 			}
 
