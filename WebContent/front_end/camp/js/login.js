@@ -87,6 +87,7 @@ logout.addEventListener("click",function(e){
 		  dataType: "text",             // 預期會接收到回傳資料的格式： json | xml | html
 		  success: function(data){      // request 成功取得回應後執行
 			alert("登出成功");
+			
 			location.reload();
 		  }
 		});
