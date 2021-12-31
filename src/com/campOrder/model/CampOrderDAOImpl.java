@@ -68,17 +68,13 @@ public class CampOrderDAOImpl implements CampOrderDAO {
 	
 	private static final String FIND_BY_PARAMS_NO_STATUS = "SELECT * FROM camp_order where  camp_order_confirmed_time >=? and camp_order_confirmed_time <= ? ";
 
-	private static DataSource ds = null;
-
+	
+	
 	static {
 		try {
-			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/David");
 			Class.forName(Util.DRIVER);
 		} catch (ClassNotFoundException ce) {
 			ce.printStackTrace();
-		} catch (NamingException e) {
-			e.printStackTrace();
 		}
 	}
 
