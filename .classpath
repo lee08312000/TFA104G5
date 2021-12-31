@@ -13,8 +13,5 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/Users/User/Downloads/javase-3.3.0.zip"/>
-	<classpathentry kind="lib" path="C:/Users/User/Downloads/core-3.3.3.zip"/>
-	<classpathentry kind="lib" path="C:/Users/User/Downloads/jedis-2.9.0.zip"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
