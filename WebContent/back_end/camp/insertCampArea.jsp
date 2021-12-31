@@ -23,7 +23,7 @@
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/back_end/css/insertCampArea.css?v=005">
+	href="<%=request.getContextPath()%>/back_end/css/insertCampArea.css?v=006">
 </head>
 <body>
 	
@@ -32,7 +32,7 @@
 
 	<h1>營位上架 ${errorMsgs}</h1>
 	<form method="post" ACTION="<%=request.getContextPath()%>/camp/campareashelves.do" enctype="multipart/form-data">
-		<table class="camparea_shelves">
+		<table class="camparea_shelves" margin-left:200px>
 		
 			<tr>
 				<td>營地流水號:</td>
