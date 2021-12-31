@@ -40,15 +40,14 @@ document.addEventListener("DOMContentLoaded", function() {
 		    		membershow_a[i].classList.remove("islogin");
 		    	}
 		    	
-		    	//把登入|註冊那欄抓出
-		    	var memberlogin=document.getElementById("islogin");
 		    	
-		    	var Pmemberlogin=memberlogin.parentNode;
+		    	
+		    	////把登入|註冊那欄抓出-2
+		    	
+		    	var memberlogin=document.getElementById("islogin2");	
+		    	
 		    	memberlogin.classList.add("islogin");
-		    	Pmemberlogin.classList.add("islogin");
 		    	
-		    	
-		   
 		    	
 		    	//我最愛的營地id 存入session
 		    	let list=data['favorlist'];
@@ -73,8 +72,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 //登出
 var logout=document.getElementsByClassName("out")[0];
-console.log(logout);
-logout.addEventListener("click",function(e){
+
+logout.addEventListener("click",function(){
 	
 
 	sessionStorage.removeItem("memberid");
@@ -87,7 +86,6 @@ logout.addEventListener("click",function(e){
 		  dataType: "text",             // 預期會接收到回傳資料的格式： json | xml | html
 		  success: function(data){      // request 成功取得回應後執行
 			alert("登出成功");
-			
 			location.reload();
 		  }
 		});

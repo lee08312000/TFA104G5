@@ -15,7 +15,7 @@
 	crossorigin="anonymous">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/back_end/css/selectCamp.css">
-	<body style="background-image: url('<%=request.getContextPath()%>/back_end/images/aside2.jpg');">
+
 </head>
 
 <!-- --------aside°Ï°ì------- -->

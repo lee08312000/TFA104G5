@@ -48,15 +48,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 recoma[i].setAttribute("href", "camp_detail.html?campid=" + recommendcamp.campId)
             }
-
-
-
-
-
-
-
-
-
         }
     });
 
@@ -69,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
     bookbtn.setAttribute("campid", params.get("campid"));
 
     bookbtn.addEventListener("click", function() {
-        location.href = "./page4.html" + "?campid=" + bookbtn.getAttribute("campid");
+        location.href = "./camp_calendar.html" + "?campid=" + bookbtn.getAttribute("campid");
 
     });
 
@@ -306,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 // 設定要顯示在畫面上的資料數量
                 // 預設每一頁只顯示 5 筆資料。
-                const perpage = 5;
+                const perpage = 3;
 
                 // page 按鈕總數量公式 總資料數量 / 每一頁要顯示的資料
                 // 這邊要注意，因為有可能會出現餘數，所以要無條件進位。

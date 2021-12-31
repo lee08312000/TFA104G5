@@ -25,8 +25,9 @@ public class FavoriteCampDAOlmpl implements FavoriteCampDAO {
 			+ CLOUM_FOR_INSERT + ") " + "VALUES (?, ?)";
 	private static final String GET_ALL_STMT = "SELECT "+CLOUM_FOR_ALL +" FROM favorite_camp where  member_id=?";//12/21新增favorite_camp_id
 	
-	private static final String GET_ONE_STMT = "SELECT " + CLOUM_FOR_INSERT
+	private static final String GET_ONE_STMT = "SELECT " + CLOUM_FOR_ALL
 			+ " FROM favorite_camp where favorite_camp_id = ?";
+
 	private static final String DELETE = "DELETE FROM favorite_camp where favorite_camp_id = ?";
 	private static final String UPDATE = "UPDATE favorite_camp set member_Id=?,camp_Id=? where favorite_camp_id = ?";
 
@@ -179,11 +180,13 @@ public class FavoriteCampDAOlmpl implements FavoriteCampDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-			
+    
+    
 				favoriteCampVO = new FavoriteCampVO();
-				favoriteCampVO.setCampId(rs.getInt("camp_Id"));
-				favoriteCampVO.setMemberId(rs.getInt("member_Id"));
-				favoriteCampVO.setFavoriteCampId(rs.getInt("favorite_camp_Id"));//12/21新增
+				favoriteCampVO.setFavoriteCampId(rs.getInt(1));//12/21新增
+				favoriteCampVO.setMemberId(rs.getInt(2));
+				favoriteCampVO.setCampId(rs.getInt(3));
+				
 			}
 
 		

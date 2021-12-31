@@ -20,42 +20,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<link href="<%=request.getContextPath()%>/front_end/camp/img/icon/chuba_logo.png" rel="shortcut icon">
 <title>訂位畫面</title>
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
-<link href="#" rel="shortcut icon">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/front_end/camp/css/header_footer.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/front_end/camp/css/camp_booking01.css">
 
-<link href="img/icon/chuba_logo.png" rel="shortcut icon">
+
 </head>
 
 <body>
 	<!-- Sticky header -->
-	<header class="header-outer">
+	 <header class="header-outer">
 		<div class="header-inner responsive-wrapper">
 			<div class="header-logo">
-				<a style="display: inline-block; vertical-align: middle;" href="camp_index.html"> 
-					<img src="img/icon/chuba_logo.png" />
+				<a style="display: inline-block; vertical-align: middle;"
+					href="<%=request.getContextPath()%>/front_end/camp/camp_index.html"> <img src="<%=request.getContextPath()%>/front_end/camp/img/icon/chuba_logo.png" />
 				</a> <span style="display: inline-block; vertical-align: middle;">Camping
 					Paradise</span>
 			</div>
 			<nav class="header-navigation">
-				<a href="camp_index.html">Home</a>
-                <a href="../mall/mall_index.html">線上商城</a>
-                <a href="../member/jsp/member_favorite_camp.jsp"><img src="img/icon/heart.png"></a>
-                <a href="../member/login/login.jsp">登入|註冊</a>
-                <a href="#" class="islogin">登出</a>     
-                <a href="../member/jsp/member_main.jsp" class="islogin"><i class="fas fa-user-circle islogin"></i></a>
-				
+				<a href="<%=request.getContextPath()%>/front_end/camp/camp_index.html">Home</a> 
+				<a href="<%=request.getContextPath()%>/front_end/mall/mall_index.html">線上商城</a>
+				<a href="<%=request.getContextPath()%>/front_end/member/jsp/member_favorite_camp.jsp">
+					<img src="<%=request.getContextPath()%>/front_end/camp/img/icon/heart.png">
+				</a> 
+				<a href="<%=request.getContextPath()%>/front_end/member/login/login.jsp" id="islogin2">登入|註冊</a>
+				<a href="#" class="islogin out">登出</a> 
+				<a href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp" class="islogin">
+					<i class="fas fa-user-circle islogin"></i>
+				</a>
+
+
 			</nav>
 		</div>
 	</header>
-
 
 
 
@@ -79,7 +83,7 @@
 
 				<div class="triangle2-incomplete"></div>
 				<div class="step incomplete">
-					<em>3</em>選擇付款方式
+					<em>3</em>資料確認
 				</div>
 				<div class="triangle-incomplete"></div>
 
@@ -100,12 +104,12 @@
 			<div class="outer_block freeinfo">
 				<div class="left_block" id="begin">
 					入住日期:${date} <br>
-					<button type="button" class="btn btn-accept" id="btn-accept">
+					<button type="button" class="btn btn-accept"onclick="history.back()">
 						重選日期</button>
 				</div>
 				<div class="right_block" id="daynum">
 					露營天數: ${days} <br>
-					<button type="button" class="btn btn-accept" id="btn-accept">
+					<button type="button" class="btn btn-accept" onclick="history.back()">
 						重選天數</button>
 				</div>
 			</div>
@@ -130,11 +134,11 @@
 					<tr style="text-align: center;">
 						<td>圖片</td>
 						<td>營區分位</td>
-						<td>平日/每帳價格</td>
+						<td>平日單價/帳</td>
 						<td>帳數</td>
-						<td>假日日/每帳價格</td>
+						<td>假日單價/帳</td>
 						<td>帳數</td>
-						<td>加購人頭</td>
+						<td>加購人頭/人</td>
 						<td>人頭數量</td>
 						<td>總計</td>
 						<td></td>
@@ -153,13 +157,13 @@
 							<td class="name">${areaVO.campAreaName}</td>
 							<td class="wprice">${areaVO.weekdayPrice}</td>
 							<td class="wamount"><input type="number" name="weeknum"
-								value="0" min="0" max="${areaVO.campAreaMax}"></td>
+								value="0" min="0" max="${areaVO.campAreaMax}" onkeydown="return false"></td>
 							<td class="hprice">${areaVO.holidayPrice}</td>
 							<td class="hamount"><input type="number" name="holinum"
-								value="0" min="0" max="${areaVO.campAreaMax}"></td>
+								value="0" min="0" max="${areaVO.campAreaMax}" onkeydown="return false"></td>
 							<td class="pprice">${areaVO.perCapitationFee}</td>
 							<td class="pamount"><input type="number" name="pernum"
-								value="0" min="0" max="${areaVO.capitationMax}"></td>
+								value="0" min="0" max="${areaVO.capitationMax*areaVO.campAreaMax}" onkeydown="return false"></td>
 							<td class="pricesubtotal"></td>
 							<td class="remove">
 								<button type="button">重新填選</button>
@@ -167,6 +171,8 @@
 						</tr>
 
 					</c:forEach>
+
+
 
 
 				</tbody>
@@ -226,11 +232,11 @@
 			<div id="outerbox">
 				<ul class="innerbox innerbox2" id="thead">
 					<li>營區分位</li>
-					<li>平日/每帳價格</li>
+					<li>平日單價/帳</li>
 					<li>帳數</li>
-					<li>假日日/每帳價格</li>
+					<li>假日單價/帳</li>
 					<li>帳數</li>
-					<li>加購人頭</li>
+					<li>加購人頭/人</li>
 					<li>人頭數量</li>
 					<li>總計</li>
 				</ul>
@@ -249,14 +255,9 @@
 		</div>
 	</form>
 
-
-
-
-
-
-    <script src="js/login.js"></script> 
+    <script src="<%=request.getContextPath()%>/front_end/camp/js/login2.js"></script> 
 	<script type="text/javascript"
-		src="front_end/camp/js/camp_booking01.js"></script>
+		src="<%=request.getContextPath()%>/front_end/camp/js/camp_booking01.js"></script>
 
 
 </body>
