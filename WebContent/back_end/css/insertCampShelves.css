@@ -136,7 +136,7 @@
         h1 {
             color:black;
             text-align: center;
-            margin-right:200px;
+            margin-left:80px;
         }
 
           /* 填寫營位上架資訊 */
@@ -144,9 +144,9 @@
           border:1px solid blck; 
           border-collapse:separate;
           border-spacing:0px 0px;
-          margin-left: 0px;
+          margin-left: 70px;
           margin-top: 0px;
-          width: 90%;
+          width: 80%;
         }
         
         table td{

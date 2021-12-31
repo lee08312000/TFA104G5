@@ -33,7 +33,28 @@
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/back_end/css/selectCampComment.css?v=003">
+	href="<%=request.getContextPath()%>/back_end/css/selectCampComment.css?v=007">
+
+<!-- --------head區域------- -->
+	<header class="header-outer">
+		<div class="header-inner responsive-wrapper">
+			<div class="header-logo">
+				<a style="display: inline-block; vertical-align: middle;"
+					href="首頁URL"> <img
+					src="<%=request.getContextPath()%>/back_end/images/camp_paradise_logo.png" />
+				</a> <span style="display: inline-block; vertical-align: middle;">Camping
+					Paradise</span>
+			</div>
+			<nav class="header-navigation">
+				<a href="#">Home</a> <a href="#">線上商城</a> <a href="#"><img
+					src="<%=request.getContextPath()%>/back_end/images/heart.png"></a>
+				<a href="#">註冊</a> <a href="#">登入</a> <a href="#"> <i
+					class="fas fa-user"></i></a>
+				<button>Menu</button>
+			</nav>
+		</div>
+	</header>
+
 </head>
 <body>
 
@@ -94,6 +115,8 @@
 		<%@ include file="pages/page2.jsp"%>
 
 	</div>
+	
+	
 
 
 
