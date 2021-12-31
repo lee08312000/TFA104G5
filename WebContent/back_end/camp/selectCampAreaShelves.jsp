@@ -108,7 +108,7 @@
 					<td>${campareaVO.perCapitationFee}</td>
 					<td>${campareaVO.campAreaMax}</td>
 					<td></td>
-					<td></td>
+					<td><img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campareaVO.campId}&areaindex=1" /></td>
 					<td>
 						<form method="post" ACTION="<%=request.getContextPath()%>/camp/campareashelves.do">
 						<input type="hidden" name="campAreaId"  value="${campareaVO.campAreaId}" class="update" />

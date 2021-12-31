@@ -22,7 +22,7 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 	private static final String INSERT_STMT = "INSERT INTO camp_area (" + CLOUM_FOR_INSERT + ") "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT * FROM camp_area order by camp_Area_Id";
-	private static final String GET_ONE_STMT = "SELECT " + CLOUM_FOR_INSERT + " FROM camp_area where camp_Area_Id = ?";
+	private static final String GET_ONE_STMT = "SELECT " + CLOUM_FOR_ALL + " FROM camp_area where camp_Area_Id = ?";
 	private static final String DELETE = "DELETE FROM camp_area where camp_Area_Id = ?";
 	private static final String UPDATE = "UPDATE camp_area set camp_Id=?,camp_Area_Name=?,camp_Area_Max=?,weekday_Price=?,holiday_Price=?,capitation_Max=?,per_Capitation_Fee=?,camp_Area_Pic=? where camp_Area_Id = ?";
 	private static final String GET_CAMPAREALIST = "SELECT " + CLOUM_FOR_ALL + " FROM camp_area where camp_Id = ?";
@@ -96,7 +96,7 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 			pstmt.setInt(6, campAreaVO.getCapitationMax());
 			pstmt.setInt(7, campAreaVO.getPerCapitationFee());
 			if (campAreaVO.getCampAreaPic() != null) {
-				pstmt.setBlob(8, new SerialBlob(campAreaVO.getCampAreaPic()));
+				pstmt.setBytes(8, campAreaVO.getCampAreaPic());
 			} else {
 				pstmt.setNull(8, java.sql.Types.BLOB);
 			}
@@ -187,6 +187,7 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 			while (rs.next()) {
 
 				CampAreaVO = new CampAreaVO();
+				CampAreaVO.setCampAreaId(rs.getInt("camp_Area_Id"));
 				CampAreaVO.setCampId(rs.getInt("camp_Id"));
 				CampAreaVO.setCampAreaName(rs.getString("camp_Area_Name"));
 				CampAreaVO.setCampAreaMax(rs.getInt("camp_Area_Max"));
@@ -194,7 +195,7 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 				CampAreaVO.setHolidayPrice(rs.getInt("holiday_Price"));
 				CampAreaVO.setCapitationMax(rs.getInt("capitation_Max"));
 				CampAreaVO.setPerCapitationFee(rs.getInt("per_Capitation_Fee"));
-				CampAreaVO.setCampAreaPic(checkBlob(rs.getBlob("camp_Area_Pic")));
+				CampAreaVO.setCampAreaPic(rs.getBytes("camp_Area_Pic"));
 			}
 
 		} catch (SQLException se) {
@@ -386,7 +387,7 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 			pstmt.setInt(6, campAreaVO.getCapitationMax());
 			pstmt.setInt(7, campAreaVO.getPerCapitationFee());
 			if (campAreaVO.getCampAreaPic() != null) {
-				pstmt.setBlob(8, new SerialBlob(campAreaVO.getCampAreaPic()));
+				pstmt.setBytes(8, campAreaVO.getCampAreaPic());
 			} else {
 				pstmt.setNull(8, java.sql.Types.BLOB);
 			}

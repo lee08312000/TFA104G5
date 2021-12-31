@@ -1,6 +1,7 @@
 
 
 
+
 <html>
 <head>
 <title>campParadise</title>
@@ -11,6 +12,7 @@
 <frameset cols="30%,*" frameborder="no">
 <frame  src="aside.jsp" scrolling="no" name="Left" >
 <frame src="selectCamp.jsp" scrolling="auto" name="Main">
+
 <noframes>
 <body>
 <p></p>

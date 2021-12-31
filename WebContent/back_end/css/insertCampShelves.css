@@ -146,21 +146,21 @@
           border-spacing:0px 0px;
           margin-left: 0px;
           margin-top: 0px;
-          width: 85%;
+          width: 90%;
         }
         
         table td{
            background-color:#E0E0E0;
            border:1px solid black;
           text-align:left; 
-          width: 90PX;
+          width: 70PX;
         }
         
         table th{
            
           border:1px solid black;
           text-align: center; 
-          width: 90PX;
+          width: 70PX;
         
         
         
