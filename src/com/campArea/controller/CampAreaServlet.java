@@ -93,8 +93,7 @@ public class CampAreaServlet extends HttpServlet {
 				if (campAreaMax == null || (campAreaMax.trim()).length() == 0) {
 					errorMsgs.add("帳數上限:請勿空白");
 				} else {
-					campareaVO.setCampAreaMax(Integer.valueOf(campAreaMax));
-				}
+				campareaVO.setCampAreaMax(Integer.valueOf(campAreaMax));				}
 
 				byte[] campAreaPic = null;
 				Part parts1 = req.getPart("campArea_pic1");

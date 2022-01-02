@@ -335,9 +335,7 @@ public class CampServlet extends HttpServlet {
 			}
 		}
 
-		/********************************
-		 * 查詢營地
-		 ********************************************/
+		        /******************************** 查詢營地******************************************/
 		// 依據營位狀態,時間區間,輸入關鍵字查詢營地
 
 		if (action.equals("SEARCHALL")) {
@@ -362,7 +360,7 @@ public class CampServlet extends HttpServlet {
 				endtime = sdf.format(endtimeCalendar.getTime());
 			}
 
-			String campIdsearchs = req.getParameter("campIdsearch");
+			String campName = req.getParameter("campName");
 			Date stardate = null;
 			Date enddate = null;
 			try {
@@ -380,9 +378,17 @@ public class CampServlet extends HttpServlet {
 
 			int campstatus = Integer.valueOf(str);
 			CampService campSvc = new CampService();
-			cavList = campSvc.camplist(campstatus, stardate, enddate, campIdsearchs);
+			cavList = campSvc.camplist(campstatus, stardate, enddate, campName);
 
+			
+			Calendar endtimeCalendar = Calendar.getInstance();
+			endtimeCalendar.setTime(enddate);
+			endtimeCalendar.add(Calendar.DATE, -1);
 			req.setAttribute("list", cavList);
+			req.setAttribute("startime", stardate);
+			req.setAttribute("endtime", endtimeCalendar.getTime());
+			req.setAttribute("campstatus", campstatus);
+			req.setAttribute("campName", campName);
 			String url = "/back_end/camp/selectCamp.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);

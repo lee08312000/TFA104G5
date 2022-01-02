@@ -33,35 +33,14 @@
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/back_end/css/selectCampComment.css?v=007">
+	href="<%=request.getContextPath()%>/back_end/css/camp.css?v=008">
 
-<!-- --------head區域------- -->
-	<header class="header-outer">
-		<div class="header-inner responsive-wrapper">
-			<div class="header-logo">
-				<a style="display: inline-block; vertical-align: middle;"
-					href="首頁URL"> <img
-					src="<%=request.getContextPath()%>/back_end/images/camp_paradise_logo.png" />
-				</a> <span style="display: inline-block; vertical-align: middle;">Camping
-					Paradise</span>
-			</div>
-			<nav class="header-navigation">
-				<a href="#">Home</a> <a href="#">線上商城</a> <a href="#"><img
-					src="<%=request.getContextPath()%>/back_end/images/heart.png"></a>
-				<a href="#">註冊</a> <a href="#">登入</a> <a href="#"> <i
-					class="fas fa-user"></i></a>
-				<button>Menu</button>
-			</nav>
-		</div>
-	</header>
 
-</head>
-<body>
 
 	<!-- --------main區域------- -->
 
 	<h1>營地評價查詢</h1>
-	<div class="selectors" style="margin-left: 200px; margin-top: 50px">
+	<div class="selectors" style="margin-left: 300px; margin-top: 50px">
 	<form method="post"
 		ACTION="<%=request.getContextPath()%>/camp/campOrder.do">
 		
@@ -80,10 +59,10 @@
 
 
 	<div class="pagination">
-		<%@ include file="pages/page1.jsp"%>
+		<%@ include file="pages/page1.file"%>
 	</div>
 
-	<table class="camp_table" style="margin-left: 200px; width: 70%">
+	<table class="camp_table" style="margin-left: 300px; width: 70%">
 		<tbody>
 			<tr>
 				<th>營地訂單評論時間</th>
@@ -103,7 +82,7 @@
 				<td>${camporderVO.campOrderId}</td>
 				<td>${camporderVO.memberId}</td>
 				<td>${camporderVO.campComment}</td>
-				<td>${camporderVO.campCommentStar}</td>
+				<td>${camporderVO.campCommentStar}顆星</td>
 			</tr>
 		</c:forEach>
 
@@ -112,7 +91,7 @@
 	</table>
 
 	<div class="pagination">
-		<%@ include file="pages/page2.jsp"%>
+		<%@ include file="pages/page2.file"%>
 
 	</div>
 	

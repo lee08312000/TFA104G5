@@ -23,10 +23,7 @@ import util.Util;
 
 public class CampOrderDAOImpl implements CampOrderDAO {
 	
-	String driver = "com.mysql.cj.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/campingParadise?serverTimezone=Asia/Taipei";
-	String userid = "David";
-	String passwd = "123456";
+	
 	
 	private static final String INSERTORDER_STMT = "INSERT INTO camp_order (camp_id, member_id, camp_order_total_amount, camp_check_out_date, camp_check_in_date, credit_card_num,payer_name,payer_phone) values(?,?,?,?,?,?,?,?)";
 	private static final String INSERTDETAIL_STMT = "INSERT INTO camp_area_order_detail(camp_area_id,camp_order_id,booking_quantity,camp_area_weekday_price,camp_area_holiday_price,capitation_quantity,per_capitation_fee,booking_weekdays,booking_holidays) VALUES (?,?,?,?,?,?,?,?,?)";
@@ -226,8 +223,7 @@ System.out.println(sdf.format(list.get(j))+","+"剩餘空位"+lastAreaNum+","+"�
 		PreparedStatement pstmt = null;
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			pstmt.setInt(1, campOrderVO.getCampId());
 			pstmt.setInt(2, campOrderVO.getMemberId());
@@ -248,7 +244,7 @@ System.out.println(sdf.format(list.get(j))+","+"剩餘空位"+lastAreaNum+","+"�
 			pstmt.executeUpdate();
 			
 			// Handle any driver errors
-		} catch (SQLException | ClassNotFoundException se) {
+		} catch (SQLException se) {
 			se.printStackTrace();
 			// Clean up JDBC resources
 		} finally {
@@ -276,8 +272,7 @@ System.out.println(sdf.format(list.get(j))+","+"剩餘空位"+lastAreaNum+","+"�
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(DELETE_ORDERDETAIL);
 			pstmt.setInt(1, campOrderId);
@@ -295,9 +290,6 @@ System.out.println(sdf.format(list.get(j))+","+"剩餘空位"+lastAreaNum+","+"�
 				e.printStackTrace();
 			}
 			se.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -324,8 +316,7 @@ System.out.println(sdf.format(list.get(j))+","+"剩餘空位"+lastAreaNum+","+"�
 		CampOrderVO campOrderVO = null;
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(FIND_BY_PK);
 			pstmt.setInt(1, campOrderId);
 			rs = pstmt.executeQuery();
@@ -347,7 +338,7 @@ System.out.println(sdf.format(list.get(j))+","+"剩餘空位"+lastAreaNum+","+"�
 				campOrderVO.setCampComment(rs.getString(14));
 				campOrderVO.setCampOrderCommentTime(rs.getTimestamp(15));
 			}
-		} catch (SQLException | ClassNotFoundException se) {
+		} catch (SQLException se) {
 			se.printStackTrace();
 			// Clean up JDBC resources
 		} finally {
@@ -385,8 +376,8 @@ System.out.println(sdf.format(list.get(j))+","+"剩餘空位"+lastAreaNum+","+"�
 		ResultSet rs = null;
 		List<CampOrderVO> list = new ArrayList<>();
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			
 			String sql;
 			if (statusnum == -1) {
@@ -431,7 +422,7 @@ System.out.println(sdf.format(list.get(j))+","+"剩餘空位"+lastAreaNum+","+"�
 				campOrderVO.setBookingQuantity(rs.getInt("ch.booking_quantity"));
 				list.add(campOrderVO);
 			}
-		} catch (SQLException | ClassNotFoundException se) {
+		} catch (SQLException se) {
 			se.printStackTrace();
 			// Clean up JDBC resources
 		} finally {
@@ -613,8 +604,8 @@ System.out.println(GET_ALL2 + "" + sorted);
 		CampOrderVO campOrderVO = null;
 		List<CampOrderVO> list = new ArrayList<>();
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
@@ -640,9 +631,6 @@ System.out.println(GET_ALL2 + "" + sorted);
 		} catch (SQLException se) {
 			se.printStackTrace();
 			// Clean up JDBC resources
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} finally {
 
 			if (rs != null) {
@@ -682,8 +670,7 @@ System.out.println(GET_ALL2 + "" + sorted);
 		try {
 			
 			
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);				
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);			
 			String sql = SELECT_STMT_CAMP_COMMENT;
 
 				
@@ -710,7 +697,7 @@ System.out.println(GET_ALL2 + "" + sorted);
 				listcomment.add(campOrderVO);
 				
 			}
-		} catch (SQLException | ClassNotFoundException se) {
+		} catch (SQLException se) {
 			se.printStackTrace();
 			// Clean up JDBC resources
 		} finally {

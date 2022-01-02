@@ -48,7 +48,7 @@
 </form>
 
 	<div class="pagination">
-		<%@ include file="pages/page1.jsp" %>
+		<%@ include file="pages/page1.file" %>
 	</div>
 	<table class="camp_table">
 		<tbody>
@@ -93,7 +93,7 @@
 	</table>
 
 	<div class="pagination">
-		<%@ include file="pages/page2.jsp"%>
+		<%@ include file="pages/page2.file"%>
 	</div>
 
 

@@ -1,3 +1,4 @@
+
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
         *,
         *:after,
@@ -132,35 +133,34 @@
         h1{
             color: black;
             text-align: center;
-            margin-left:100px;
-        
+            margin-top:20px;
+            margin-left:180px;
+            
 
         }
      
 
-        .camp_table{
-          border:1px solid blck; 
-          border-collapse: collapse;
-          margin-left: 700px;
+     .updatecamp{
+          border:1px solid black; 
+          border-collapse:separate;
+          border-spacing:0px 0px;
+          margin-left: 400px;
           margin-top: 0px;
-          width: 75%;
+          width: 55%;
         }
         table td{
+          background-color:	#E0E0E0;
           border:1px solid black;
-          text-align: center; 
           width: 90PX;
         }
         
         table th{
-          background-color:	#E0E0E0;
           border:1px solid black;
-          text-align: center; 
           width: 90PX;
-          margin-left:250px;
+          margin-left:200px;
         
         
         }
-        
         
         
         .topnav{
@@ -176,7 +176,8 @@
        
         .selector{
          height: 25px;
-         margin-left:0;
+         margin-left:350px;
+         margin-top:20px;
          
         }
         
@@ -230,7 +231,7 @@
         }
         div.pagination {
        
-          margin-left: 300px;;
+          margin-left: 350px;;
           margin-top: 10px;
 		  display: inline-block;
 		  
@@ -257,19 +258,17 @@
 		  border-radius: 5px;
 		}
 		
-		.camp_table{
-		   margin-right:200px;
-		}
+		
 	
 	 /* =====================aside區域========================*/
 		aside.aside{            
         position: fixed;
         left: 0;
-        top: 110px;
+        top: 190px;
         width: var(--aside-width);
         height: calc(100% - var(--header-height));
         overflow-x: visible;
-        padding: 40px 0;
+        padding: 20px 0;
         z-index: 2;
         transition: all 1s;
     }

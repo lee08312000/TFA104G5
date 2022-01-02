@@ -30,7 +30,8 @@
         display: flex;
         justify-content: space-between;
         color: #FFFFFF; 
-        font-weight: bold;         
+        font-weight: bold;    
+        z-index:5;     
     }
     .header-inner { 
             /* Make it stick */ 
@@ -437,7 +438,7 @@
             margin-left: var(--aside-width);            
             min-height: calc(100vh - var(--header-height));
             padding: 20px;
-            
+            z-index:0;
         }
         .updateButton, .comment {
             background-color: #636060;
