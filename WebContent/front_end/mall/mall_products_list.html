@@ -20,6 +20,116 @@
   <link rel="stylesheet" href="assets/assets_546/css/templatemo-sixteen.css">
   <link rel="stylesheet" href="assets/assets_546/css/owl.css">
 
+  <!-- 新增的下拉式選單 -->
+  <style>
+    @charset "utf-8";
+    /* CSS Document */
+    
+    nav,
+    ul,
+    ul li,
+    ul ol,
+    a {
+        margin: 0;
+        padding: 0;
+        font-size: 16px;
+        text-decoration: none;
+    }
+    
+    nav,
+    ul,
+    ol {
+        list-style: none;
+    }
+    
+    #nav ul li {
+        position: relative;
+        /*讓定位點有參考*/
+        float: left;
+        /*讓選單橫向拓展*/
+    }
+    /*li連結樣式*/
+    /*第一層以左邊灰線分隔*/
+    /*E > F 表示當 F 元素是 E 元素的子代時，選擇條件符合。*/
+    
+    ul li a {
+        /* border-bottom: 1px solid #CCC;
+        border-left: 1px solid #CCC; */
+    }
+    
+    #nav ul>li>a:hover {
+        color: #666;
+        background: #DDD;
+    }
+    /*特定在第一層>第二層之後下拉部分的位置*/
+    
+    ul ol {
+        display: none;
+        float: left;
+        position: absolute;
+        left: 0;
+        /*貼齊position relative*/
+        margin: 0;
+    }
+    /*第一層被觸發時值定(只有)第二層顯示*/
+    
+    ul li:hover>ol {
+        display: block;
+    }
+    /*第二層或之後下拉部分li樣式*/
+    
+    #nav ol li {
+        border-bottom: 1px solid #DDD;
+    }
+    /*第二層或之後下拉部分li最後一項(不要底線)樣式*/
+    
+    #nav ol li:last-child {
+        border-bottom: none;
+    }
+    /*第二層或之後選單li樣式*/
+    
+    #nav ol a {
+        width: 120px;
+        padding: 10px 12px;
+        color: #666;
+        background: #EEE;
+    }
+    
+    #nav ol a:hover {
+        background: #CCC;
+    }
+    /* 第三層之後，上一層的選單觸發則顯示出來（皆為橫向拓展） */
+    
+    #nav ol li:hover>ul {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 100%;
+    }
+    
+    .arrow-bottom {
+        /*箭頭向下*/
+        display: block;
+        margin-left: 45px;
+        border-top: 4px solid #AAA;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+        width: 1px;
+        height: 1px;
+    }
+    
+    .arrow-right {
+        /*箭頭向右*/
+        display: inline-block;
+        margin-left: 12px;
+        border-top: 3px solid transparent;
+        border-bottom: 3px solid transparent;
+        border-left: 3px solid #666;
+        width: 1px;
+        height: 1px;
+    }
+</style>
+
   <!-- header&footer CSS -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
     integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
@@ -62,7 +172,17 @@
         <a href="/TFA104G5/front_end/mall/mall_index.html">線上商城</a>
         <a href="/TFA104G5/front_end/member/jsp/member_favorite_product.jsp"><img src="images/heart.png"></a>
         <a href="/TFA104G5/front_end/mall/shoppingCart01.jsp"><i style="color: white; font-size: 23px; position: relative;" class="fas fa-shopping-cart"><div id="cartNum" style="background-color: red; border-radius: 100%;text-align: center; width: 18px; font-size: 14px; position: absolute; top: -8px; right: -8px; padding: 3px;"></div></i></a>
-        <a id="login" href="/TFA104G5/front_end/member/login/login.jsp">登入|註冊</a>
+        <div id="nav">
+          <ul>
+              <li>
+                  <a id="login" href="#">登入|註冊</a>
+                  <ol>
+                      <li><a href="/TFA104G5/front_end/member/login/login.jsp">會員登入</a></li>
+                      <li><a href="/TFA104G5/back_end/companyLogin/vendorLogin.jsp">廠商登入</a></li>
+                  </ol>
+              </li>
+          </ul>
+        </div>
 		<a id="logout" class="-off" href="/TFA104G5/front_end/member/login/login.jsp">登出</a>
 		<a id="memberHead" class="-off" href="/TFA104G5/front_end/member/jsp/member_main.jsp"> <i class="fas fa-user"></i></a>
       </nav>
