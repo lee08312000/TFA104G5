@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="com.company.model.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<%
+
+Object companyVO = session.getAttribute("companyVO"); 
+if(companyVO != null){
+	pageContext.setAttribute("companyVO", (CompanyVO)companyVO);
+}
+%>
 <title>campAreaShelves</title>
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
@@ -27,13 +35,20 @@
 				</a> <span style="display: inline-block; vertical-align: middle;">Camping
 					Paradise</span>
 			</div>
-			<nav class="header-navigation">
-				<a href="#">Home</a> <a href="#">線上商城</a> <a href="#"><img
-					src="<%=request.getContextPath()%>/back_end/images/heart.png"></a>
-				<a href="#">註冊</a> <a href="#">登入</a> <a href="#"> <i
-					class="fas fa-user"></i></a>
-				<button>Menu</button>
-			</nav>
+			   
+       	
+				<nav class="header-navigation">
+					<a href="#">Home</a> <a href="#"></a>
+					<c:if test ="${companyVO!=null}">
+			                <li>${companyVO.getCompanyAccount()} 你好</li>
+			                <li>登出</li>              
+       			 </c:if>
+       				<c:if test ="${companyVO==null}">
+					   <a href="#">註冊</a> <a href="#">登入</a> <a href="#"> <i class="fas fa-user"></i></a>
+					</c:if> 
+					<button>Menu</button>
+				</nav>
+			 
 		</div>
 	</header>
 </body>

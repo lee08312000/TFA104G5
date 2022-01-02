@@ -60,7 +60,7 @@ $(document).ready(function() {
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/css/campOrder.css?v=006">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/css/campOrder.css?v=005">
 </head>
 <body>
 
@@ -90,7 +90,7 @@ $(document).ready(function() {
 			style="margin: auto; max-width: 300px">
 			<div class="">
 			<label>訂單狀態</label>
-				<select>
+				<select name="statusnum">
 					<option value="-1">全部</option>
 					<option value="1">處理中</option>
 					<option value="2">已確認</option>
@@ -103,7 +103,7 @@ $(document).ready(function() {
 			</div>
 			
 			<div class="list">							
-			    <input type="text" placeholder="請輸入關鍵字" name="campOrderId">		
+			    <input type="text" placeholder="請輸入營位訂單流水號" name="campOrderId">		
              <div class="submit_button">			
 			 <input type="hidden" name="action"	value="SEARCHALL">
 			<button type="submit">
@@ -117,7 +117,7 @@ $(document).ready(function() {
     
 	</div>
 	<div class="pagination">
-	<%@ include file="pages/page1.jsp" %> 
+	<%@ include file="pages/page1.file" %> 
 	</div>
 	<table id="listAllCampTable">
 		<thead>
@@ -175,7 +175,7 @@ $(document).ready(function() {
 	</table>
 		
 	<div class="pagination">
-		<%@ include file="pages/page2.jsp" %>
+		<%@ include file="pages/page2.file" %>
 	</div>
 </div>
 
