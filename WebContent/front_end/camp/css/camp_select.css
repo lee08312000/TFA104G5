@@ -76,3 +76,11 @@ height:450px;
 .sec_condition {
     margin: 0 20px;
 }
+
+
+.sele-footer{
+
+	  position: static !important;
+   	bottom:0;
+}
+	

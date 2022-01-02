@@ -1,23 +1,26 @@
+var lat;
+var lng;
+
 document.addEventListener("DOMContentLoaded", function() {
-    ////////////////////////////////////解析請求參數//////////////////////////////////
-    //取得完整網址
+    // //////////////////////////////////解析請求參數//////////////////////////////////
+    // 取得完整網址
     let campURL = location.href;
     let githubURL = new URL(campURL);
-    //取得請求參數
+    // 取得請求參數
     var querystring = githubURL.searchParams.toString();
     // console.log(querystring);
-    //解析請求參數
+    // 解析請求參數
     var params = githubURL.searchParams;
     // for (let pair of params.entries()) {
-    //     console.log(`key: ${pair[0]}, value: ${pair[1]}`);
+    // console.log(`key: ${pair[0]}, value: ${pair[1]}`);
     // }
-    //檢查是否有campid這個請求參數
+    // 檢查是否有campid這個請求參數
     // console.log(params.has("campid"));
-    //取得campid參數值
+    // 取得campid參數值
     // console.log(params.get("campid"));
 
 
-    /////////////////////////////////////////推薦營地/////////////////////////////////////////////////////
+    // ///////////////////////////////////////推薦營地/////////////////////////////////////////////////////
 
 
     $.ajax({
@@ -54,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-    ///////////////////////////////////////////線上按鈕綁訂導入到月曆空位畫面//////////////////////////////////////////
+    // /////////////////////////////////////////線上按鈕綁訂導入到月曆空位畫面//////////////////////////////////////////
 
     var bookbtn = document.getElementById("booking");
     bookbtn.setAttribute("campid", params.get("campid"));
@@ -65,8 +68,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    /////////////////////////////////fetch語法///////////////////////////////
-    //組合請求參數到網址上
+    // ///////////////////////////////fetch語法///////////////////////////////
+    // 組合請求參數到網址上
     let reqURL = new URL('http://localhost:8081/TFA104G5/CampServlet2');
     var searchParams = new URLSearchParams('action=detailcamp&' + querystring);
     reqURL.search = searchParams;
@@ -81,28 +84,31 @@ document.addEventListener("DOMContentLoaded", function() {
         }).then(result => {
             console.log(result);
 
-            let campdata = result[0]; //營地資料
-            let tagname = result[1]; //標籤名稱
-            let areadata = result[2]; //營位資料
+            let campdata = result[0]; // 營地資料
+            let tagname = result[1]; // 標籤名稱
+            let areadata = result[2]; // 營位資料
             const content1 = document.getElementById('content1');
             const pageid = document.getElementById('pageid');
             let jsonData = {};
-            jsonData = result[3]; //訂單評論資料
+            jsonData = result[3]; // 訂單評論資料
             pagination(jsonData, 1);
             var orderdata = jsonData[0];
 
 
 
-            //設定經緯度
+            // 設定經緯度
+            lat=parseFloat(campdata.lattitude);
+            lng=parseFloat(campdata.longitude);
+            console.log(lat);
+            console.log(lng);
+            initMap(lat,lng);
 
-
-            initMap(campdata.lattitude, campdata.longitude);
-
-            //導入營地特色在圖片上
+            // 導入營地特色在圖片上
             var stylecamp = document.querySelectorAll("#stylecamp");
             console.log(stylecamp);
             stylecamp.forEach(function(item, i) {
                 item.innerText = campdata.campDiscription;
+                
             });
 
 
@@ -111,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-            //圖片轉base64
+            // 圖片轉base64
             function base64ArrayBuffer(arrayBuffer) {
                 var base64 = ''
                 var encodings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
@@ -130,12 +136,14 @@ document.addEventListener("DOMContentLoaded", function() {
                     chunk = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2]
 
                     // Use bitmasks to extract 6-bit segments from the triplet
-                    a = (chunk & 16515072) >> 18 // 16515072 = (2^6 - 1) << 18
-                    b = (chunk & 258048) >> 12 // 258048   = (2^6 - 1) << 12
-                    c = (chunk & 4032) >> 6 // 4032     = (2^6 - 1) << 6
-                    d = chunk & 63 // 63       = 2^6 - 1
+                    a = (chunk & 16515072) >> 18 // 16515072 = (2^6 - 1) <<
+													// 18
+                    b = (chunk & 258048) >> 12 // 258048 = (2^6 - 1) << 12
+                    c = (chunk & 4032) >> 6 // 4032 = (2^6 - 1) << 6
+                    d = chunk & 63 // 63 = 2^6 - 1
 
-                    // Convert the raw binary segments to the appropriate ASCII encoding
+                    // Convert the raw binary segments to the appropriate ASCII
+					// encoding
                     base64 += encodings[a] + encodings[b] + encodings[c] + encodings[d]
                 }
 
@@ -146,17 +154,17 @@ document.addEventListener("DOMContentLoaded", function() {
                     a = (chunk & 252) >> 2 // 252 = (2^6 - 1) << 2
 
                     // Set the 4 least significant bits to zero
-                    b = (chunk & 3) << 4 // 3   = 2^2 - 1
+                    b = (chunk & 3) << 4 // 3 = 2^2 - 1
 
                     base64 += encodings[a] + encodings[b] + '=='
                 } else if (byteRemainder == 2) {
                     chunk = (bytes[mainLength] << 8) | bytes[mainLength + 1]
 
                     a = (chunk & 64512) >> 10 // 64512 = (2^6 - 1) << 10
-                    b = (chunk & 1008) >> 4 // 1008  = (2^6 - 1) << 4
+                    b = (chunk & 1008) >> 4 // 1008 = (2^6 - 1) << 4
 
                     // Set the 2 least significant bits to zero
-                    c = (chunk & 15) << 2 // 15    = 2^4 - 1
+                    c = (chunk & 15) << 2 // 15 = 2^4 - 1
 
                     base64 += encodings[a] + encodings[b] + encodings[c] + '='
                 }
@@ -192,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function() {
             })
 
 
-            //載入營地圖片logo
+            // 載入營地圖片logo
             var logocamp = document.getElementsByClassName("imgl")[0];
             logocamp.setAttribute("src", `data:image/png;base64,${campPic1}`);
 
@@ -210,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             var j = 0;
             for (let i = 0; i <= 19; i++) {
-                //對每個載入圖片
+                // 對每個載入圖片
                 if (j >= newArr.length) {
                     j = 0;
                 }
@@ -219,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 j++;
             }
 
-            //載入營地名稱，電話，地址OK
+            // 載入營地名稱，電話，地址OK
 
             var campinfo = document.getElementsByClassName("fl_right")[0];
             var campname = campinfo.firstElementChild;
@@ -229,7 +237,7 @@ document.addEventListener("DOMContentLoaded", function() {
             var campsite = camptel.nextElementSibling;
             campsite.innerText = "地址 : " + campdata.campAddress;
 
-            //載入特色標籤OK
+            // 載入特色標籤OK
 
             var camptags = document.getElementById("popular");
             var taglist = camptags.querySelectorAll("li");
@@ -242,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
 
-            //載入營位資訊OK
+            // 載入營位資訊OK
 
             var camparea = document.getElementsByTagName("tbody")[0];
 
@@ -263,16 +271,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
             }
 
-            //載入營地介紹&營地租借規則OK
-            //介紹
+            // 載入營地介紹&營地租借規則OK
+            // 介紹
             var camprule = document.getElementById("camprule");
             var introduction = camprule.getElementsByTagName("p")[0];
             console.log(introduction);
             introduction.innerText = campdata.campDiscription;
 
-            //規則
+            // 規則
             var Rule = document.getElementById("rulelist");
-            //規則資料整理(以句號座分隔)
+            // 規則資料整理(以句號座分隔)
 
             var rulelist = campdata.campRule.split("。");
             for (let i = 0; i < rulelist.length - 1; i++) {
@@ -287,7 +295,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-            ////////////////////////////////////////////////////訂單處理/////////////////////////////////////////////////////////////
+            // //////////////////////////////////////////////////訂單處理/////////////////////////////////////////////////////////////
 
 
             function pagination(jsonData, nowPage) {
@@ -309,7 +317,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 // 因為要避免當前頁數筆總頁數還要多，假設今天總頁數是 3 筆，就不可能是 4 或 5
                 // 所以要在寫入一個判斷避免這種狀況。
                 // 當"當前頁數"比"總頁數"大的時候，"當前頁數"就等於"總頁數"
-                // 注意這一行在最前面並不是透過 nowPage 傳入賦予與 currentPage，所以才會寫這一個判斷式，但主要是預防一些無法預期的狀況，例如：nowPage 突然發神經？！
+                // 注意這一行在最前面並不是透過 nowPage 傳入賦予與
+				// currentPage，所以才會寫這一個判斷式，但主要是預防一些無法預期的狀況，例如：nowPage 突然發神經？！
                 if (currentPage > pageTotal) {
                     currentPage = pageTotal;
                 }
@@ -354,7 +363,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     str += '<span class="star' + (item.campCommentStar >= 3 ? " -on" : "") + '" data-star="1"><i class="fas fa-star"></i></span>';
                     str += '<span class="star' + (item.campCommentStar >= 4 ? " -on" : "") + '" data-star="1"><i class="fas fa-star"></i></span>';
                     str += '<span class="star' + (item.campCommentStar >= 5 ? " -on" : "") + '" data-star="1"><i class="fas fa-star"></i></span>';
-                    str += ' </div><span class="name"><a href="#">A Name</a></span> <span class="wrote">wrote:</span></div>';
+                    str += ' </div><span class="name"><a href="#">'+item.payerName+'</a></span> <span class="wrote">wrote:</span></div>';
                     str += '<div class="submitdate"><a href="#">' + item.campOrderCommentTime.substr(0, 10) + '</a></div>';
                     str += '<p>' + item.campComment + '</p>';
                     str += '</li>';
@@ -364,7 +373,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
 
-            //用來製作下面分頁按鈕
+            // 用來製作下面分頁按鈕
             function pageBtn(page) {
                 let str = '';
                 const total = page.pageTotal;
@@ -394,7 +403,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
 
-            //click分頁按鈕監聽
+            // click分頁按鈕監聽
             function switchPage(e) {
                 e.preventDefault();
                 if (e.target.nodeName !== 'A') return;
@@ -411,59 +420,36 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-// 推薦營地名稱
-// var rec = document.getElementById("commend");
-// var recli = rec.querySelectorAll("li");
-// console.log(recli);
-// recli.forEach(function(item, i) {
-
-//     var recimg = item.querySelectorAll("img")[0];
-//     var recp = item.querySelectorAll("p")[0];
-//     var nextrecp = recp.nextElementSibling;
-//     recimg.setAttribute("src", "img/11111.jpg");
-//     recp.innerText = "營地名稱:xxxxx";
-//     nextrecp.innerText = "營地介紹";
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//////////////////////////////////////// 載入地圖/////////////////////////////////////////////
+// 載入地圖/////////////////////////////////////////////
 
 
 function initMap(lat, lng) {
 
+
     var markers = [];
 
+ let Lng=lng;
+ let Lat=lat;
 
     var myLatLng = {
-        lat: +parseFloat(lat),
-        lng: +parseFloat(lng)
+        lat: parseFloat(lat),
+        lng: parseFloat(lng)
     }
+    
+    console.log(typeof myLatLng);
+
 
     var map = new google.maps.Map(document.getElementById('map'), {
-        center: myLatLng,
+        center:{
+        	lat:Lat,
+        	lng:Lng
+        },
         zoom: 12,
     });
 
 
 
-    //建立地圖 marker 的集合
+    // 建立地圖 marker 的集合
     var marker_config = [{
         position: myLatLng,
         map: map,
@@ -471,22 +457,22 @@ function initMap(lat, lng) {
     }];
 
     // var marker_config = [{
-    //     position: { lat: 25.04, lng: 121.512 },
-    //     map: map,
-    //     title: '總統府'
+    // position: { lat: 25.04, lng: 121.512 },
+    // map: map,
+    // title: '總統府'
     // }, {
-    //     position: { lat: 25.035, lng: 121.519 },
-    //     map: map,
-    //     title: '中正紀念堂'
+    // position: { lat: 25.035, lng: 121.519 },
+    // map: map,
+    // title: '中正紀念堂'
     // }];
 
-    //標出 marker
+    // 標出 marker
     marker_config.forEach(function(e, i) {
         markers[i] = new google.maps.Marker(e);
         markers[i].setMap(map);
     });
 
-    //InfoWindow 建構函式
+    // InfoWindow 建構函式
     var content = '<h6>機場捷運<h6>' + '<p>A21 環北站</p>' + '<img src="img/11111.jpg" class="infoImg"></img>';
 
 
@@ -496,7 +482,7 @@ function initMap(lat, lng) {
 
 
 
-    //對每一個marker加上觸發事件，顯示資訊視窗
+    // 對每一個marker加上觸發事件，顯示資訊視窗
     markers.forEach(function(e, i) {
         markers[i].addListener('click', function() {
             infowindow.open(map, markers[i]);
@@ -540,38 +526,38 @@ function initMap(lat, lng) {
 
 
 
-//輸入關鍵字地圖找座標
+// 輸入關鍵字地圖找座標
 // var geocoder = new google.maps.Geocoder();
 
 
 // 官方提供
 // geocoder.geocode({ 'address': address }, function(results, status) {
-//     if (status == google.maps.GeocoderStatus.OK) {
-//         map.setCenter(results[0].geometry.location);
-//         var marker = new google.maps.Marker({
-//             map: map,
-//             position: results[0].geometry.location
-//         });
-//     } else {
-//         alert("Geocode was not successful for the following reason: " + status);
-//     }
+// if (status == google.maps.GeocoderStatus.OK) {
+// map.setCenter(results[0].geometry.location);
+// var marker = new google.maps.Marker({
+// map: map,
+// position: results[0].geometry.location
+// });
+// } else {
+// alert("Geocode was not successful for the following reason: " + status);
+// }
 // });
 
 // //修改過後
 // function _geocoder(address, callback) {
-//     geocoder.geocode({
-//         address: address
-//     }, function(results, status) {
-//         if (status == google.maps.GeocoderStatus.OK) {
-//             loaction = results[0].geometry.location;
-//             callback(loaction); //用一個 callback 就不用每次多寫上面這段
-//         }
-//     });
+// geocoder.geocode({
+// address: address
+// }, function(results, status) {
+// if (status == google.maps.GeocoderStatus.OK) {
+// loaction = results[0].geometry.location;
+// callback(loaction); //用一個 callback 就不用每次多寫上面這段
+// }
+// });
 // }
 
 // _geocoder('光復國中', function(address) {
-//     var map = new google.maps.Map(document.getElementById('map'), {
-//         center: address,
-//         zoom: 14
-//     });
+// var map = new google.maps.Map(document.getElementById('map'), {
+// center: address,
+// zoom: 14
+// });
 // });
