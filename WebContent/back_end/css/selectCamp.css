@@ -130,32 +130,32 @@
         /* =====================main區域========================*/
         
         h1{
+            
             color: black;
             text-align: center;
         
-
         }
      
 
         .camp_table{
-          margin-left:300px;
+          margin-left:400px;
           border:1px solid blck; 
           border-collapse: collapse;
           margin-left: 0px;
           margin-top: 0px;
-          width: 95%;
+          width: 100%;
         }
         table td{
           border:1px solid black;
           text-align: center; 
-          width: 95PX;
+          width:90PX;
         }
         
         table th{
           background-color:	#E0E0E0;
           border:1px solid black;
           text-align: center; 
-          width: 95PX;
+          width: 90PX;
         
         
         }
@@ -268,7 +268,7 @@
         width: var(--aside-width);
         height: calc(100% - var(--header-height));
         overflow-x: visible;
-        padding: 20px 0;
+        padding: 40px 0;
         z-index: 2;
         transition: all 1s;
     }

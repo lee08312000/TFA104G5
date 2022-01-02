@@ -40,7 +40,7 @@ var loading = `<div class="loader">
 
 //匯入熱門商品
 window.addEventListener("load", function() {
-
+	var memberid=sessionStorage['memberid'];
     sessionStorage.removeItem("findcamp");
 
 
