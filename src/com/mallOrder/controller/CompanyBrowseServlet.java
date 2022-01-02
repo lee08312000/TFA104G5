@@ -1,8 +1,11 @@
 package com.mallOrder.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -20,6 +23,12 @@ import org.json.JSONObject;
 import com.company.model.CompanyDAOImpl;
 import com.company.model.CompanyService;
 import com.company.model.CompanyVO;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.mallOrder.model.MallOrderDAOImpl;
 import com.mallOrder.model.MallOrderService;
 import com.mallOrder.model.MallOrderVO;
@@ -28,6 +37,8 @@ import com.mallOrderDetail.model.MallOrderDetailVO;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 import com.product.model.ProductService;
+
+import redis.clients.jedis.Jedis;
 
 
 @WebServlet("/mallOrder/CompanyBrowseServlet")
@@ -51,10 +62,10 @@ public class CompanyBrowseServlet extends HttpServlet{
 		MemberService memberSvc = new MemberService();
 		MallOrderDetailService mallOrderDetailSvc = new MallOrderDetailService();
 		ProductService productSvc = new ProductService();
-//		HttpSession session = req.getSession();
-//		CompanyVO companyVO = (CompanyVO) session.getAttribute("companyVO");
-		CompanyVO companyVO = new CompanyVO();
-		companyVO.setCompanyId(1);
+		HttpSession session = req.getSession();
+		CompanyVO companyVO = (CompanyVO) session.getAttribute("companyVO");
+//		CompanyVO companyVO = new CompanyVO();
+//		companyVO.setCompanyId(1);
 		
 		String action = req.getParameter("action");
 		
@@ -252,7 +263,7 @@ public class CompanyBrowseServlet extends HttpServlet{
 				}
 		
 		
-				//確認訂單
+				//確認出貨
 				if ("updateMallOrderdDeliveryStatus".equals(action)) {
 					try {
 						String jsonObjStr = "[]";
@@ -261,7 +272,38 @@ public class CompanyBrowseServlet extends HttpServlet{
 						MallOrderVO mallOrderVO = mallOrderSvc.getOneMallOrder(mallOrderId);
 						mallOrderVO.setMallOrderDeliveryStatus(1);
 						MallOrderDAOImpl mallOrderDao = new MallOrderDAOImpl();
-						mallOrderDao.update(mallOrderVO);						
+						mallOrderDao.update(mallOrderVO);
+						
+						//產生qrcode___________
+						String scheme = req.getScheme();
+						String serverName = req.getServerName();
+						String serverPort = req.getServerPort() + "";
+						String contextPath = req.getContextPath();
+						String realContextPath = scheme +"://"+serverName +":"+ serverPort + contextPath;
+						String text = realContextPath + "/Member/MemberProductServlet?action=updateMallOrderAllStatusQrcode&mallOrderId="+mallOrderId;
+						int width = 300;
+						int height = 300;
+						String format = "jpg";
+						// 設定編碼格式與容錯率
+						Hashtable<EncodeHintType, Object> hints = new Hashtable<>();
+						hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+						hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);				
+						byte[] qrCode = null;
+						// 開始產生QRCode
+						BitMatrix matrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height, hints);
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+						
+						MatrixToImageWriter.writeToStream(matrix, format, baos);
+						qrCode = baos.toByteArray();
+						String base64str = Base64.getEncoder().encodeToString(qrCode);
+						Jedis jedis = null;
+						try {
+							jedis = new Jedis("localhost", 6379);
+							jedis.set("mallOrder:"+ mallOrderId, base64str);
+						}finally {
+							if(jedis != null)
+							   jedis.close();
+						}
 						/***************************修改狀態完成,準備轉交(Send the Success view)***********/
 						out.println(jsonObjStr);
 					}catch (Exception e) {

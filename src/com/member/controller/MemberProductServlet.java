@@ -36,7 +36,9 @@ public class MemberProductServlet extends HttpServlet{
 			throws ServletException, IOException {
 		
 		req.setCharacterEncoding("UTF-8");
+		res.setContentType("text/html; charset=UTF-8");
 		String action = req.getParameter("action");
+		
 		
 		if ("getMallOrderDetail".equals(action)) {
 			try {
@@ -62,7 +64,7 @@ public class MemberProductServlet extends HttpServlet{
 			
 		}
 		
-		//確認訂單
+		//確認訂單(按鈕)
 				if ("updateMallOrderAllStatus".equals(action)) {
 					try {
 						
@@ -83,6 +85,35 @@ public class MemberProductServlet extends HttpServlet{
 						String url = "/front_end/member/jsp/member_product_order_detail.jsp";
 						RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 						successView.forward(req, res);
+										
+					}catch (Exception e) {
+						e.printStackTrace();
+					}					
+				}
+				
+				//確認訂單(掃碼)
+				if ("updateMallOrderAllStatusQrcode".equals(action)) {
+					try {
+						
+						/***************************1.修改訂單狀態(Send the Success view)***********/
+						Integer mallOrderId = Integer.parseInt(req.getParameter("mallOrderId"));
+						
+						MallOrderService mallOrderSvc = new MallOrderService();
+						MallOrderVO mallOrderVO = mallOrderSvc.getOneMallOrder(mallOrderId);
+						mallOrderVO.setMallOrderStatus(2);
+						mallOrderVO.setMallOrderDeliveryStatus(2);
+						MallOrderDAOImpl mallOrderDao = new MallOrderDAOImpl();
+						mallOrderDao.update(mallOrderVO);
+						res.getWriter().println("<h1 style=\"text-align:center; line-height:center\">你已完成取貨動作!!</h1>");
+						
+						
+//						MallOrderDetailService mallOrderDetailSvc = new MallOrderDetailService();
+//						List<MallOrderDetailVO> mallOrderDetailList = mallOrderDetailSvc.getBymallOrderId(mallOrderId);
+						/***************************2.修改狀態完成,準備轉交(Send the Success view)***********/
+//						req.setAttribute("mallOrderDetailList", mallOrderDetailList); // 資料庫update成功後,重新抓取訂單明細
+//						String url = "/front_end/member/jsp/member_product_order_detail.jsp";
+//						RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
+//						successView.forward(req, res);
 										
 					}catch (Exception e) {
 						e.printStackTrace();
