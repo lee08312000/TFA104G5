@@ -21,10 +21,6 @@ import java.util.List;
 
 public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 
-	String driver = "com.mysql.cj.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/campingParadise?serverTimezone=Asia/Taipei";
-	String userid = "David";
-	String passwd = "123456";
 
 
 	private static final String CLOUM_FOR_INSERT = "camp_Id,camp_Tag_Id";
@@ -44,6 +40,16 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 	
 	private static final String GET_ALL ="select camp_tag_name,camp_tag_id from camp_tag ct ";
 
+
+	static {
+		try {
+			Class.forName(Util.DRIVER);
+		} catch (ClassNotFoundException ce) {
+			ce.printStackTrace();
+		}
+	}
+	
+	
 	@Override
 	public void insert(CampTagDetailVO campTagDetailVO) {
 
@@ -52,8 +58,7 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setInt(1, campTagDetailVO.getCampId());
@@ -63,8 +68,6 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -92,8 +95,7 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setInt(1, campTagDetailVO.getCampTagIdNew());
@@ -105,8 +107,6 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -134,8 +134,7 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setInt(1, campTagId);
@@ -146,8 +145,6 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -178,8 +175,7 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(GET_ONE_BY_CAMP_ID);
 			pstmt.setInt(1, campId);
 			rs = pstmt.executeQuery();
@@ -196,8 +192,6 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -234,8 +228,7 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setInt(1, campTagId);
@@ -252,8 +245,6 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -290,8 +281,7 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 		List<CampTagDetailVO> list = new ArrayList<CampTagDetailVO>();
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
@@ -305,8 +295,6 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -342,8 +330,7 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 		List<Integer> list = new ArrayList<Integer>();
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(GET_Tag_BY_CAMPID);
 			pstmt.setInt(1, campId);
 			rs = pstmt.executeQuery();
@@ -357,8 +344,6 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -451,8 +436,7 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(GET_ALL2);
 			rs = pstmt.executeQuery();
 
@@ -468,8 +452,6 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -503,8 +485,7 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(DELETE_BY_CAMP_ID);
 
 			pstmt.setInt(1, campId);
@@ -515,8 +496,6 @@ public class CampTagDetailDAOlmpl implements CampTagDetailDAO {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
 	
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
