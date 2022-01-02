@@ -39,15 +39,23 @@
 					Paradise</span>
 			</div>
 			<nav class="header-navigation">
-				<a href="camp_index.html">Home</a> 
-				<a href="../mall/mall_index.html">線上商城</a>
-				<a href="../member/jsp/member_favorite_camp.jsp">
-					<img src="img/icon/heart.png">
-				</a> 
-				<a href="../member/login/login.jsp" id="islogin2">登入|註冊</a>
-				<a href="#" class="islogin out">登出</a> 
-				<a href="../member/jsp/member_main.jsp" class="islogin">
-					<i class="fas fa-user-circle islogin"></i>
+				<a href="camp_index.html">Home</a> <a href="../mall/mall_index.html">線上商城</a>
+				<a href="../member/jsp/member_favorite_camp.jsp"> <img
+					src="img/icon/heart.png">
+				</a>
+				<div id="nav">
+					<ul>
+						<li><a href="#" id="islogin2">登入|註冊</a>
+							<ol>
+								<li><a href="../member/login/login.jsp">會員登入</a></li>
+								<li><a
+									href="/TFA104G5/back_end/companyLogin/vendorLogin.jsp">廠商登入</a></li>
+							</ol></li>
+					</ul>
+				</div>
+				<a href="#" class="islogin out">登出</a> <a
+					href="../member/jsp/member_main.jsp" class="islogin"> <i
+					class="fas fa-user-circle islogin"></i>
 				</a>
 
 
@@ -130,7 +138,7 @@
 					</ul>
 				</div>
 			</div>
-			
+
 			<!-- ####################################################################################################### -->
 		</div>
 	</div>
@@ -203,10 +211,7 @@
 					<div class="holder">
 						<h2>地圖座標</h2>
 						<div id="map" class="map"></div>
-						<script async defer
-							src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcR6qZZNqr2Y3h-d4GitSxs18IMVZhFDI&callback=initMap">
-							
-						</script>
+
 
 
 					</div>
@@ -292,6 +297,11 @@
 	</footer>
 	<script src="js/login2.js"></script>
 	<script type="text/javascript" src="js/camp_detail.js"></script>
+
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcR6qZZNqr2Y3h-d4GitSxs18IMVZhFDI&callback=initMap"
+		async defer>		
+	</script>
 
 </body>
 
