@@ -110,21 +110,21 @@
 
     <main class="main">
     	<div class="search"> 
-	    	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductServlet" style="margin-bottom: 0px;">
+	    	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductBrowseServlet" style="margin-bottom: 0px;">
 	    			<input type="text" name="searchName" class="form-control" placeholder="請輸入商品名稱" value="">
 					<input class="button" type="submit" value="送出">				
-					<input type="hidden" name="action"	value="getOne_For_Update">
+					<input type="hidden" name="action"	value="getList_By_Name_comment">
 			</FORM>
 		</div>
 		<div class="search">
-			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductServlet" style="margin-bottom: 0px;">
+			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductBrowseServlet" style="margin-bottom: 0px;">
 	    			<select size="1" name="productTypeId">
 	                    	<c:forEach var="productType" items="${productTypeSvc.allProductType}">
 								<option value="${productType.productTypeId}" ${(productVO.productTypeId == productType.productTypeId) ? "selected" : "" }>${productType.productTypeName}</option>
 							</c:forEach>             
 	                </select>
 					<input class="button" type="submit" value="查詢">				
-					<input type="hidden" name="action"	value="getOne_For_Update">
+					<input type="hidden" name="action"	value="getList_By_Type_comment">
 			</FORM>
 		</div>
          <table id="miyazaki">

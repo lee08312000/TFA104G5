@@ -62,10 +62,10 @@ public class CompanyBrowseServlet extends HttpServlet{
 		MemberService memberSvc = new MemberService();
 		MallOrderDetailService mallOrderDetailSvc = new MallOrderDetailService();
 		ProductService productSvc = new ProductService();
-//		HttpSession session = req.getSession();
-//		CompanyVO companyVO = (CompanyVO) session.getAttribute("companyVO");
-		CompanyVO companyVO = new CompanyVO();
-		companyVO.setCompanyId(1);
+		HttpSession session = req.getSession();
+		CompanyVO companyVO = (CompanyVO) session.getAttribute("companyVO");
+//		CompanyVO companyVO = new CompanyVO();
+//		companyVO.setCompanyId(1);
 		
 		String action = req.getParameter("action");
 		
