@@ -1,6 +1,8 @@
 package com.camp.controller;
 
 import java.io.IOException;
+
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -14,10 +16,12 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import com.camp.model.CampService;
 import com.camp.model.CampVO;
@@ -25,6 +29,8 @@ import com.campTagDetail.model.CampTagDetailService;
 import com.campTagDetail.model.CampTagDetailVO;
 import com.company.model.*;
 
+
+@MultipartConfig
 public class CampServlet extends HttpServlet {
 	private CampService campService;
 
@@ -116,6 +122,41 @@ public class CampServlet extends HttpServlet {
 				} else {
 					campVO.setCampRule(campRule);
 				}
+				
+				byte[] campPic1 = null;
+				byte[] campPic2 = null;
+				byte[] campPic3 = null;
+				byte[] campPic4 = null;
+				byte[] campPic5 = null;
+				Part parts1 = req.getPart("camp_pic1");
+				Part parts2 = req.getPart("camp_pic2");
+				Part parts3 = req.getPart("camp_pic3");
+				Part parts4 = req.getPart("camp_pic4");
+				Part parts5 = req.getPart("camp_pic5");
+
+				if (parts1.getInputStream().available() != 0) {
+					campPic1 = getBytesFromPart(parts1);
+					campVO.setCampPic1(campPic1);
+				}
+
+				if (parts2.getInputStream().available() != 0) {
+					campPic2 = getBytesFromPart(parts2);
+					campVO.setCampPic2(campPic2);
+				}
+				if (parts3.getInputStream().available() != 0) {
+					campPic3 = getBytesFromPart(parts3);
+					campVO.setCampPic3(campPic3);
+				}
+				
+				if (parts4.getInputStream().available() != 0) {
+					campPic4 = getBytesFromPart(parts4);
+					campVO.setCampPic4(campPic4);
+				}
+
+				if (parts5.getInputStream().available() != 0) {
+					campPic5 = getBytesFromPart(parts5);
+					campVO.setCampPic5(campPic5);
+				}
 
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/back_end/camp/insertCampShelves.jsp");
@@ -141,23 +182,19 @@ public class CampServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
-		
-		
-		
+
 		/*************************** 新增營地跳轉畫面 *************************************/
 		if (action.equals("INSERTCAMP")) {
-		
+
 			List<CampTagDetailVO> campTagDetailList = campTagDetailService.getAll();
 			req.setAttribute("campTagDetailList", campTagDetailList);
-			
+
 			String url = "/back_end/camp/insertCampShelves.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
 			rd.forward(req, res);
-			
-			
+
 		}
 
-		
 		/*************************** 更新營地 *************************************/
 		if ("UPDATE".equals(action)) {
 
@@ -239,6 +276,40 @@ public class CampServlet extends HttpServlet {
 					campVO.setCampRule(campRule);
 				}
 
+				byte[] campPic1 = null;
+				byte[] campPic2 = null;
+				byte[] campPic3 = null;
+				byte[] campPic4 = null;
+				byte[] campPic5 = null;
+				Part parts1 = req.getPart("camp_pic1");
+				Part parts2 = req.getPart("camp_pic2");
+				Part parts3 = req.getPart("camp_pic3");
+				Part parts4 = req.getPart("camp_pic4");
+				Part parts5 = req.getPart("camp_pic5");
+
+				if (parts1.getInputStream().available() != 0) {
+					campPic1 = getBytesFromPart(parts1);
+					campVO.setCampPic1(campPic1);
+				}
+
+				if (parts2.getInputStream().available() != 0) {
+					campPic2 = getBytesFromPart(parts2);
+					campVO.setCampPic2(campPic2);
+				}
+				if (parts3.getInputStream().available() != 0) {
+					campPic3 = getBytesFromPart(parts3);
+					campVO.setCampPic3(campPic3);
+				}
+				
+				if (parts4.getInputStream().available() != 0) {
+					campPic4 = getBytesFromPart(parts4);
+					campVO.setCampPic4(campPic4);
+				}
+
+				if (parts5.getInputStream().available() != 0) {
+					campPic5 = getBytesFromPart(parts5);
+					campVO.setCampPic5(campPic5);
+				}
 
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/back_end/camp/insertCampShelves.jsp");
@@ -264,7 +335,9 @@ public class CampServlet extends HttpServlet {
 			}
 		}
 
-		       /********************************查詢營地********************************************/
+		/********************************
+		 * 查詢營地
+		 ********************************************/
 		// 依據營位狀態,時間區間,輸入關鍵字查詢營地
 
 		if (action.equals("SEARCHALL")) {
@@ -284,10 +357,10 @@ public class CampServlet extends HttpServlet {
 
 			if (endtime == null || (endtime.trim()).length() == 0) {
 				Calendar endtimeCalendar = Calendar.getInstance();
-				//假如今天選12/19 00:00:00 自動加一天減一秒 變成12/20
+				// 假如今天選12/19 00:00:00 自動加一天減一秒 變成12/20
 				endtimeCalendar.add(Calendar.DATE, +1);
 				endtime = sdf.format(endtimeCalendar.getTime());
-			} 
+			}
 
 			String campIdsearchs = req.getParameter("campIdsearch");
 			Date stardate = null;
@@ -295,11 +368,11 @@ public class CampServlet extends HttpServlet {
 			try {
 				stardate = new SimpleDateFormat("yyyy-MM-dd").parse(startime);
 				enddate = new SimpleDateFormat("yyyy-MM-dd").parse(endtime);
-				//假如今天選12/19 00:00:00 自動加一天減一秒 變成12/20
+				// 假如今天選12/19 00:00:00 自動加一天減一秒 變成12/20
 				Calendar endtimeCalendar = Calendar.getInstance();
 				endtimeCalendar.setTime(enddate);
 				endtimeCalendar.add(Calendar.DATE, +1);
-				enddate =endtimeCalendar.getTime();
+				enddate = endtimeCalendar.getTime();
 			} catch (ParseException e) {
 
 				e.printStackTrace();
@@ -315,13 +388,13 @@ public class CampServlet extends HttpServlet {
 			rd.forward(req, res);
 		}
 
-		/***************************跳轉到更新營地頁面(帶了舊的資料)****************************/
+		/*************************** 跳轉到更新營地頁面(帶了舊的資料) ****************************/
 
 		if (action.equals("UPDATEFINDBYKEY")) {
 			String campStr = req.getParameter("campId");
 			Integer campId = Integer.valueOf(campStr);
 
-			// 取得已選取的tag標簽
+			// 取得已選取的tag標籤
 			List<CampTagDetailVO> checkedList = campTagDetailService.findByCampId(campId);
 			List<Integer> checkedIntList = new ArrayList<Integer>();
 
@@ -342,32 +415,26 @@ public class CampServlet extends HttpServlet {
 			rd.forward(req, res);
 
 		}
-		
-		
+
 		/*************************** 營地上架審核跳轉畫面 *************************************/
-		if (action.equals("certificatepage")) {	
+		if (action.equals("certificatepage")) {
 			String campStr = req.getParameter("campId");
 			Integer campId = Integer.valueOf(campStr);
 			CampService campSvce = new CampService();
-			CampVO cv=new CampVO();
-			cv=campSvce.selectCampCheck(campId);
-			req.setAttribute("campVO",cv);
-			
-			
-		
+			CampVO cv = new CampVO();
+			cv = campSvce.selectCampCheck(campId);
+			req.setAttribute("campVO", cv);
+
 			String url = "/back_end/camp/updateCampCertificatenum.jsp";
 			RequestDispatcher rd = req.getRequestDispatcher(url);
-			rd.forward(req, res);		
+			rd.forward(req, res);
 		}
-		
-		
-		
-				
+
 		/******************** * 營地上架審核 ************************************************/
-		//更新營地上架審核
+		// 更新營地上架審核
 
 		if ("updateCertificate".equals(action)) {
-			
+
 			CampVO campVO = new CampVO();
 
 			CompanyVO companyVO = new CompanyVO();
@@ -378,10 +445,10 @@ public class CampServlet extends HttpServlet {
 
 			try {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
-				
+
 				String campId = req.getParameter("camp_id");
 				campVO.setCampId(Integer.valueOf(campId));
-				
+
 				String certificateNum = req.getParameter("certificate_num");
 				if (certificateNum == null || (certificateNum.trim()).length() == 0) {
 					errorMsgs.add("認證字號:請勿空白");
@@ -389,13 +456,19 @@ public class CampServlet extends HttpServlet {
 					campVO.setCertificateNum(certificateNum);
 				}
 				
-				
+				byte[] campPic1 = null;
+				Part parts1 = req.getPart("camp_pic1");
+
+				if (parts1.getInputStream().available() != 0) {
+					campPic1 = getBytesFromPart(parts1);
+					campVO.setCertificatePic(campPic1);
+				}
+
 				/*************************** 2.開始查詢資料 *****************************************/
 				// 新增營地後,執行查詢
 
-				CampService campSerive=new CampService(); 
+				CampService campSerive = new CampService();
 				campSerive.updateCampCertificatenum(campVO, companyVO);
-				
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 				String url = "/back_end/camp/selectCampCertificatenum.jsp";
 				RequestDispatcher rd = req.getRequestDispatcher(url);
@@ -407,15 +480,11 @@ public class CampServlet extends HttpServlet {
 				rd.forward(req, res);
 			}
 		}
-		
-		
-		
-		
-		/******************** * 營地上架審核 ********************************************************/
+
+		/***************************************************************************/
 		// 查詢營地上架審核
 
 		if (action.equals("SEARCHCAMPANY")) {
-
 
 			String companyName = req.getParameter("companyName");
 
@@ -429,5 +498,20 @@ public class CampServlet extends HttpServlet {
 			rd.forward(req, res);
 		}
 
+	}
+
+	// 處理圖片讀取
+	private byte[] getBytesFromPart(Part part) {
+		byte[] buf = null;
+		InputStream in;
+		try {
+			in = part.getInputStream();
+			buf = new byte[in.available()];
+			in.read(buf);
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return buf;
 	}
 }

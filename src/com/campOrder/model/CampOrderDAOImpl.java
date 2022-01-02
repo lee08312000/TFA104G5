@@ -1,9 +1,6 @@
 package com.campOrder.model;
 
 import java.sql.Connection;
-
-import java.util.Date;
-
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,8 +8,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
+import javax.sql.DataSource;
 
 import com.campAreaOrderDetail.model.CampAreaOrderDetailVO;
 import com.campBooking.model.CampBookingDAO;
@@ -20,12 +19,6 @@ import com.campBooking.model.CampBookingDAOImpl;
 import com.campBooking.model.CampBookingVO;
 
 import util.DiffDays;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
 import util.Util;
 
 public class CampOrderDAOImpl implements CampOrderDAO {
@@ -75,17 +68,13 @@ public class CampOrderDAOImpl implements CampOrderDAO {
 	
 	private static final String FIND_BY_PARAMS_NO_STATUS = "SELECT * FROM camp_order where  camp_order_confirmed_time >=? and camp_order_confirmed_time <= ? ";
 
-	private static DataSource ds = null;
-
+	
+	
 	static {
 		try {
-			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/David");
 			Class.forName(Util.DRIVER);
 		} catch (ClassNotFoundException ce) {
 			ce.printStackTrace();
-		} catch (NamingException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -145,13 +134,9 @@ System.out.println("1mainkey="+mainkey);
 			java.util.Date checkout = new java.util.Date(campOrderVO.getCampCheckOutDate().getTime());
 			List<java.util.Date> list = DiffDays.getDates(checkin, checkout);
 
-			for(Date d:list) {
-				System.out.println(d.toString());
-			}
-			System.out.println("印出訂單明細");
-			for(CampAreaOrderDetailVO i:orderdetailList) {
-				System.out.println(i);
-			}
+			
+			
+			
 
 			CampBookingDAO bookdao = new CampBookingDAOImpl();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -160,7 +145,7 @@ System.out.println("1mainkey="+mainkey);
 					
 					CampBookingVO target = bookdao.findByOneArea(orderdetailList.get(i).getCampAreaId(),
 							sdf.format(list.get(j)));
-					System.out.println("印出bookvo"+target);
+					
 
 					// 這個營位的這一天剩餘空位數
 					int lastAreaNum = target.getBookingCampAreaMax() - target.getBookedCampAreaNum();
@@ -291,7 +276,8 @@ System.out.println(sdf.format(list.get(j))+","+"剩餘空位"+lastAreaNum+","+"�
 
 		try {
 
-			con = ds.getConnection();
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(DELETE_ORDERDETAIL);
 			pstmt.setInt(1, campOrderId);
@@ -309,6 +295,9 @@ System.out.println(sdf.format(list.get(j))+","+"剩餘空位"+lastAreaNum+","+"�
 				e.printStackTrace();
 			}
 			se.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -624,7 +613,8 @@ System.out.println(GET_ALL2 + "" + sorted);
 		CampOrderVO campOrderVO = null;
 		List<CampOrderVO> list = new ArrayList<>();
 		try {
-			con = ds.getConnection();
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
@@ -650,6 +640,9 @@ System.out.println(GET_ALL2 + "" + sorted);
 		} catch (SQLException se) {
 			se.printStackTrace();
 			// Clean up JDBC resources
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} finally {
 
 			if (rs != null) {
@@ -687,8 +680,13 @@ System.out.println(GET_ALL2 + "" + sorted);
 		CampOrderVO campOrderVO = null;
 		List<CampOrderVO> listcomment = new ArrayList<>();
 		try {
-			con = ds.getConnection();			
+			
+			
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);				
 			String sql = SELECT_STMT_CAMP_COMMENT;
+
+				
 			if(campOrder != -1) {
 				sql = SELECT_STMT_CAMP_COMMENT+ " and camp_order_id like '%' ? '%'";
 			}
@@ -703,16 +701,16 @@ System.out.println(GET_ALL2 + "" + sorted);
 
 			while (rs.next()) {
 				campOrderVO = new CampOrderVO();
-	
+				//camp_order_id,member_id,camp_comment,camp_comment_star,camp_order_comment_time
 				campOrderVO.setCampOrderId(rs.getInt(1));
 				campOrderVO.setMemberId(rs.getInt(2));
-				campOrderVO.setCampCommentStar(rs.getInt(3));
-				campOrderVO.setCampComment(rs.getString(4));
+				campOrderVO.setCampComment(rs.getString(3));
+				campOrderVO.setCampCommentStar(rs.getInt(4));
 				campOrderVO.setCampOrderCommentTime(rs.getTimestamp(5));
 				listcomment.add(campOrderVO);
 				
 			}
-		} catch (SQLException se) {
+		} catch (SQLException | ClassNotFoundException se) {
 			se.printStackTrace();
 			// Clean up JDBC resources
 		} finally {

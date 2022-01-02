@@ -145,9 +145,9 @@ public class MailService {
 			transport.close();
 			;
 
-			System.out.println("傳送成功!");
+			System.out.println("email傳送成功!");
 		} catch (Exception e) {
-			System.out.println("傳送失敗!");
+			System.out.println("email傳送失敗!");
 			e.printStackTrace();
 		}
 	}
