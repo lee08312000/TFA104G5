@@ -26,13 +26,13 @@ pageContext.setAttribute("campAreaVO", cv);
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/back_end/css/updateCampArea.css?v=005">
+	href="<%=request.getContextPath()%>/back_end/css/campAreaU.css?v=002">
 </head>
 <body>
 
 
 <!-- --------head區域------- -->
-	<header class="header-outer">
+<header class="header-outer">
 		<div class="header-inner responsive-wrapper">
 			<div class="header-logo">
 				<a style="display: inline-block; vertical-align: middle;"
@@ -41,15 +41,23 @@ pageContext.setAttribute("campAreaVO", cv);
 				</a> <span style="display: inline-block; vertical-align: middle;">Camping
 					Paradise</span>
 			</div>
-			<nav class="header-navigation">
-				<a href="#">Home</a> <a href="#">線上商城</a> <a href="#"><img
-					src="<%=request.getContextPath()%>/back_end/images/heart.png"></a>
-				<a href="#">註冊</a> <a href="#">登入</a> <a href="#"> <i
-					class="fas fa-user"></i></a>
-				<button>Menu</button>
-			</nav>
+			   
+       	
+				<nav class="header-navigation">
+					<a href="#">Home</a> <a href="#"></a>
+					<c:if test ="${companyVO!=null}">
+			                <li>${companyVO.getCompanyAccount()} 你好</li>
+			                <li>登出</li>              
+       			 </c:if>
+       				<c:if test ="${companyVO==null}">
+					   <a href="#">註冊</a> <a href="#">登入</a> <a href="#"> <i class="fas fa-user"></i></a>
+					</c:if> 
+					<button>Menu</button>
+				</nav>
+			 
 		</div>
 	</header>
+
 
 	
 	<!-- --------main區域------- -->

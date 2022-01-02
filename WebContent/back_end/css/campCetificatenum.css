@@ -175,39 +175,16 @@
 
        
        
-        .selectors{
-         width:50px;
+        .selector{
          height: 25px;
          margin-left:350px;
-         margin-top:10px;
-       
+         margin-top:50px;
          
-        }
-        
-        .home{
-                 
-           width:50px;
-           margin-left:350px;
-           margin-top:10px;
-           display:inline-block;
-         
-        }
-        
-        .search{
-        
-          border:solid 1px blue;
-           width:50px;
-           margin-left:350px;
-           margin-top:10px;
-          
         }
         
         .submit_button{
-        margin-left:300px;
-        width:50px;
-        margin-top:10px;
-        float:left;
- 
+        margin-right:210px;
+        float:right;
         }
         form.searchForm input[type=text] {
         
