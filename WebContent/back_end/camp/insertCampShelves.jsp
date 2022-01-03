@@ -32,7 +32,7 @@
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/back_end/css/insertcamp.css">
+	href="<%=request.getContextPath()%>/back_end/css/insertcamp.css?v=001">
 </head>
 <body>
 

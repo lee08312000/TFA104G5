@@ -23,7 +23,7 @@
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/back_end/css/camps.css?v=002">
+	href="<%=request.getContextPath()%>/back_end/css/camps.css?v=003">
 </head>
 <body>
 

@@ -133,7 +133,7 @@
             color: black;
             text-align: center;
             margin-top:20px;
-            margin-left:100px;
+            margin-left:200px;
             
 
         }
@@ -145,20 +145,20 @@
           border-spacing:0px 0px;
           margin-left: 460px;
           margin-top: 0px;
-          width: 40%;
+          width: 50%;
           
           
         }
         table td{
           background-color:	#E0E0E0;
           border:1px solid black;
-          width: 95px;
+          width: 98px;
         }
         
         table th{
         
           border:1px solid black;
-          width: 95px;
+          width: 98px;
             
         }
         
