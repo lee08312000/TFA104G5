@@ -32,13 +32,13 @@
             </div>
         </div>
         <ul>          
-            <nav class="header-navigation">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">線上商城</a></li>
-                <li><a href="#"><img src="<%=request.getContextPath()%>/back_end/companyProduct/img/heart.png"></a></li>
-                <li><a href="#">註冊</a></li>
-                <li><a href="#">登出</a></li>
-                <li><a href="#"><i class="fas fa-user"></i></a></li>                
+            <nav class="header-navigation">          
+                <li><a href="#" id="logout">登出</a>
+                <form id="logoutForm" style="display: none;" method="post" action="<%=request.getContextPath()%>/Company/VendorLogoutServlet">
+					<input type="hidden" name="action" value="logout">
+					<input type="submit" value="登出">
+				</form></li>
+                <li><a href="<%=request.getContextPath()%>/back_end/camp/campindex.jsp"><i class="fas fa-user"></i></a></li>                
             </nav>
         </ul>    
                     
@@ -55,13 +55,13 @@
                                 <small>Camp Management</small>
                             </a>
                     <ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>我的營地</a></li>					
-                                <li><a href="#"><i class="fas fa-cannabis"></i>營地上下架</a></li>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>審核狀況</a></li>
+                                <li><a href="<%=request.getContextPath()%>/back_end/camp/campindex.jsp"><i class="fas fa-cannabis"></i>我的營地</a></li>					
+                                <li><a href="<%=request.getContextPath()%>/back_end/camp/insertCampShelves.jsp"><i class="fas fa-cannabis"></i>營地上下架</a></li>
+                                <li><a href="<%=request.getContextPath()%>/back_end/camp/selectCampCertificatenum.jsp"><i class="fas fa-cannabis"></i>審核狀況</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="" class="light">
+                            <a href="<%=request.getContextPath()%>/back_end/companyProduct/jsp/productlist.jsp" class="light">
                                 <i class="fa fa-edit"></i>
                                 <strong>商品管理</strong>
                                 <small>Commodity </small>
@@ -74,20 +74,20 @@
                                 <small>Order </small>
                             </a>
                     <ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>日程表管理</a></li>					
-                                <li><a href="#"><i class="fas fa-cannabis"></i>營地訂單管理</a></li>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
+                                <li><a href="<%=request.getContextPath()%>/back_end/camp/backcal.jsp"><i class="fas fa-cannabis"></i>日程表管理</a></li>					
+                                <li><a href="<%=request.getContextPath()%>/back_end/camp/listAllCampOrder.jsp"><i class="fas fa-cannabis"></i>營地訂單管理</a></li>
+                                <li><a href="<%=request.getContextPath()%>/back_end/companyProduct/html/productOrderList.html"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="" class="light">
+                            <a href="<%=request.getContextPath()%>/back_end/companyProduct/jsp/companyImformation.jsp" class="light">
                                 <i class="fas fa-calendar-week"></i>
                                 <strong>廠商資料</strong>
                                 <small>Vendor Information</small>
                             </a>
                     <ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>基本資料瀏覽,修改</a></li>					
-                                <li><a href="#"><i class="fas fa-cannabis"></i>更改密碼</a></li>				
+                                <li><a href="<%=request.getContextPath()%>/back_end/companyProduct/jsp/companyImformation.jsp"><i class="fas fa-cannabis"></i>基本資料瀏覽,修改</a></li>					
+                                <li><a href="<%=request.getContextPath()%>/back_end/companyProduct/jsp/updatePassword.jsp"><i class="fas fa-cannabis"></i>更改密碼</a></li>				
                             </ul>
                         </li>
                         <li>
@@ -97,8 +97,8 @@
                                 <small>Comment</small>
                             </a>
                             <ul>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>營地評價</a></li>					
-                                <li><a href="#"><i class="fas fa-cannabis"></i>商品評價</a></li>				
+                                <li><a href="<%=request.getContextPath()%>/back_end/camp/campComment.jsp"><i class="fas fa-cannabis"></i>營地評價</a></li>					
+                                <li><a href="<%=request.getContextPath()%>/back_end/companyProduct/jsp/vendorProductComment.jsp"><i class="fas fa-cannabis"></i>商品評價</a></li>				
                             </ul>
                         </li>							
                     </ul>
