@@ -134,7 +134,7 @@
 						</a>
 							<ul>
 							    <li><a  href="<%=request.getContextPath()%>/back_end/camp/campindex.jsp"  target="main"><i class="fas fa-cannabis"></i>我的營地</a></li>			
-								<li><a  href="<%=request.getContextPath()%>/back_end/camp/insertCampShelves.jsp"  target="main"><i class="fas fa-cannabis"></i>營地上下架</a></li>
+								<li><a  href="<%=request.getContextPath()%>/back_end/camp/selectCamp.jsp"  target="main"><i class="fas fa-cannabis"></i>營地上下架</a></li>
 							    <li><a  href="<%=request.getContextPath()%>/back_end/camp/selectCampCertificatenum.jsp"  target="main"><i class="fas fa-cannabis"></i>營地審核狀況</a></li>								
 							</ul>
 						</li>
