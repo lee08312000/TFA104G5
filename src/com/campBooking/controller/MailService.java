@@ -126,7 +126,7 @@ public class MailService {
 
 			// 圖檔部份，注意 html 用 cid:image，則header要設<image>
 			MimeBodyPart picturePart = new MimeBodyPart();
-			File f = new File("C:\\Users\\Tibame_T14\\Desktop\\MyDemo\\demo6\\img\\icon\\chuba_logo.png");
+			File f = new File("C:/TFA104_WebApp/eclipse_WTP_workspace1/TFA104G5/WebContent/front_end/camp/img/icon/chuba_logo.png");
 			FileDataSource fds = new FileDataSource(f);
 			picturePart.setDataHandler(new DataHandler(fds));
 			picturePart.setFileName(fds.getName());
