@@ -133,33 +133,30 @@
             color: black;
             text-align: center;
             margin-top:20px;
-            margin-left:180px;
+            margin-left:100px;
             
 
         }
      
 
-     .camp_table{
+     .camparea_shelves{
           border:1px solid blak; 
           border-collapse:separate;
           border-spacing:0px 0px;
-          margin-left: 350px;
+          margin-left: 400px;
           margin-top: 0px;
-          width: 70%;
+          width: 50%;
         }
         table td{
+          background-color:#E0E0E0;
           border:1px solid black;
-          text-align: center; 
-          width: 100PX;
+          width: 90PX;
         }
         
         table th{
           background-color:	#E0E0E0;
           border:1px solid black;
-          text-align: center; 
-          width: 100PX;
-          margin-left:200px;
-        
+          width: 90PX;
         
         }
         

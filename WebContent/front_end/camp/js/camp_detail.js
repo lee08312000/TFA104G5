@@ -1,5 +1,23 @@
-var lat;
-var lng;
+function initMap() {
+  var myLatLng = { lat: -25.363, lng: 131.044 };
+
+  var map = new google.maps.Map(
+    document.getElementById("map"),
+    {
+      zoom: 14,
+      center: myLatLng,
+    }
+  );
+
+  new google.maps.Marker({
+    position: myLatLng,
+    map,
+    title: "Hello World!",
+  });
+}
+
+
+
 
 document.addEventListener("DOMContentLoaded", function() {
     // //////////////////////////////////解析請求參數//////////////////////////////////
@@ -97,11 +115,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
             // 設定經緯度
-            lat=parseFloat(campdata.lattitude);
-            lng=parseFloat(campdata.longitude);
-            console.log(lat);
-            console.log(lng);
-            initMap(lat,lng);
+            const myLatLng = { lat: campdata.longitude, lng: campdata.lattitude };
+
+            const map = new google.maps.Map(
+              document.getElementById("map"),
+              {
+                zoom: 14,
+                center: myLatLng,
+              }
+            );
+
+            new google.maps.Marker({
+              position: myLatLng,
+              map,
+              title: "Hello World!",
+            });
+            
 
             // 導入營地特色在圖片上
             var stylecamp = document.querySelectorAll("#stylecamp");
@@ -423,79 +452,79 @@ document.addEventListener("DOMContentLoaded", function() {
 // 載入地圖/////////////////////////////////////////////
 
 
-function initMap(lat, lng) {
-
-
-    var markers = [];
-
- let Lng=lng;
- let Lat=lat;
-
-    var myLatLng = {
-        lat: parseFloat(lat),
-        lng: parseFloat(lng)
-    }
-    
-    console.log(typeof myLatLng);
-
-
-    var map = new google.maps.Map(document.getElementById('map'), {
-        center:{
-        	lat:Lat,
-        	lng:Lng
-        },
-        zoom: 12,
-    });
-
-
-
-    // 建立地圖 marker 的集合
-    var marker_config = [{
-        position: myLatLng,
-        map: map,
-        title: '光復國中'
-    }];
-
-    // var marker_config = [{
-    // position: { lat: 25.04, lng: 121.512 },
-    // map: map,
-    // title: '總統府'
-    // }, {
-    // position: { lat: 25.035, lng: 121.519 },
-    // map: map,
-    // title: '中正紀念堂'
-    // }];
-
-    // 標出 marker
-    marker_config.forEach(function(e, i) {
-        markers[i] = new google.maps.Marker(e);
-        markers[i].setMap(map);
-    });
-
-    // InfoWindow 建構函式
-    var content = '<h6>機場捷運<h6>' + '<p>A21 環北站</p>' + '<img src="img/11111.jpg" class="infoImg"></img>';
-
-
-    var infowindow = new google.maps.InfoWindow({
-        content: content
-    });
-
-
-
-    // 對每一個marker加上觸發事件，顯示資訊視窗
-    markers.forEach(function(e, i) {
-        markers[i].addListener('click', function() {
-            infowindow.open(map, markers[i]);
-
-        });
-
-    });
-
-
-
-}
-
-
+//function initMap(lat, lng) {
+//
+//
+//    var markers = [];
+//
+// let Lng=lng;
+// let Lat=lat;
+//
+//    var myLatLng = {
+//        lat: parseFloat(lat),
+//        lng: parseFloat(lng)
+//    }
+//    
+//    console.log(typeof myLatLng);
+//
+//
+//    var map = new google.maps.Map(document.getElementById('map'), {
+//        center:{
+//        	lat:Lat,
+//        	lng:Lng
+//        },
+//        zoom: 12,
+//    });
+//
+//
+//
+//    // 建立地圖 marker 的集合
+//    var marker_config = [{
+//        position: myLatLng,
+//        map: map,
+//        title: '光復國中'
+//    }];
+//
+//    // var marker_config = [{
+//    // position: { lat: 25.04, lng: 121.512 },
+//    // map: map,
+//    // title: '總統府'
+//    // }, {
+//    // position: { lat: 25.035, lng: 121.519 },
+//    // map: map,
+//    // title: '中正紀念堂'
+//    // }];
+//
+//    // 標出 marker
+//    marker_config.forEach(function(e, i) {
+//        markers[i] = new google.maps.Marker(e);
+//        markers[i].setMap(map);
+//    });
+//
+//    // InfoWindow 建構函式
+//    var content = '<h6>機場捷運<h6>' + '<p>A21 環北站</p>' + '<img src="img/11111.jpg" class="infoImg"></img>';
+//
+//
+//    var infowindow = new google.maps.InfoWindow({
+//        content: content
+//    });
+//
+//
+//
+//    // 對每一個marker加上觸發事件，顯示資訊視窗
+//    markers.forEach(function(e, i) {
+//        markers[i].addListener('click', function() {
+//            infowindow.open(map, markers[i]);
+//
+//        });
+//
+//    });
+//
+//
+//
+//}
+//
+//
 
 
 

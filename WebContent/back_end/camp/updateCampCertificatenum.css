@@ -140,39 +140,31 @@
 
         }
         
-            .camp_table {
-            border-collapse:separate;
-            border-spacing:0px 0px;
-            width: 750px;
-            font-size: 16px;
-            margin-left: 0px;
-        }
-        
-     
-        table{
-           border:1px solid blck; 
+           
+        .camp_table{
+           background-color:#E0E0E0;
+          border:1px solid black; 
           border-collapse: collapse;
           margin-left: 100px;
           margin-top: 0px;
-          table-layout: fixed;
-          width: 80%;
+          width: 70%;
         }
         table td{
+            background-color:#E0E0E0;
           border:1px solid black;
-          text-align:center; 
-          width: 95PX;
+          text-align:left; 
+          width: 90PX;
         }
         
         table th{
           background-color:	#E0E0E0;
           border:1px solid black;
-          text-align: center; 
-          width: 95PX;
+          text-align:left; 
+          width: 90PX;
        
        
                
         }
-                
         .topnav{
             margin-left:0;
             margin-top:100px;        

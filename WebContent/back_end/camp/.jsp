@@ -28,7 +28,7 @@
 								<strong>營地管理</strong> <small>Camp Management</small>
 						</a>
 							<ul>
-							    <li><a  href="<%=request.getContextPath()%>/back_end/camp/selectCamp.jsp"  target="main"><i class="fas fa-cannabis"></i>我的營地</a></li>			
+							    <li><a  href="<%=request.getContextPath()%>/back_end/camp/index.jsp"  target="main"><i class="fas fa-cannabis"></i>我的營地</a></li>			
 								<li><a  href="<%=request.getContextPath()%>/back_end/camp/insertCampShelves.jsp"  target="main"><i class="fas fa-cannabis"></i>營地上下架</a></li>
 							    <li><a  href="<%=request.getContextPath()%>/back_end/camp/selectCampCertificatenum.jsp"  target="main"><i class="fas fa-cannabis"></i>營地審核狀況</a></li>								
 							</ul>
@@ -52,15 +52,16 @@
 									Information</small>
 						</a>
 							<ul>
-								<li><a href="#"><i class="fas fa-cannabis"></i>基本資料瀏覽及修改</a></li>
+							
+							     <li><a  href="<%=request.getContextPath()%>/back_end/companyProduct/jsp/companyImformation.jsp"  target="main"><i class="fas fa-cannabis"></i>基本資料瀏覽及修改</a></li>
 								<li><a href="#"><i class="fas fa-cannabis"></i>更改密碼</a></li>
 							</ul></li>
 						<li><a href="" class="light"> <i
 								class="fa fa-comment-alt"></i> <strong>我的評論</strong> <small>Comment</small>
 						</a>
 							<ul>
-								<li><a href="#"><i class="fas fa-cannabis"></i>營地評價</a></li>
-								<li><a href="#"><i class="fas fa-cannabis"></i>商品評價</a></li>
+							<li><a  href="<%=request.getContextPath()%>/back_end/camp/campComment.jsp"  target="main"><i class="fas fa-cannabis"></i>營地評價</a></li>
+							<li><a  href="<%=request.getContextPath()%>/back_end/companyProduct/jsp/vendorProductComment.jsp"  target="main"><i class="fas fa-cannabis"></i>商品評價</a></li>
 							</ul></li>
 					</ul>
 				</nav>

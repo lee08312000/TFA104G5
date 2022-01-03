@@ -150,14 +150,14 @@
         table td{
           border:1px solid black;
           text-align: center; 
-          width: 100PX;
+          width: 90PX;
         }
         
         table th{
           background-color:	#E0E0E0;
           border:1px solid black;
           text-align: center; 
-          width: 100PX;
+          width: 90PX;
           margin-left:200px;
         
         
@@ -178,7 +178,7 @@
         .selector{
          height: 25px;
          margin-left:350px;
-         margin-top:20px;
+         margin-top:50px;
          
         }
         
