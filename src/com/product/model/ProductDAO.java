@@ -23,4 +23,6 @@ public interface ProductDAO {
 			Integer limitY);
 
 	public void update(ProductVO ProductVO, Connection con);
+	
+	public List<ProductVO> getProductsByLikeName(Integer companyId,String productName);
 }
