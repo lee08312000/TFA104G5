@@ -75,7 +75,7 @@
                                 <small>Order </small>
                             </a>
                     <ul>
-                                <li><a href="<%=request.getContextPath()%>/back_end/camp/backcal.jsp"><i class="fas fa-cannabis"></i>日程表管理</a></li>					
+                                <li><a href="<%=request.getContextPath()%>/back_end/camp/campindex.jsp"><i class="fas fa-cannabis"></i>日程表管理</a></li>					
                                 <li><a href="<%=request.getContextPath()%>/back_end/camp/listAllCampOrder.jsp"><i class="fas fa-cannabis"></i>營地訂單管理</a></li>
                                 <li><a href="<%=request.getContextPath()%>/back_end/companyProduct/html/productOrderList.html"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
                             </ul>

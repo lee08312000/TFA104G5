@@ -231,7 +231,7 @@
 						</a>
 							<ul>
 							    <li><a  href="<%=request.getContextPath()%>/back_end/camp/campindex.jsp"  target="main"><i class="fas fa-cannabis"></i>我的營地</a></li>			
-								<li><a  href="<%=request.getContextPath()%>/back_end/camp/insertCampShelves.jsp"  target="main"><i class="fas fa-cannabis"></i>營地上下架</a></li>
+								<li><a  href="<%=request.getContextPath()%>/back_end/camp/selectCamp.jsp"  target="main"><i class="fas fa-cannabis"></i>營地上下架</a></li>
 							    <li><a  href="<%=request.getContextPath()%>/back_end/camp/selectCampCertificatenum.jsp"  target="main"><i class="fas fa-cannabis"></i>營地審核狀況</a></li>								
 							</ul>
 						</li>
@@ -245,9 +245,9 @@
 								<strong>訂單管理</strong> <small>Order </small>
 						</a>
 							<ul>
-							   <li><a  href="<%=request.getContextPath()%>/back_end/camp/backcal.jsp"  target="main"><i class="fas fa-cannabis"></i>日程表管理</a></li>			
+							   <li><a  href="<%=request.getContextPath()%>/back_end/camp/campindexs.jsp"  target="main"><i class="fas fa-cannabis"></i>日程表管理</a></li>			
 							   <li><a  href="<%=request.getContextPath()%>/back_end/camp/listAllCampOrder.jsp"  target="main"><i class="fas fa-cannabis"></i>營地訂單管理</a></li>								   
-							   <li><a  href="<%=request.getContextPath()%>/back_end/camp/productOrderList.html"  target="main"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
+							   <li><a  href="<%=request.getContextPath()%>/back_end/companyProduct/html/productOrderList.html"  target="main"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
 							</ul></li>
 						<li><a href="" class="light"> <i
 								class="fas fa-calendar-week"></i> <strong>廠商資料</strong> <small>Vendor
