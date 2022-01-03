@@ -88,6 +88,7 @@
 			CartRedisService cartRedisSvc = new CartRedisService();
 			ProductService productSvc = new ProductService();
 			if (cartRedisSvc.getBuyList(memberVO.getMemberId()) != null) {
+				List<String> msgList = new ArrayList<String>();
 
 				List<CartVO> cart = cartRedisSvc.getBuyList(memberVO.getMemberId());
 				// 檢查現在的商品狀態
@@ -99,20 +100,37 @@
 						// 檢查單價
 						if (cartVO.getProductPrice().intValue() != productVO.getProductPrice().intValue()) {
 							cartVO.setProductPrice(productVO.getProductPrice());
-							
+							cart.set(i, cartVO);
 						}
 						// 檢查名稱
 						if (!(cartVO.getProductName().equals(productVO.getProductName()))) {
 							cartVO.setProductName(productVO.getProductName());
+							cart.set(i, cartVO);
+						}
+						// 檢查庫存量
+						if (cartVO.getProductPurchaseQuantity().intValue() > productVO.getProductInventory().intValue()) {
+							// 若庫存量!=0
+							if (productVO.getProductInventory().intValue() != 0) {
+								cartVO.setProductPurchaseQuantity(productVO.getProductInventory());
+								cart.set(i, cartVO);
+							} else {
+								// 若庫存量=0
+								cart.remove(i);
+								i--;
+								msgList.add(cartVO.getProductName() + " 庫存量為0，已幫您移出購物車");
+							}
 						}
 						
-						cart.set(i, cartVO);
+						
 						
 					} else {
 						cart.remove(i);
 						i--;
+						msgList.add(cartVO.getProductName() + " 已下架，已幫您移出購物車");
 					}
 				}
+				
+				pageContext.setAttribute("msgList", msgList);
 				
 				if (cart.size() != 0) {
 					cartRedisSvc.setBuyList(memberVO.getMemberId(), cart);
@@ -225,6 +243,16 @@
 				</div>
 			</div>
 
+			<%-- 提醒表列 --%>
+			<c:if test="${not empty msgList}">
+				<font style="color: blue">購物車變動:</font>
+				<ul>
+					<c:forEach var="msg" items="${msgList}">
+						<li style="color: blue">${msg}</li>
+					</c:forEach>
+				</ul>
+			</c:if>
+			
 			<%-- 錯誤表列 --%>
 			<c:if test="${not empty errorMsgs}">
 				<font style="color: red">請修正以下錯誤:</font>
