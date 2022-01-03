@@ -66,6 +66,7 @@
 	<filter-mapping>
 		<filter-name>loginFilter</filter-name>
 		<url-pattern>/back_end/companyProduct/jsp/*</url-pattern>
+		<url-pattern>/back_end/camp/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
