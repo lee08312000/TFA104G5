@@ -74,8 +74,7 @@
 		     <input type="hidden" name="campstatus" value="3">
 		     <input type="hidden" name="campIdsearch" value="">
 			 <input type="hidden" name="action" value="SEARCHALL">
-			<button type="submit">
-				<i class="fas fa-home"></i>
+			 <button type="submit"><i class="fas fa-home"></i>
 			</button>
 	
 	

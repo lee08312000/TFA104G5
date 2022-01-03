@@ -149,14 +149,12 @@
         }
         table td{
           border:1px solid black;
-          text-align: center; 
           width: 100PX;
         }
         
         table th{
           background-color:	#E0E0E0;
           border:1px solid black;
-          text-align: center; 
           width: 100PX;
           margin-left:200px;
         

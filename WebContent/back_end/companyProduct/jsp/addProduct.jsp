@@ -28,13 +28,13 @@
             </div>
         </div>
         <ul>          
-            <nav class="header-navigation">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">線上商城</a></li>
-                <li><a href="#"><img src="<%=request.getContextPath()%>/back_end/companyProduct/img/heart.png"></a></li>
-                <li><a href="#">註冊</a></li>
-                <li><a href="#">登出</a></li>
-                <li><a href="#"><i class="fas fa-user"></i></a></li>                
+            <nav class="header-navigation">          
+                <li><a href="#" id="logout">登出</a>
+                <form id="logoutForm" style="display: none;" method="post" action="<%=request.getContextPath()%>/Company/VendorLogoutServlet">
+					<input type="hidden" name="action" value="logout">
+					<input type="submit" value="登出">
+				</form></li>
+                <li><a href="<%=request.getContextPath()%>/back_end/camp/campindex.jsp"><i class="fas fa-user"></i></a></li>                
             </nav>
         </ul>    
                     
