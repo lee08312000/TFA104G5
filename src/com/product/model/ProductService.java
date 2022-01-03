@@ -205,4 +205,8 @@ public class ProductService {
 			
 			return productListByType;
 		}
+		
+		public List<ProductVO> getProductsByLikeName(Integer companyId,String productName) {
+			return dao.getProductsByLikeName(companyId, productName);
+		}
 }
