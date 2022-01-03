@@ -18,7 +18,7 @@
     <header class="header">       
         <div class="header-inner responsive-wrapper">
             <div class="header-logo">
-                <a style="display:inline-block; vertical-align: middle;" href="首頁URL">
+                <a style="display:inline-block; vertical-align: middle;" href="/TFA104G5/front_end/camp/camp_index.html">
                     <img src="<%=request.getContextPath()%>/back_end/companyProduct/img/chuba_logo.png" />
                 </a>
                 <span style="display:inline-block; vertical-align: middle;">Camping Paradise</span>
@@ -26,12 +26,11 @@
         </div>
         <ul>          
             <nav class="header-navigation">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">線上商城</a></li>
-                <li><a href="#"><img src="<%=request.getContextPath()%>/back_end/companyProduct/img/heart.png"></a></li>
-                <li><a href="#">註冊</a></li>
-                <li><a href="#">登入</a></li>
-                <li><a href="#"><i class="fas fa-user"></i></a></li>                
+                <li><a href="/TFA104G5/front_end/camp/camp_index.html">Home</a></li>
+                <li><a href="/TFA104G5/front_end/mall/mall_index.html">線上商城</a></li>
+                <li><a href="/TFA104G5/front_end/member/jsp/member_favorite_product.jsp"><img src="<%=request.getContextPath()%>/back_end/companyProduct/img/heart.png"></a></li>
+                
+                <li><a href="<%=request.getContextPath()%>/back_end/camp/campindex.jsp"><i class="fas fa-user"></i></a></li>                
             </nav>
         </ul>
      </header>
