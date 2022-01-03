@@ -1,4 +1,4 @@
-
+ 
  <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -70,7 +70,7 @@
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/css/camp.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/css/camp.css?v=002">
 
 </head>
 <body>
@@ -84,8 +84,7 @@
 					src="<%=request.getContextPath()%>/back_end/images/camp_paradise_logo.png" />
 				</a> <span style="display: inline-block; vertical-align: middle;">Camping
 					Paradise</span>
-			</div>
-			   
+			</div>			   
        	
 				<nav class="header-navigation">
 					<a href="#">Home</a> <a href="#"></a>

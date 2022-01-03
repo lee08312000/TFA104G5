@@ -59,7 +59,7 @@
 
 
 	<!-- --------main區域------- -->
-	<h1  style="margin-left:200px;margin-top:5px">營地上架審核查詢列表 </h1>
+	<h1  style="margin-left:200px;margin-top:15px">營地上架審核查詢列表 </h1>
     <h2>${errorMsgs}</h2>
 <form method="post" ACTION="<%=request.getContextPath()%>/camp/shelves.do"  >
 	<div class="selector">
