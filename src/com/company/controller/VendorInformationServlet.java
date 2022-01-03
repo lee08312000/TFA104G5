@@ -13,8 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.company.model.CompanyDAOImpl;
 import com.company.model.CompanyService;
 import com.company.model.CompanyVO;
+import com.mallOrder.model.MallOrderDAOImpl;
+import com.mallOrder.model.MallOrderService;
+import com.mallOrder.model.MallOrderVO;
 
 
 
@@ -154,7 +158,48 @@ public class VendorInformationServlet extends HttpServlet{
 			}
 		}
 	
-		
+		if ("updatePassword".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			HttpSession session = req.getSession();
+			CompanyVO companyVO = (CompanyVO) session.getAttribute("companyVO");
+			String oldCompanyPassword = companyVO.getCompanyPassword();
+			
+			String oldPassword = req.getParameter("oldPassword").trim();
+			String newPassword = req.getParameter("newPassword").trim();
+			String renewPassword = req.getParameter("renewPassword").trim();
+			System.out.println(oldCompanyPassword);
+			System.out.println(oldPassword);
+			if(!oldCompanyPassword.equals(oldPassword)) {
+				errorMsgs.add("舊密碼輸入錯誤");
+			}
+			if(newPassword.equals(oldPassword)) {
+				errorMsgs.add("新密碼請輸入一致");
+			}
+			
+			if (!errorMsgs.isEmpty()) {
+				req.setAttribute("companyVO", companyVO); // 含有輸入格式錯誤的empVO物件,也存入req
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/back_end/companyProduct/jsp/updatePassword.jsp");
+				failureView.forward(req, res);
+				return;
+			}
+			/***************************2.開始修改資料*****************************************/			
+			companyVO.setCompanyPassword(newPassword);
+			CompanyDAOImpl companyDao = new CompanyDAOImpl();
+			companyDao.update(companyVO);
+			
+			/***************************3.修改完成,準備轉交(Send the Success view)*************/			
+			session.setAttribute("companyVO", companyVO); // 資料庫update成功後,正確的的companyVO物件,存入session
+			String url = "/back_end/companyProduct/jsp/updatePassword.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
+			successView.forward(req, res);
+			
+			
+			
+			
+			
+		}
 		
 		
 		
