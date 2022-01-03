@@ -30,7 +30,7 @@ pageContext.setAttribute("campVO", cv);
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/back_end/css/camp3.css?v=003">
+	href="<%=request.getContextPath()%>/back_end/css/camp3.css?v=4">
 	
 	<script src="<%=request.getContextPath()%>/back_end/camp/js/updateCampCertificatenum.js"></script>
 	
