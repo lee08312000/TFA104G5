@@ -52,9 +52,9 @@ public class CampService {
 	}
 
 	// 5.依營狀態查詢營地
-	public List<CampVO> camplist(Integer campId, Date startime, Date endtime, String campIdsearch) {
+	public List<CampVO> camplist(Integer campstatus, Date startime, Date endtime, String campName) {
 
-		return campdao.camplist(campId, startime, endtime, campIdsearch);
+		return campdao.camplist(campstatus, startime, endtime, campName);
 
 	}
 

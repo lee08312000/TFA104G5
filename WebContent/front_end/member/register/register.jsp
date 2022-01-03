@@ -219,7 +219,7 @@ footer {
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/mall/mall_index.html">線上商城</a></li>
 				<li><a
-					href="<%=request.getContextPath()%>/front_end/member/member_favorite_camp.jsp"><img
+					href="<%=request.getContextPath()%>/front_end/member/jsp/member_favorite_camp.jsp"><img
 						src="<%=request.getContextPath()%>/front_end/mall/images/heart.png"></a></li>
 				<li><a
 					href="<%=request.getContextPath()%>/front_end/member/register/register.jsp"

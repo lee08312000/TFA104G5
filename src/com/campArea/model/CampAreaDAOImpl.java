@@ -11,12 +11,11 @@ import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
 
-public class CampAreaDAOImpl implements CampAreaDAO {
-	String driver = "com.mysql.cj.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/campingParadise?serverTimezone=Asia/Taipei";
-	String userid = "David";
-	String passwd = "123456";
+import util.Util;
 
+public class CampAreaDAOImpl implements CampAreaDAO {
+
+	
 	private static final String CLOUM_FOR_INSERT = "camp_Id,camp_Area_Name,camp_Area_Max,weekday_Price,holiday_Price,capitation_Max,per_Capitation_Fee,camp_Area_Pic";
 	private static final String CLOUM_FOR_ALL = "camp_Area_Id," + CLOUM_FOR_INSERT;
 	private static final String INSERT_STMT = "INSERT INTO camp_area (" + CLOUM_FOR_INSERT + ") "
@@ -34,8 +33,7 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 		PreparedStatement pstmt = null;
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setInt(1, campAreaVO.getCampId());
@@ -56,8 +54,6 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -84,8 +80,7 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setInt(1, campAreaVO.getCampId());
@@ -106,8 +101,6 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -135,8 +128,7 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setInt(1, campAreaId);
@@ -146,8 +138,6 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -176,8 +166,8 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setInt(1, campAreaId);
@@ -201,8 +191,6 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -256,8 +244,8 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -278,8 +266,6 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -314,8 +300,8 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 		ResultSet rs = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(GET_CAMPAREALIST);
 
 			pstmt.setInt(1, campId);
@@ -340,8 +326,6 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -375,8 +359,7 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 		PreparedStatement pstmt = null;
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setInt(1, campAreaVO.getCampId());
@@ -398,8 +381,6 @@ public class CampAreaDAOImpl implements CampAreaDAO {
 			se.printStackTrace();
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {

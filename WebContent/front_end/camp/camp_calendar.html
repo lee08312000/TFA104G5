@@ -3,8 +3,6 @@
 
 <head>
 <meta charset='utf-8' />
-<link href='lib/main.css' rel='stylesheet' />
-<script src='lib/main.js'></script>
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
@@ -15,7 +13,8 @@
 <!--------------------------------------------- 自己家的優 --------------------------------------------->
 
 
-
+<link href="css/header_footer.css" rel="stylesheet" />
+<link href='lib/main.css' rel='stylesheet' />
 <link href='css/camp_calendar.css' rel='stylesheet' />
 <link href="img/icon/chuba_logo.png" rel="shortcut icon">
 <title>月曆空位顯示</title>
@@ -36,9 +35,18 @@
 			<nav class="header-navigation">
 				<a href="camp_index.html">Home</a> <a href="../mall/mall_index.html">線上商城</a>
 				<a href="../member/jsp/member_favorite_camp.jsp"> <img
-					src="img/icon/heart.png">
-				</a> <a href="../member/login/login.jsp" id="islogin2">登入|註冊</a> <a
-					href="#" class="islogin out">登出</a> <a
+					src="img/icon/heart.png"></a>
+				<div id="nav">
+					<ul>
+						<li><a href="#" id="islogin2">登入|註冊</a>
+							<ol>
+								<li><a href="../member/login/login.jsp">會員登入</a></li>
+								<li><a
+									href="/TFA104G5/back_end/companyLogin/vendorLogin.jsp">廠商登入</a></li>
+							</ol></li>
+					</ul>
+				</div>
+				<a href="#" class="islogin out">登出</a> <a
 					href="../member/jsp/member_main.jsp" class="islogin"> <i
 					class="fas fa-user-circle islogin"></i>
 				</a>
@@ -109,9 +117,7 @@
 			<div class="datechoose cbtn">
 				<input type="submit" value="送出" class="formbtn">
 			</div>
-			<div class="error_list" id="error">
-				
-			</div>
+			<div class="error_list" id="error"></div>
 		</form>
 		<ul class="campdesc">
 			<li class="campdesc-in"><img src="#" id="campimg"
@@ -139,7 +145,7 @@
 	</main>
 
 
-	  <footer class="tm-footer text-center">
+	<footer class="tm-footer text-center cal-footer">
 		<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
 		<pre>Copyright &copy; 2020 Simple House | Design: <a
 				style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a>
@@ -148,7 +154,7 @@
 
 
 
-<script src="js/login2.js"></script>
+	<script src="js/login2.js"></script>
 	<script>
 		function convertToISO(timebit) {
 			// remove GMT offset
@@ -168,6 +174,7 @@
 		futuredate.setDate(futuredate.getDate() + 90);
 		bookdate.max = convertToISO(futuredate);
 	</script>
+	<script src='lib/main.js'></script>
 	<script src='js/camp_calendar.js'></script>
 
 </body>

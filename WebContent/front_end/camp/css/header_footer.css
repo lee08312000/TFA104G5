@@ -16,7 +16,7 @@ body {
     font-family: "DM Sans", sans-serif;
     background-color: #FFFFFF;
     line-height: 1.5;
-    min-height: 300vh;
+    /*min-height: 300vh;*/
     position: relative;
     margin: 0;
 }
@@ -133,8 +133,8 @@ footer {
     text-align: center;
     bottom: 0;
     margin: 0 auto;
-    left: 50%;
-    transform: translateX(-50%);
+    /*left: 50%;*/
+    /* transform: translateX(-50%);*/
     /* border: 1px black solid; */
     width: 100%;
     background-color: #dbb07c;
@@ -155,3 +155,115 @@ footer {
 	display:none !important;
 
 }
+
+
+
+/*header登入*/
+  @charset "utf-8";
+        /* CSS Document */
+        
+        nav,
+        ul,
+        ul li,
+        ul ol,
+        a {
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+            text-decoration: none;
+        }
+        
+        nav,
+        ul,
+        ol {
+            list-style: none;
+        }
+        
+        #nav ul li {
+            position: relative;
+            /*讓定位點有參考*/
+            float: left;
+            /*讓選單橫向拓展*/
+        }
+        /*li連結樣式*/
+        /*第一層以左邊灰線分隔*/
+        /*E > F 表示當 F 元素是 E 元素的子代時，選擇條件符合。*/
+        
+        ul li a {
+            border-bottom: 1px solid #CCC;
+            border-left: 1px solid #CCC;
+        }
+        
+        #nav ul>li>a:hover {
+            color: #666;
+            background: #DDD;
+        }
+        /*特定在第一層>第二層之後下拉部分的位置*/
+        
+        ul ol {
+            display: none;
+            float: left;
+            position: absolute;
+            left: 0;
+            /*貼齊position relative*/
+            margin: 0;
+        }
+        /*第一層被觸發時值定(只有)第二層顯示*/
+        
+        ul li:hover>ol {
+            display: block;
+        }
+        /*第二層或之後下拉部分li樣式*/
+        
+        #nav ol li {
+            border-bottom: 1px solid #DDD;
+        }
+        /*第二層或之後下拉部分li最後一項(不要底線)樣式*/
+        
+        #nav ol li:last-child {
+            border-bottom: none;
+        }
+        /*第二層或之後選單li樣式*/
+        
+        #nav ol a {
+            width: 120px;
+            padding: 10px 12px;
+            color: #666;
+            background: #EEE;
+        }
+        
+        #nav ol a:hover {
+            background: #CCC;
+        }
+        /* 第三層之後，上一層的選單觸發則顯示出來（皆為橫向拓展） */
+        
+        #nav ol li:hover>ul {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 100%;
+        }
+        
+        .arrow-bottom {
+            /*箭頭向下*/
+            display: block;
+            margin-left: 45px;
+            border-top: 4px solid #AAA;
+            border-right: 4px solid transparent;
+            border-left: 4px solid transparent;
+            width: 1px;
+            height: 1px;
+        }
+        
+        .arrow-right {
+            /*箭頭向右*/
+            display: inline-block;
+            margin-left: 12px;
+            border-top: 3px solid transparent;
+            border-bottom: 3px solid transparent;
+            border-left: 3px solid #666;
+            width: 1px;
+            height: 1px;
+        }
+
+

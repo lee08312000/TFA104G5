@@ -268,7 +268,7 @@
         aside.aside{            
         position: fixed;
         left: 0;
-        top: 100px;
+        top: 190px;
         width: var(--aside-width);
         height: calc(100% - var(--header-height));
         overflow-x: visible;

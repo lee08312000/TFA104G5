@@ -1,3 +1,4 @@
+
  <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -9,19 +10,52 @@
 
 <%
 	List<CampVO> list = new ArrayList<CampVO>();
-	if (request.getAttribute("list") != null) {
-		list = (ArrayList<CampVO>) request.getAttribute("list");
-	}
-	pageContext.setAttribute("list", list);
 	
 	Calendar startimeCalendar = Calendar.getInstance();
 	startimeCalendar.add(Calendar.DATE, -90);
-	pageContext.setAttribute("startime", startimeCalendar.getTime());
+	
+	Date startDate = startimeCalendar.getTime();
+	if(request.getAttribute("startime") != null){
+		startDate =  (Date)request.getAttribute("startime");
+		pageContext.setAttribute("startime", startDate);
+	} else {
+		pageContext.setAttribute("startime", startimeCalendar.getTime());
+	}
 	
 	
 	Calendar endtimeCalendar = Calendar.getInstance();
 	
-	pageContext.setAttribute("endtime", endtimeCalendar.getTime());
+	Date endDate = endtimeCalendar.getTime();
+	if(request.getAttribute("endtime") != null){
+		endDate =  (Date)request.getAttribute("endtime");
+		System.out.print(endDate);
+		pageContext.setAttribute("endtime", endDate);
+	} else {
+		pageContext.setAttribute("endtime", endtimeCalendar.getTime());
+	}
+	
+	
+	Integer campstatus = 3;
+	if(request.getAttribute("campstatus")!= null){
+		 campstatus =  (Integer)request.getAttribute("campstatus");
+		 System.out.print(campstatus);
+		pageContext.setAttribute("campstatus", campstatus);
+	} 
+ 
+	if (request.getAttribute("list") != null) {
+		list = (ArrayList<CampVO>) request.getAttribute("list");
+	} else {
+		CampService campService = new CampService();
+		list = campService.camplist(campstatus, startDate, endDate, "");
+	}
+	pageContext.setAttribute("list", list);
+	
+	
+	
+
+	
+	
+	
 	
 %>
 
@@ -36,10 +70,38 @@
 	href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
 	integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
 	crossorigin="anonymous">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/css/selectCamp.css?v=008">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/back_end/css/camp.css">
 
 </head>
 <body>
+
+<!-- --------head區域------- -->
+<header class="header-outer">
+		<div class="header-inner responsive-wrapper">
+			<div class="header-logo">
+				<a style="display: inline-block; vertical-align: middle;"
+					href="首頁URL"> <img
+					src="<%=request.getContextPath()%>/back_end/images/camp_paradise_logo.png" />
+				</a> <span style="display: inline-block; vertical-align: middle;">Camping
+					Paradise</span>
+			</div>
+			   
+       	
+				<nav class="header-navigation">
+					<a href="#">Home</a> <a href="#"></a>
+					<c:if test ="${companyVO!=null}">
+			                <li>${companyVO.getCompanyAccount()} 你好</li>
+			                <li>登出</li>              
+       			 </c:if>
+       				<c:if test ="${companyVO==null}">
+					   <a href="#">註冊</a> <a href="#">登入</a> <a href="#"> <i class="fas fa-user"></i></a>
+					</c:if> 
+					<button>Menu</button>
+				</nav>
+			 
+		</div>
+	</header>
+
 	<!-- --------main區域------- -->
 	<h1 style="margin-right:10px">營地查詢列表 </h1>
     <h2>${errorMsgs}</h2>
@@ -48,14 +110,14 @@
 		<div class="selector">
 		<label>營地狀態</label> 
 		<select name="campstatus">
-			<option value="3">全部 </option>
-			<option value="1">上架</option>
-			<option value="0">下架</option>
+			<option value="3" ${campstatus==3?"selected":""}>全部 </option>
+			<option value="1" ${campstatus==1?"selected":""}>上架</option>
+			<option value="0" ${campstatus==0?"selected":""}>下架</option>
 		</select> 
 		<label>日期區間</label>
 		 <input type="date" id="startDate" name="startDate" value="<fmt:formatDate value='${startime}' pattern='yyyy-MM-dd'/>"/>
 		  <input type="date" id="endDate"name="endDate" value="<fmt:formatDate value='${endtime}' pattern='yyyy-MM-dd'/>">
-		   <input type="text" placeholder="請輸入關鍵字"name="campIdsearch">
+		   <input type="text" placeholder="請輸入營地名稱" name="campName" value="${campName}">
 		    <input type="hidden" name="action" value="SEARCHALL">
 		    <button type="submit" id="searchSubmit">
 			<i class="fa fa-search"></i>
@@ -68,7 +130,7 @@
 	
 	<form method="post" ACTION="<%=request.getContextPath()%>/camp/shelves.do">
 					  <input type="hidden" name="action" value="INSERTCAMP">
-					    <button  style="background-color:#4CAF50;font-size:16px;color:white;border:1px solid #4CAF50 ;margin-left:22px" type="submit" id="insertSubmit">新增營地</button>
+					    <button  style="background-color:#4CAF50;font-size:16px;color:white;border:1px solid #4CAF50 ;margin-left:350px" type="submit" id="insertSubmit">新增營地</button>
 				
 					</form>
 					
@@ -76,9 +138,9 @@
 
 
 	<div class="pagination">
-		<%@ include file="pages/page1.jsp" %>
+		<%@ include file="pages/page1.file" %>
 	</div>
-	<table class="camp_table" style="margin-left:20px">
+	<table class="camp_table">
 	
 		<thead>
 		
@@ -154,10 +216,61 @@
 	</table>
 
 	<div class="pagination">
-		<%@ include file="pages/page2.jsp"%>
+		<%@ include file="pages/page2.file"%>
 		
 	</div>
 	
+	
+	<!-- --------aside區域------- -->
+	<div id="sidebar">
+		<aside class="aside">
+			<div class="container">
+				<nav>
+					<ul class="mcd-menu">
+						<li><a href="" class="light"> <i class="fa fa-campground"></i>
+								<strong>營地管理</strong> <small>Camp Management</small>
+						</a>
+							<ul>
+							    <li><a  href="<%=request.getContextPath()%>/back_end/camp/campindex.jsp"  target="main"><i class="fas fa-cannabis"></i>我的營地</a></li>			
+								<li><a  href="<%=request.getContextPath()%>/back_end/camp/insertCampShelves.jsp"  target="main"><i class="fas fa-cannabis"></i>營地上下架</a></li>
+							    <li><a  href="<%=request.getContextPath()%>/back_end/camp/selectCampCertificatenum.jsp"  target="main"><i class="fas fa-cannabis"></i>營地審核狀況</a></li>								
+							</ul>
+						</li>
+							
+							
+							
+						<li><a href="" class="light"> <i class="fa fa-edit"></i>
+								<strong>商品管理</strong> <small>Commodity </small>
+						</a></li>
+						<li><a href="" class="light"> <i class="fa fa-gift"></i>
+								<strong>訂單管理</strong> <small>Order </small>
+						</a>
+							<ul>
+							   <li><a  href="<%=request.getContextPath()%>/back_end/camp/backcal.jsp"  target="main"><i class="fas fa-cannabis"></i>日程表管理</a></li>			
+							   <li><a  href="<%=request.getContextPath()%>/back_end/camp/listAllCampOrder.jsp"  target="main"><i class="fas fa-cannabis"></i>營地訂單管理</a></li>								   
+							   <li><a  href="<%=request.getContextPath()%>/back_end/camp/productOrderList.html"  target="main"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
+							</ul></li>
+						<li><a href="" class="light"> <i
+								class="fas fa-calendar-week"></i> <strong>廠商資料</strong> <small>Vendor
+									Information</small>
+						</a>
+							<ul>
+							
+							     <li><a  href="<%=request.getContextPath()%>/back_end/companyProduct/jsp/companyImformation.jsp"  target="main"><i class="fas fa-cannabis"></i>基本資料瀏覽及修改</a></li>
+								<li><a href="#"><i class="fas fa-cannabis"></i>更改密碼</a></li>
+							</ul></li>
+						<li><a href="" class="light"> <i
+								class="fa fa-comment-alt"></i> <strong>我的評論</strong> <small>Comment</small>
+						</a>
+							<ul>
+							<li><a  href="<%=request.getContextPath()%>/back_end/camp/campComment.jsp"  target="main"><i class="fas fa-cannabis"></i>營地評價</a></li>
+							<li><a  href="<%=request.getContextPath()%>/back_end/companyProduct/jsp/vendorProductComment.jsp"  target="main"><i class="fas fa-cannabis"></i>商品評價</a></li>
+							</ul></li>
+					</ul>
+				</nav>
+			</div>
+		</aside>
+	</div>
 		
 	
 	 

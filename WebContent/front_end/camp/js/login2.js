@@ -1,3 +1,11 @@
+$(document).ready(
+				function() {
+					$("ul > li:has(ol) > a").append(
+							'<div class="arrow-bottom"></div>');
+					$("ul > li ol li:has(ul) > a").append(
+							'<div class="arrow-right"></div>');
+				});
+
 
 var favorlist=[];
 document.addEventListener("DOMContentLoaded", function() {
@@ -86,7 +94,9 @@ logout.addEventListener("click",function(){
 		  dataType: "text",             // 預期會接收到回傳資料的格式： json | xml | html
 		  success: function(data){      // request 成功取得回應後執行
 			alert("登出成功");
-			location.reload();
+			
+//			location.href='/TFA104G5/front_end/camp/camp_index.html';
+			window.location.replace("/TFA104G5/front_end/camp/camp_index.html"); 
 		  }
 		});
 	
