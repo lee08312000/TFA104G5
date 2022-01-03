@@ -159,6 +159,7 @@ footer {
 
 main {
     z-index: 2;
+    margin-left:300px;
 }
 
 .closedset {
@@ -271,7 +272,7 @@ tbody tr:last-child td:last-child {
 
 /* 狀態藍 */
 
-ul {
+.dotdiv>ul {
     box-sizing: border-box;
     padding: 0;
     width: 500px;
@@ -281,7 +282,7 @@ ul {
     list-style: none;
 }
 
-ul>li {
+.dotdiv>ul>li {
     list-style: none;
     /* border: 1px solid blue; */
     width: 100px;
