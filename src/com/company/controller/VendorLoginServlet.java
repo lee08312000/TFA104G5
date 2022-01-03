@@ -94,7 +94,7 @@ public class VendorLoginServlet extends HttpServlet{
 				    	   e.printStackTrace(); 
 				       }
 				    
-				    String url = "/back_end/companyProduct/jsp/productlist.jsp";
+				    String url = "/back_end/companyProduct/jsp/companyImformation.jsp";
 					RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 					successView.forward(req, res);
 //				    res.sendRedirect(req.getContextPath()+"/back_end/companyProduct/jsp/productlist.jsp");  //*工作3: (-->如無來源網頁:則重導至productlist.jsp)

@@ -25,9 +25,9 @@ window.addEventListener('load', function() {
         eventStartEditable: false, //允許事件的開始時間可通過拖動進行編輯
         initialDate: new Date(),
         buttonText: { //按鈕文字
-            today: '今天',
-            prev: '上個月',
-            next: '下個月'
+            today: "這個月",
+            prev: "上個月",
+            next: "下個月"
         },
         selectable: false,
         businessHours: true,

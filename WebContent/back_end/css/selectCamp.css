@@ -138,12 +138,11 @@
      
 
         .camp_table{
-          margin-left:400px;
-          border:1px solid blck; 
+          border:1px solid black; 
           border-collapse: collapse;
-          margin-left: 0px;
+          margin-left:100px;
           margin-top: 0px;
-          width: 100%;
+          width: 80%;
         }
         table td{
           border:1px solid black;
@@ -175,7 +174,7 @@
        
         .selector{
          height: 25px;
-         margin-left:20px;
+         margin-left:100px;
          
         }
         
@@ -229,7 +228,7 @@
         }
         div.pagination {
        
-          margin-left:18px ;
+          margin-left:100px ;
           margin-top: 10px;
 		  display: inline-block;
 		  

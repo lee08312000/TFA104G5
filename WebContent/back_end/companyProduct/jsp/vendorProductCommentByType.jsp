@@ -3,16 +3,22 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.company.model.*"%>
+<%@ page import="com.product.model.*"%>
+<%@ page import="com.productType.model.*"%>
 
-<%	
-	CompanyVO companyVO = (CompanyVO) session.getAttribute("companyVO");
+<%
+	List<ProductVO> list = (List<ProductVO>) request.getAttribute("producList");	
+	
+	pageContext.setAttribute("list",list);
 %>
+<jsp:useBean id="productTypeSvc" scope="page" class="com.productType.model.ProductTypeService" />
 
 <html>
 <head>
-<title>商品資訊 </title>
+<title>廠商商品評論查詢 - vendorProductComment.jsp</title>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/back_end/companyProduct/css/companyImformation.css" />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/back_end/companyProduct/css/vendorProductComment.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 </head>
 <body>
@@ -70,7 +76,7 @@
                     <ul>
                                 <li><a href="#"><i class="fas fa-cannabis"></i>日程表管理</a></li>					
                                 <li><a href="#"><i class="fas fa-cannabis"></i>營地訂單管理</a></li>
-                                <li><a href="<%=request.getContextPath()%>/back_end/companyProduct/html/productOrderList.html"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
+                                <li><a href="#"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
                             </ul>
                         </li>
                         <li>
@@ -99,57 +105,52 @@
                 </nav>
             </div>                 
     </aside>
-    <main class="main">  
-       <div class="vendor-information">
-         <div class="main-information">
-            <div class="title-1">廠商基本資訊</div>
-            <div class="information">
-                <div class="left-main">
-                    <div class="informate">
-                        <div class="wrap">
-                            <div class="left">廠商名稱:</div>
-                            <div class="right"><%=companyVO.getCompanyName()%></div>
-                        </div>
-                        <div class="wrap">
-                            <div class="left">負責人姓名:</div>
-                            <div class="right"><%=companyVO.getHeadName()%></div>
-                        </div>
-                        <div class="wrap">
-                            <div class="left">廠商帳號:</div>
-                            <div class="right"><%=companyVO.getCompanyAccount()%></div>
-                        </div>
-                        <div class="wrap">
-                            <div class="left">廠商Email:</div>
-                            <div class="right"><%=companyVO.getCompanyEmail()%></div>
-                        </div>
-                        
-                    </div>
-                </div>                    
-                <div class="right-main">
-                    <div class="informate">
-                        <div class="wrap">
-                            <div class="left">廠商電話:</div>
-                            <div class="right"><%=companyVO.getCompanyTel()%></div>
-                        </div>
-                        <div class="wrap">
-                            <div class="left">廠商銀行帳號:</div>
-                            <div class="right"><%=companyVO.getCompanyBankAccount()%></div>
-                        </div>
-                        <div class="wrap">
-                            <div class="left">廠商地址:</div>
-                            <div class="right"><%=companyVO.getCompanyAddress()%></div>
-                        </div>
-                        <div class="wrap">
-                            <div class="left">註冊時間:</div>
-                            <div class="right"><fmt:formatDate value="${companyVO.companyRegisterTime}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
-                        </div>
-                        <input class="update" type="button" value="修改基本資訊" onclick="location.href='<%=request.getContextPath()%>/back_end/companyProduct/jsp/companyUpdate.jsp'">
-                    </div>
-                </div>
-            </div>
-         </div>
-       </div>
-    </main>
-    
-    </body>
+
+    <main class="main">
+    	<div class="search"> 
+	    	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductBrowseServlet" style="margin-bottom: 0px;">
+	    			<input type="text" name="searchName" class="form-control" placeholder="請輸入商品名稱" value="">
+					<input class="button" type="submit" value="送出">				
+					<input type="hidden" name="action"	value="getList_By_Name_comment">
+			</FORM>
+		</div>
+		<div class="search">
+			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductBrowseServlet" style="margin-bottom: 0px;">
+	    			<select size="1" name="productTypeId">
+	                    	<c:forEach var="productType" items="${productTypeSvc.allProductType}">
+								<option value="${productType.productTypeId}" ${(productVO.productTypeId == productType.productTypeId) ? "selected" : "" }>${productType.productTypeName}</option>
+							</c:forEach>             
+	                </select>
+					<input class="button" type="submit" value="查詢">				
+					<input type="hidden" name="action"	value="getList_By_Type_comment">
+			</FORM>
+		</div>
+		<c:if test="${empty list}">
+        	<h1>查無資料......</h1>
+        </c:if>
+        <c:if test="${not empty list}">
+         <table id="miyazaki">
+            <thead>
+            <tr><th>商品編號<th>商品分類<th>商品名稱<th>商品圖片<th>商品品牌<th>商品狀態<th>查看商品評論
+            <tbody>
+            <c:forEach var="productVO" items="${list}">
+            <tr>
+                <td>${productVO.productId}
+                <td>${productTypeSvc.getOneProductType(productVO.productTypeId).productTypeName}
+                <td>${productVO.productName}
+                <td><img src="<%=request.getContextPath()%>/product/PicServlet?productId=${productVO.productId}&pic=1" style="width: 100px;">
+                <td>${productVO.productBrand}
+                <td>${(1==productVO.productStatus)? '上架':'下架'}                                
+                <td><FORM METHOD="post" ACTION="<%=request.getContextPath()%>/MallOrderDetail/productCommentServlet" style="margin-bottom: 0px;">
+						 <input class="button" type="submit" value="查看商品評論">
+						 <input type="hidden" name="productId"  value="${productVO.productId}">
+						 <input type="hidden" name="action"	value="getProductComment">
+					</FORM>                 
+     		</c:forEach>
+        </table>
+        </c:if> 
+    </main>    
+   
+
+</body>
 </html> 

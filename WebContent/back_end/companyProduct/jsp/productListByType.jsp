@@ -7,10 +7,8 @@
 
 
 <%
-	Integer vendorId = (Integer) session.getAttribute("vendorId");
-	
-	ProductService ProductSvc = new ProductService();
-	List<ProductVO> list = ProductSvc.getProductsByCompany(vendorId);
+	List<ProductVO> list = (List<ProductVO>) request.getAttribute("producList");	
+
 	pageContext.setAttribute("list",list);
 %>
 <jsp:useBean id="productTypeSvc" scope="page" class="com.productType.model.ProductTypeService" />
@@ -131,6 +129,10 @@
 		<div class="addProduct">
         <input class="button" type="button" value="新增商品" onclick="location.href='<%=request.getContextPath()%>/back_end/companyProduct/jsp/addProduct.jsp'">
         </div>
+        <c:if test="${empty list}">
+        	<h1>查無資料......</h1>
+        </c:if>
+        <c:if test="${not empty list}">
         <table id="miyazaki">
             <thead>
             <tr><th>商品編號<th>商品分類<th>商品名稱<th>商品品牌<th>商品單價<th>商品庫存數量<th>商品售出總數<th>商品狀態<th>變更狀態<th>操作
@@ -170,7 +172,8 @@
 	                </td>
 	             </tr>   
 	                </c:forEach>          
-        </table>        
+        </table>
+        </c:if>        
     </main>
     
     <div class="overlay" style="border: 1px solid red;">

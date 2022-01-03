@@ -13,12 +13,10 @@ import java.util.Map;
 
 import javax.sql.rowset.serial.SerialBlob;
 
-public class CampDAOImpl implements CampDAO {
-	String driver = "com.mysql.cj.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/campingParadise?serverTimezone=Asia/Taipei";
-	String userid = "David";
-	String passwd = "123456";
+import util.Util;
 
+public class CampDAOImpl implements CampDAO {
+	
 	private static final String CLOUM_FOR_INSERT = "company_Id,camp_Status,camp_description,camp_Name,camp_Rule,camp_Pic_1,camp_Pic_2,camp_Pic_3,camp_Pic_4,camp_Pic_5,camp_Address,camp_Phone,certificate_Num,certificate_Pic,camp_Launched_Time,camp_Applied_Launch_Time,longitude,lattitude";
 	private static final String CLOUM_FOR_ALL = "camp_Id," + CLOUM_FOR_INSERT;
 	private static final String INSERT_STMT = "INSERT INTO camp (" + CLOUM_FOR_INSERT + ") "
@@ -28,12 +26,12 @@ public class CampDAOImpl implements CampDAO {
 	
 	
 	// 12/17新增營位查詢
-	private static final String SELECT_STMT_BY_CAMP_ID = " select cc.camp_name,cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address,cd.comapny_name "
+	private static final String SELECT_STMT_BY_CAMP_ID = " select cc.camp_name,cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address,cd.company_name "
 			+ "from company cd  JOIN  camp cc " + "on cd.company_id = cc.company_id where cc.camp_Id=?";
 
-	private static final String SELECT_STMT_BY_COMPANYNAME = " select cc.camp_name,cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address,cd.comapny_name,cc.certificate_Pic "
+	private static final String SELECT_STMT_BY_COMPANYNAME = " select cc.camp_name,cc.camp_id,cc.certificate_num,cd.company_id,cd.head_name,cd.company_tel,cd.company_address,cd.company_name,cc.certificate_Pic "
 			+ "from company cd  JOIN  camp cc "
-			+ "on cd.company_id = cc.company_id where cd.comapny_name like '%' ? '%'";
+			+ "on cd.company_id = cc.company_id where cd.company_name like '%' ? '%'";
 
 	// 查詢營地基本資料(動態調整排序條件1.營地上架時間2.熱門排行)兩隻表camp left join camp_order
 	private static final String GET_ALL_STMT = "SELECT \r\n"
@@ -53,8 +51,19 @@ public class CampDAOImpl implements CampDAO {
 	private static final String UPDATECAMPCheck = "UPDATE camp set certificate_Num=?,certificate_Pic=? where camp_id=? ";// 12/21新增營地審核update
 	private static final String ALL_PAGE = "SELECT  * FROM camp where camp_status=? limit ?,?";
 	private static final String CAMPLIST = "SELECT " + CLOUM_FOR_ALL
-			+ " FROM camp where 1 = 1 and camp_launched_time  between ? and ? and camp_id like '%' ? '%'";
+			+ " FROM camp where 1 = 1 and camp_launched_time  between ? and ? and camp_name like '%' ? '%'";
 
+	
+	
+	static {
+		try {
+			Class.forName(Util.DRIVER);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	
 	@Override
 	public void insert(CampVO campVO) {
 
@@ -63,8 +72,7 @@ public class CampDAOImpl implements CampDAO {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setInt(1, campVO.getCompanyId());
@@ -117,8 +125,6 @@ public class CampDAOImpl implements CampDAO {
 			se.printStackTrace();
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -146,8 +152,7 @@ public class CampDAOImpl implements CampDAO {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setInt(1, campVO.getCompanyId());
@@ -200,8 +205,6 @@ public class CampDAOImpl implements CampDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -229,8 +232,7 @@ public class CampDAOImpl implements CampDAO {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setInt(1, campId);
@@ -240,8 +242,6 @@ public class CampDAOImpl implements CampDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -270,8 +270,7 @@ public class CampDAOImpl implements CampDAO {
 		ResultSet rs = null;
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setInt(1, campId);
@@ -305,8 +304,6 @@ public class CampDAOImpl implements CampDAO {
 
 		} catch (SQLException se) {
 			se.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -347,8 +344,7 @@ public class CampDAOImpl implements CampDAO {
 		String order = null;
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			switch (orderby) {
 			case 0: // 營地流水號
 				order = "camp_id";
@@ -401,8 +397,6 @@ public class CampDAOImpl implements CampDAO {
 
 		} catch (SQLException se) {
 			se.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -438,8 +432,7 @@ public class CampDAOImpl implements CampDAO {
 		CampVO campVO = null;
 
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			StringBuffer str = new StringBuffer(GET_BY_KEYWORDS);
 			str = str.insert(44, words);
 			pstmt = con.prepareStatement(str.toString());
@@ -468,8 +461,6 @@ public class CampDAOImpl implements CampDAO {
 				campVO.setCampAppliedLaunchTime(rs.getTimestamp("camp_applied_launch_time"));
 				list.add(campVO);
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
@@ -508,9 +499,7 @@ public class CampDAOImpl implements CampDAO {
 		ResultSet rs = null;
 
 		try {
-
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
@@ -542,8 +531,6 @@ public class CampDAOImpl implements CampDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -581,8 +568,7 @@ public class CampDAOImpl implements CampDAO {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 
 			StringBuilder sb = new StringBuilder(CAMPLIST);
 
@@ -636,8 +622,6 @@ public class CampDAOImpl implements CampDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -675,8 +659,7 @@ public class CampDAOImpl implements CampDAO {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(SELECT_STMT_BY_CAMP_ID);
 
 			pstmt.setInt(1, campId);
@@ -692,14 +675,12 @@ public class CampDAOImpl implements CampDAO {
 				campVO.setHeadName(rs.getString("cd.head_name"));
 				campVO.setCompanyTel(rs.getString("cd.company_tel"));
 				campVO.setCompanyAddress(rs.getString("cd.company_address"));
-				campVO.setCompanyName(rs.getString("cd.comapny_name"));
+				campVO.setCompanyName(rs.getString("cd.company_name"));
 			}
 
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -737,8 +718,7 @@ public class CampDAOImpl implements CampDAO {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(SELECT_STMT_BY_COMPANYNAME);
 			pstmt.setString(1, companyName);
 			rs = pstmt.executeQuery();
@@ -753,7 +733,7 @@ public class CampDAOImpl implements CampDAO {
 				campVO.setHeadName(rs.getString("cd.head_name"));
 				campVO.setCompanyTel(rs.getString("cd.company_tel"));
 				campVO.setCompanyAddress(rs.getString("cd.company_address"));
-				campVO.setCompanyName(rs.getString("cd.comapny_name"));
+				campVO.setCompanyName(rs.getString("cd.company_name"));
 				campVO.setCertificatePic(rs.getBytes("cc.certificate_Pic"));
 				campVOlist.add(campVO);
 			}
@@ -761,8 +741,6 @@ public class CampDAOImpl implements CampDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		}
 		return campVOlist;
 	}
@@ -781,8 +759,8 @@ public class CampDAOImpl implements CampDAO {
 		Integer allpage = null; // 總頁數
 		Map pagemap = null;
 		try {
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+		
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			// 查詢總筆數
 			pstmt1 = con.prepareStatement("select count(*) from camp where camp_status=" + " " + status);
 			rs1 = pstmt1.executeQuery();
@@ -839,8 +817,6 @@ public class CampDAOImpl implements CampDAO {
 			pagemap.put("pagedata", list);
 			pagemap.put("allpage", allpage);
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException se) {
 			se.printStackTrace();
 		} finally {
@@ -886,8 +862,7 @@ public class CampDAOImpl implements CampDAO {
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
 			pstmt = con.prepareStatement(UPDATECAMPCheck);
 
 			pstmt.setString(1, campVO.getCertificateNum());
@@ -903,8 +878,6 @@ public class CampDAOImpl implements CampDAO {
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
