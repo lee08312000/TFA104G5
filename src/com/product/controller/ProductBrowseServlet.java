@@ -80,7 +80,58 @@ public class ProductBrowseServlet extends HttpServlet{
 					
 		}
 		
+		// 取得商品列表by商品名稱
+		if ("getList_By_Name".equals(action)) {
+					
+			try {
+				HttpSession session = req.getSession();
+				CompanyVO companyVO = (CompanyVO) session.getAttribute("companyVO");
+						
+				String searchName = req.getParameter("searchName").trim();	
+				ProductService productSvc= new ProductService();
+				List<ProductVO> producList= productSvc.getProductsByLikeName(companyVO.getCompanyId(),searchName);
+				/***************************3.新增完成,準備轉交(Send the Success view)***********/
+				req.setAttribute("producList", producList);
+				String url = "/back_end/companyProduct/jsp/productListByType.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				successView.forward(req, res);				
+					
+				/***************************其他可能的錯誤處理**********************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+//				errorMsgs.add(e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/back_end/companyProduct/jsp/productlist.jsp");
+				failureView.forward(req, res);
+			}				
+							
+		}
 		
+		if ("getList_By_Name_comment".equals(action)) {
+			
+			try {
+				HttpSession session = req.getSession();
+				CompanyVO companyVO = (CompanyVO) session.getAttribute("companyVO");
+						
+				String searchName = req.getParameter("searchName").trim();	
+				ProductService productSvc= new ProductService();
+				List<ProductVO> producList= productSvc.getProductsByLikeName(companyVO.getCompanyId(),searchName);
+				/***************************3.新增完成,準備轉交(Send the Success view)***********/
+				req.setAttribute("producList", producList);
+				String url = "/back_end/companyProduct/jsp/vendorProductCommentByType.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				successView.forward(req, res);				
+					
+				/***************************其他可能的錯誤處理**********************************/
+			} catch (Exception e) {
+				e.printStackTrace();
+//				errorMsgs.add(e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/back_end/companyProduct/jsp/vendorProductComment.jsp");
+				failureView.forward(req, res);
+			}				
+							
+		}
 		
 		
 		

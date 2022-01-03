@@ -10,9 +10,9 @@
 
 <html>
 <head>
-<title>所有員工資料 - productlist.jsp</title>
+<title>商品資訊 </title>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/back_end/companyProduct/css/companyUpdate.css" />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/back_end/companyProduct/css/updatePassword.css" />
 
 </head>
 <body>
@@ -70,7 +70,7 @@
                     <ul>
                                 <li><a href="#"><i class="fas fa-cannabis"></i>日程表管理</a></li>					
                                 <li><a href="#"><i class="fas fa-cannabis"></i>營地訂單管理</a></li>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
+                                <li><a href="<%=request.getContextPath()%>/back_end/companyProduct/html/productOrderList.html"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
                             </ul>
                         </li>
                         <li>
@@ -102,58 +102,28 @@
     <main class="main">  
        <div class="vendor-information">
          <div class="main-information">
-            <div class="title-1">廠商基本資訊</div>
-            <div class="information">
-                <div class="left-main">
-                    <div class="informate">
-                        <div class="wrap">
-                        <FORM METHOD="post" ACTION="/TFA104G5/Company/VendorInformationServlet" name="form1">
-                            <div class="left">廠商名稱:</div>
-                            <div class="right"><input type="text" class="form-control" name="companyName" value="<%=companyVO.getCompanyName()%>"></div>
-                        </div>
-                        <div class="wrap">
-                            <div class="left">負責人姓名:</div>
-                            <div class="right"><input type="text" class="form-control" name="headName" value="<%=companyVO.getHeadName()%>"></div>
-                        </div>
-                        <div class="wrap">
-                            <div class="left">廠商帳號:</div>
-                            <div class="right"><div class="right"><%=companyVO.getCompanyAccount()%></div></div>
-                        </div>
-                        <div class="wrap">
-                            <div class="left">廠商Email:</div>
-                            <div class="right"><input type="text" class="form-control" name="companyEmail" value="<%=companyVO.getCompanyEmail()%>"></div>
-                        </div>
-                        
-                    </div>
-                </div>                    
-                <div class="right-main">
-                    <div class="informate">
-                        <div class="wrap">
-                            <div class="left">廠商電話:</div>
-                            <div class="right"><input type="text" class="form-control" name="companyTel" value="<%=companyVO.getCompanyTel()%>"></div>
-                        </div>
-                        <div class="wrap">
-                            <div class="left">廠商銀行帳號:</div>
-                            <div class="right"><input type="text" class="form-control" name="companyBankAccount" value="<%=companyVO.getCompanyBankAccount()%>"></div>
-                        </div>
-                        <div class="wrap">
-                            <div class="left">廠商地址:</div>
-                            <div class="right"><input type="text" class="form-control" name="companyAddress" value="<%=companyVO.getCompanyAddress()%>"></div>
-                        </div>
-                        <div class="wrap">
-                            <div class="left">註冊時間:</div>
-                            <div class="right"><fmt:formatDate value="${companyVO.companyRegisterTime}" pattern="yyyy-MM-dd HH:mm:ss"/></div>
-                        </div>                         
-                         <input type="hidden" name="action" value="update">
-			             <input class="update" type="submit" value="確認修改">                                          
-		            	</FORM>
-		            	<input class="return" type="button" value="返回" onclick="location.href='<%=request.getContextPath()%>/back_end/companyProduct/jsp/companyImformation.jsp'">                         
-                    </div>                    
-                </div>
-            </div>
+            <div class="text-area">
+                <h2>修改密碼</h2>
+                <%-- 錯誤表列 --%>
+				<c:if test="${not empty errorMsgs}">					
+					<ul>
+						<c:forEach var="message" items="${errorMsgs}">
+							<li style="color:red">${message}</li>
+						</c:forEach>
+					</ul>
+				</c:if>
+                <FORM METHOD="post" ACTION="/TFA104G5/Company/VendorInformationServlet" name="form1">
+                <p>舊密碼 : </p><input type="text" class="form-control" name="oldPassword" value="">
+                <p>新密碼 : </p><input type="text" class="form-control" name="newPassword" value="">
+                <p>再次輸入新密碼 : </p><input type="text" class="form-control" name="renewPassword" value="">
+                <br>
+                <input type="hidden" name="action" value="updatePassword">
+                <input type="submit" class="update" value="確認修改">
+                </FORM>
+            </div>  
          </div>
-       </div> 
+       </div>
     </main>
     
-     </body>
+    </body>
 </html> 
