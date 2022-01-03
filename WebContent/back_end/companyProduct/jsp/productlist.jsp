@@ -17,7 +17,7 @@
 
 <html>
 <head>
-<title>所有員工資料 - productlist.jsp</title>
+<title>商品列表</title>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/back_end/companyProduct/css/productlist.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -111,21 +111,21 @@
 
     <main class="main">
     	<div class="search"> 
-	    	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductServlet" style="margin-bottom: 0px;">
+	    	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductBrowseServlet" style="margin-bottom: 0px;">
 	    			<input type="text" name="searchName" class="form-control" placeholder="請輸入商品名稱" value="">
 					<input class="button" type="submit" value="送出">				
-					<input type="hidden" name="action"	value="getOne_For_Update">
+					<input type="hidden" name="action"	value="getList_By_Name">
 			</FORM>
 		</div>
 		<div class="search">
-			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductServlet" style="margin-bottom: 0px;">
+			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/Product/ProductBrowseServlet" style="margin-bottom: 0px;">
 	    			<select size="1" name="productTypeId">
 	                    	<c:forEach var="productType" items="${productTypeSvc.allProductType}">
 								<option value="${productType.productTypeId}" ${(productVO.productTypeId == productType.productTypeId) ? "selected" : "" }>${productType.productTypeName}</option>
 							</c:forEach>             
 	                </select>
 					<input class="button" type="submit" value="查詢">				
-					<input type="hidden" name="action"	value="getOne_For_Update">
+					<input type="hidden" name="action"	value="getList_By_Type">
 			</FORM>
 		</div>
 		<div class="addProduct">

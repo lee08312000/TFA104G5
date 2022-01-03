@@ -132,6 +132,7 @@
         h1{
             color: black;
             text-align: center;
+            margin-left:100px;
         
 
         }
@@ -140,7 +141,7 @@
         .camp_table{
           border:1px solid blck; 
           border-collapse: collapse;
-          margin-left: 400px;
+          margin-left: 700px;
           margin-top: 0px;
           width: 75%;
         }
@@ -155,7 +156,7 @@
           border:1px solid black;
           text-align: center; 
           width: 90PX;
-          margin-left:200px;
+          margin-left:250px;
         
         
         }
@@ -229,7 +230,7 @@
         }
         div.pagination {
        
-          margin-left: 200px;;
+          margin-left: 300px;;
           margin-top: 10px;
 		  display: inline-block;
 		  
@@ -264,11 +265,11 @@
 		aside.aside{            
         position: fixed;
         left: 0;
-        top: var(--header-height);
+        top: 110px;
         width: var(--aside-width);
         height: calc(100% - var(--header-height));
         overflow-x: visible;
-        padding: 20px 0;
+        padding: 40px 0;
         z-index: 2;
         transition: all 1s;
     }

@@ -47,7 +47,7 @@
 	href="<%=request.getContextPath()%>/front_end/camp/css/camp_booking02.css"
 	rel="stylesheet" />
 
-<link href="img/icon/chuba_logo.png" rel="shortcut icon">
+<link href="<%=request.getContextPath()%>/front_end/camp/img/icon/chuba_logo.png" rel="shortcut icon">
 
 
 </head>
@@ -58,16 +58,41 @@
 		<div class="header-inner responsive-wrapper">
 			<div class="header-logo">
 				<a style="display: inline-block; vertical-align: middle;"
-					href="camp_index.html"> <img src="img/icon/chuba_logo.png" />
+					href="<%=request.getContextPath()%>/front_end/camp/camp_index.html">
+					<img
+					src="<%=request.getContextPath()%>/front_end/camp/img/icon/chuba_logo.png" />
 				</a> <span style="display: inline-block; vertical-align: middle;">Camping
 					Paradise</span>
 			</div>
 			<nav class="header-navigation">
-				<a href="camp_index.html">Home</a> <a href="../mall/mall_index.html">線上商城</a>
-				<a href="#"><img src="img/icon/heart.png"></a> <a
-					href="../member/login.jsp">登入|註冊</a> <a href="#"><i
-					class="fas fa-user-circle"></i></a>
-				<button>Menu</button>
+				<a
+					href="<%=request.getContextPath()%>/front_end/camp/camp_index.html">Home</a>
+				<a
+					href="<%=request.getContextPath()%>/front_end/mall/mall_index.html">線上商城</a>
+				<a
+					href="<%=request.getContextPath()%>/front_end/member/jsp/member_favorite_camp.jsp">
+					<img
+					src="<%=request.getContextPath()%>/front_end/camp/img/icon/heart.png">
+				</a>
+				<div id="nav">
+					<ul>
+						<li class="mylog"><a
+							href="#"
+							id="islogin2">登入|註冊</a>
+							<ol>
+								<li><a href="<%=request.getContextPath()%>/front_end/member/login/login.jsp">會員登入</a></li>
+								<li><a
+									href="<%=request.getContextPath()%>/back_end/companyLogin/vendorLogin.jsp">廠商登入</a></li>
+							</ol></li>
+					</ul>
+				</div>
+
+				<a href="#" class="islogin out">登出</a> <a
+					href="<%=request.getContextPath()%>/front_end/member/jsp/member_main.jsp"
+					class="islogin"> <i class="fas fa-user-circle islogin"></i>
+				</a>
+
+
 			</nav>
 		</div>
 	</header>
@@ -105,6 +130,7 @@
 			</div>
 			<div class="triangle-incomplete"></div>
 		</section>
+		
 		<%-- 錯誤表列 --%>
 		<c:if test="${not empty errorMsgs}">
 			<font style="color: red">請修正以下錯誤:</font>
@@ -115,7 +141,7 @@
 			</ul>
 		</c:if>
 
-		<form method="post" action="CampBookingServlet">
+		<form method="post" action="/TFA104G5/CampBookingServlet">
 
 			<div class="wrapper">
 
@@ -376,7 +402,7 @@
 					<div class="form-container">
 						<div class="field-container">
 							<label for="name" class="notna">Name</label> <input id="name"
-								name="payername" value="" maxlength="20" type="text" required>
+								name="payername" value="" maxlength="10" type="text" required>
 						</div>
 						<div class="field-container">
 							<label for="cardnumber" class="notna">Card Number</label><span
@@ -420,7 +446,7 @@
 
 	</main>
 
-	<footer class="tm-footer text-center footer1">
+	<footer class="tm-footer text-center book02-footer">
 		<div class="footer-inner">
 			<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
 			<pre>Copyright &copy; 2020 Simple House | Design: <a
@@ -429,9 +455,8 @@
 		</div>
 	</footer>
 
-
+    <script src="<%=request.getContextPath()%>/front_end/camp/js/login2.js"></script> 
 	<script src="https://unpkg.com/imask"></script>
-
 	<script
 		src="${pageContext.request.contextPath }/front_end/camp/js/camp_booking02.js"></script>
 	<script>

@@ -31,6 +31,9 @@ pageContext.setAttribute("campVO", cv);
 	crossorigin="anonymous">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/back_end/css/updateCampCertificatenum.css?v=004">
+	
+	<script src="<%=request.getContextPath()%>/back_end/camp/js/updateCampCertificatenum.js"></script>
+	
 </head>
 <body>
 
@@ -40,7 +43,7 @@ pageContext.setAttribute("campVO", cv);
 
 	<h1 style="margin-right:100px">營地上架審核</h1>
 	<h2>${errorMsgs}</h2>
-	<form method="post"ACTION="<%=request.getContextPath()%>/camp/shelves.do">
+	<form method="post"ACTION="<%=request.getContextPath()%>/camp/shelves.do" enctype="multipart/form-data">
 		<table class="camp_table">
 
 			<tr> 
@@ -81,16 +84,14 @@ pageContext.setAttribute("campVO", cv);
 			</tr>
 
 			<tr>
-				<td><label>證書圖片:</label></td>
-				<td><div class="upload_certificate_pic">
-						<input id="upload" type="file" accept="image/*"
-							multiple="multiple">
+					<td><label for="fname">證書圖片:</label></td>
+					<td><input type="file" name="camp_pic1" id="fileInput1" value=""/> 
+					<div id="fileDisplayArea1">
+					<img style="width: 30%;" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${campVO.campId}&certificate=t" />
 					</div>
-					<div class="img-box">
-						<!-- 存放預覽圖片 -->
-					</div></td>
+					</td>
+
 			</tr>
-			
 
 			<tr>
 				<td colspan="2">
@@ -105,12 +106,7 @@ pageContext.setAttribute("campVO", cv);
 	</form>
 
 
-	<footer class="tm-footer text-center">
-		<pre>服務專線：(02)2252-7966　　 客服時間：週一至週五9:00~18:00　　 客服信箱：camp@easycamp.com.tw</pre>
-		<pre>Copyright &copy; 2021 Camping Paradise | Design: <a
-				style="text-decoration: none;" rel="nofollow" href="#">TFA104第五組</a>
-				</pre>
-	</footer>
+
 </body>
 </html>
 

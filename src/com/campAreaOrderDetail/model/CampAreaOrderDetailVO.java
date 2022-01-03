@@ -115,4 +115,13 @@ public class CampAreaOrderDetailVO implements Serializable {
 		this.bookingHolidays = bookingHolidays;
 	}
 
+	@Override
+	public String toString() {
+		return "CampAreaOrderDetailVO [campAreaOrderDetailId=" + campAreaOrderDetailId + ", campAreaId=" + campAreaId
+				+ ", campOrderId=" + campOrderId + ", bookingQuantity=" + bookingQuantity + ", campAreaWeekdayPrice="
+				+ campAreaWeekdayPrice + ", campAreaHolidayPrice=" + campAreaHolidayPrice + ", capitationQuantity="
+				+ capitationQuantity + ", perCapitationFee=" + perCapitationFee + ", bookingWeekdays=" + bookingWeekdays
+				+ ", bookingHolidays=" + bookingHolidays + "]";
+	}
+
 }

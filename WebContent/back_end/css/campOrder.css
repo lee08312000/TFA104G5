@@ -12,16 +12,7 @@
             --header-bg:#d7ab75;
         }
         
-         body {
-         	width:100%;
-            font-family: 'Oswald', sans-serif;
-            background-color: #FFFFFF;
-            line-height: 1.5;
-            min-height: 300vh;
-            position: relative;
-            margin: 0;
-        }
-        
+       
         .responsive-wrapper {
             width: 90%;
             max-width: 1280px;
@@ -132,35 +123,43 @@
         h1{
             color:black;
             text-align: center;
-            margin-left:200px;
+            margin-left:90px;
+         
         }
-        h2{
-        	color:black;
-        	text-align:center;
-        
-        }
+ 
         .order_detail{
             font-size:18px;
             text-align: left;
             font-weight:bold;
-            margin-left:230px ;
+            margin-left:200px ;
             margin-top:300px;
         }
         
-
-        table{
+        #datatable{
           border:1px solid blck;
           border-collapse: collapse;
-          margin-left:230px ;
+          margin-left:80px ;
           margin-top: 0px;
-          table-layout: fixed;
-          width: 90%;
+          width: 75%;
         }
-        table td,table th{
+        #listAllCampTable{
+          border:1px solid blck;
+          border-collapse: collapse;
+          margin-left:300px ;
+          margin-top: 0px;
+          width: 70%;
+        }
+        table td{
           border:1px solid black;
-          text-align: center; 
-          
+          text-align: center;          
         }
+         table th{
+          background-color:#4CAF50;
+          color:white;
+          border:1px solid black;
+          text-align: center;
+         
+         }
         .topnav{
             margin-left:885px;
             margin-top:100px;        
@@ -174,8 +173,17 @@
        
         .selector{
          height: 27px;
-         margin-right:2000px;
-         
+         margin-right:100px;
+         margin-top:10px;        
+        }
+        
+        .list{
+         margin-top:10px;     
+        
+        }
+        .campDate{
+         margin-top:10px;     
+        
         }
         
         .submit_button{
@@ -222,14 +230,14 @@
         
         div.divSearchForm{
             
-            margin-left:250px ;
-            margin-top: 80px;
+            margin-left:300px ;
+            margin-top: 20px;
             display:inline-block;
         }
         div.pagination {
        
-          margin-left:240px ;
-          margin-top: 80px;
+          margin-left:300px ;
+          margin-top:20px;
 		  display: inline-block;
 		  
 		}
@@ -257,19 +265,18 @@
 	
 	 /* =====================aside區域========================*/
 		
-	 
-    aside.aside{            
+        aside.aside{            
         position: fixed;
-  		left: 0;
-        top: 0;
+        left: 0;
+        top: 190px;
         width: var(--aside-width);
         height: calc(100% - var(--header-height));
         overflow-x: visible;
-        padding: 100px 0 0 0;
-
+        padding: 40px 0;
+        z-index: 2;
         transition: all 1s;
     }
-     .clearfix:before,
+    .clearfix:before,
     .clearfix:after {
         content: " ";
         display: table;
@@ -285,14 +292,13 @@
     .container {
         position: relative;
         margin: 0px auto;
-        padding: 10px;
+        padding: 0px 0;
         clear: both;
     }
-    
 
     .mcd-menu {
     list-style: none;
-    padding-left: 5px;
+    padding-left: 30px;
     margin: 0;
     background: #FFF;
     /*height: 100px;*/
@@ -321,7 +327,6 @@
     height: 55px;
     position: relative;
     border-bottom: 1px solid #EEE;
-    
     /* == */
     }
     .mcd-menu li a i {
@@ -339,6 +344,7 @@
     /* == */
     .mcd-menu li a p {
     float: left;
+    margin: 0 ;
     }
     /* == */
 
@@ -348,8 +354,7 @@
     }
     .mcd-menu li a small {
     display: block;
-    font-size: 15px;
-    text-align: center;
+    font-size: 10px;
     }
 
     .mcd-menu li a i, .mcd-menu li a strong, .mcd-menu li a small {
@@ -399,7 +404,6 @@
     box-shadow: 0 0 5px #DDD;
     -moz-box-shadow: 0 0 5px #DDD;
     -webkit-box-shadow: 0 0 5px #DDD;
-    height:90px;'
     
     /* == */
     border-left: 4px solid #e67e22;
@@ -551,7 +555,7 @@
     float: none;
     }*/
     .mcd-menu li ul li a {
-    padding: 10px;
+    padding: px;
     text-align: left;
     border: 0;
     border-bottom: 1px solid #EEE;
@@ -599,7 +603,7 @@
     margin: 0;
     display: inline-block;
     font-size: 18px;
-    }
+    }   
 
     /* =====================footer區域========================*/
     

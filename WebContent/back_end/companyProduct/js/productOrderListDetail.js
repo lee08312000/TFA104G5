@@ -60,6 +60,8 @@ $(function () {
 		 
 		    	}else if(mallOrderDetailList[0].mallOrderDeliveryStatus == 0){
 		    		$("#updateButton").prepend(`<button class="updateButton" id="delivery" type="button">確認出貨</button>`);	
+		    	}else if(mallOrderDetailList[0].mallOrderDeliveryStatus == 1){
+		    		$("#updateButton").prepend(`<button class="updateButton" id="qrcode" type="button">訂單Qrcode</button>`);
 		    	}else{
 		    		
 		    	}    	
@@ -123,9 +125,36 @@ $(function () {
         }); 	
     });
 	
+	$(document).on("click", "#qrcode", function(){
+		$("div.overlay").fadeIn();
+		$.ajax({
+            url: "/TFA104G5/mallOrder/QrcodeServlet",
+            type: "POST",
+            data: {
+            	"action": "getQrcode",
+    		    "mallOrderId": mallOrderId
+            },
+            dataType: "json",
+            beforeSend: function () {
+              
+            },
+            success: function (qrcodeStr) {            	
+            	$("#codeMain").prepend(`<img src="data:image/gif;base64,${qrcodeStr.qrcode}">`);               
+            	init();
+            },
+            complete: function (xhr) {
+              // console.log(xhr);
+            },
+            error: function(xhr){           
+                console.log("error");  
+            }
+        }); 
+	});
 	
-	
-	
+	// 關閉 Modal
+    $("button.btn_modal_close").on("click", function(){
+        $("div.overlay").fadeOut();
+    });;
 	
 	
 	

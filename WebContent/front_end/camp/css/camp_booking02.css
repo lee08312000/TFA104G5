@@ -1,7 +1,7 @@
 html, body {
 	max-width: 100%;
 	width: 100%;
-	overflow-x: hidden;
+	/*overflow-x: hidden;*/
 	font-size: 16px;
 	padding: 0;
 	margin: 0;
@@ -103,7 +103,7 @@ input[type="radio"]:checked {
 	text-align: center;
 	width: 100%;
 	margin: 0;
-	bottom: 60px;
+	bottom: 90px;
 }
 
 .btn-wrap .btn {
@@ -1187,12 +1187,10 @@ input {
 	margin-right: -1px;
 }
 
-.footer1 {
-	position: relative;
-	text-align: center;
-	 left: 50%;
-	margin: 0 auto;
-	width: 100%;
-	background-color: #dbb07c;
-	font-weight: bold;
+
+.book02-footer{
+	margin-top:50px;
+	bottom:auto !important;
+	
 }
+

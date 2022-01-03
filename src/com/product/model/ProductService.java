@@ -187,4 +187,22 @@ public class ProductService {
 			}
 			return productList;
 		}
+	// update by ginny	12/30
+		public List<ProductVO> getProductsByProductType(Integer companyId,Integer productTypeId) {
+			List<ProductVO> productVoList= dao.getAll();
+			List<ProductVO> productList = new ArrayList<ProductVO>();
+			List<ProductVO> productListByType = new ArrayList<ProductVO>();
+			for (ProductVO product : productVoList) {
+				if(companyId == product.getCompanyId()) {
+					productList.add(product);
+				}			
+			}
+			for (ProductVO product : productList) {
+				if(productTypeId == product.getProductTypeId()) {
+					productListByType.add(product);
+				}			
+			}
+			
+			return productListByType;
+		}
 }

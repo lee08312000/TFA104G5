@@ -117,9 +117,9 @@ div.star_block>span.star.-on {
     font-weight: bold;
 }
 
-.islogin{
-	
-	display: none !important;
-	
-	
+footer {
+   
+  bottom:-50px !important;
+   
 }
+

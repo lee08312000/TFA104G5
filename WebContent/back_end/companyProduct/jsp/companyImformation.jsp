@@ -10,7 +10,7 @@
 
 <html>
 <head>
-<title>所有員工資料 - productlist.jsp</title>
+<title>商品資訊 </title>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/back_end/companyProduct/css/companyImformation.css" />
 
@@ -70,7 +70,7 @@
                     <ul>
                                 <li><a href="#"><i class="fas fa-cannabis"></i>日程表管理</a></li>					
                                 <li><a href="#"><i class="fas fa-cannabis"></i>營地訂單管理</a></li>
-                                <li><a href="#"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
+                                <li><a href="<%=request.getContextPath()%>/back_end/companyProduct/html/productOrderList.html"><i class="fas fa-cannabis"></i>商城訂單管理</a></li>
                             </ul>
                         </li>
                         <li>

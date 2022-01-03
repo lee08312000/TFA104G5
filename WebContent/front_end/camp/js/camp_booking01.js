@@ -1,15 +1,17 @@
 var el;
 window.addEventListener("load", function() {
+
+
+	
     // 計算平日幾天&假日幾天
     var begin = document.getElementById("begin").innerText.slice(5, 15).trim();
-    console.log(begin);
+    
     var beginday = new Date(begin);
     var night = document.getElementById("daynum").innerText.slice(8, 9).trim();
 
     var holidays = getWorkDate(beginday, night);
     var weekdays = night - holidays;
-    console.log(holidays);
-    console.log(weekdays);
+ 
 
 
     var inputweekday = document.getElementsByTagName("input")[0];
@@ -231,7 +233,7 @@ orderbtn.addEventListener("click", function(e) {
 	var begin = document.getElementById("begin").innerText.slice(6, 16).trim();
     var night = document.getElementById("daynum").innerText.slice(8, 9).trim();
     document.getElementById("chooseDate").value=begin;
-    console.log(begin);
+
     document.getElementById("chooseDay").value=night;
 
     var total = document.getElementsByClassName("totalpricesubtotal")[0].innerText.slice(1);

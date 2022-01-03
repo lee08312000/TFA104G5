@@ -40,35 +40,24 @@ document.addEventListener("DOMContentLoaded", function() {
 		    		membershow_a[i].classList.remove("islogin");
 		    	}
 		    	
-		    	
+		    	//把登入|註冊那欄抓出
 		    	var memberlogin=document.getElementById("islogin");
+		    	
 		    	var Pmemberlogin=memberlogin.parentNode;
 		    	memberlogin.classList.add("islogin");
 		    	Pmemberlogin.classList.add("islogin");
 		    	
 		    	
+		   
 		    	
 		    	//我最愛的營地id 存入session
 		    	let list=data['favorlist'];
 		    	for(let i=0;i<list.length;i++){
 		    		favorlist.push(list[i].campId);
-
 		    	}
-		    	
-		    	
-		    	
-		    	
 
 		    }
-		    
-		    
-		    
-		    
-		    
-		    
-		    
-		    
-		    
+		    		    
 		  },
 		  error: function(xhr){         // request 發生錯誤的話執行
 		    console.log(xhr);
@@ -78,9 +67,35 @@ document.addEventListener("DOMContentLoaded", function() {
 		    console.log(favorlist);
 		  }
 		});
+});
+
+
+
+//登出
+var logout=document.getElementsByClassName("out")[0];
+console.log(logout);
+logout.addEventListener("click",function(e){
+	
+
+	sessionStorage.removeItem("memberid");
+	$.ajax({
+		  url: "/TFA104G5/member/MemberServlet",           // 資料請求的網址
+		  type: "GET",                  // GET | POST | PUT | DELETE | PATCH
+		   data: {
+			   "action":"logout",               // 傳送資料到指定的 url
+		   },
+		  dataType: "text",             // 預期會接收到回傳資料的格式： json | xml | html
+		  success: function(data){      // request 成功取得回應後執行
+			alert("登出成功");
+			
+			location.reload();
+		  }
+		});
 	
 	
 	
-	
-	
-})
+});
+
+
+
+
