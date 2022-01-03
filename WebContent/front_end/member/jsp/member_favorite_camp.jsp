@@ -189,7 +189,7 @@
 				<tr>
 					<td class="text-center"><img class="product_pic" src="<%=request.getContextPath()%>/PicWithCampServlet?campid=${ favoriteCampVO.campId }&pic=1"
 						alt="營地圖片"></td>
-					<td class="text-left"><a href="<%=request.getContextPath()%>/front_end/camp/camp_detail.html?campId=${ favoriteCampVO.campId }">${ campSvc.getOneCamp(favoriteCampVO.campId).campName }</a></td> 
+					<td class="text-left"><a href="<%=request.getContextPath()%>/front_end/camp/camp_detail.html?campid=${ favoriteCampVO.campId }">${ campSvc.getOneCamp(favoriteCampVO.campId).campName }</a></td> 
 					<td class="text-center">
 					<c:forEach var="campTagName" items="${ campTagDetailSvc.findCampTagsByCampIdNames(favoriteCampVO.campId) }">
 					<a>${ campTagName }</a>
