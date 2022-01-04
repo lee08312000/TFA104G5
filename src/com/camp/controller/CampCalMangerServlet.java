@@ -2,6 +2,9 @@ package com.camp.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -49,12 +52,21 @@ public class CampCalMangerServlet extends HttpServlet {
 		}
 
 		if ("seeorder".equals(action)) {
-			String date = req.getParameter("date"); // 點擊日期
+			String dateStr = req.getParameter("date"); // 點擊日期
 			String campid = req.getParameter("campid"); // 營地id
-
+			SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+			try {
+				date = sdf.parse(dateStr);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			
 			CampOrderService camporderSvc = new CampOrderService();
-			List<CampOrderVO> orderlist = camporderSvc.OrderByCheckin(java.sql.Date.valueOf(date),
-					Integer.parseInt(campid));
+			List<CampOrderVO> orderlist = camporderSvc.OrderByCheckin(date,Integer.parseInt(campid));
 
 			JSONArray jsArray = new JSONArray(orderlist);
 

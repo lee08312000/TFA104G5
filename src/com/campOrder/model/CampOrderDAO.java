@@ -35,6 +35,10 @@ public interface CampOrderDAO {
 	public List<CampOrderVO> selectCampComment(Timestamp startDateTimestamp, Timestamp endDateTimestamp,
 			Integer campOrder);
 
+
+
+	List<CampOrderVO> getAllbyDate(Date date, Integer ordernumber);
+
 	
 		
 
