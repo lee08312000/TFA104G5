@@ -298,12 +298,14 @@ a:active {
 #timer {
     font-size: 16px;
     font-size: 1rem;
+    padding-top:10px;
 }
 
 .copyright {
     font-size: 14px;
     font-size: 0.875rem;
     text-align: center;
+    padding-top:10px;
 }
 
 
@@ -409,11 +411,11 @@ h1 {
         position: absolute;
         text-align: center;
         left: 50%;
-        top: 25%;
+        transform: translateX(-50%);
         width: 400px;
-        margin-left: -230px;
+        margin-left: 0px;
         height: 480px;
-        margin-top: -250px;
+        margin-top: 100px;
         font-size: 20px;
         border: 3px solid #999;
         box-shadow: 6px 6px 0px #333;
@@ -433,6 +435,12 @@ h1 {
 .lead{
 	
 	text-align: center;
+}
+
+
+.re-footer{
+	bottom:auto !important;
+	top:800px;
 }
 
 

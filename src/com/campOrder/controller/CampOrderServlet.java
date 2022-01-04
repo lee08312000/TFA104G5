@@ -56,6 +56,20 @@ public class CampOrderServlet extends HttpServlet {
 			rd.forward(req, res);
 
 		}
+		
+		// 查詢單筆訂單
+		if (action.equals("GETONECAMPNOUPDATE")) {
+			String campOrderIdStr = req.getParameter("campOrderId");
+			CampOrderVO cov = new CampOrderVO();
+			if (campOrderIdStr != null && campOrderIdStr != "") {
+				cov = campOrderService.findByCampOrderId(Integer.valueOf(campOrderIdStr));
+			}
+			req.setAttribute("campOrderVO", cov);
+			String url = "/back_end/camp/showOneCampOrder.jsp";
+			RequestDispatcher rd = req.getRequestDispatcher(url);
+			rd.forward(req, res);
+
+		}
 
 		// 查詢多筆訂單
 		if (action.equals("SEARCHALL")) {

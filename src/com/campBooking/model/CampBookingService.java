@@ -108,7 +108,7 @@ public class CampBookingService {
 				Date enddate = GetnextMonth.nextMonths(startdate, monthnum);
 				// 取得最後日期與起始日期區間的集合
 				List<java.util.Date> datelist = DiffDays.getDates(startdate, enddate);
-				List list = new ArrayList();
+				List<Map<String, Integer>> list = new ArrayList<>();
 				// 針對每個日期取空位資訊，放進
 				for (Date date : datelist) {
 
