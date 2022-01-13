@@ -44,8 +44,11 @@ public class CampOrderDAOImpl implements CampOrderDAO {
 			+ " FROM camp_order where 1 = 1 and camp_order_comment_time  between ? and ?";
 		
 
+	private static final String GET_ALL_BYDate = "SELECT * FROM camp_order where camp_check_in_date < ? and camp_check_out_date >= ? order by ";
+
 	private static final String GET_ALL2 = "SELECT * FROM camp_order order by ";
 
+	
 	private static final String FIND_HOTCAMP = "SELECT camp_id,(sum(camp_comment_star)/count(*)) as 'avg_star',count(*) as 'compl_ordernum' FROM campingParadise.camp_order where camp_order_completed_time is not null group by camp_id order by compl_ordernum desc,avg_star desc";
 
 	private static final String FIND_BY_PARAMS = "SELECT * FROM camp_order where  camp_order_confirmed_time >=? and camp_order_confirmed_time <= ? and camp_order_status=? ";
@@ -454,7 +457,7 @@ System.out.println(sdf.format(list.get(j))+","+"剩餘空位"+lastAreaNum+","+"�
 	}
 
 	@Override
-	public List<CampOrderVO> getAll(Integer... sortmethed) {
+	public List<CampOrderVO> getAllbyDate(Date date ,Integer ordernumber) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -464,40 +467,38 @@ System.out.println(sdf.format(list.get(j))+","+"剩餘空位"+lastAreaNum+","+"�
 		try {
 
 			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
-			if (sortmethed.length != 0) {
-				for (Integer ordernumber : sortmethed) {
-					switch (ordernumber) {
-					case 0:
-						buf.append("camp_order_id,");
-						break;
-					case 1:
-						buf.append("camp_id,");
-						break;
-					case 2:
-						buf.append("camp_order_status,");
-						break;
-					case 3:
-						buf.append("camp_check_out_date desc,");
-						break;
-					case 4:
-						buf.append("camp_check_in_date desc,");
-						break;
-					case 5:
-						buf.append("camp_order_comment_time desc,");
-						break;
-					default:
-						buf.append("camp_order_id,");
-					}
-
-				}
-			} else {
+			
+			switch (ordernumber) {
+			case 0:
+				buf.append("camp_order_id,");
+				break;
+			case 1:
+				buf.append("camp_id,");
+				break;
+			case 2:
+				buf.append("camp_order_status,");
+				break;
+			case 3:
+				buf.append("camp_check_out_date desc,");
+				break;
+			case 4:
+				buf.append("camp_check_in_date desc,");
+				break;
+			case 5:
+				buf.append("camp_order_comment_time desc,");
+				break;
+			default:
 				buf.append("camp_order_id,");
 			}
 
 			String sorted = buf.toString().substring(0, buf.length() - 1);
 
-			pstmt = con.prepareStatement(GET_ALL2 + "" + sorted);
-System.out.println(GET_ALL2 + "" + sorted);
+			pstmt = con.prepareStatement(GET_ALL_BYDate + "" + sorted);
+			System.out.println(GET_ALL_BYDate + "" + sorted);
+			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+			System.out.println(sqlDate);
+			pstmt.setDate(1, sqlDate);
+			pstmt.setDate(2, sqlDate);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -550,6 +551,101 @@ System.out.println(GET_ALL2 + "" + sorted);
 		return list;
 	}
 
+	
+	@Override
+	public List<CampOrderVO> getAll(Integer... sortmethed) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		CampOrderVO campOrderVO = null;
+		List<CampOrderVO> list = new ArrayList<>();
+		StringBuffer buf = new StringBuffer();
+		try {
+
+			con = DriverManager.getConnection(Util.URL, Util.USER, Util.PASSWORD);
+			
+			if (sortmethed.length != 0) {
+				for (Integer ordernumber : sortmethed) {
+					switch (ordernumber) {
+					case 0:
+						buf.append("camp_order_id,");
+						break;
+					case 1:
+						buf.append("camp_id,");
+						break;
+					case 2:
+						buf.append("camp_order_status,");
+						break;
+					case 3:
+						buf.append("camp_check_out_date desc,");
+						break;
+					case 4:
+						buf.append("camp_check_in_date desc,");
+						break;
+					case 5:
+						buf.append("camp_order_comment_time desc,");
+						break;
+					default:
+						buf.append("camp_order_id,");
+					}
+				}
+			}
+			String sorted = buf.toString().substring(0, buf.length() - 1);
+
+			pstmt = con.prepareStatement(GET_ALL2 + "" + sorted);
+			System.out.println(GET_ALL2 + "" + sorted);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				campOrderVO = new CampOrderVO();
+				campOrderVO.setCampOrderId(rs.getInt(1));
+				campOrderVO.setCampId(rs.getInt(2));
+				campOrderVO.setMemberId(rs.getInt(3));
+				campOrderVO.setCampOrderStatus(rs.getInt(4));
+				campOrderVO.setCampOrderTotalAmount(rs.getInt(5));
+				campOrderVO.setCampCheckOutDate(rs.getDate(6));
+				campOrderVO.setCampCheckInDate(rs.getDate(7));
+				campOrderVO.setCreditCardNum(rs.getString(8));
+				campOrderVO.setPayerName(rs.getString(9));
+				campOrderVO.setPayerPhone(rs.getString(10));
+				campOrderVO.setCampOrderConfirmedTime(rs.getTimestamp(11));
+				campOrderVO.setCampOrderCompletedTime(rs.getTimestamp(12));
+				campOrderVO.setCampCommentStar(rs.getInt(13));
+				campOrderVO.setCampComment(rs.getString(14));
+				campOrderVO.setCampOrderCommentTime(rs.getTimestamp(15));
+				list.add(campOrderVO);
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+			// Clean up JDBC resources
+		} finally {
+
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+		return list;
+	}
+	
 	@Override
 	public List<Integer> findhotcamp() {
 		Connection con = null;

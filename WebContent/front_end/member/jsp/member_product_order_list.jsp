@@ -6,12 +6,16 @@
 <%@ page import="com.member.model.*"%>
 <%@ page import="com.mallOrder.model.*"%>
 <%@ page import="com.company.model.*"%> 
+<%@ page import="java.util.stream.Collectors"%>
 
 <%
 	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
 	
 	MallOrderService mallOrderSvc = new MallOrderService();
 	List<MallOrderVO> list = mallOrderSvc.getMallOrderByMember(memberVO.getMemberId());
+	list = list.stream()
+			   .sorted(Comparator.comparing(MallOrderVO::getMallOrderId).reversed())
+			   .collect(Collectors.toList());
 	pageContext.setAttribute("list",list);
 %>
 <jsp:useBean id="companySvc" scope="page" class="com.company.model.CompanyService" />

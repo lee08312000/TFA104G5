@@ -1,6 +1,6 @@
 package com.campOrder.model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,18 +118,12 @@ public class CampOrderService {
 //查詢訂單by預計入住日期(廠商查詢當日的訂單)
 //參數日期要轉換java.sql.Date
 	public List<CampOrderVO> OrderByCheckin(Date checkinDate, Integer campid) {
-		List<CampOrderVO> daolist = orderdao.getAll(0);
-		List<CampOrderVO> querylist = new ArrayList<CampOrderVO>();
-		for (CampOrderVO obj : daolist) {
-			
-			if (obj.getCampCheckInDate().getTime() == checkinDate.getTime() && obj.getCampId() == campid) {
+		List<CampOrderVO> daolist = orderdao.getAllbyDate(checkinDate,campid);
 
-				querylist.add(obj);
-			}
-		}
-
-		return querylist;
+		return daolist;
 	}
+	
+	
 
 //查詢訂單by營地編號(廠商查自己營地所有訂單)
 	public List OrderByCompanyId(Integer companyId) {
@@ -146,7 +140,7 @@ public class CampOrderService {
 		return querylist;
 	}
 
-//查詢已完成評論的訂單(給使用者觀看訂單評價)評論時間排序(新到舊)
+   //查詢已完成評論的訂單(給使用者觀看訂單評價)評論時間排序(新到舊)
 	public List<CampOrderVO> OrderByCommented(Integer campId) {
 		List<CampOrderVO> daolist = orderdao.getAll(4);
 		List<CampOrderVO> querylist = new ArrayList<CampOrderVO>();

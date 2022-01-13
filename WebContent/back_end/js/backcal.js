@@ -237,7 +237,7 @@ window.addEventListener('load', function() {
                         <td>${ orderlist.payerPhone}</td>
                         <td>${orderlist.campOrderTotalAmount}</td>
                         <td>${(orderlist.campOrderStatus==1)?"已完成":"處理中"}</td>
-                        <td><button type="button">查看明細</button></td>
+                        <td> <input  type="button" value="查看明細" name="${orderlist.campOrderId}" class="update"  /></td>
                         </tr>`
 
                     obody.insertAdjacentHTML("beforeend", textorder);
@@ -289,3 +289,4 @@ window.addEventListener('load', function() {
     });
 
 });
+

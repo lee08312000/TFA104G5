@@ -190,8 +190,8 @@ footer {
         /*E > F 表示當 F 元素是 E 元素的子代時，選擇條件符合。*/
         
         ul li a {
-            border-bottom: 1px solid #CCC;
-            border-left: 1px solid #CCC;
+          /*  border-bottom: 1px solid #CCC;
+            border-left: 1px solid #CCC;*/
         }
         
         #nav ul>li>a:hover {
@@ -264,6 +264,6 @@ footer {
             border-left: 3px solid #666;
             width: 1px;
             height: 1px;
-        }
+        }  
 
 

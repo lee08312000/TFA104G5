@@ -472,7 +472,6 @@ public class CampServlet extends HttpServlet {
 
 				/*************************** 2.開始查詢資料 *****************************************/
 				// 新增營地後,執行查詢
-
 				CampService campSerive = new CampService();
 				campSerive.updateCampCertificatenum(campVO, companyVO);
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
