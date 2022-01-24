@@ -15,7 +15,7 @@ public class CartRedisService {
 		String buyListJson = gson.toJson(buyList);
 		Jedis jedis = null;
 		try {
-			jedis = new Jedis("localhost",6379);
+			jedis = new Jedis("localhost",6379,5000);
 			jedis.set("member:" + memberId, buyListJson);
 			jedis.expire("member:" + memberId, 60*60*24*7);
 		} finally {
@@ -30,7 +30,7 @@ public class CartRedisService {
 		Jedis jedis = null;
 		String buyListJson = "";
 		try {
-			jedis = new Jedis("localhost",6379);
+			jedis = new Jedis("localhost",6379,5000);
 			buyListJson = jedis.get("member:" + memberId);
 		} finally {
 			if (jedis != null) {
@@ -47,7 +47,7 @@ public class CartRedisService {
 	public void clearBuyList(Integer memberId) {
 		Jedis jedis = null;
 		try {
-			jedis = new Jedis("localhost",6379);
+			jedis = new Jedis("localhost",6379,5000);
 			Long delete = jedis.del("member:" + memberId);
 			System.out.println(delete);
 		} finally {
